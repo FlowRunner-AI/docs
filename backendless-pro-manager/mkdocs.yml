@@ -1,0 +1,78 @@
+site_name: Backendless Pro Administrator Guide
+nav:
+- 'Overview': 'index.md'
+- 'Installation':
+    - 'Single instance': 'singleinstance.md'
+    - 'Requirements': 'requirements.md'
+    - 'Pro Manager': 'promanager.md'
+    - 'Cloud Installation': 
+        - 'AWS': 'aws.md'
+        - 'Azure': 'azure.md' 
+        - 'Digital Ocean': 'digitalocean.md'
+    - 'Local Installation':  
+        - 'Ubuntu': 'ubuntu.md'
+        - 'Mac OS/Windows': 'mac-windows.md'
+- 'Configuration':
+  - 'Accessing Consul': 'accessingconsul.md'
+  - 'Configuration Properties': 'configprops.md'
+  - 'Custom domain': 'customdonain.md'
+  - 'SSL Certificate(s)': 'ssl-cert.md'
+  - 'Disable developer registrations': 'disable-dev-reg.md'
+  - 'Port description': 'ports.md'
+- 'Runtime and Operations':
+  - 'Logging': 'logging.mg'
+  - 'Backup': 'backup.md'
+- 'Upgrade':
+  - 'Single instance':
+    - 'Upgrade Backendless Pro': 'upgrade-single-instance.md'
+    - 'Upgrade Pro Manager': 'upgrade-pro-man.md'
+
+docs_dir: content
+site_dir: ../prod/pro-manager
+
+copyright: 'Copyright &copy; 2024 Backendless Corp'
+
+# extra_css:
+#  - 'css/style.css'
+#  - 'css/newstyle.css'
+#  - 'css/bootstrap.min.css'
+#  - 'css/bootstrap-theme.min.css'
+#  - 'css/tabs.css'
+#  - 'css/docs.css'
+#  - 'css/bootstrap-tour-standalone.min.css'
+#  - 'css/materialoverride.css'
+
+# extra_javascript:
+#  - 'js/jquery-3.3.1.min.js'
+#  - 'js/bootstrap-tour-standalone.min.js'
+#  - 'js/docs.js'
+
+theme:
+  name: 'material'
+  logo: 'backendlesslogo.png'
+  custom_dir: '../theme'
+  palette: 
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch 
+        name: Switch to dark mode
+    - scheme: slate 
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode  
+
+use_directory_urls: false
+
+markdown_extensions:
+  - admonition
+  - codehilite:
+      linenums: False
+      guess_lang: False
+  - toc:
+      permalink: True
+#  - markdown_fenced_code_tabs:
+#      single_block_as_tab: False
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true 
