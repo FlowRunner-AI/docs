@@ -2,14 +2,14 @@ site_name: Backendless Pro Administrator Guide
 nav:
 - 'Overview': 'index.md'
 - 'Installation':
-    - 'Single instance': 'singleinstance.md'
+    - 'Community Edition': 'community-edition.md'
     - 'Requirements': 'requirements.md'
     - 'Pro Manager': 'promanager.md'
-    - 'Cloud Installation': 
+    - 'Cloud Installation':
         - 'AWS': 'aws.md'
-        - 'Azure': 'azure.md' 
+        - 'Azure': 'azure.md'
         - 'Digital Ocean': 'digitalocean.md'
-    - 'Local Installation':  
+    - 'Local Installation':
         - 'Ubuntu': 'ubuntu.md'
         - 'Mac OS/Windows': 'mac-windows.md'
 - 'Configuration':
@@ -51,15 +51,15 @@ theme:
   name: 'material'
   logo: 'backendlesslogo.png'
   custom_dir: '../theme'
-  palette: 
+  palette:
     - scheme: default
       toggle:
-        icon: material/toggle-switch 
+        icon: material/toggle-switch
         name: Switch to dark mode
-    - scheme: slate 
+    - scheme: slate
       toggle:
         icon: material/toggle-switch-off-outline
-        name: Switch to light mode  
+        name: Switch to light mode
 
 use_directory_urls: false
 
@@ -75,4 +75,4 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.tabbed:
-      alternate_style: true 
+      alternate_style: true
