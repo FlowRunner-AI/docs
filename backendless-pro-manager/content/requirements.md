@@ -1,70 +1,44 @@
+# Requirements
+
 This section outlines the necessary requirements for installing and running a single (non-clustered) instance of Backendless Pro. The requirements are categorized into general prerequisites applicable to all installations and specific ones tailored to different operating systems or cloud environments.
 
-## General Requirements
-Before proceeding with the installation of Backendless Pro, ensure that your system meets the following general requirements:
+## Instance Requirements for Optimal Performance
 
-* **Memory**: At least 8 GB of RAM.
-* **CPU**: 4 CPU cores.
-* **Disk Space**: A minimum of 20 GB available disk space.
-These requirements are essential to ensure optimal performance and stability of Backendless Pro.
+To successfully deploy and run the Backendless Pro Community Edition, aligning your system with the right specifications is crucial for achieving both baseline functionality and an enhanced operational experience. The guidance provided below outlines the necessary and recommended system requirements to ensure your Backendless Pro deployment is efficient and effective.
 
-The installation will utilize the following ports. Make sure no other application uses the ports to avoid a conflict:
-* 5050 - Pro Manager web server for the User Interface
-* 5051 - Pro manager web socket for real-time log streaming and other updates
-* 32300 - Backendless API endpoint
-* 32400 - Backendless Console web server
-* 32600 - [Consul](consulconfig.md) (configuration values)
+### Minimum System Requirements
 
-## Specific Requirements
-### For Ubuntu Users
-For users operating on Ubuntu or other Debian-based systems, the [Backendless Pro Manager](promanager.md) significantly simplifies the installation process. This tool is specifically designed to automate the installation of all necessary prerequisites, streamlining the setup of Backendless Pro on your system. Continue the installation by following the [Pro Manager](promanager.md) instructions.
+Ensure your system meets the following specifications for basic functionality:
 
-### For Windows and MacOS Users
-If you are on Windows or MacOS start with the instructions below. Once these steps are completed, proceed to the General Prerequisites section.
-1. **Docker Desktop Installation**: Download and install Docker Desktop from [Docker's official website](https://www.docker.com/products/docker-desktop/). Docker Desktop provides the necessary environment for running containerized applications on MacOS and Windows.
-2. **Enable Kubernetes**: Open Docker Desktop. Navigate to the Preferences or Settings menu.
-Locate the Kubernetes section and select the `Enable Kubernetes` checkbox. A screenshot illustrating this step:![enable-kuber](uploads/e3ef7cd5b7cb9bdfdb21376dabee4e1f/enable-kuber.png)
+- **Memory**: A minimum of 8 GB of RAM is required to support the various operations and processes within the Backendless ecosystem effectively.
+- **CPU**: At least 4 CPU cores are recommended to ensure sufficient processing power for handling multiple tasks simultaneously and maintaining overall system responsiveness.
+- **Disk Space**: A minimum of 20 GB of available disk space is necessary to accommodate the initial setup and data storage needs for Backendless services and databases.
 
-## General Prerequisites
-1. **Install node v14.18.2**: You can find installation instructions specific to your operating system on the [NVM's github page](https://github.com/nvm-sh/nvm). Generally, the following command should work for most environments:
-   ```text
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
-      && source ~/.bashrc \
-      && nvm install v14.18.2
-   ```
-2. Verify that the install/current version of node on your machine is 14.18.2 by running the following command:
-   ```text
-   node -v 
-   ```
-3. **Install K3S**: Skip this step if you installed Docker Desktop.
-   ```text
-   curl -sfL https://get.k3s.io | sh - \
-     && mkdir ~/.kube \
-     && echo "export KUBECONFIG=~/.kube/config" >> ~/.bashrc \
-     && source ~/.bashrc \
-     && sudo k3s kubectl config view --raw > "$KUBECONFIG"
-     && kubectl get nodes
-   ```
-4. **Verify kubectl**: Make sure that you have access to `kubectl`. Execute the following command to confirm:
-   ```text
-   kubectl get nodes
-   ```
-   You should receive a response similar to the following, indicating a successful Kubernetes setup:
-   ```text
-   username@machinename:~/pro-manager$ kubectl get nodes
-   NAME             STATUS   ROLES                  AGE   VERSION
-   machinename      Ready    control-plane,master   19h   v1.24.3+k3s1 
-   ```
-5. **Install ingress**: See the [Quick Start guide](https://kubernetes.github.io/ingress-nginx/deploy/#quick-start) or use the command below. 
-   ```test
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml
-   ```
-6. **Install cert-manager**.
-   ```text
-   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
-   ```
+### Recommended System Specifications
 
-After all the prerequisites are installed, continue the installation by following the [Pro Manager](promanager.md) instructions.
+For optimal performance, particularly with larger scale projects or more complex applications, consider the following system upgrades:
 
-## For Cloud Environments
-[Instructions for specific cloud environments like AWS, Google Cloud, Azure, etc., can be added here]
+- **Memory**: Upgrading to 16 GB of RAM is recommended to enhance performance capabilities, enabling smoother operation of Backendless services, improved data processing, and better management of concurrent requests.
+- **Disk Space Extension**: Starting with 20 GB of disk space meets the basic requirement, but the ability to expand this capacity is essential as your application and its data storage needs grow. Planning for scalable storage solutions ensures that increasing data from your application, including user data and media files, can be accommodated without impacting performance or risking data loss.
+
+### Important Note on Configuration
+
+It's essential to understand that these specifications serve as a guideline. The final configuration of your system should be determined in an imperative manner, through comprehensive load testing. This process involves simulating various operational loads to understand how your application performs under different conditions. Load testing will help you identify the optimal configuration that meets your specific usage patterns and requirements, ensuring that your Backendless Pro Community Edition deployment is both resilient and efficient.
+
+By engaging in load testing, you can tailor your system's setup to match your application's demands accurately, ensuring a balance between resource availability and cost efficiency. This proactive approach allows for a customized environment that can handle your operational needs, providing a smooth and reliable experience for your users.
+
+## Network Configuration and Port Allocation
+
+Ensure the following ports are available on your system before installing Backendless Pro Community Edition to avoid conflicts:
+
+- **5050**: This port is dedicated to the Pro Manager web server, which hosts the User Interface (UI). The UI is a critical component for managing and configuring your Backendless environment, providing a graphical interface for ease of operation.
+
+- **5051**: Utilized by the Pro Manager for web socket connections, this port enables real-time log streaming and other dynamic updates. This feature is vital for live monitoring of your application's performance and behavior, facilitating immediate responsiveness to events as they occur.
+
+- **32300**: Designated for the Backendless API endpoint, port 32300 is a primary communication channel for your applications to interact with the Backendless services. Ensuring this port is open and conflict-free is essential for the seamless operation of your application's backend functionalities.
+
+- **32400**: This port serves the Backendless Console web server, which is an administrative interface for the Backendless platform. Through the console, users can access a wide range of tools and settings for application management, analytics, and more.
+
+- **32600**: Dedicated to Consul, which is used for [managing configuration values](consulconfig.md) within the Backendless ecosystem. Consul plays a critical role in service discovery and configuration, making this port essential for the coherent operation of distributed services and microservices within your Backendless deployment.
+
+**Check Port Availability**: Use network tools or command-line utilities to confirm these ports are not used by other applications. If conflicts exist, reconfigure the conflicting applications or adjust Backendless Pro's port settings accordingly for a smooth installation.
