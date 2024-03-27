@@ -4,7 +4,18 @@ The Backendless Pro Community Edition is meticulously engineered for deployment 
 
 Designed for developers at all stages of their career, the Backendless Pro Community Edition equips you with an array of tools and robust support systems. Engage with our documentation, explore the extensive features, and kick-start the development of your next serverless application today!
 
-### Dependencies
+### Introducing Pro Manager
+
+A standout feature of the Backendless Pro Community Edition is the **Pro Manager**, a UI tool designed to streamline the installation and management of Backendless Pro. This powerful tool offers a broad range of functionalities:
+
+- **Installation & Removal**: Easily install or remove Backendless Pro from your environment.
+- **Configuration Tools**: Configure essential settings such as database connections and manage domains directly through the UI.
+- **Log Management**: View, stream, and download logs in real-time for effective monitoring.
+- **Service Management**: Provides controls to stop, start, restart, and upgrade the Backendless Pro service as needed.
+
+Pro Manager embodies the essence of convenience and control, making it an indispensable asset for managing your Backendless Pro deployment efficiently. With Pro Manager, administrators can leverage its comprehensive suite of tools to maintain optimal performance and reliability of their Backendless Pro environment.
+
+### Backendless Pro Dependencies
 
 The operation of the Backendless Pro Community Edition within the Kubernetes environment depends on:
 
@@ -23,14 +34,3 @@ Offering a suite of features designed to cater to the needs of both developers a
 4. **User-Friendly Interface**: Provides an intuitive platform that is easy to navigate.
 5. **Scalability**: Facilitates resource scaling to meet growing application demands.
 6. **Additional Support Options**: Offers various levels of technical support to accommodate different needs.
-
-### Introducing Pro Manager
-
-A standout feature of the Backendless Pro Community Edition is the **Pro Manager**, a UI tool designed to streamline the installation and management of Backendless Pro. This powerful tool offers a broad range of functionalities:
-
-- **Installation & Removal**: Easily install or remove Backendless Pro from your environment.
-- **Configuration Tools**: Configure essential settings such as database connections and manage domains directly through the UI.
-- **Log Management**: View, stream, and download logs in real-time for effective monitoring.
-- **Service Management**: Provides controls to stop, start, restart, and upgrade the Backendless Pro service as needed.
-
-Pro Manager embodies the essence of convenience and control, making it an indispensable asset for managing your Backendless Pro deployment efficiently. With Pro Manager, administrators can leverage its comprehensive suite of tools to maintain optimal performance and reliability of their Backendless Pro environment.
