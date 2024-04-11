@@ -1,0 +1,1 @@
+curl -o- https://raw.githubusercontent.com/Backendless/pro-manager/main/install-ubuntu.sh  | bash -s -- main

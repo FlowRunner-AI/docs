@@ -4,14 +4,13 @@ nav:
 - 'Installation':
     - 'Community Edition': 'community-edition.md'
     - 'Requirements': 'requirements.md'
-    - 'Pro Manager': 'promanager.md'
     - 'Cloud Installation':
-        - 'AWS': 'aws.md'
-        - 'Azure': 'azure.md'
-        - 'Digital Ocean': 'digitalocean.md'
+        - 'AWS': 'install/cloud/aws.md'
+        - 'Azure': 'install/cloud/azure.md'
+        - 'Digital Ocean': 'install/cloud/digitalocean.md'
     - 'Local Installation':
-        - 'Ubuntu': 'ubuntu.md'
-        - 'Mac OS/Windows': 'mac-windows.md'
+        - 'Ubuntu': 'install/ubuntu.md'
+        - 'Mac OS/Windows': 'install/mac-windows.md'
 - 'Configuration':
   - 'Accessing Consul': 'accessingconsul.md'
   - 'Configuration Properties': 'configprops.md'
@@ -76,3 +75,6 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+plugins:
+  - include-markdown:
+      comments: false
