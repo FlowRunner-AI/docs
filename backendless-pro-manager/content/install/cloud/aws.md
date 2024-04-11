@@ -8,7 +8,7 @@ Begin by starting an EC2 instance with Ubuntu as the operating system. During th
 
 ```bash
 #!/bin/bash
-{% include-markdown "../ubuntu-install-command.md" %}
+{% include-markdown "../ubuntu-install-command-include.md" %}
 ```
 
 Refer to the image below to locate where to input the `User data` during the EC2 instance setup:
@@ -21,7 +21,7 @@ Once the instance has been initiated, wait until it is fully operational. You ca
 
 Make sure the following ports are available:
 
-{% include-markdown "../../ports-description.md" %}
+{% include-markdown "../../ports-description-include.md" %}
 
 ![EC2 Instance Ready](img/EC2-ready.png)
 
