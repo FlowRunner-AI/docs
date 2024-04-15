@@ -39,3 +39,6 @@ This URL will direct you to the Backendless PRO Manager.
 Upon accessing the Backendless PRO Manager, you will be presented with a setup form. Complete the form to start the installation process of Backendless PRO. This setup will configure Backendless PRO to operate with your EC2 instance specifics.
 
 Once the installation is completed, you will be able to use Backendless PRO on your AWS EC2 instance. For further operations or troubleshooting, refer to the specific sections of the Backendless documentation or contact support if you encounter issues beyond the setup scope.
+
+### Step 5: Domain configuration
+Follow the documentation to [setup domains](./aws-nlb-configuration-for-letsencrypt.md) for Backendless 
