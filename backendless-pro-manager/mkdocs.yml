@@ -4,13 +4,15 @@ nav:
 - 'Installation':
     - 'Community Edition': 'community-edition.md'
     - 'Requirements': 'requirements.md'
-    - 'Cloud Installation':
-        - 'AWS': 'install/cloud/aws.md'
-        - 'Azure': 'install/cloud/azure.md'
-        - 'Digital Ocean': 'install/cloud/digitalocean.md'
-    - 'Local Installation':
-        - 'Ubuntu': 'install/ubuntu.md'
-        - 'Mac OS/Windows': 'install/mac-windows.md'
+    - 'AWS':
+      - 'Basic setup': 'install/cloud/aws.md'
+      - 'Load balancer configuration': 'install/cloud/aws-nlb-configuration-for-letsencrypt.md'
+    - 'Azure':
+      - 'Basic setup': 'install/cloud/azure.md'
+      - 'Load balancer configuration': 'install/cloud/azure-load-balancer.md'
+    - 'Digital Ocean': 'install/cloud/digitalocean.md'
+    - 'Ubuntu': 'install/ubuntu.md'
+    - 'Mac OS/Windows': 'install/mac-windows.md'
 - 'Configuration':
   - 'Accessing Consul': 'accessingconsul.md'
   - 'Configuration Properties': 'configprops.md'
