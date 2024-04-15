@@ -1,0 +1,165 @@
+
+.md-header {
+    height: 10rem;
+}
+
+.md-container {
+    padding-top: 10.5rem;
+}
+
+.md-sidebar[data-md-state="lock"] {
+    position: fixed;
+    top: 10.5rem;
+}
+
+.md-header {
+    color: black;
+}
+
+.md-header-nav__title {
+  padding: 0px;
+}
+
+.md-header-nav__topic {
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 768px) {
+  #main-menu-bl {
+    display: none !important;
+  }
+}
+
+.submenu > .container > .row,
+#secondnav {
+ display: flex;
+ padding-left: 0;
+}
+
+.submenu > .container > .row {
+  margin: auto;
+  padding-left: 5px;
+}
+
+.header__menu {
+    float: left;
+    padding-top: 34px; }
+    @media (max-width: 1179px) {
+  .header__menu {
+    display: none; } }
+    .header__menu > .menu > .menu-item-has-children > .sub-menu:after {
+      content: '';
+      display: block;
+      width: 13px;
+      height: 13px;
+      transform: rotate(45deg);
+      background: #fff;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -7px;
+      margin: auto; }
+      @media (min-width: 1179px) {
+    .header__menu > .menu > .menu-item-has-children:hover .sub-menu {
+      visibility: visible; }
+      .header__menu > .menu > .menu-item-has-children:hover > .sub-menu {
+        transform: scaleY(1) translateX(-50%); } }
+      .header__menu > .menu > .menu-item-has-children > a:after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 8px 4px 0 4px;
+        border-color: #bfc7d0 transparent transparent transparent;
+        display: inline-block;
+        vertical-align: middle;
+        transition: transform 0.3s ease-in-out, border-color 0.3s ease-in-out;
+        margin-left: 8px;
+        margin-top: 2px; }
+      .header__menu > .menu .sub-menu {
+        visibility: hidden;
+        transform: scaleY(0) translateX(-50%);
+        transform-origin: center top;
+        transition: transform 0.3s ease-in-out;
+        position: absolute;
+        background: #fff;
+        padding: 40px 30px;
+        border-radius: 4px;
+        box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.1);
+        left: 50%;
+        top: 100%; }
+      .header__menu > .menu .sub-menu .menu-item {
+        margin-left: 0;
+        float: none;
+        white-space: nowrap; }
+        .header__menu > .menu .sub-menu .menu-item:last-child {
+          margin-bottom: 0; }
+        .header__menu > .menu .sub-menu .menu-item a {
+          font-size: 24px;
+          line-height: 32px;
+          color: #121217; }
+          .header__menu > .menu .sub-menu .menu-item a:hover {
+            color: #bfc7d0; }
+        .header__menu > .menu .sub-menu .menu-item .sub-menu {
+          position: static;
+          box-shadow: none;
+          background: transparent;
+          padding: 20px 0 0;
+          transform: none;
+          overflow: hidden; }
+          .header__menu > .menu .sub-menu .menu-item .sub-menu .menu-item {
+            width: 50%;
+            min-width: 200px;
+            float: left;
+            white-space: normal; }
+            .header__menu > .menu .sub-menu .menu-item .sub-menu .menu-item:nth-child(2):after {
+              content: '';
+              width: 400px;
+              display: block; }
+            .header__menu > .menu .sub-menu .menu-item .sub-menu .menu-item a {
+              font-size: 14px;
+              line-height: 24px;
+              color: #303042; }
+              .header__menu > .menu .sub-menu .menu-item .sub-menu .menu-item a:hover {
+                color: #e2e6ea; }
+          .header__menu > .menu .sub-menu .menu-item .sub-menu:after {
+            content: '';
+            clear: both;
+            display: table; }
+      .header__menu > .menu .sub-menu:after {
+        content: '';
+        clear: both;
+        display: table; }
+    .header__menu .menu-item {
+      font:normal 400 18px/28px 'Apercu Pro';
+      display: block;
+      float: left;
+      margin-left: 40px;
+      padding-bottom: 25px;
+      position: relative; }
+      @media (max-width: 1439px) {
+  .header__menu .menu-item {
+    margin-left: 30px; } }
+      .header__menu .menu-item a {
+        color: #bfc7d0;
+        font-size: 16px;
+        line-height: 16px;
+        transition: color 0.3s ease-in-out;
+        display: block; }
+      .header__menu .menu-item a .icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: no-repeat center;
+        background-size: contain;
+        margin-right: 10px;
+        vertical-align: middle; }
+      .header__menu .menu-item:hover a {
+        color: #fff; }
+        .header__menu .menu-item:hover a:after {
+          border-color: #fff transparent transparent transparent;
+          transform: rotate(180deg); }
+    .header__menu:after {
+      content: '';
+      clear: both;
+      display: table; }
