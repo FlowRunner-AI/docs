@@ -14,6 +14,7 @@ nav:
     - 'Ubuntu': 'install/ubuntu.md'
     - 'Mac OS/Windows': 'install/mac-windows.md'
 - 'Configuration':
+  - 'About': 'configuration/about-configuration.md'
   - 'Accessing Consul': 'accessingconsul.md'
   - 'Configuration Properties': 'configprops.md'
   - 'Custom domain': 'customdonain.md'
