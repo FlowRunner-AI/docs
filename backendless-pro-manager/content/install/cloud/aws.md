@@ -2,6 +2,12 @@
 
 This guide provides detailed instructions on how to install Backendless PRO on an AWS EC2 instance running Ubuntu. Ensure that you start by selecting the correct EC2 instance type according to the [requirements](../../requirements.md).
 
+## Prerequisites
+- An active AWS account.
+- Basic knowledge of cloud server management and Ubuntu.
+
+## Step-by-Step Installation Guide
+
 ### Step 1: Launch an EC2 Instance
 
 Begin by starting an EC2 instance with Ubuntu as the operating system. During the setup, use the following `User data` script to automate the installation prerequisites. Copy and paste the script into the `User data` section:
@@ -27,12 +33,7 @@ Make sure the following ports are available:
 
 ### Step 3: Access Backendless PRO Manager
 
-With the public IP or URL:
-
-1. Open a web browser.
-2. Navigate to `http://<your-public-ip>:5050`. Replace `<your-public-ip>` with the actual public IP address of your EC2 instance.
-
-This URL will direct you to the Backendless PRO Manager.
+{% include-markdown "../access-pro-manager-include.md" %}
 
 ### Step 4: Install Backendless PRO
 
@@ -41,4 +42,8 @@ Upon accessing the Backendless PRO Manager, you will be presented with a setup f
 Once the installation is completed, you will be able to use Backendless PRO on your AWS EC2 instance. For further operations or troubleshooting, refer to the specific sections of the Backendless documentation or contact support if you encounter issues beyond the setup scope.
 
 ### Step 5: Domain configuration
-Follow the documentation to [setup domains](./aws-nlb-configuration-for-letsencrypt.md) for Backendless 
+To set up domains for your newly installed Backendless instance, follow the guidelines provided in the [AWS Load Balancer documentation](./aws-nlb-configuration-for-letsencrypt.md).
+
+### Step 6: Create a Backendless Account and Your First App
+1. Register for a new account within the Backendless Console.
+2. Create your first application. This marks the completion of the Backendless installation.

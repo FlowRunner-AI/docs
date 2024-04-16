@@ -1,60 +1,40 @@
 # Install Backendless PRO in Microsoft Azure
-Watch the video below with instructions for how to install, configure and run Backendless Pro in the Azure environment.
-<div align="left">
-      <a href="https://youtu.be/gYUhnXJyFYs">
-         <img src="https://img.youtube.com/vi/gYUhnXJyFYs/0.jpg" style="width:70%;">
-      </a>
-</div>
 
-### Requirements
-Azure Virtual Machine must comply with the following requirements:
-- 8 GiB memory
-- 4 vCPUs
-- 20 GiB disk space
+This installation guide provides step-by-step instructions on setting up Backendless PRO on a Microsoft Azure virtual machine running Ubuntu. Before you begin the installation, ensure that your Azure instance meets the necessary [requirements](../../requirements.md) to support Backendless PRO.
 
-### Basic Installation
-1. Start a virtual instance with **Ubuntu** OS instance with the following `User data`
-  ```
-  #!/bin/bash
-  curl -o- https://raw.githubusercontent.com/Backendless/pro-manager/main/install-ubuntu.sh  | bash
-  ```
-Make sure the following ports are available to access from the Internet:
-  ```
-  - 5050  - Pro manager web
-  - 5051  - Pro manager web socket
-  - 32300 - API
-  - 32400 - Web console
-  - 32600 - Consul( configuration values )
-  ```
-2. Make sure the 5050 port is accessible from the Internet.
-3. Navigate to the IP address of the virtual machine, port 5050, this will open up Backendless Pro Manager.
-4. Continue the installation with the Pro Manager.
-5. Once the installation is complete, click the `Manage Backendless` button and wait till all services show the status of `Running`.
-6. Make sure the ports `32400` and `32300` are accessible from the Internet.
-7. Navigate to the IP address of the virtual instance, port 32400 to access Backendless Console.
-8. Create an account and login to Backendless Console. Create an app. At this point, the Backendless installation is complete.
+## Prerequisites
+- An active Microsoft Azure account.
+- Basic knowledge of cloud server management and Ubuntu.
 
-### Adding Domains
-The instructions below have been validated on Mac OSX.
-1. Install the certbot utility
-  ```
-  brew install certbot
-  ```
-2. Generate a certificate. Make sure to adjust the email address and the domain name for the `-d` parameter:
-  ```
-  sudo certbot certonly \
-  --manual \
-  --preferred-challenges=dns \
-  --email support@yourdomain.com \
-  --server https://acme-v02.api.letsencrypt.org/directory \
-  --agree-tos \
-  -d *.yourdomain.com
-  ```
-3. Export the certificate to the PFX format:
-  ```
-  sudo openssl pkcs12 -export -out ~/cert.pfx -inkey privkey.pem -in fullchain.pem
-  ```
-4. Follow the instructions from the video linked above starting at 18:03.
+## Step-by-Step Installation Guide
+
+### Step 1: Set Up Your Azure Virtual Machine
+1. Log in to your Microsoft Azure portal.
+2. Create a new virtual machine (VM) configured with Ubuntu. Refer to Azure's documentation for details on VM creation.
+3. During the VM setup, include the following script in the **User Data** section to automatically install necessary components on your Ubuntu server:
+
+    ```bash
+    #!/bin/bash
+    {% include-markdown "../ubuntu-install-command-include.md" %}
+    ```
+
+### Step 2: Configure Necessary Ports
+Ensure the following ports are open and available on your VM, as Backendless requires these ports for proper operation:
+
+{% include-markdown "../../ports-description-include.md" %}
+
+### Step 3: Access the Backendless Pro Manager
+{% include-markdown "../access-pro-manager-include.md" %}
+
+### Step 4: Install Backendless PRO
+
+Upon accessing the Backendless PRO Manager, you will be presented with a setup form. Complete the form to start the installation process of Backendless PRO. This setup will configure Backendless PRO to operate with your Azure instance specifics.
+
+Once the installation is completed, you will be able to use Backendless PRO on your Azure instance. For further operations or troubleshooting, refer to the specific sections of the Backendless documentation or contact support if you encounter issues beyond the setup scope.
 
 ### Step 5: Domain configuration
-Follow the documentation to [setup domains](./azure-load-balancer.md) for Backendless 
+To set up domains for your newly installed Backendless instance, follow the guidelines provided in the [Azure Load Balancer documentation](./azure-load-balancer.md).
+
+### Step 6: Create a Backendless Account and Your First App
+1. Register for a new account within the Backendless Console.
+2. Create your first application. This marks the completion of the Backendless installation on your Azure VM.
