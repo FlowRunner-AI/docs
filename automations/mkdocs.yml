@@ -5,31 +5,32 @@ nav:
 - 'Flow Manager': 'flowmanager.md'
 - 'Quick Start Guide': 'todo.md'
 - 'Flow Management':
-  - 'Creating New Flows': 'createflow.md' 
-  - 'Renaming Flows' : 'renameflow.md'
-  - 'Deleting Flows' : 'deleteflow.md'
-  - 'Flow Permissions': 'callflowpermission.md'
-  - 'Visual Customizations': 'flowappearance.md' 
-  - 'Version Management' : 'versionmanagement.md'
-  - 'Scheduled Flows' : 'scheduledflows.md'
-  - 'Best Practices': 'bestpractices.md'
-- 'Creating Flows' :
-  - 'Flow Editor' : 'floweditor.md'
-  - 'Working with Blocks' : 'workingwithblocks.md' 
-  - 'Naming your Blocks' : 'blocknaming.md'
-  - 'Data Movement in Flows' : 'dataflow.md'
-  - 'Repeated Behavior (Loops)' : 'loops.md' 
-  - 'Data Transformations' : 'todo.md'  
-  - 'Expression Editor': 'todo.md'   
-  - 'Implementing Delays': 'waitblock.md'  
+  - 'Creating Flows' : 'flow-management/createflow.md' 
+  - 'Renaming Flows' : 'flow-management/renameflow.md'
+  - 'Deleting Flows' : 'flow-management/deleteflow.md'
+  - 'Flow Permissions': 'flow-management/callflowpermission.md'
+  - 'Visual Customizations': 'flow-management/flowappearance.md' 
+  - 'Version Management' : 'flow-management/versionmanagement.md'
+  - 'Scheduled Flows' : 'flow-management/scheduledflows.md'
+  - 'Best Practices': 'flow-management/bestpractices.md'
+- 'Flow Editing' :
+  - 'Flow Editor' : 'flow-editing/floweditor.md'
+  - 'Working with Blocks' : 'flow-editing/workingwithblocks.md' 
+  - 'Naming your Blocks' : 'flow-editing/blocknaming.md'
+  - 'Data Movement in Flows' : 'flow-editing/dataflow.md'
+  - 'Repeated Behavior (Loops)' : 'flow-editing/loops.md' 
+  - 'Data Transformations' : 'flow-editing/transformer.md'  
+  - 'Expression Editor': 'flow-editing/expressioneditor.md'   
+  - 'Implementing Delays': 'flow-editing/waitblock.md'  
   - 'Grouping Blocks' : 'todo.md'    
   - 'Variables and Data Buckets': 'todo.md'  
   - 'Error Handling': 'todo.md'  
   - 'Testing your Flows' : 'todo.md'
   - 'Custom Actions' : 'todo.md'  
 - 'Running Flows' :
+  - 'Flow Execution' : 'flow-execution/overview.md'
   - 'Service Level Agreements (SLAs)' : 'todo.md'   
-  - 'Comliance' : 'todo.md'  
+  - 'Compliance' : 'todo.md'  
   - 'Analytics' : 'todo.md'  
 - 'Block Reference' :
   - 'Triggers' : 
@@ -68,8 +69,8 @@ site_dir: ../prod/automations
 
 copyright: 'Copyright &copy; 2024 Backendless Corp'
 
-# extra_css:
-#  - 'css/style.css'
+extra_css:
+  - 'css/style.css'
 #  - 'css/newstyle.css'
 #  - 'css/bootstrap.min.css'
 #  - 'css/bootstrap-theme.min.css'
@@ -85,9 +86,10 @@ copyright: 'Copyright &copy; 2024 Backendless Corp'
 
 theme:
   name: 'material'
-  logo: 'backendlesslogo.png'
+  logo: 'automations-logo.png'
+#  custom_dir: material/overrides
   features:
-    - header.autohide
+#    - header.autohide
     - announce.dismiss
     - search.suggest
     - search.highlight
@@ -98,11 +100,12 @@ theme:
     - navigation.instant
     - navigation.instant.progress
     - navigation.tracking
-#    - navigation.sections
+    - navigation.sections
+#    - navigation.path
 #    - navigation.expand
-    - navigation.path
-  custom_dir: 'overrides'
+#    - navigation.tabs
   palette: 
+    - primary: white
     - scheme: default
       toggle:
         icon: material/toggle-switch 
@@ -114,12 +117,11 @@ theme:
 
 use_directory_urls: false
 
-plugins:
-  - glightbox
-  - search
-
 extra:
   generator: false
+
+watch:
+  - includes
 
 markdown_extensions:
   - admonition
@@ -132,9 +134,20 @@ markdown_extensions:
 #      single_block_as_tab: False
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
   - pymdownx.tabbed:
       alternate_style: true 
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji 
       emoji_generator: !!python/name:material.extensions.emoji.to_svg    
   - attr_list    
+  - abbr
+
+plugins:
+  - search
+  - glightbox:
+      skip_classes:
+        - skip-lightbox
+
