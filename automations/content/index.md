@@ -4,7 +4,7 @@ Welcome to the "Backendless Automations User Guide". This guide is your first st
 
 Imagine having a tool that's both easy to use and incredibly powerful. That's Backendless Automations. It's a workflow management tool that combines a user-friendly interface with a robust execution engine. This means you can design your workflows visually and then let the system run them with precision. It's all about turning your ideas into actions.
 
-#### Highlights
+**Highlights**
 
 - **Triggers and Actions**: Kick-off workflows with specific events and decide what happens next.
 - **Logic and Grouping**: Make smart decisions in your workflows and group actions for a cleaner setup.
