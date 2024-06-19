@@ -145,6 +145,7 @@ markdown_extensions:
   - attr_list    
   - abbr
 
+
 plugins:
   - search
   - glightbox:
