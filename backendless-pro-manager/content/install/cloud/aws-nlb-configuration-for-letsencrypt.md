@@ -3,6 +3,7 @@
 ### 1. Create targets
 You should create 2 target groups for port 80 and port 443
 Go through the following steps for each target group
+
 1. Go to `EC2 > Target groups` and press `Create target group` button
 2. Choose `Instances` as target type
 3. Provide `Target group name`:
@@ -26,6 +27,7 @@ At the end your target page should look like the on the following screen
 ### 2. Create Load balancers
 You should create at least 3 load balancers for API, development console and for real-time.
 Go through the following steps for each load balancer
+
 1. Go to `EC2 > Load balancers` and press `Create load balancer` button
 2. Use `Network Load Balancer` type
 3. Provide `Load balancer name`
