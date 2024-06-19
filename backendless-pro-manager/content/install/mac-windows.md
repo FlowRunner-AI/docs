@@ -1,5 +1,6 @@
 ### For Windows and MacOS Users
 If you are on Windows or MacOS start with the instructions below. Once these steps are completed, proceed to the General Prerequisites section.
+
 1. **Docker Desktop Installation**: Download and install Docker Desktop from [Docker's official website](https://www.docker.com/products/docker-desktop/). Docker Desktop provides the necessary environment for running containerized applications on MacOS and Windows.
 2. **Enable Kubernetes**: Open Docker Desktop. Navigate to the Preferences or Settings menu.
    Locate the Kubernetes section and select the `Enable Kubernetes` checkbox. A screenshot illustrating this step:![enable-kuber](uploads/e3ef7cd5b7cb9bdfdb21376dabee4e1f/enable-kuber.png)

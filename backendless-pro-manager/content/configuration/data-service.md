@@ -1,70 +1,70 @@
-### Data Service Configuration
+# Data Service Configuration
 
 Configure various aspects of the Data Service to optimize performance, functionality, and data access patterns in your application. These settings control features such as Access Control Lists, column visibility, pagination, bulk operations, and special handling for large texts.
 
-#### Access Control and Security
+### Access Control and Security
 
-- **`config/db/application/aclEnabled`**
-    - **Description:** Determines if Access Control List (ACL) features are enabled for applications. Disabling this can speed up retrieve operations at the cost of finer-grained permissions.
-    - **Type:** Boolean
-    - **Default:** `true`
-    - **Example:** `config/db/application/aclEnabled = false`
-    - **Further Reading:** [Data Security](https://backendless.com/docs/rest/data_security.html)
+Determines if Access Control List (ACL) features are enabled for applications. Disabling this can speed up retrieve operations at the cost of finer-grained permissions.
 
-- **`config/db/application/columnVisibilityEnabled`**
-    - **Description:** Determines if the visibility of columns feature is enabled for applications.
-    - **Type:** Boolean
-    - **Default:** `true`
-    - **Example:** `config/db/application/columnVisibilityEnabled = false`
+| Configuration Property Path                  | Type    | Default Value | Example                               |
+|----------------------------------------------|---------|---------------|---------------------------------------|
+| `config/db/application/aclEnabled`           | Boolean | `true`        | `config/db/application/aclEnabled = false` |
+| **Further Reading:** [Data Security](https://backendless.com/docs/rest/data_security.html)
 
-#### Pagination and Batch Processing
+Determines if the visibility of columns feature is enabled for applications.
 
-- **`pagesize/max`**
-    - **Description:** Sets the maximum page size for "find" operations in Data Service.
-    - **Type:** Integer
-    - **Default:** `100`
-    - **Example:** `pagesize/max = 200`
+| Configuration Property Path                              | Type    | Default Value | Example                                     |
+|----------------------------------------------------------|---------|---------------|---------------------------------------------|
+| `config/db/application/columnVisibilityEnabled`          | Boolean | `true`        | `config/db/application/columnVisibilityEnabled = false` |
 
-- **`pagesize/default`**
-    - **Description:** Sets the default page size for "find" operations in Data Service.
-    - **Type:** Integer
-    - **Default:** `10`
-    - **Example:** `pagesize/default = 20`
+### Pagination and Batch Processing
 
-- **`bulkcreate/max`**
-    - **Description:** Sets the maximum size of batch for "bulk create" operations in Data Service.
-    - **Type:** Integer
-    - **Default:** `100`
-    - **Example:** `bulkcreate/max = 150`
+Sets the maximum page size for "find" API operations in Data Service.
 
-- **`config/data/bulkUpsert/max`**
-    - **Description:** Sets the maximum size of batch for "bulk upsert" operations in Data Service.
-    - **Type:** Integer
-    - **Default:** `100`
-    - **Example:** `config/data/bulkUpsert/max = 150`
+| Configuration Property Path      | Type    | Default Value | Example                       |
+|----------------------------------|---------|---------------|-------------------------------|
+| `pagesize/max`                   | Integer | `100`         | `pagesize/max = 200`          |
 
-- **`config/data/relationsPageSize/max`**
-    - **Description:** Sets the maximum page size for relations for "find" operations in Data Service.
-    - **Type:** Integer
-    - **Default:** `100`
-    - **Example:** `config/data/relationsPageSize/max = 200`
+Sets the default page size for "find" API operations in Data Service.
 
-- **`config/data/relationsPageSize/default`**
-    - **Description:** Sets the default page size for relations for "find" operations in Data Service.
-    - **Type:** Integer
-    - **Default:** `10`
-    - **Example:** `config/data/relationsPageSize/default = 20`
+| Configuration Property Path      | Type    | Default Value | Example                       |
+|----------------------------------|---------|---------------|-------------------------------|
+| `pagesize/default`               | Integer | `10`          | `pagesize/default = 20`       |
 
-#### Additional Data Handling Settings
+Sets the maximum size of batch for "bulk create" API operations in Data Service.
 
-- **`config/counters/retrieve/max`**
-    - **Description:** Sets the maximum size of batch for listing operation for Atomic counters.
-    - **Type:** Integer
-    - **Default:** `1000`
-    - **Example:** `config/counters/retrieve/max = 1500`
+| Configuration Property Path      | Type    | Default Value | Example                       |
+|----------------------------------|---------|---------------|-------------------------------|
+| `bulkcreate/max`                 | Integer | `100`         | `bulkcreate/max = 150`        |
 
-- **`config/data/shrinkLargeTextForConsole`**
-    - **Description:** Sets the size to which values of "large text" columns will be reduced for Console requests, enhancing performance and readability.
-    - **Type:** Integer
-    - **Default:** `1000`
-    - **Example:** `config/data/shrinkLargeTextForConsole = 500`
+Sets the maximum size of batch for "bulk upsert" API operations in Data Service.
+
+| Configuration Property Path      | Type    | Default Value | Example                       |
+|----------------------------------|---------|---------------|-------------------------------|
+| `config/data/bulkUpsert/max`     | Integer | `100`         | `config/data/bulkUpsert/max = 150` |
+
+Sets the maximum page size for relations for "find" API operations in Data Service.
+
+| Configuration Property Path                      | Type    | Default Value | Example                       |
+|--------------------------------------------------|---------|---------------|-------------------------------|
+| `config/data/relationsPageSize/max`              | Integer | `100`         | `config/data/relationsPageSize/max = 200` |
+
+Sets the default page size for relations for "find" API operations in Data Service.
+
+| Configuration Property Path                      | Type    | Default Value | Example                       |
+|--------------------------------------------------|---------|---------------|-------------------------------|
+| `config/data/relationsPageSize/default`          | Integer | `10`          | `config/data/relationsPageSize/default = 20` |
+
+### Additional Data Handling Settings
+
+Sets the maximum size of batch for listing operation for Atomic counters.
+
+| Configuration Property Path             | Type    | Default Value | Example                          |
+|-----------------------------------------|---------|---------------|----------------------------------|
+| `config/counters/retrieve/max`          | Integer | `1000`        | `config/counters/retrieve/max = 1500` |
+
+Sets the size to which values of "large text" columns will be reduced for Console requests, enhancing performance and readability.
+
+| Configuration Property Path                             | Type    | Default Value | Example                             |
+|---------------------------------------------------------|---------|---------------|-------------------------------------|
+| `config/data/shrinkLargeTextForConsole`                 | Integer | `1000`        | `config/data/shrinkLargeTextForConsole = 500` |

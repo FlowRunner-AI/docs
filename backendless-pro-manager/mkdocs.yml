@@ -2,27 +2,26 @@ site_name: Backendless Pro Administrator Guide
 nav:
 - 'Overview': 'index.md'
 - 'Installation':
-    - 'Community Edition': 'community-edition.md'
-    - 'Requirements': 'requirements.md'
-    - 'AWS':
-      - 'Basic setup': 'install/cloud/aws.md'
-      - 'Load balancer configuration': 'install/cloud/aws-nlb-configuration-for-letsencrypt.md'
-    - 'Azure':
-      - 'Basic setup': 'install/cloud/azure.md'
-      - 'Load balancer configuration': 'install/cloud/azure-load-balancer.md'
-    - 'Digital Ocean': 'install/cloud/digitalocean.md'
-    - 'Ubuntu': 'install/ubuntu.md'
-    - 'Mac OS/Windows': 'install/mac-windows.md'
-- 'Configuration':
-  - 'About': 'configuration/about-configuration.md'
-  - 'Configuration Properties':
-      - 'Developer': 'configuration/developer.md'
-      - 'Clone Application': 'configuration/clone.md'
-      - 'File Service': 'configuration/file-service.md'
-      - 'Data Service': 'configuration/data-service.md'
-      - 'MySQL Connection': 'configuration/mysql-connection.md'
-      - 'Mongo Connection': 'configuration/mongo-connection.md'
-      - 'Port description': 'ports.md'
+  - 'General Requirements': 'requirements.md'
+  - 'Community Edition': 'community-edition.md'
+  - 'AWS':
+    - 'Basic setup': 'install/cloud/aws.md'
+    - 'Load balancer configuration': 'install/cloud/aws-nlb-configuration-for-letsencrypt.md'
+  - 'Azure':
+    - 'Basic setup': 'install/cloud/azure.md'
+    - 'Load balancer configuration': 'install/cloud/azure-load-balancer.md'
+  - 'Digital Ocean': 'install/cloud/digitalocean.md'
+  - 'Ubuntu': 'install/ubuntu.md'
+  - 'Mac OS/Windows': 'install/mac-windows.md'
+- Configuration:
+  - configuration/index.md
+  - 'Developer Registration Setttings': 'configuration/developer.md'
+  - 'App Cloning/Export/Import': 'configuration/clone.md'
+  - 'File Service Settings': 'configuration/file-service.md'
+  - 'Database Service Settings': 'configuration/data-service.md'
+  - 'MySQL Connection Settings': 'configuration/mysql-connection.md'
+  - 'Mongo Connection Settings': 'configuration/mongo-connection.md'
+  - 'Port description': 'ports.md'
 - 'Runtime and Operations':
   - 'Logging': 'logging.mg'
   - 'Backup': 'backup.md'
@@ -36,6 +35,8 @@ site_dir: ../prod/pro-manager
 
 copyright: 'Copyright &copy; 2024 Backendless Corp'
 
+extra_css:
+  - 'css/style.css'
 # extra_css:
 #  - 'css/style.css'
 #  - 'css/newstyle.css'
@@ -55,8 +56,23 @@ theme:
   name: 'material'
   logo: 'backendlesslogo.png'
   custom_dir: '../theme'
+  features:
+    - announce.dismiss
+    - search.suggest
+    - search.highlight
+    - search.share
+    - navigation.footer
+    - content.tabs.link
+    - content.tooltips
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.sections
+    - navigation.indexes
+    - toc.follow
   palette:
-    - scheme: default
+ #   - primary: white
+    - scheme: white
       toggle:
         icon: material/toggle-switch
         name: Switch to dark mode
@@ -69,17 +85,27 @@ use_directory_urls: false
 
 markdown_extensions:
   - admonition
+  - pymdownx.details
+  - pymdownx.superfences
   - codehilite:
       linenums: False
       guess_lang: False
   - toc:
-      permalink: True
-#  - markdown_fenced_code_tabs:
-#      single_block_as_tab: False
-  - pymdownx.details
-  - pymdownx.superfences
+      permalink: true
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
   - pymdownx.tabbed:
-      alternate_style: true
+      alternate_style: true 
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji 
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg    
+  - attr_list    
+  - abbr
 plugins:
+  - search
+  - glightbox:
+      skip_classes:
+        - skip-lightbox
   - include-markdown:
       comments: false

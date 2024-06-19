@@ -1,55 +1,43 @@
-# Clone application
-#### Cloning Timeout
+### Cloning Timeout
 
-- **`config/taskman/cloning/timeoutSeconds`**
-    - **Description:** Specifies the timeout in seconds for the cloning operations, ensuring operations do not run indefinitely.
-    - **Type:** Integer
-    - **Default:** `7200` (2 hours)
-    - **Example:** `config/taskman/cloning/timeoutSeconds = 1200` (20 minutes)
+Specifies the timeout in seconds for cloning operations, ensuring they do not run indefinitely.
 
+| Configuration Property Path             | Type    | Default Value | Example                                |
+|-----------------------------------------|---------|---------------|----------------------------------------|
+| `config/taskman/cloning/timeoutSeconds` | Integer | `7200` (2 hours) | `config/taskman/cloning/timeoutSeconds = 1200` (20 minutes) |
 
-#### Export Configuration
+### Export Configuration
 
-- **`config/cloning/export/executable`**
-    - **Description:** Specifies the executable used for the export operation.
-    - **Type:** String
-    - **Default:** `mysqldump`
-    - **Example:** `config/cloning/export/executable = mysqldump`
+#### Executable
 
-- **`config/cloning/export/options`**
-    - **Description:** Provides a variety of options for the export operation including protocol, transaction type, database options, and more. Refer to the official MySQL documentation for a complete list of mysqldump options.
-    - **Type:** String
-    - **Example:**
-      ```
-      config/cloning/export/options = --protocol=TCP;\
-                                      --single-transaction;\
-                                      --add-drop-database;\
-                                      --add-drop-table;\
-                                      --skip-add-locks;\
-                                      --create-options;\
-                                      --disable-keys;\
-                                      --extended-insert;\
-                                      --skip-lock-tables;\
-                                      --quick;\
-                                      --skip-set-charset;\
-                                      --column-statistics=0;\
-                                      --events;\
-                                      --routines;\
-                                      --triggers
-      ```
+Specifies the executable used for the export operation.
 
-#### Import Configuration
+| Configuration Property Path             | Type    | Default Value | Example                                |
+|-----------------------------------------|---------|---------------|----------------------------------------|
+| `config/cloning/export/executable`      | String  | `mysqldump`   | `config/cloning/export/executable = mysqldump` |
 
-- **`config/cloning/import/executable`**
-    - **Description:** Specifies the executable used for the import operation.
-    - **Type:** String
-    - **Default:** `mysql`
-    - **Example:** `config/cloning/import/executable = mysql`
+#### Export Options
 
-- **`config/cloning/import/options`**
-    - **Description:** Provides the protocol setting for the import operation.
-    - **Type:** String
-    - **Default:** `--protocol=TCP`
-    - **Example:** `config/cloning/import/options = --protocol=TCP`
+Provides a variety of options for the export operation including protocol, transaction type, database options, and more. Refer to the official MySQL documentation for a complete list of `mysqldump` options.
 
+| Configuration Property Path             | Type    | Default Value | Example                                |
+|-----------------------------------------|---------|---------------|----------------------------------------|
+| `config/cloning/export/options`         | String  | N/A           | `config/cloning/export/options = --protocol=TCP; --single-transaction; --add-drop-database; --add-drop-table; --skip-add-locks; --create-options; --disable-keys; --extended-insert; --skip-lock-tables; --quick; --skip-set-charset; --column-statistics=0; --events; --routines; --triggers` |
 
+### Import Configuration
+
+#### Executable
+
+Specifies the executable used for the import operation.
+
+| Configuration Property Path             | Type    | Default Value | Example                                |
+|-----------------------------------------|---------|---------------|----------------------------------------|
+| `config/cloning/import/executable`      | String  | `mysql`       | `config/cloning/import/executable = mysql` |
+
+#### Import Options
+
+Provides the protocol setting for the import operation.
+
+| Configuration Property Path             | Type    | Default Value | Example                                |
+|-----------------------------------------|---------|---------------|----------------------------------------|
+| `config/cloning/import/options`         | String  | `--protocol=TCP` | `config/cloning/import/options = --protocol=TCP` |

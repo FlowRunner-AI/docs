@@ -1,48 +1,44 @@
-## Configuring Backendless PRO with Environment Variables and Consul
+# Configuration Options
+Backendless Pro leverages Consul by HashiCorp as a distributed key-value storage system for platform configuration. Additionally, you can override default configuration settings using environment variables. These methods offer flexibility and control to suit different deployment needs. Understanding their usage and precedence is crucial for effective configuration. The Environment Variables option has higher order of precedence. Any settings specified in the variables will override those in Consul. 
 
-Backendless PRO offers flexible configuration options to suit different deployment needs, including the use of environment variables and Consul for key-value storage management. This section guides you through setting up and managing configurations using these methods.
+## Using Environment Variables
 
-### Priority of Configuration Sources
-When configuring Backendless, it is important to understand the precedence of configuration sources:
-
-1. **Environment Variables** - These have the highest priority and override any settings specified in Consul.
-2. **Consul Key-Value Storage** - This serves as a centralized store for configuration but can be overridden by environment variables.
-
-### Configuring with Environment Variables
-Environment variables provide a straightforward method to configure the Backendless PRO application within a Kubernetes workload. To use environment variables for overriding Consul values, follow the naming convention:
+Environment variables are a simple and effective way to configure Backendless Pro, especially within a Kubernetes environment. To override a Consul setting with an environment variable, follow the following naming pattern:
 
 ```
 BL_PROPERTY_<key-from-consul>
 ```
 
-#### Example
-To override the Consul key `config/application/reservedApplications` with an environment variable, you would set it up in your Kubernetes workload configuration like this:
+Suppose you need to change the `reservedApplications` setting in Consul. You would set an environment variable in your Kubernetes configuration as follows:
 
 ```bash
 BL_PROPERTY_config_application_reservedApplications=20
 ```
 
-This sets the `reservedApplications` configuration to `20`, overriding any value provided by Consul.
+This will set the `reservedApplications` value to `20`, taking precedence over the value stored in Consul.
 
-### Accessing Consul
-Consul is accessible through a variety of methods depending on your network setup and security preferences.
+## Using Consul for Configuration
 
-#### Direct Access via Port
-To directly access the Consul UI, use the following URL pattern, substituting `<your-public-ip>` with your actual public IP address:
+Consul provides a centralized method to manage your Backendless Pro configurations. It is especially useful for more complex setups where maintaining a single source of truth is beneficial.
+
+### Direct Access to Consul
+
+You can directly access the Consul UI using the following URL format, replacing `<your-public-ip>` with your actual public IP address:
 
 ```
 http://<your-public-ip>:32600
 ```
 
-#### Configuring Access via Pro Manager
-For a more secure and managed access, use the Backendless Pro Manager to set up a domain with authentication credentials. The Pro Manager also allows you to enable or disable direct port access (port 32600) for enhanced security.
+This allows you to view and manage your configuration settings directly within the Consul interface.
 
-1. **Navigate to the Pro Manager:** Log in with your administrator credentials.
-2. **Domain Setup:** Configure the domain for accessing Consul, including setting up a user and password.
-3. **Port Management:** From the same screen, you can enable or disable port 32600 to control access to your configuration values.
+### Secure Access through Pro Manager
 
-![Consul Domain Setup](./img/cunsul-domain-setup.png)
+For a more secure and controlled approach, access Consul through the Backendless Pro Manager. This tool allows you to set up a domain with authentication credentials, ensuring secure access to your configuration data.
 
-This setup ensures that access to your configuration via Consul is both flexible and secure, tailored to meet the specific needs of your environment.
+1. **Log In to Pro Manager**: Use your administrator credentials.
+2. **Configure the Domain**: Set up the domain for accessing Consul, including user authentication.
+3. **Manage Port Access**: Enable or disable port 32600 to control direct access to Consul.
 
-By following these guidelines, you can efficiently manage the configuration of your Backendless PRO application using both environment variables and Consul, ensuring a robust and secure deployment.
+## Summary
+
+Backendless Pro offers robust configuration options through environment variables and Consul. By understanding the order of precedence and how to utilize each method, you can efficiently manage your Backendless Pro setup, ensuring a flexible, secure, and well-organized deployment.

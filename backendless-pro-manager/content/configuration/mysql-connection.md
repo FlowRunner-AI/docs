@@ -2,77 +2,94 @@
 
 This section details the settings required to configure MySQL connection parameters for applications using sharding. It is applicable to JAVA or JavaScript applications.
 
-#### Sharding Configuration
+### Sharding Configuration
 
-- **`config/sharding/shards`**
-    - **Description:** Declares the active shard or shards, separated by semicolons if multiple.
-    - **Type:** String
-    - **Example:** `config/sharding/shards = main_backendless;shard1`
+Declares the active shard or shards, separated by semicolons if multiple.
 
-#### Shard Connection Settings
+| Configuration Property Path         | Type   | Default Value | Example                                      |
+|-------------------------------------|--------|---------------|----------------------------------------------|
+| `config/sharding/shards`            | String | N/A           | `config/sharding/shards = main_backendless;shard1` |
+
+### Shard Connection Settings
 
 For each declared shard, you must define the following connection settings:
 
-- **Pattern**
-    - **Key:** `config/connection/<shard>/pattern`
-    - **Description:** Regular expression or pipe-separated database names to match databases to the shard.
-    - **Default:** `.*`
-    - **Example:** `config/connection/main/pattern = main_backendless|main_application|<app-id1>`
+#### Pattern
 
-- **Endpoints**
-    - **Key:** `config/connection/<shard>/endpoints`
-    - **Description:** Specifies the host and port of the database server.
-    - **Type:** String
-    - **Example:** `config/connection/main/endpoints = bl-mysql:3306`
+Regular expression or pipe-separated database names to match databases to the shard.
 
-- **User**
-    - **Key:** `config/connection/<shard>/user`
-    - **Description:** Database username for authentication.
-    - **Type:** String
-    - **Example:** `config/connection/main/user = root`
+| Configuration Property Path                    | Type    | Default Value | Example                                                  |
+|------------------------------------------------|---------|---------------|----------------------------------------------------------|
+| `config/connection/<shard>/pattern`            | String  | `.*`          | `config/connection/main/pattern = main_backendless|main_application|<app-id1>` |
 
-- **Password**
-    - **Key:** `config/connection/<shard>/password`
-    - **Description:** Database password for authentication.
-    - **Type:** String
-    - **Example:** `config/connection/main/password = your-password`
+#### Endpoints
 
-- **Idle Test Period**
-    - **Key:** `config/connection/<shard>/idleTestPeriod`
-    - **Description:** Time in milliseconds between idle connection checks.
-    - **Type:** Integer
-    - **Example:** `config/connection/main/idleTestPeriod = 60000`
+Specifies the host and port of the database server.
 
-- **Idle Timeout**
-    - **Key:** `config/connection/<shard>/idleTimeout`
-    - **Description:** Time in milliseconds before an idle connection is closed.
-    - **Type:** Integer
-    - **Example:** `config/connection/main/idleTimeout = 600000`
+| Configuration Property Path                    | Type    | Default Value | Example                                   |
+|------------------------------------------------|---------|---------------|-------------------------------------------|
+| `config/connection/<shard>/endpoints`          | String  | N/A           | `config/connection/main/endpoints = bl-mysql:3306` |
 
-- **Maximum Active Connections**
-    - **Key:** `config/connection/<shard>/maxActive`
-    - **Description:** Maximum number of active connections.
-    - **Type:** Integer
-    - **Example:** `config/connection/main/maxActive = 100`
+#### User
 
-- **Maximum Idle Connections**
-    - **Key:** `config/connection/<shard>/maxIdle`
-    - **Description:** Maximum number of idle connections in the pool.
-    - **Type:** Integer
-    - **Example:** `config/connection/main/maxIdle = 100`
+Database username for authentication.
 
-- **Minimum Idle Connections**
-    - **Key:** `config/connection/<shard>/minIdle`
-    - **Description:** Minimum number of idle connections in the pool.
-    - **Type:** Integer
-    - **Example:** `config/connection/main/minIdle = 5`
+| Configuration Property Path                    | Type    | Default Value | Example                                   |
+|------------------------------------------------|---------|---------------|-------------------------------------------|
+| `config/connection/<shard>/user`               | String  | N/A           | `config/connection/main/user = root` |
 
-#### JDBC URL Template
+#### Password
 
-- **`config/connection/main/urlTemplate`**
-    - **Description:** Template for constructing JDBC connection URLs. Includes placeholders for dialect, endpoints, and other settings.
-    - **Type:** String
-    - **Example:**
-      ```
-      config/connection/main/urlTemplate = jdbc:${dialect}://${endpoints}?zeroDateTimeBehavior=${zeroDateTimeBehavior}&useSSL=${useSSL}&requireSSL=${requireSSL}&dumpQueriesOnException=${dumpQueriesOnException}&exceptionInterceptors=${exceptionInterceptors}&allowPublicKeyRetrieval=${allowPublicKeyRetrieval}&serverTimezone=UTC&failOverReadOnly=false&secondsBeforeRetrySource=60
-      ```
+Database password for authentication.
+
+| Configuration Property Path                    | Type    | Default Value | Example                                   |
+|------------------------------------------------|---------|---------------|-------------------------------------------|
+| `config/connection/<shard>/password`           | String  | N/A           | `config/connection/main/password = your-password` |
+
+#### Idle Test Period
+
+Time in milliseconds between idle connection checks.
+
+| Configuration Property Path                    | Type    | Default Value | Example                                   |
+|------------------------------------------------|---------|---------------|-------------------------------------------|
+| `config/connection/<shard>/idleTestPeriod`     | Integer | N/A           | `config/connection/main/idleTestPeriod = 60000` |
+
+#### Idle Timeout
+
+Time in milliseconds before an idle connection is closed.
+
+| Configuration Property Path                    | Type    | Default Value | Example                                   |
+|------------------------------------------------|---------|---------------|-------------------------------------------|
+| `config/connection/<shard>/idleTimeout`        | Integer | N/A           | `config/connection/main/idleTimeout = 600000` |
+
+#### Maximum Active Connections
+
+Maximum number of active connections.
+
+| Configuration Property Path                    | Type    | Default Value | Example                                   |
+|------------------------------------------------|---------|---------------|-------------------------------------------|
+| `config/connection/<shard>/maxActive`          | Integer | N/A           | `config/connection/main/maxActive = 100` |
+
+#### Maximum Idle Connections
+
+Maximum number of idle connections in the pool.
+
+| Configuration Property Path                    | Type    | Default Value | Example                                   |
+|------------------------------------------------|---------|---------------|-------------------------------------------|
+| `config/connection/<shard>/maxIdle`            | Integer | N/A           | `config/connection/main/maxIdle = 100` |
+
+#### Minimum Idle Connections
+
+Minimum number of idle connections in the pool.
+
+| Configuration Property Path                    | Type    | Default Value | Example                                   |
+|------------------------------------------------|---------|---------------|-------------------------------------------|
+| `config/connection/<shard>/minIdle`            | Integer | N/A           | `config/connection/main/minIdle = 5` |
+
+### JDBC URL Template
+
+Template for constructing JDBC connection URLs. Includes placeholders for dialect, endpoints, and other settings.
+
+| Configuration Property Path                    | Type    | Default Value | Example                                   |
+|------------------------------------------------|---------|---------------|-------------------------------------------|
+| `config/connection/main/urlTemplate`           | String  | N/A           | `config/connection/main/urlTemplate = jdbc:${dialect}://${endpoints}?zeroDateTimeBehavior=${zeroDateTimeBehavior}&useSSL=${useSSL}&requireSSL=${requireSSL}&dumpQueriesOnException=${dumpQueriesOnException}&exceptionInterceptors=${exceptionInterceptors}&allowPublicKeyRetrieval=${allowPublicKeyRetrieval}&serverTimezone=UTC&failOverReadOnly=false&secondsBeforeRetrySource=60` |

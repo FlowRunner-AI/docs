@@ -1,5 +1,3 @@
-# Requirements
-
 This section outlines the necessary requirements for installing and running a single (non-clustered) instance of Backendless Pro. The requirements are categorized into general prerequisites applicable to all installations and specific ones tailored to different operating systems or cloud environments.
 
 ## Instance Requirements for Optimal Performance
@@ -21,11 +19,11 @@ For optimal performance, particularly with larger scale projects or more complex
 - **Memory**: Upgrading to 16 GB of RAM is recommended to enhance performance capabilities, enabling smoother operation of Backendless services, improved data processing, and better management of concurrent requests.
 - **Disk Space Extension**: Starting with 20 GB of disk space meets the basic requirement, but the ability to expand this capacity is essential as your application and its data storage needs grow. Planning for scalable storage solutions ensures that increasing data from your application, including user data and media files, can be accommodated without impacting performance or risking data loss.
 
-### Important Note on Configuration
+???+ info "Important Note"
 
-It's essential to understand that these specifications serve as a guideline. The final configuration of your system should be determined in an imperative manner, through comprehensive load testing. This process involves simulating various operational loads to understand how your application performs under different conditions. Load testing will help you identify the optimal configuration that meets your specific usage patterns and requirements, ensuring that your Backendless Pro Community Edition deployment is both resilient and efficient.
+    It's essential to understand that these specifications serve as a guideline. The final configuration of your system should be determined in an imperative manner, through comprehensive load testing. This process involves simulating various operational loads to understand how your application performs under different conditions. Load testing will help you identify the optimal configuration that meets your specific usage patterns and requirements, ensuring that your Backendless Pro Community Edition deployment is both resilient and efficient.
 
-By engaging in load testing, you can tailor your system's setup to match your application's demands accurately, ensuring a balance between resource availability and cost efficiency. This proactive approach allows for a customized environment that can handle your operational needs, providing a smooth and reliable experience for your users.
+    By engaging in load testing, you can tailor your system's setup to match your application's demands accurately, ensuring a balance between resource availability and cost efficiency. This proactive approach allows for a customized environment that can handle your operational needs, providing a smooth and reliable experience for your users.
 
 ## Network Configuration and Port Allocation
 
