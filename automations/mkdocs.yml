@@ -23,7 +23,7 @@ nav:
   - 'Expression Editor': 'flow-editing/expressioneditor.md'   
   - 'Implementing Delays': 'flow-editing/waitblock.md'  
   - 'Grouping Blocks' : 'todo.md'    
-  - 'Variables and Data Buckets': 'todo.md'  
+  - 'Variables and Data Buckets': 'flow-editing/variables.md'  
   - 'Error Handling': 'todo.md'  
   - 'Testing your Flows' : 'todo.md'
   - 'Custom Actions' : 'todo.md'  
