@@ -1,30 +1,90 @@
-When flow is enabled and does not have a timer. It will run any actions that it starts with (if any) until it
-reaches the first trigger. Now it waits for the trigger to fire. At this point, there is only one instance of the
-flow is running. Additional instances of the flow could be launched with the "Call Flow" request.
+"Running a flow" means executing its sequence of actions, triggers, conditions, and transformations. How a flow runs depends on its structure and configuration. This section explains the different ways you can launch flows in FlowRunner.
 
-In that mode one of the three things could happen:
+## Basic Rules for Launching Flows
 
-1. Trigger is fired with specific InstanceID - specific instance of the flow continues to run.
-2. Tirgger is fired without specific InstanceID - a random instance of the flow continues to run
-3. Trigger is fired to activate all waiting instances.
+To ensure your flows start smoothly, follow these basic rules:
 
-For additional flexibility, and to avoid cases 2 and 3, the "Call Flow" request may create a "reserved" 
-instance by assining InstanceID at the time of the call. This parameter would be optional.
+1. **Enable the Flow**: A flow must be in the `ENABLED` state to run.
+   ![flow enabled](../images/flow-enabled.png)
+2. **Starting Without a Schedule**: If a flow doesn’t have a schedule, it must be started with a special command called `CallFlow`.
 
-When flow is enabled and has a timer, every run of the timer creates a new instance of the flow. If the flow has a trigger and multiple instances reach the same trigger (even if it is the first block in the flow), a pool is created to support cases 2 and 3 above. 
-==================================================
+    !!! note
+        There is an exception to this rule for flows that start with a trigger. In this case, the `CallFlow` command is optional. The flow can begin with the activation of the first trigger. However, initiating the flow with the `CallFlow` command can be beneficial. See the section on the `CallFlow` API for more details.
 
-FLOWS WITHOUT TIMERS
----------------------
-When a flow is enabled and enters the LIVE state, it does not automatically execute. To execute the flow, the user application must
-use the "Call Flow" API. The API returns a special InstanceID which uniquely identify the running instance of the flow. Multiple calls of the "Call Flow" API will create a new instance of the flow if it starts with an action or prepare the Automations infrastructure to allocate a new instance if the flow starts with a trigger.
+3. **Scheduled Flows**: When a flow has a schedule, it will automatically run according to that schedule. The `CallFlow` command is not needed as the scheduler handles the execution.
+   ![flow enabled with a schedule](../images/flow-enabled-with-schedule.png)
+4. **Multiple Executions**: A single flow can have multiple executions, some running in parallel.
+5. **Unique Identifiers**: Every execution of a flow has a unique identifier called `executionId`.
 
-If the flow enters the waiting state with a trigger, it may be important that the trigger activates the same flow instance. To facilitate that, Backendless provides two options: (1) all triggers include "Condition" that can describe the rules for narrowing down to the specific flow instance and (2) all APIs to activate a trigger include the "executionId" parameter than may be set to the provided InstanceId.
+Below is a diagram illustrating the "launch rules":
 
-Suppose there are multiple running instances of the flow (each created with the "Call Flow" API) and some (or all) of them enter the waiting state on a trigger. As an alternative to targeting a specific flow instance using it's "InstanceID", the trigger may:
-- trigger/activate all waiting instances using the "activateAll=true" parameter
-- trigger/activate any of the waiting instances using the "activateAny=true" parameter
+```mermaid
+flowchart TD
+    GOLIVE(Flow is Enabled) --> STARTS_WITH_ACTION
+    STARTS_WITH_ACTION{Starts with Action?} -->|YES|HASSCHEDULE 
+    STARTS_WITH_ACTION --> |No, starts with a Trigger|START_TRIGGER
+    HASSCHEDULE{Has Schedule?} -->|YES|FLOW_STARTS
+    HASSCHEDULE -->|NO|NEEDS_CALL_FLOW
+    NEEDS_CALL_FLOW --> FLOW_STARTS
+    START_TRIGGER --> FLOW_STARTS
+    NEEDS_CALL_FLOW("`Use *CallFlow*`")
+    START_TRIGGER("`Activate Trigger.
+    ...
+    May optionally 
+    use *CallFlow*`")
+    FLOW_STARTS(Flow is Started)
+```
 
-FLOWS WITH TIMERS
-------------------
-A flow with a schedule starts automatic execution with every run of the timer. As a result, a flow with a timer may have multiple instances running (except when the flow uses the "Run Once" time mode). These instances generally do not need to be "activated" with the "Call Flow" API. However, when it comes to triggers, the same rules as described above apply. 
+Don't worry if this sounds complex. We'll break down this information further.
+
+## Flow without a Schedule
+
+For a flow without a schedule, once you enable it (putting it in the `ENABLED` state), it won’t run automatically. If the flow starts with a trigger, the trigger needs to be activated for the flow to run. If the flow starts with an action, it must be started using the `CallFlow` command/API.
+
+## Flow with a Schedule
+
+For a scheduled flow that is in the `ENABLED` state, the scheduler starts new executions automatically. The `CallFlow` command/API is not needed in this case. If the flow starts with an action, the action block will execute with each new iteration of the schedule. If the flow starts with a trigger, each new execution will wait for the trigger to be activated.
+
+## CallFlow Command/API
+
+The `CallFlow` command creates a new execution of a flow. This command identifies the flow to execute and can optionally accept a key/value structure (object) to pass into the executed flow. The `CallFlow` command is available in several formats:
+
+1. **FlowRunner Action**: Execute a flow from another flow.
+    ![call flow action](../images/call-flow-action.png)
+2. **Codeless block**: Execute a flow from your UI application created with UI Builder or from Backendless Cloud Code. You can find the `Call Flow` Codeless block in the Codeless `Logic Editor`. Every flow you create will have a dedicated menu item in the `FLOWRUNNER` section:
+    ![call flow codeless](../images/call-flow-codeless.png)
+The `Call Flow` Codeless block returns an object which contains the `executionId` property. The value of the property can be used later on to activate a trigger in the same flow execution. Below is an example of how to obtain the `executionId` value from the `Call Flow` response:
+    ![call flow get execution id](../images/call-flow-get-ex-id.png)
+3. **REST API endpoint**: Execute a flow from any third-party system.
+
+    **Endpoint**: 
+    ```
+    POST https://xxxx.backendless.app/api/automation/flow/activate-by-name
+    ```
+
+    **HTTP Headers**:
+    ```
+    Content-Type: application/json
+    user-token: value 
+    ```
+    The `user-token` header is optional. When it is used, the identity of the user represented by the token is passed into the activated flow.
+
+    **Request Body**:
+    ```json
+    {
+      "name": "Flow name. Required Value",
+      "initialData": {
+        "A valid JSON object containing initial flow data. Optional"
+      }
+    }
+    ```
+    The `initialData` property in the request body is optional. When provided, the value is passed into the flow execution. It will be available through the [Expression Editor](../flow-editing/expressioneditor.md) interface.
+
+    **Response Body**
+    ```json
+    {
+      "executionId": "String"
+    }
+    ```
+
+The return value from the `CallFlow` operation is an `executionId` assigned to the created flow execution. This ID is important if you need to "target" triggers from that specific execution. When calling a trigger, you can pass the `executionId` parameter to activate the trigger in a specific execution.
