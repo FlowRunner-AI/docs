@@ -35,7 +35,4 @@ Clicking on a block selects it. Upon selection, a block’s properties are displ
 
 The contents of the Property Editor vary between different blocks, please refer to the documentation section where the blocks are described for additional details.
 
-
-## Conclusion
-
 Understanding how to effectively work with blocks is fundamental to crafting efficient and dynamic workflows in Backendless Automations. By familiarizing yourself with the general rules for adding, connecting, and editing blocks, you're well on your way to designing automations that are not only powerful but also elegantly structured. Remember, the key to successful workflow automation lies in the thoughtful arrangement and configuration of these versatile components.

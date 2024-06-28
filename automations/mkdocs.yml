@@ -1,4 +1,4 @@
-site_name: Backendless Automations Guide
+site_name: FlowRunner™ User Guide
 nav:
 - 'Overview': 'index.md'
 - 'Terminology': 'definitions.md'
@@ -18,49 +18,50 @@ nav:
   - 'Working with Blocks' : 'flow-editing/workingwithblocks.md' 
   - 'Naming your Blocks' : 'flow-editing/blocknaming.md'
   - 'Data Movement in Flows' : 'flow-editing/dataflow.md'
+- 'Flow Development' :  
   - 'Repeated Behavior (Loops)' : 'flow-editing/loops.md' 
   - 'Data Transformations' : 'flow-editing/transformer.md'  
   - 'Expression Editor': 'flow-editing/expressioneditor.md'   
   - 'Implementing Delays': 'flow-editing/waitblock.md'  
-  - 'Grouping Blocks' : 'todo.md'    
+  - 'Grouping Triggers' : 'flow-editing/grouping-triggers.md'    
+  - 'Groupping Actions' : 'flow-editing/grouping-actions.md'
   - 'Variables and Data Buckets': 'flow-editing/variables.md'  
-  - 'Error Handling': 'todo.md'  
-  - 'Testing your Flows' : 'todo.md'
-  - 'Custom Actions' : 'todo.md'  
+  - 'Error Handling': 'flow-editing/error-handling.md'  
+  - 'Testing your Flows' : 'flow-editing/testing.md'
+  - 'Custom Actions' : 'flow-editing/custom-actions.md'  
 - 'Running Flows' :
-  - 'Flow Execution' : 'flow-execution/overview.md'
-  - 'Service Level Agreements (SLAs)' : 'todo.md'   
-  - 'Compliance' : 'todo.md'  
-  - 'Analytics' : 'todo.md'  
+  - 'Launching Flows' : 'flow-execution/overview.md'
+  - 'Service Level Agreements (SLAs)' : 'flow-execution/sla.md'   
+  - 'Compliance' : 'flow-execution/compliance.md'  
+  - 'Analytics' : 'flow-execution/analytics.md'  
 - 'Block Reference' :
   - 'Triggers' : 
-    - 'External Callback' : 'todo.md'  
-    - 'Record Saved in Database' : 'todo.md'  
-    - 'Record Removed in Database' : 'todo.md'  
-    - 'App Logic Trigger' : 'todo.md'  
-    - 'User Registered' : 'todo.md'
+    - 'External Callback' : 'reference/external-callback-trigger.md'  
+    - 'Record Saved in Database' : 'reference/record-saved-trigger.md'  
+    - 'Record Removed in Database' : 'reference/record-removed-trigger.md'  
+    - 'App Logic Trigger' : 'reference/applogic-trigger.md'  
+    - 'User Registered' : 'reference/user-registered-trigger.md'
   - 'Actions' :
-    - 'Send Email': 'todo.md'  
-    - 'Save Record in Database': 'todo.md'  
-    - 'Delete Record in Database': 'todo.md'  
-    - 'Find Record(s) in Database': 'todo.md'  
-    - 'Send Push Notification': 'todo.md'  
-    - 'Run API Service': 'todo.md'  
-    - 'Call Flow': 'todo.md'  
-    - 'HTTP Request': 'todo.md'      
+    - 'Send Email': 'reference/send-email-action.md'  
+    - 'Save Record in Database': 'reference/save-record-action.md'  
+    - 'Delete Record in Database': 'reference/delete-record-action.md'  
+    - 'Find Record(s) in Database': 'reference/find-records-action.md'  
+    - 'Send Push Notification': 'reference/send-push-notification-action.md'  
+    - 'Run API Service': 'reference/run-api-service-action.md'  
+    - 'Call Flow': 'reference/call-flow-action.md'  
+    - 'HTTP Request': 'reference/http-request-action.md'      
   - 'Conditions' :
-    - 'Condition' : 'todo.md'  
-    - 'Condition with Transformer' : 'todo.md'  
+    - 'Condition' : 'reference/condition.md'  
+    - 'Condition with Transformer' : 'reference/condition-with-transformer.md'  
   - 'Groups' :
-    - 'Triggers Group': 'todo.md'  
-    - 'Actions Group' : 'todo.md'  
+    - 'Triggers Group': 'reference/triggers-group.md'  
+    - 'Actions Group' : 'reference/actions-group.md'  
   - 'Utilities' :
-    - 'Repeat While': 'todo.md'  
-    - 'Wait': 'todo.md'  
-    - 'Error Handler': 'todo.md'  
-    - 'Set Variables': 'todo.md'  
-    - 'Data Bucket': 'todo.md'  
-    - 'Transform Data': 'todo.md'
+    - 'Repeat (Loops)': 'reference/repeat-loops.md'  
+    - 'Wait': 'reference/wait.md'  
+    - 'Error Handler': 'reference/error-handler.md'  
+    - 'Set Variables': 'reference/set-variables.md'  
+    - 'Transform Data': 'reference/transformer.md'
 
 
    
@@ -86,7 +87,7 @@ extra_css:
 
 theme:
   name: 'material'
-  logo: 'automations-logo.png'
+  logo: 'flowrunner-logo.png'
 #  custom_dir: material/overrides
   features:
 #    - header.autohide
@@ -142,8 +143,14 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji 
       emoji_generator: !!python/name:material.extensions.emoji.to_svg    
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format      
   - attr_list    
   - abbr
+  - footnotes
 
 
 plugins:
