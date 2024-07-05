@@ -22,6 +22,7 @@ nav:
   - 'Repeated Behavior (Loops)' : 'flow-editing/loops.md' 
   - 'Data Transformations' : 'flow-editing/transformer.md'  
   - 'Expression Editor': 'flow-editing/expressioneditor.md'   
+  - 'Conditional Logic': 'flow-editing/conditions.md'
   - 'Implementing Delays': 'flow-editing/waitblock.md'  
   - 'Grouping Triggers' : 'flow-editing/grouping-triggers.md'    
   - 'Groupping Actions' : 'flow-editing/grouping-actions.md'
