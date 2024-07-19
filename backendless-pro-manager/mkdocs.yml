@@ -10,7 +10,7 @@ nav:
   - 'Azure':
     - 'Basic setup': 'install/cloud/azure.md'
     - 'Load balancer configuration': 'install/cloud/azure-load-balancer.md'
-  - 'Digital Ocean': 'install/cloud/digitalocean.md'
+  #- 'Digital Ocean': 'install/cloud/digitalocean.md'
   - 'Ubuntu': 'install/ubuntu.md'
   - 'Mac OS/Windows': 'install/mac-windows.md'
 - Configuration:
@@ -21,14 +21,14 @@ nav:
   - 'Database Service Settings': 'configuration/data-service.md'
   - 'MySQL Connection Settings': 'configuration/mysql-connection.md'
   - 'Mongo Connection Settings': 'configuration/mongo-connection.md'
-  - 'Port description': 'ports.md'
-- 'Runtime and Operations':
-  - 'Logging': 'logging.mg'
-  - 'Backup': 'backup.md'
-- 'Upgrade':
-  - 'Single instance':
-    - 'Upgrade Backendless Pro': 'upgrade-single-instance.md'
-    - 'Upgrade Pro Manager': 'upgrade-pro-man.md'
+  - 'Port description': 'configuration/ports.md'
+#- 'Runtime and Operations':
+#  - 'Logging': 'logging.mg'
+#  - 'Backup': 'backup.md'
+#- 'Upgrade':
+#  - 'Single instance':
+#    - 'Upgrade Backendless Pro': 'upgrade-single-instance.md'
+#    - 'Upgrade Pro Manager': 'upgrade-pro-man.md'
 
 docs_dir: content
 site_dir: ../prod/pro-manager
@@ -96,11 +96,11 @@ markdown_extensions:
       auto_append:
         - includes/abbreviations.md
   - pymdownx.tabbed:
-      alternate_style: true 
+      alternate_style: true
   - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji 
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg    
-  - attr_list    
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
   - abbr
 plugins:
   - search
