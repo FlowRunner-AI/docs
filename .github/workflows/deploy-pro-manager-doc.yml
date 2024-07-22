@@ -2,10 +2,8 @@ name: Deploy PRO Documentation
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'backendless-pro-manager/**'
+    tags:
+      - 'build_*'
 
 jobs:
   deploy:
