@@ -31,7 +31,7 @@ nav:
 #    - 'Upgrade Pro Manager': 'upgrade-pro-man.md'
 
 docs_dir: content
-site_dir: ../prod/pro-manager
+site_dir: build
 
 copyright: 'Copyright &copy; 2024 Backendless Corp'
 
