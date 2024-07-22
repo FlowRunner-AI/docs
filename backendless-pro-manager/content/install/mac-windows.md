@@ -3,7 +3,7 @@ If you are on Windows or MacOS start with the instructions below. Once these ste
 
 1. **Docker Desktop Installation**: Download and install Docker Desktop from [Docker's official website](https://www.docker.com/products/docker-desktop/). Docker Desktop provides the necessary environment for running containerized applications on MacOS and Windows.
 2. **Enable Kubernetes**: Open Docker Desktop. Navigate to the Preferences or Settings menu.
-   Locate the Kubernetes section and select the `Enable Kubernetes` checkbox. A screenshot illustrating this step:![enable-kuber](uploads/e3ef7cd5b7cb9bdfdb21376dabee4e1f/enable-kuber.png)
+   Locate the Kubernetes section and select the `Enable Kubernetes` checkbox. 
 
 ## General Prerequisites
 1. **Install node v14.18.2**: You can find installation instructions specific to your operating system on the [NVM's github page](https://github.com/nvm-sh/nvm). Generally, the following command should work for most environments:
