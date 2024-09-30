@@ -992,12 +992,12 @@ Go through the following steps for each target group</p>
 <li>Provide <code>Target group name</code>:</li>
 <li>bl-ingress-80</li>
 <li>bl-ingress-443</li>
-<li>Choose <code>HTTP</code> protocol and port the following ports for each:
+<li>Choose <code>TCP</code> protocol and the following ports for each target group:
     <div class="highlight"><pre><span></span><code>80 - bl-ingress-80
 443 - bl-ingress-443
 </code></pre></div></li>
 <li>Select the same VPC as for you EC2 instance</li>
-<li>Use <code>HTTP1</code> Protocol version</li>
+<li>Use <code>TCP</code> health check</li>
 <li>Press <code>Next</code> button </li>
 <li>Choose instance with backendless pro</li>
 <li>Press <code>Include as pending bellow</code> button</li>
@@ -1006,7 +1006,7 @@ Go through the following steps for each target group</p>
 <p>At the end your target page should look like the on the following screen
 <a class="glightbox" href="img/target-groups-for-nlb.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="img/target-groups-for-nlb.png" /></a></p>
 <h3 id="2-create-load-balancers">2. Create Load balancers<a class="headerlink" href="#2-create-load-balancers" title="Permanent link">&para;</a></h3>
-<p>You should create at least 3 load balancers for API, development console and for real-time.
+<p>You should create Network Load Balancer.
 Go through the following steps for each load balancer</p>
 <ol>
 <li>Go to <code>EC2 &gt; Load balancers</code> and press <code>Create load balancer</code> button</li>
