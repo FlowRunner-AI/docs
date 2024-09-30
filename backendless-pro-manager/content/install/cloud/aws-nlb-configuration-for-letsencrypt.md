@@ -9,13 +9,13 @@ Go through the following steps for each target group
 3. Provide `Target group name`:
    - bl-ingress-80
    - bl-ingress-443
-4. Choose `HTTP` protocol and port the following ports for each:
+4. Choose `TCP` protocol and the following ports for each target group:
     ```
     80 - bl-ingress-80
     443 - bl-ingress-443
     ```
 5. Select the same VPC as for you EC2 instance
-6. Use `HTTP1` Protocol version
+6. Use `TCP` health check
 7. Press `Next` button 
 8. Choose instance with backendless pro
 9. Press `Include as pending bellow` button
@@ -25,7 +25,7 @@ At the end your target page should look like the on the following screen
 ![](img/target-groups-for-nlb.png)
 
 ### 2. Create Load balancers
-You should create at least 3 load balancers for API, development console and for real-time.
+You should create Network Load Balancer.
 Go through the following steps for each load balancer
 
 1. Go to `EC2 > Load balancers` and press `Create load balancer` button
