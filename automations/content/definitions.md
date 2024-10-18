@@ -1,35 +1,38 @@
-Welcome to the "Terminology" chapter of the Backendless Automations User Guide. Understanding the terms used here is key to understanding how everything works. It'll make your journey with Backendless Automations smoother and more intuitive. Let's explore the essential terms you'll encounter in this system.
+---
+icon: material/alphabetical-variant
+---
+# Terminology
+
+Welcome to the "Terminology" chapter of the FlowRunner™ User Guide. Understanding the key terms used in this guide will make your experience with FlowRunner™ smoother and more intuitive. Let’s dive into the essential terms you’ll encounter as you explore the platform.
 
 ### The Basics
 
-- **Flow:** The Flow is at the heart of Backendless Automations. It's a sequence of events and actions set up to automate various tasks, whether they're for business processes, service functions, or anything in between. You can customize Flows to achieve different goals, making the system incredibly flexible.
+- **Flow:** A Flow is the heart of an automated process in FlowRunner™. It’s like a roadmap that guides a series of events and actions to accomplish specific tasks, whether you’re automating business operations or simplifying daily routines. Flows are flexible and customizable, allowing you to design processes that fit your exact needs.
 
-- **Flow Version:** Flows aren't static; they evolve. That's where versions come in. You can have several versions of a Flow, each with tweaks or changes. Although you can only have one version active at any time, cloning and editing make updates easy. Remember, you can't edit a Flow that's running; you need to clone it, make your changes, stop the current version, and launch your new one.
+- **Flow Version:** Flows are not set in stone—they can evolve as your needs change. Each Flow can have multiple versions, each one reflecting different updates or tweaks. Although you can only have one version active at a time, it’s easy to make changes. Just clone the current version, make your edits, then stop the old version and start the new one. Remember, you can’t edit a Flow that’s currently running, so always clone before making changes.
 
 ### Components of a Flow
 
-- **Block:** This is a catch-all term for the essentials of your Flows: Triggers, Actions, Transformers, and Conditions. Think of these as the Lego blocks of Backendless Automations.
+- **Block:** Blocks are the building pieces of your Flows—think of them like the Lego bricks that make up your automated process. Blocks include Triggers, Actions, Transformers, and Conditions. Each one has a specific job in making your Flow work smoothly.
 
-- **Trigger:** A Trigger is what starts your Flow. It waits for a specific event, like someone using your app in a certain way, and then kicks things off. It's the starting line for every Flow.
+- **Trigger:** A Trigger is like a switch that waits for something to happen before your Flow continues. It might be waiting for a form to be submitted, an order to be placed, or any other event. Triggers can be placed anywhere in your Flow, giving you control over when and how your automated process moves forward.
 
-- **Action:** These are the doers in your Flows. Actions could be anything from sending out emails and creating PDFs to calling up an API service. They work with inputs and can produce outputs for the next steps in the Flow.
+- **Action:** Actions are the steps that get things done in your Flow. They’re the tasks that do the work—like sending an email, generating a report, or calling an API. Actions take in data, do something with it, and can pass along results to the next step in the Flow.
 
-- **Transformer:** Need to change your data somehow? That's what Transformers are for. They can tweak, extract, convert, or manipulate your data in almost any way you need. You can chain Transformers together for more complex transformations.
+- **Transformer:** Transformers are like data editors within your Flow. They let you adjust, extract, convert, or manipulate data to fit your needs. If you need to make changes to your data as it moves through your Flow, Transformers are the tool for the job.
 
-- **Condition:** These are the decision-makers. Based on a true or false outcome, Conditions steer your Flow in different directions, adding decision-making logic to the process.
+- **Condition:** Conditions are decision points in your Flow. They let your Flow take different paths based on whether something is true or false. This adds a layer of logic to your Flow, making it more dynamic and responsive to different scenarios.
 
-- **Groups:** Some blocks are like containers for other blocks. Backendless supports two types: Triggers Group and Actions Group, which help manage how grouped triggers or actions work together.
+- **Groups:** Some Blocks can act as containers that hold other Blocks, helping to keep your Flow organized. FlowRunner™ has two types of groups: Triggers Group and Actions Group. These groups help you manage multiple triggers or actions within a single, cohesive structure.
 
-- **Flow Editor:** This is where the magic happens. The Flow Editor is your canvas for creating, tweaking, testing, and running your Flows. It's a graphical interface that turns your ideas into automation.
+- **Flow Editor:** The Flow Editor is where you build, edit, and test your Flows. It’s a visual workspace that lets you design your automated processes with a drag-and-drop interface. Think of it as your canvas for bringing automation ideas to life.
 
-- **Test Mode:** Before going live, you'll want to ensure everything works perfectly. Test Mode in the Flow Editor lets you run tests using test data to debug and refine every part of your Flow.
+- **Test Mode:** Before putting your Flow into action, it’s a good idea to test it out. Test Mode in the Flow Editor lets you run your Flow with test data, helping you find and fix any issues before going live.
 
-- **SLA Condition:** These are benchmarks within your service level agreements (SLA) that set the performance standards. Backendless keeps an eye on these to make sure everything's running smoothly.
+- **SLA Condition:** SLA Conditions are the benchmarks you set for your workflows to make sure they’re meeting certain standards. FlowRunner™ monitors these conditions to keep your processes running smoothly and on track.
 
-- **Non-compliance Rule:** If things aren't going according to plan, these rules define what steps to take. They're part of your SLA, ensuring that standards are met or actions are taken if they're not.
+- **Non-compliance Rules:** If something goes off track and your Flow doesn’t meet the SLA Conditions, Non-compliance Rules kick in. These rules define what actions should be taken to address the issue and ensure things get back on track.
 
-- **SLA Configurator:** This tool within the Flow Editor helps you set up and manage your SLA conditions and non-compliance rules. It's essential for maintaining the reliability and performance of your Flows.
+- **SLA Configurator:** The SLA Configurator is a tool within the Flow Editor that helps you set up and manage your SLA Conditions and Non-compliance Rules. It’s essential for making sure your Flows perform reliably and meet the standards you’ve set.
 
-By getting familiar with these terms, you're unlocking the door to all the possibilities Backendless Automations offers. With this knowledge, navigating and using the system to enhance your business processes will feel more intuitive and empowering.
-
-
+By getting familiar with these terms, you’re setting yourself up to make the most of FlowRunner™. With this foundation, you’ll find it easier to navigate the platform and start automating processes that enhance your business or daily life.

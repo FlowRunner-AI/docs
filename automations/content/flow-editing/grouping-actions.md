@@ -1,4 +1,8 @@
-Imagine you're managing a marketing campaign that needs to kick off across multiple channels simultaneously. You need to post updates on social media, send out an email newsletter, and publish a blog post on your website—all at the same time. With Backendless Automations, you can group these actions into a single step and execute them in parallel, significantly speeding up the process and ensuring everything launches together.
+---
+icon: material/select-group
+---
+
+Imagine you're managing a marketing campaign that needs to kick off across multiple channels simultaneously. You need to post updates on social media, send out an email newsletter, and publish a blog post on your website—all at the same time. With FlowRunner™, you can group these actions into a single step and execute them in parallel, significantly speeding up the process and ensuring everything launches together.
 
 This powerful feature allows you to run multiple actions at once, enhancing the efficiency and flexibility of your workflows. Instead of waiting for each task to finish before starting the next one, all actions within a grouped step start simultaneously. This is perfect for tasks that don’t depend on a specific sequence and can benefit from concurrent execution.
 

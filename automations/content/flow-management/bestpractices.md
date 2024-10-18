@@ -1,6 +1,10 @@
+---
+icon: material/white-balance-incandescent
+---
+
 # Automations Best Practices
 
-Creating efficient, reliable, and scalable workflows in Backendless Automations is a nuanced process that blends technical skill with strategic foresight. As you embark on this journey, it's essential to ground your efforts in best practices that not only streamline your workflow development but also ensure their long-term viability and effectiveness. This chapter offers a comprehensive guide to crafting workflows that are robust, maintainable, and aligned with your objectives.
+Creating efficient, reliable, and scalable workflows in FlowRunner™ is a nuanced process that blends technical skill with strategic foresight. As you embark on this journey, it's essential to ground your efforts in best practices that not only streamline your workflow development but also ensure their long-term viability and effectiveness. This chapter offers a comprehensive guide to crafting workflows that are robust, maintainable, and aligned with your objectives.
 
 ## Start with a Clear Objective
 
@@ -40,7 +44,7 @@ Periodically revisit your workflows to assess their performance and relevance. C
 
 ## Stay Updated
 
-Stay informed about the latest features and updates in Backendless Automations. Regular updates may introduce new functionalities that could significantly enhance your workflow efficiency or introduce new capabilities.
+Stay informed about the latest features and updates in FlowRunner™. Regular updates may introduce new functionalities that could significantly enhance your workflow efficiency or introduce new capabilities.
 
 ## Security and Permissions
 
@@ -48,4 +52,4 @@ Security is paramount in automation. Pay careful attention to who has access to 
 
 ## Conclusion
 
-Mastering workflow creation in Backendless Automations is both an art and a science. By adhering to these best practices, you're not merely constructing flows; you're engineering sophisticated, scalable, and sustainable automation solutions. As you deepen your understanding and experience with Backendless Automations, these principles will become integral to your development approach, setting the stage for exceptional automation projects.
+Mastering workflow creation in FlowRunner™ is both an art and a science. By adhering to these best practices, you're not merely constructing flows; you're engineering sophisticated, scalable, and sustainable automation solutions. As you deepen your understanding and experience with FlowRunner™, these principles will become integral to your development approach, setting the stage for exceptional automation projects.

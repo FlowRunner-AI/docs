@@ -1,6 +1,10 @@
+---
+icon: material/timer
+---
+
 # Scheduled Flows
 
-Scheduled Flows in Backendless Automations enhance your ability to automate business processes by allowing you to determine when and how often a flow should execute. For instance, imagine you need to generate a report every Friday detailing weekly sales; with Scheduled Flows, you can set up a flow that automatically gathers this data and generates the report at the specified time each week. This chapter will guide you through setting up these schedules, choosing frequency options, and managing the active schedules for your flows.
+Scheduled Flows in FlowRunner™ enhance your ability to automate business processes by allowing you to determine when and how often a flow should execute. For instance, imagine you need to generate a report every Friday detailing weekly sales; with Scheduled Flows, you can set up a flow that automatically gathers this data and generates the report at the specified time each week. This chapter will guide you through setting up these schedules, choosing frequency options, and managing the active schedules for your flows.
 
 ## Creating a Schedule
 

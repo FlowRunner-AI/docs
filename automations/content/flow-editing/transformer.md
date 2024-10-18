@@ -1,4 +1,8 @@
-Data transformations in Backendless Automations are handled by the versatile **Transformer** block. This block offers various "transformation operations" that can manipulate key/value structures, data collections/lists, strings, dates, and perform mathematical and logical operations. When setting up a transformation, you select the desired operation and configure its input parameters, if any. When the Transformer block executes, it performs the selected operation.
+---
+icon: material/compare-horizontal
+---
+
+Data transformations in FlowRunner™ are handled by the versatile **Transform Data** block. This block offers various data transformation operations that can manipulate key/value structures, arrays/lists, strings, dates, and perform logical operations. When setting up a transformation, you select the desired operation and configure its input parameters, if any. When the Transform Data block executes, it performs the selected operation. For a complete list of supported operations, see the [Transform Data block](../reference/transformer.md) in the Block Reference guide. 
 
 For example, the `Contains` operation checks if a given `Search String` is present within a `Text` input. The operation has two parameters: `Text` and `Search String`. Input parameter values for Transformer operations are set using the [Expression Editor](expressioneditor.md).
 

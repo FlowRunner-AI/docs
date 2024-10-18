@@ -1,9 +1,12 @@
 site_name: FlowRunner™ User Guide
+site_url: https://docs.flowrunner.ai
+site_description: Comprehensive documentation for FlowRunner, a no-code platform for automating business processes with ease.
+
 nav:
 - 'Overview': 'index.md'
 - 'Terminology': 'definitions.md'
 - 'Flow Manager': 'flowmanager.md'
-- 'Quick Start Guide': 'todo.md'
+- 'Quick Start Guide': 'quickstart.md'
 - 'Flow Management':
   - 'Creating Flows' : 'flow-management/createflow.md' 
   - 'Renaming Flows' : 'flow-management/renameflow.md'
@@ -17,19 +20,30 @@ nav:
   - 'Flow Editor' : 'flow-editing/floweditor.md'
   - 'Working with Blocks' : 'flow-editing/workingwithblocks.md' 
   - 'Naming your Blocks' : 'flow-editing/blocknaming.md'
-  - 'Data Movement in Flows' : 'flow-editing/dataflow.md'
 - 'Flow Development' :  
-  - 'Repeated Behavior (Loops)' : 'flow-editing/loops.md' 
-  - 'Data Transformations' : 'flow-editing/transformer.md'  
+  - 'Data Movement in Flows' : 'flow-editing/dataflow.md'
   - 'Expression Editor': 'flow-editing/expressioneditor.md'   
+  - 'Variables and Data Buckets': 'flow-editing/variables.md'  
+  - 'Data Transformations' : 'flow-editing/transformer.md'  
   - 'Conditional Logic': 'flow-editing/conditions.md'
   - 'Implementing Delays': 'flow-editing/waitblock.md'  
   - 'Grouping Triggers' : 'flow-editing/grouping-triggers.md'    
   - 'Groupping Actions' : 'flow-editing/grouping-actions.md'
-  - 'Variables and Data Buckets': 'flow-editing/variables.md'  
+  - 'Repeated Behavior (Loops)' : 'flow-editing/loops.md' 
   - 'Error Handling': 'flow-editing/error-handling.md'  
+  - 'AI Integration': 'flow-editing/using-ai.md'
+  - 'PDF Generator': 'flow-editing/pdf-generator.md'
   - 'Testing your Flows' : 'flow-editing/testing.md'
   - 'Custom Actions' : 'flow-editing/custom-actions.md'  
+- 'Extending FlowRunner' : 
+   - 'About Extensibility' : 'extensibility/overview.md'
+   - 'Custom Actions':
+     - 'About Custom Actions': 'extensibility/custom-action.md'  
+     - 'Quick Start Guide' : 'extensibility/actions-quick-start.md'
+     - 'Action Development' : 'extensibility/action-development.md'
+     - 'Service Config Params': 'extensibility/service-config.md'     
+     - 'OAuth2 Authorization': 'extensibility/oauth2-services.md' 
+     - 'Custom Action Testing': 'extensibility/action-testing.md'
 - 'Running Flows' :
   - 'Launching Flows' : 'flow-execution/overview.md'
   - 'Service Level Agreements (SLAs)' : 'flow-execution/sla.md'   
@@ -38,9 +52,10 @@ nav:
 - 'Block Reference' :
   - 'Triggers' : 
     - 'External Callback' : 'reference/external-callback-trigger.md'  
-    - 'Record Saved in Database' : 'reference/record-saved-trigger.md'  
-    - 'Record Removed in Database' : 'reference/record-removed-trigger.md'  
     - 'App Logic Trigger' : 'reference/applogic-trigger.md'  
+    - 'Record Created in Database' : 'reference/record-saved-trigger.md'  
+    - 'Record Updated in Database' : 'reference/record-updated-trigger.md'  
+    - 'Record Removed in Database' : 'reference/record-removed-trigger.md'  
     - 'User Registered' : 'reference/user-registered-trigger.md'
   - 'Actions' :
     - 'Send Email': 'reference/send-email-action.md'  
@@ -48,6 +63,7 @@ nav:
     - 'Delete Record in Database': 'reference/delete-record-action.md'  
     - 'Find Record(s) in Database': 'reference/find-records-action.md'  
     - 'Send Push Notification': 'reference/send-push-notification-action.md'  
+    - 'AI Router': 'reference/ai-router-action.md'
     - 'Run API Service': 'reference/run-api-service-action.md'  
     - 'Call Flow': 'reference/call-flow-action.md'  
     - 'HTTP Request': 'reference/http-request-action.md'      
@@ -63,7 +79,6 @@ nav:
     - 'Error Handler': 'reference/error-handler.md'  
     - 'Set Variables': 'reference/set-variables.md'  
     - 'Transform Data': 'reference/transformer.md'
-
 
    
 docs_dir: content
@@ -88,7 +103,7 @@ extra_css:
 
 theme:
   name: 'material'
-  logo: 'flowrunner-logo.png'
+#  logo: 'flowrunner-logo.png'
 #  custom_dir: material/overrides
   features:
 #    - header.autohide
@@ -104,18 +119,22 @@ theme:
     - navigation.tracking
     - navigation.sections
 #    - navigation.path
-#    - navigation.expand
+    - navigation.expand
 #    - navigation.tabs
   palette: 
-    - primary: white
+    # Palette toggle for light mode
     - scheme: default
       toggle:
-        icon: material/toggle-switch 
+        icon: material/toggle-switch
         name: Switch to dark mode
-    - scheme: slate 
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: blue
+      accent: cyan
       toggle:
         icon: material/toggle-switch-off-outline
-        name: Switch to light mode  
+        name: Switch to light mode
 
 use_directory_urls: false
 
@@ -156,6 +175,9 @@ markdown_extensions:
 
 plugins:
   - search
+  - social:
+      cards_layout_options:
+        background_color: "#7192a6"
   - glightbox:
       skip_classes:
         - skip-lightbox

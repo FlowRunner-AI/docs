@@ -1,3 +1,7 @@
+---
+icon: material/exponent
+---
+
 In your flow, individual blocks generate data that can be utilized throughout the workflow. Triggers receive and pass on information, actions and transformers create new data, and data buckets store various data elements under logical names. As discussed in the [Data Movement in Flows](dataflow.md) section, a block's inputs can reference the results from other blocks, enabling dynamic and interconnected workflows. This result-to-input data referencing is made possible through the Expression Editor.
 
 ## Accessing the Expression Editor

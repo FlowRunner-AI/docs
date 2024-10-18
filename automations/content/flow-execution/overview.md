@@ -1,3 +1,7 @@
+---
+icon: material/rocket-launch-outline
+---
+
 "Running a flow" means executing its sequence of actions, triggers, conditions, and transformations. How a flow runs depends on its structure and configuration. This section explains the different ways you can launch flows in FlowRunner.
 
 ## Basic Rules for Launching Flows
@@ -6,12 +10,12 @@ To ensure your flows start smoothly, follow these basic rules:
 
 1. **Enable the Flow**: A flow must be in the `ENABLED` state to run.
    ![flow enabled](../images/flow-enabled.png)
-2. **Starting Without a Schedule**: If a flow doesn’t have a schedule, it must be started with a special command called `CallFlow`.
+2. **Starting Without a Schedule**: If a flow doesn’t have a schedule, it must be started with a special command called [`CallFlow`](#callflow-commandapi).
 
     !!! note
-        There is an exception to this rule for flows that start with a trigger. In this case, the `CallFlow` command is optional. The flow can begin with the activation of the first trigger. However, initiating the flow with the `CallFlow` command can be beneficial. See the section on the `CallFlow` API for more details.
+        There is an exception to this rule for flows that start with a trigger. In this case, the [`CallFlow`](#callflow-commandapi) command is optional. The flow can begin with the activation of the first trigger. However, initiating the flow with the [`CallFlow`](#callflow-commandapi) command can be beneficial. See the [section on the `CallFlow` API](#callflow-commandapi) for more details.
 
-3. **Scheduled Flows**: When a flow has a schedule, it will automatically run according to that schedule. The `CallFlow` command is not needed as the scheduler handles the execution.
+3. **Scheduled Flows**: When a flow has a schedule, it will automatically run according to that schedule. The [`CallFlow`](#callflow-commandapi) command is not needed as the scheduler handles the execution.
    ![flow enabled with a schedule](../images/flow-enabled-with-schedule.png)
 4. **Multiple Executions**: A single flow can have multiple executions, some running in parallel.
 5. **Unique Identifiers**: Every execution of a flow has a unique identifier called `executionId`.
@@ -39,11 +43,11 @@ Don't worry if this sounds complex. We'll break down this information further.
 
 ## Flow without a Schedule
 
-For a flow without a schedule, once you enable it (putting it in the `ENABLED` state), it won’t run automatically. If the flow starts with a trigger, the trigger needs to be activated for the flow to run. If the flow starts with an action, it must be started using the `CallFlow` command/API.
+For a flow without a schedule, once you enable it (putting it in the `ENABLED` state), it won’t run automatically. If the flow starts with a trigger, the trigger needs to be activated for the flow to run. If the flow starts with an action, it must be started using the [`CallFlow`](#callflow-commandapi) command/API.
 
 ## Flow with a Schedule
 
-For a scheduled flow that is in the `ENABLED` state, the scheduler starts new executions automatically. The `CallFlow` command/API is not needed in this case. If the flow starts with an action, the action block will execute with each new iteration of the schedule. If the flow starts with a trigger, each new execution will wait for the trigger to be activated.
+For a scheduled flow that is in the `ENABLED` state, the scheduler starts new executions automatically. The [`CallFlow`](#callflow-commandapi) command/API is not needed in this case. If the flow starts with an action, the action block will execute with each new iteration of the schedule. If the flow starts with a trigger, each new execution will wait for the trigger to be activated.
 
 ## CallFlow Command/API
 

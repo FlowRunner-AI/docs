@@ -1,3 +1,7 @@
+---
+icon: material/sleep
+---
+
 Introducing pauses or delays in your automation flows can be crucial for timing certain actions perfectly. Imagine you want to send a welcome email to a new user after they register for your service. To avoid sending it instantly and to make the process feel more personalized, you might decide to delay the email delivery. Backendless makes this easy with the `Wait` block, allowing you to incorporate such pauses seamlessly into your flows.
 
 ### Why `Wait`?

@@ -1,6 +1,10 @@
+---
+icon: fontawesome/solid/boxes-stacked
+---
+
 # Working with Blocks
 
-In Backendless Automations, blocks serve as the building blocks of your workflows, each offering unique functionality to automate a range of tasks and processes. While the specific capabilities of each block vary, the general rules for connecting and editing them within your flows are consistent and straightforward. This chapter will guide you through these rules, ensuring you have a solid foundation for working with blocks in the Flow Editor.
+In FlowRunner™, blocks serve as the building blocks of your workflows, each offering unique functionality to automate a range of tasks and processes. While the specific capabilities of each block vary, the general rules for connecting and editing them within your flows are consistent and straightforward. This chapter will guide you through these rules, ensuring you have a solid foundation for working with blocks in the Flow Editor.
 
 ## The Basics of Blocks
 
@@ -26,7 +30,7 @@ In Backendless Automations, blocks serve as the building blocks of your workflow
 ![Multiple predecessors](../images/multiple-predecessors.png)
 
     !!! info "Handling Concurrency with Multiple Predecessors" 
-        For managing execution concurrency more effectively, utilizing Action/Trigger groups is recommended. 
+        For managing execution concurrency more effectively, utilizing [Action](./grouping-actions.md)/[Trigger](./grouping-triggers.md) groups is recommended. 
 
 ## Editing and Viewing Properties
 
@@ -35,4 +39,4 @@ Clicking on a block selects it. Upon selection, a block’s properties are displ
 
 The contents of the Property Editor vary between different blocks, please refer to the documentation section where the blocks are described for additional details.
 
-Understanding how to effectively work with blocks is fundamental to crafting efficient and dynamic workflows in Backendless Automations. By familiarizing yourself with the general rules for adding, connecting, and editing blocks, you're well on your way to designing automations that are not only powerful but also elegantly structured. Remember, the key to successful workflow automation lies in the thoughtful arrangement and configuration of these versatile components.
+Understanding how to effectively work with blocks is fundamental to crafting efficient and dynamic workflows in FlowRunner™. By familiarizing yourself with the general rules for adding, connecting, and editing blocks, you're well on your way to designing automations that are not only powerful but also elegantly structured. Remember, the key to successful workflow automation lies in the thoughtful arrangement and configuration of these versatile components.
