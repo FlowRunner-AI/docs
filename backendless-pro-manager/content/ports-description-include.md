@@ -1,3 +1,5 @@
+- **80/443**: This ports are used by Kubernetes Ingress as entry points for handling incoming requests to your services. They play a crucial role in routing external traffic to Backendless workloads like bl-server, bl-web-console, bl-rt-server, and others. These ports ensure that your services can be accessed externally via specified domains, with the Ingress controller managing the routing and security of incoming requests. Proper configuration of these ports and the associated Ingress resources allows for efficient and secure traffic management for your installation. 
+
 - **5050**: This port is dedicated to the Pro Manager web server, which hosts the User Interface (UI). The UI is a critical component for managing and configuring your Backendless environment, providing a graphical interface for ease of operation.
 
 - **5051**: Utilized by the Pro Manager for web socket connections, this port enables real-time log streaming and other dynamic updates. This feature is vital for live monitoring of your application's performance and behavior, facilitating immediate responsiveness to events as they occur.
