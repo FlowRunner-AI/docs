@@ -1,3 +1,7 @@
+---
+icon: material/group
+---
+
 Imagine you are orchestrating a complex business workflow with multiple conditions that need to be met before proceeding to the next step. For instance, let's say you are managing an order processing system. You need to ensure that an order confirmation is received, payment is completed, and the inventory is updated before shipping the product. This is where FlowRunner's `Triggers Group` block comes into play.
 
 ![triggers group block](../images/triggers-group-block.png)

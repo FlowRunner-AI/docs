@@ -1,16 +1,20 @@
+---
+icon: octicons/diff-added-24
+---
+
 # Creating New Flows
 
-Embarking on your journey with Backendless Automations begins with creating new flows. Flows are the essence of automation, enabling you to streamline complex processes into efficient, automated sequences. This chapter focuses on the initial steps of setting up a flow: crafting its identity with a name and enriching it with a description. Here, we'll guide you through the straightforward process of bringing a new flow to life.
+Embarking on your journey with FlowRunner™ begins with creating new flows. Flows are the essence of automation, enabling you to streamline complex processes into efficient, automated sequences. This chapter focuses on the initial steps of setting up a flow: crafting its identity with a name and enriching it with a description. Here, we'll guide you through the straightforward process of bringing a new flow to life.
 
 ## Creating a Flow
 
-The creation of a new flow in Backendless Automations is both a simple and significant first step toward automating your business processes. Follow these steps to create your flow:
+The creation of a new flow in FlowRunner™ is both a simple and significant first step toward automating your business processes. Follow these steps to create your flow:
 
 1. **Navigate to Flow Manager:** Your adventure starts in the Flow Manager, the control center for all your automation activities. Here, you'll find the tools and options to manage your flows.
 
 2. **Create New Flow:** Look for the **`CREATE A NEW FLOW`** button. This is your gateway to initiating a new automation. Clicking this button brings you to the first step of flow creation.
 
-3. **Enter Flow Name:** Upon initiating a new flow, you’ll be prompted to give it a name. This name is how you'll identify your flow within the Backendless Automations platform, so choose something descriptive and meaningful.
+3. **Enter Flow Name:** Upon initiating a new flow, you’ll be prompted to give it a name. This name is how you'll identify your flow within the FlowRunner™ platform, so choose something descriptive and meaningful.
 
 4. **Add a Description (Optional):** While optional, adding a description is highly recommended. This is where you outline the flow's purpose and any other important notes that will guide you or your collaborators in understanding its function.
 

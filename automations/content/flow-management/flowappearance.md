@@ -1,6 +1,10 @@
+---
+icon: material/format-color-fill
+---
+
 # Customizing Flow Appearance
 
-In the ever-evolving landscape of Backendless Automations, personalization plays a key role in enhancing the user experience. While the current scope for customization may seem modest, it opens up a world of visual management for your automation flows. Presently, the customization available to you involves changing the color of a flow's title bar. This feature might seem simple at first glance, but it's a powerful tool for organizing and quickly identifying your flows, especially as your collection grows. Let's dive into how you can inject a bit of color and personality into your automation flows.
+In the ever-evolving landscape of FlowRunner™, personalization plays a key role in enhancing the user experience. While the current scope for customization may seem modest, it opens up a world of visual management for your automation flows. Presently, the customization available to you involves changing the color of a flow's title bar. This feature might seem simple at first glance, but it's a powerful tool for organizing and quickly identifying your flows, especially as your collection grows. Let's dive into how you can inject a bit of color and personality into your automation flows.
 
 ## Changing Your Flow's Color
 
@@ -22,6 +26,6 @@ By following these straightforward steps, you can efficiently customize the appe
 
 ## Looking Ahead
 
-While changing the title bar color is currently the extent of flow customization in Backendless Automations, this is just the beginning. We are excited about the future and are actively working on introducing more customization options. These forthcoming features will give you even more control over how your flows look and feel, ensuring your Backendless environment is as unique as your projects.
+While changing the title bar color is currently the extent of flow customization in FlowRunner™, this is just the beginning. We are excited about the future and are actively working on introducing more customization options. These forthcoming features will give you even more control over how your flows look and feel, ensuring your Backendless environment is as unique as your projects.
 
 For now, take advantage of this color customization feature to organize and beautify your workflow. A splash of color can make all the difference in creating a more enjoyable and efficient automation experience.

@@ -1,6 +1,10 @@
-Variables in Backendless Automations are a method for storing and accessing data in your flow’s actions, transformers, and conditions. Think of each variable as a drawer with a label. You can store any type of data in these drawers, such as string literals, numbers, dates, boolean values, data collections, or key/value structures. By naming these drawers, you can easily recall and use the data whenever needed.
+---
+icon: material/variable
+---
 
-To further organize your variables, Backendless Automations supports a concept called **Data Buckets**. A data bucket is like a collection of drawers, grouped under a single name. This helps in logically organizing and managing your variables. For instance, if you have variables containing configuration parameters that apply to the entire flow, you might place them in a data bucket named `Global Config Params`.
+Variables in FlowRunner™ are a method for storing and accessing data in your flow’s actions, transformers, and conditions. Think of each variable as a drawer with a label. You can store any type of data in these drawers, such as string literals, numbers, dates, boolean values, data collections, or key/value structures. By naming these drawers, you can easily recall and use the data whenever needed.
+
+To further organize your variables, FlowRunner™ supports a concept called **Data Buckets**. A data bucket is like a collection of drawers, grouped under a single name. This helps in logically organizing and managing your variables. For instance, if you have variables containing configuration parameters that apply to the entire flow, you might place them in a data bucket named `Global Config Params`.
 
 ## Set Variables Block
 

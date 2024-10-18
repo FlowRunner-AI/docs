@@ -47,13 +47,13 @@ Any data passed to the trigger will be available as the trigger's "result" eleme
 
 None. A successful trigger activation request returns no data.
 
-## Sending Data to Trigger
+## Accessing Trigger's Data
 
 A request to an External Callback URL may include additional data in the form of a key/value structure (JSON object), which will be accessible to other blocks in the flow that follow the trigger. Any data sent to the trigger's callback URL is referenced in the system as `Trigger Data`. Consider the example below. Notice the assigned name of the trigger is `Callback with Orders`. Any data sent to the trigger is called `Callback with Orders Data`: 
 
 ![callback with orders sample](../images/callback-with-orders-sample.png)
 
-Below is a sample Backendless Codeless block that sends an HTTP request to the specified External Callback URL.
+Below is a sample Backendless Codeless block that sends an HTTP request to the specified External Callback URL:
 
 ![codeless external callback](../images/codeless-block-ext-callback.png)
 
@@ -73,8 +73,6 @@ curl 'https://demoapp.backendless.app/api/automation/flow/AC0B2747-EAD8-4C9A-BB9
  When the trigger is activated in the flow, any successor blocks of the trigger will be able to access that data via [Expression Editor](../flow-editing/expressioneditor.md).
 
 ![external callback result](../images/ext-callback-result-object.png)
-
-Furthermore, the URL call may include a special "user-token," which identifies a logged-in user. This user object is also available to subsequent blocks, adding an extra layer of security and context to the flow.
 
 ## Callback with a Logged-In User
 
@@ -114,7 +112,7 @@ Based on this schema, the `user` element accessible through the Expression Edito
 
 The Expression Editor simplifies accessing these property values:
 
-[SCREENSHOT] - https://backendless.atlassian.net/browse/AUTO-526
+![accessing user data in exp editor](../images/accessing-user-data-expeditor.png)
 
 ## Required Authentication
 
@@ -122,7 +120,7 @@ You can configure the External Callback Trigger to require authentication, ensur
 
 ![trigger authentication type](../images/trigger-auth-type.png)
 
-With this setting, any callback request lacking a valid user reference through the `user-token` HTTP header will not activate the trigger. Additionally, you can specify the security roles that the referenced user must possess. This selection is made in the `Required Roles` drop-down list:
+With this setting, the trigger will activate only when a callback has a valid user reference through the `user-token` HTTP header. Additionally, you can specify the security roles that the referenced user must possess. This selection is made in the `Required Roles` drop-down list:
 
 ![trigger required roles](../images/trigger-required-roles.png)
 
@@ -142,3 +140,6 @@ If the policy is set to `ERROR`, FlowRunner will return the following error for 
 If the policy is set to `IGNORE`, the trigger activation request will be completed successfully, but the trigger will not be activated if the user reference is missing or the user does not have the required roles.
 
 By using these authentication settings, you can ensure that your workflows are secure and only triggered by authorized users.
+
+## Conditional Trigger Activation
+The External Callback trigger can have a condition associated with it. When the callback URL is executed, FlowRunner™ evaluates the condition. If the condition evaluates to `TRUE`, the trigger is activated. If the condition evaluates to `FALSE`, the callback request is ignored. For more information about setting up and using conditions, see the [Conditional Logic](../flow-editing/conditions.md) section of this guide.

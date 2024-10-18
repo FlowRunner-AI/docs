@@ -1,6 +1,10 @@
+---
+icon: material/surround-sound-2-1
+---
+
 # Version Management
 
-In the realm of Backendless Automations, understanding and effectively managing flow versions is essential for maintaining a robust and adaptable automation strategy. Each flow within your Backendless app embodies a unique sequence of triggers and actions, tailored to automate specific business processes or functions. As your needs evolve, so too may your flows, necessitating changes or adjustments. This is where flow version management becomes crucial, allowing you to navigate updates and modifications with precision and ease.
+In the realm of FlowRunner™, understanding and effectively managing flow versions is essential for maintaining a robust and adaptable automation strategy. Each flow within your Backendless app embodies a unique sequence of triggers and actions, tailored to automate specific business processes or functions. As your needs evolve, so too may your flows, necessitating changes or adjustments. This is where flow version management becomes crucial, allowing you to navigate updates and modifications with precision and ease.
 
 A **Flow Version** represents a variation of a flow, encompassing any changes or modifications made since its inception. You have the flexibility to create multiple versions of a flow, each capturing a different state or set of functionalities. However, it's important to note that only one version can be active and in a runnable (LIVE) state at any given time. Making updates or modifications to a flow involves cloning an existing version, applying changes, and then transitioning the updated version to LIVE status, ensuring a seamless update process.
 
@@ -60,7 +64,7 @@ Configuring a flow version schedule enables you to dictate the precise timing of
 
 ### Access Flow Analytics
 
-Backendless Automations captures analytics for each flow version, providing valuable insights into performance and execution. Accessing these analytics helps you fine-tune your flows for optimal efficiency.
+FlowRunner™ captures analytics for each flow version, providing valuable insights into performance and execution. Accessing these analytics helps you fine-tune your flows for optimal efficiency.
 
 ### Deleting a Flow Version
 
@@ -68,4 +72,4 @@ When a flow version is no longer needed or relevant, you have the option to dele
 
 ## Conclusion
 
-Version management is a pivotal component of Backendless Automations, empowering you to maintain control over your automated processes as they evolve. By leveraging the various version management operations, you can ensure that your automations remain aligned with your business objectives, adaptable to changes, and optimized for performance. Whether you're refining existing flows, experimenting with new strategies, or analyzing performance, the tools and processes outlined here will guide you toward successful automation management.
+Version management is a pivotal component of FlowRunner™, empowering you to maintain control over your automated processes as they evolve. By leveraging the various version management operations, you can ensure that your automations remain aligned with your business objectives, adaptable to changes, and optimized for performance. Whether you're refining existing flows, experimenting with new strategies, or analyzing performance, the tools and processes outlined here will guide you toward successful automation management.

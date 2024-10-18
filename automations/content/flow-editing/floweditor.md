@@ -1,6 +1,10 @@
+---
+icon: material/palette
+---
+
 # Introduction to the Flow Editor
 
-In the heart of Backendless Automations lies the Flow Editor, a dynamic and interactive graphical environment where the art of workflow creation comes to life. This powerful editor is designed to be intuitively accessible, yet rich in features, making it the perfect tool for both newcomers to the world of automations and seasoned professionals seeking to streamline their processes. In this chapter, we'll introduce you to the main elements of the Flow Editor interface, guiding you through its layout and functionalities to help you start creating your own workflows with confidence.
+In the heart of FlowRunner™ lies the Flow Editor, a dynamic and interactive graphical environment where the art of workflow creation comes to life. This powerful editor is designed to be intuitively accessible, yet rich in features, making it the perfect tool for both newcomers to the world of automations and seasoned professionals seeking to streamline their processes. In this chapter, we'll introduce you to the main elements of the Flow Editor interface, guiding you through its layout and functionalities to help you start creating your own workflows with confidence.
 
 To navigate to the Flow Editor, click the `Edit Flow Version` icon for the flow you would like to edit in the main Flow Manager interface:
 
@@ -12,7 +16,7 @@ To navigate to the Flow Editor, click the `Edit Flow Version` icon for the flow 
 
     ![delete analytics confirmation](../images/edit-version-analytics.png)
 
-    This message informs you that editing this version will lead to the deletion of all collected analytics data associated with it. The need to delete analytics data arises because any version modifications in the Flow Editor alter the internal model of the flow, rendering the existing analytics data irrelevant. Consequently, Backendless Automations requires your confirmation before proceeding with the changes to ensure you are aware of the implications of editing a live flow version.
+    This message informs you that editing this version will lead to the deletion of all collected analytics data associated with it. The need to delete analytics data arises because any version modifications in the Flow Editor alter the internal model of the flow, rendering the existing analytics data irrelevant. Consequently, FlowRunner™ requires your confirmation before proceeding with the changes to ensure you are aware of the implications of editing a live flow version.
 
 ## Editor Canvas
 
@@ -44,11 +48,11 @@ These controls are designed to streamline your workflow development process, off
 
 ## Getting Started with the Flow Editor
 
-Diving into the Flow Editor for the first time can be an exhilarating experience as you begin to explore the vast possibilities of Backendless Automations. Here are a few tips to get you started:
+Diving into the Flow Editor for the first time can be an exhilarating experience as you begin to explore the vast possibilities of FlowRunner™. Here are a few tips to get you started:
 
 1. **Familiarize Yourself with the Blocks**: Spend some time exploring the Blocks Toolbar, getting to know the different types of blocks available and what they do. This knowledge will be invaluable as you start to build your workflows.
 2. **Experiment with Drag and Drop**: The Editor Canvas is highly interactive. Experiment with dragging blocks from the toolbar onto the canvas and connecting them to see how they interact.
 3. **Utilize Test Mode**: Don't hesitate to use Test Mode frequently. It's a powerful feature that helps you ensure your workflows function exactly as you intend, without affecting your live environment.
 4. **Play with the Auto Save Feature**: Trust in the Auto Save feature to keep your work secure as you edit. It's there to make your life easier, allowing you to focus on creativity rather than saving documents.
 
-The Flow Editor in Backendless Automations is more than just a tool; it's a gateway to transforming your ideas into reality. By understanding its main components—the Editor Canvas, Blocks Toolbar, and Control Bar—you're well-equipped to start creating effective, efficient, and elegant workflows tailored to your unique needs. Welcome to the world of endless possibilities with Backendless Automations.
+The Flow Editor in FlowRunner™ is more than just a tool; it's a gateway to transforming your ideas into reality. By understanding its main components—the Editor Canvas, Blocks Toolbar, and Control Bar—you're well-equipped to start creating effective, efficient, and elegant workflows tailored to your unique needs. Welcome to the world of endless possibilities with FlowRunner™.

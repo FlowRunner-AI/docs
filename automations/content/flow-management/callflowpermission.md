@@ -1,13 +1,17 @@
+---
+icon: material/security
+---
+
 # Assigning Execution Permissions
 
-In the exciting world of Backendless Automations, setting up who gets to do what is crucial to keeping your system's operations smooth and secure. Imagine you've built a fantastic set of automations to streamline your business processes. Now, you need to ensure that only the right eyes and hands can trigger these automations. This is where execution permissions come into play, a simple yet powerful feature in Backendless that helps you manage who can call your automation flows. It may not necessarily be a person, Backendless Automations can be invoked from other external systems. The permissions system allows you to specify the identities (either explicit or implicit via roles) which are authorized to call your flows.
+In the exciting world of FlowRunner™, setting up who gets to do what is crucial to keeping your system's operations smooth and secure. Imagine you've built a fantastic set of automations to streamline your business processes. Now, you need to ensure that only the right eyes and hands can trigger these automations. This is where execution permissions come into play, a simple yet powerful feature in Backendless that helps you manage who can call your automation flows. It may not necessarily be a person, FlowRunner™ can be invoked from other external systems. The permissions system allows you to specify the identities (either explicit or implicit via roles) which are authorized to call your flows.
 
 ## Understanding Execution Permissions
 
-Execution permissions in Backendless Automations are all about control and security. By setting these permissions, you decide which user accounts or security roles can invoke your automation flows. This capability is particularly important because it affects two primary ways your flows can be triggered:
+Execution permissions in FlowRunner™ are all about control and security. By setting these permissions, you decide which user accounts or security roles can invoke your automation flows. This capability is particularly important because it affects two primary ways your flows can be triggered:
 
-- **API Calls**: This option allows external systems or services to execute a flow, extending the power of Backendless Automations beyond the confines of your app.
-- **The `Call Flow` Action Block in a Flow**: With this, you can set up a chain reaction where one flow triggers another, creating a complex but efficient automation system within your Backendless app.
+- **API Calls**: This option allows external systems or services to execute a flow, extending the power of FlowRunner™ beyond the confines of your app.
+- **The [`Call Flow`](../flow-execution/overview.md#callflow-commandapi) Action Block in a Flow**: With this, you can set up a chain reaction where one flow triggers another, creating a complex but efficient automation system within your Backendless app.
 
 ## Granting or Denying Permissions
 
@@ -47,6 +51,4 @@ By toggling these icons, you effectively control access to your automation flows
 
 With these steps, managing permissions becomes a seamless part of your workflow in Backendless, allowing you to maintain the right balance between functionality and security.
 
-## Wrapping Up
-
-Managing execution permissions is a critical step in securing your Backendless Automations. By carefully assigning these permissions, you ensure that your automations are not just powerful and efficient but also safe and under control. Whether you're dealing with sensitive data or just want to keep your workflows running smoothly, taking the time to configure these settings is well worth the effort. And remember, Backendless is designed to make this process as easy as possible, so you can focus on what you do best: building amazing applications.
+Managing execution permissions is a critical step in securing your FlowRunner™. By carefully assigning these permissions, you ensure that your automations are not just powerful and efficient but also safe and under control. Whether you're dealing with sensitive data or just want to keep your workflows running smoothly, taking the time to configure these settings is well worth the effort. And remember, Backendless is designed to make this process as easy as possible, so you can focus on what you do best: building amazing applications.

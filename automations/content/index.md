@@ -1,36 +1,30 @@
-Welcome to the "Backendless Automations User Guide". This guide is your first step toward mastering automated workflow management. Whether your goal is to make operations smoother, increase efficiency, or automate complex tasks, you're in the right place. This introduction sets the stage for what you're about to learn: the essence, purpose, applications, and the folks who'll find Backendless Automations a game-changer.
+---
+icon: material/flower-tulip
+---
+### Welcome to the FlowRunner™ User Guide
 
-### What are Backendless Automations?
+Welcome to the FlowRunner™ User Guide, your starting point for mastering the art of process automation. Whether you’re looking to streamline business operations, automate everyday tasks, or create complex workflows, you’re in the right place. FlowRunner™ is a platform designed to automate anything and everything - from enterprise-level operations to home automation projects — making your life easier and more efficient.
 
-Imagine having a tool that's both easy to use and incredibly powerful. That's Backendless Automations. It's a workflow management tool that combines a user-friendly interface with a robust execution engine. This means you can design your workflows visually and then let the system run them with precision. It's all about turning your ideas into actions.
+### What is FlowRunner™?
 
-**Highlights**
+FlowRunner™ is a versatile and intuitive process automation platform. Think of it as a powerful assistant that helps you design and run workflows with ease. Whether you’re automating a business process, integrating systems, or just trying to simplify repetitive tasks, FlowRunner™ has you covered. The platform combines a user-friendly interface with a robust execution engine, allowing you to visually design your processes and let FlowRunner™ handle the rest. It’s all about turning your ideas into automated actions with minimal effort.
 
-- **Triggers and Actions**: Kick-off workflows with specific events and decide what happens next.
-- **Logic and Grouping**: Make smart decisions in your workflows and group actions for a cleaner setup.
-- **Branching Out**: Create workflows that split into different paths, allowing multiple tasks to run simultaneously.
-- **Data Tweaking**: Change and adjust data as it moves through your workflow.
-- **Testing Grounds**: Test your workflows to perfection before going live.
-- **Service Levels**: Set up standards for workflow performance, with rules to follow when those standards aren't met.
-- **Customize**: Add your own actions to fit your unique needs.
+### Why FlowRunner™?
 
-### The Goal
+FlowRunner™ isn’t just another automation tool — it’s a platform that adapts to your needs, no matter the scale or complexity of your tasks. Here’s why FlowRunner™ stands out:
 
-Backendless Automations empowers people who know their business inside out but might not be tech wizards. It's about removing the tech barriers so anyone can confidently automate complex workflows. This tool is designed to enhance operations while strictly following business rules.
+ -  **SLA Compliance**: FlowRunner™ ensures your workflows meet Service Level Agreements, keeping your processes on track and your standards high.
+ -  **AI Assistants**: Leverage built-in AI to enhance decision - making and streamline your workflows.
+ -  **Non - linear Workflows**: Design workflows that branch out, loop back, or take multiple paths, giving you the flexibility to automate even the most complex processes.
+ -  **Interactive UI Integration**: Seamlessly integrate with user interfaces, allowing real - time interaction with your workflows.
+ -  **Seamless Backend Integration**: Connect effortlessly with your backend systems, ensuring smooth data flow and process automation.
 
-### Possible Uses
+### Who Can Benefit from FlowRunner™?
 
-Backendless Automations is versatile, perfect for a variety of tasks:
+FlowRunner™ is for anyone who wants to automate part of their business or life. Whether you’re a business owner, project manager, marketer, medical professional, educator, or home automation enthusiast, FlowRunner™ empowers you to automate your processes, large or small. You don’t need to be a tech expert to use FlowRunner™ - if you know your goals, FlowRunner™ will help you achieve them.
 
-- Making complex business processes run on autopilot
-- Moving data smoothly between systems
-- Setting up alerts based on specific triggers
-- Keeping content flowing correctly and on time
-- Improving customer interactions automatically
-- And so much more
+### What’s Next?
 
-### Who Will Love It?
+This guide will walk you through everything you need to know to start automating with FlowRunner™. From the basics of setting up your first workflow to exploring more advanced features, we’re here to help you every step of the way. FlowRunner™ is designed to be user - friendly and approachable, so as you explore this guide, you’ll find that automation doesn’t have to be complicated - it can be simple, powerful, and even fun.
 
-While Backendless Automations welcomes 'citizen developers,' it is specifically tailored for business users. If you have a deep understanding of your business operations and want a powerful yet simple tool to automate these, Backendless Automations is for you. Business analysts, project managers, or owners—anyone aiming to convert business processes into efficient, automated systems will find incredible value here.
-
-As we progress, we'll dive deeper into how to make the most of Backendless Automations, turning your business processes into streamlined, self-running workflows. Let's get started and see how this tool can revolutionize your workflow management.
+So, let’s get started! Dive in, and see how FlowRunner™ can revolutionize the way you work, live, and automate.

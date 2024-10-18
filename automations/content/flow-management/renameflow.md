@@ -1,6 +1,10 @@
+---
+icon: material/rename-outline
+---
+
 # Renaming Flows
 
-As you dive deeper into creating and managing your automated workflows with Backendless Automations, you'll find the need to keep your projects organized and clearly identifiable. Renaming flows becomes a crucial task in this organizational effort, ensuring that each flow reflects its current purpose or version accurately. This chapter focuses on the process of renaming flows within the Flow Manager and the importance of maintaining unique names across your account.
+As you dive deeper into creating and managing your automated workflows with FlowRunner™, you'll find the need to keep your projects organized and clearly identifiable. Renaming flows becomes a crucial task in this organizational effort, ensuring that each flow reflects its current purpose or version accurately. This chapter focuses on the process of renaming flows within the Flow Manager and the importance of maintaining unique names across your account.
 
 ## The Importance of Unique Names
 
@@ -8,9 +12,9 @@ Before we delve into the steps of renaming a flow, it's essential to understand 
 
 ## Steps for Renaming a Flow
 
-Renaming a flow in Backendless Automations is a straightforward process that can be done from the Flow Manager. Follow these steps to rename an existing flow:
+Renaming a flow in FlowRunner™ is a straightforward process that can be done from the Flow Manager. Follow these steps to rename an existing flow:
 
-1. **Access Flow Manager:** Start by navigating to the Flow Manager within Backendless Automations. This is your central dashboard where all your flows are listed and managed.
+1. **Access Flow Manager:** Start by navigating to the Flow Manager within FlowRunner™. This is your central dashboard where all your flows are listed and managed.
 
 2. **Select the Flow:** Identify the flow you wish to rename from the list of available flows. Each flow entry should have an associated set of actions or a context menu.
 
@@ -20,7 +24,7 @@ Renaming a flow in Backendless Automations is a straightforward process that can
 
 5. **Check for Uniqueness:** Before finalizing the new name, ensure that it's unique within your account. The Flow Manager may automatically check this for you, but it's good practice to be mindful of existing names to avoid conflicts.
 
-6. **Save Changes:** Once you've entered a new, unique name for your flow, save your changes. Your flow will now be updated with the new name across the Backendless Automations platform.
+6. **Save Changes:** Once you've entered a new, unique name for your flow, save your changes. Your flow will now be updated with the new name across the FlowRunner™ platform.
 
 <div style="position: relative; padding-bottom: calc(60.110386352232815% + 41px); height: 0; width: 100%;"><iframe src="https://demo.arcade.software/kaJdOsQVuGecsD9CMBeb?embed&show_copy_link=true" title="Automations - Browser - CoolAutomations - Backendless" frameborder="0" loading="lazy" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="clipboard-write" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;color-scheme: light;"></iframe></div>
 
@@ -36,4 +40,4 @@ When renaming flows, consider the following best practices to maintain a clear a
 
 - **Keep it Concise:** While being descriptive, aim to keep flow names concise for ease of reading and quick recognition.
 
-Renaming flows is a simple yet essential part of managing your automated workflows in Backendless Automations. By following the steps and best practices outlined in this chapter, you can ensure that your flows remain well-organized, easily identifiable, and reflective of their current functionality or version.
+Renaming flows is a simple yet essential part of managing your automated workflows in FlowRunner™. By following the steps and best practices outlined in this chapter, you can ensure that your flows remain well-organized, easily identifiable, and reflective of their current functionality or version.

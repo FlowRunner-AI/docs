@@ -1,3 +1,7 @@
+---
+icon: material/directions-fork
+---
+
 Conditional logic in FlowRunner allows you to create decision points within your automation, directing the flow based on specific conditions. Think of it as a fork in the road where the flow will follow one path if the condition is met (yes) and a different path if it is not (no). For instance, your flow might take different actions depending on whether it is a weekend or a weekday.
 
 At the heart of every condition is a question that results in a "yes" or "no" answer. Here are some examples:
@@ -99,3 +103,6 @@ For a detailed overview of the `Condition` block's capabilities, refer to the [C
 
 ## Conditions with Triggers
 All built-in FlowRunner triggers can be enhanced with a condition that acts as a "filter". These conditions follow the same rules described above for configuring logical expressions. When a trigger has an associated condition, it will only be activated if the condition evaluates to `TRUE`. This ensures that your flows only proceed under the specific circumstances you define, adding an extra layer of precision and control to your automation processes.
+
+## AI in Conditions
+
