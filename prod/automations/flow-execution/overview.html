@@ -4301,7 +4301,7 @@
 
   <h1>Running Flows</h1>
 
-<p>"Running a flow" means executing its sequence of actions, triggers, conditions, and transformations. How a flow runs depends on its structure and configuration. This section explains the different ways you can launch flows in FlowRunner™.</p>
+<p>Running a flow means executing its sequence of actions, triggers, conditions, and transformations. How a flow runs depends on its structure and configuration. This section explains the different ways you can launch flows in FlowRunner™.</p>
 <h2 id="basic-rules-for-launching-flows">Basic Rules for Launching Flows<a class="headerlink" href="#basic-rules-for-launching-flows" title="Permanent link">&para;</a></h2>
 <p>To ensure your flows start smoothly, follow these basic rules:</p>
 <ol>
@@ -4336,7 +4336,7 @@
     May optionally 
     use *CallFlow*`")
     FLOW_STARTS(Flow Instance is Started)</code></pre>
-<p>Don't worry if this sounds complex. We'll break down this information further.</p>
+<p>The sections below provide more detail on each scenario.</p>
 <h2 id="flow-without-a-schedule">Flow without a Schedule<a class="headerlink" href="#flow-without-a-schedule" title="Permanent link">&para;</a></h2>
 <p>For a flow without a schedule, once you enable it (putting it in the <code>LIVE</code> state), it won’t run automatically. If the flow starts with a trigger, the trigger needs to be activated for the flow to run. If the flow starts with an action, it must be started using the <a href="#callflow-commandapi"><code>CallFlow</code></a> command/API.</p>
 <h2 id="flow-with-a-schedule">Flow with a Schedule<a class="headerlink" href="#flow-with-a-schedule" title="Permanent link">&para;</a></h2>

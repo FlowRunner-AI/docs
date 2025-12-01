@@ -4414,7 +4414,7 @@
 
   <h1>Error Handling</h1>
 
-<p>Errors are a natural part of workflow automation. Anticipating and managing them effectively ensures your automations remain reliable and resilient. FlowRunner&trade; offers powerful error-handling tools to help your workflows recover gracefully from issues like failed service calls, database errors, or invalid input data.  </p>
+<p>Errors are a natural part of workflow automation. Anticipating and managing them effectively ensures your automations remain reliable and resilient. FlowRunner™ offers error-handling tools to help your workflows recover gracefully from issues like failed service calls, database errors, or invalid input data.  </p>
 <h2 id="common-error-scenarios">Common Error Scenarios<a class="headerlink" href="#common-error-scenarios" title="Permanent link">&para;</a></h2>
 <p>Errors in your workflows can arise from various sources, including:  </p>
 <ul>
@@ -4423,17 +4423,17 @@
 <li><strong>Invalid Inputs</strong>: Actions failing because of incorrect or missing data.  </li>
 <li><strong>File Uploads</strong>: Problems caused by network interruptions or file size limits.  </li>
 </ul>
-<h2 id="the-handle-error-block">The <code>Handle Error</code> Block<a class="headerlink" href="#the-handle-error-block" title="Permanent link">&para;</a></h2>
-<p>The <code>Handle Error</code> block is a specialized mechanism for managing errors in your flows. Unlike action or trigger blocks, it acts as a fallback route for your flow when errors occur.  </p>
+<h2 id="the-handle-error-block">The Handle Error Block<a class="headerlink" href="#the-handle-error-block" title="Permanent link">&para;</a></h2>
+<p>The <strong>Handle Error</strong> block is a specialized mechanism for managing errors in your flows. Unlike action or trigger blocks, it acts as a fallback route for your flow when errors occur.  </p>
 <h3 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h3>
-<p>When you connect a block to the <code>Handle Error</code> block, any errors in that block redirect the flow to the <code>Handle Error</code> block. From there, successors define how the error is handled. For example, you could log the error, notify an admin, or call another flow to recover from the issue.  </p>
-<p>In the example below, if the <code>Retrieve Orders</code> block encounters an error, control passes to the <code>Handle Error</code> block, which directs it to the <code>Log Error</code> block. If no error occurs, the flow continues to <code>Process Orders</code>:<br />
+<p>When you connect a block to the <strong>Handle Error</strong> block, any errors in that block redirect the flow to the <strong>Handle Error</strong> block. From there, successors define how the error is handled. For example, you could log the error, notify an admin, or call another flow to recover from the issue.</p>
+<p>In the example below, if the <strong>Retrieve Orders</strong> block encounters an error, control passes to the <strong>Handle Error</strong> block, which directs it to the <strong>Log Error</strong> block. If no error occurs, the flow continues to <strong>Process Orders</strong>:<br />
 <a class="glightbox" href="../images/error-handler-sample-flow.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="error handler sample flow" src="../images/error-handler-sample-flow.png" /></a>  </p>
 <h2 id="error-types">Error Types<a class="headerlink" href="#error-types" title="Permanent link">&para;</a></h2>
-<p>Errors in FlowRunner&trade; fall into two categories:  </p>
+<p>Errors in FlowRunner™ fall into two categories:  </p>
 <ul>
-<li><strong>Handled Errors</strong>: These are errors connected to a <code>Handle Error</code> block. The flow knows how to respond and continues executing.  </li>
-<li><strong>Unhandled Errors</strong>: These occur when no <code>Handle Error</code> block is connected. They cause the flow to stop unexpectedly.  </li>
+<li><strong>Handled Errors</strong>: These are errors connected to a <strong>Handle Error</strong> block. The flow knows how to respond and continues executing.</li>
+<li><strong>Unhandled Errors</strong>: These occur when no <strong>Handle Error</strong> block is connected. They cause the flow to stop unexpectedly.  </li>
 </ul>
 <h2 id="error-structure">Error Structure<a class="headerlink" href="#error-structure" title="Permanent link">&para;</a></h2>
 <p>Errors are represented as a <abbr title="A key/value pairs structure, also known as an object, is a method of organizing&lt;br&gt; and storing data. Imagine it as a labeled filing cabinet where drawer has a&lt;br&gt; specific label, and inside each drawer is a piece of information. The label on the&lt;br&gt; drawer is the key, and the information inside is the value.&lt;br&gt;&lt;br&gt; For instance, if you have an object to store information about a person, you might&lt;br&gt; have a key called &quot;name&quot; with the value &quot;Alice&quot;. Another key could be &quot;age&quot; with the&lt;br&gt; value &quot;30&quot;. This way, if you want to find out the person's age, you look for the&lt;br&gt; &quot;age&quot; key and find the value &quot;30&quot; associated with it.&lt;br&gt;">key/value structure</abbr> with three main properties:  </p>
@@ -4443,7 +4443,7 @@
 <li><strong><code>source</code></strong>: The name of the block where the error occurred, especially helpful when reusing a <code>Handle Error</code> block.  </li>
 </ul>
 <h2 id="accessing-error-information">Accessing Error Information<a class="headerlink" href="#accessing-error-information" title="Permanent link">&para;</a></h2>
-<p>When an error is handled, successors of the <code>Handle Error</code> block can access error details via the "Handle Error Result" in the <a href="/flow-editing/expressioneditor.html">Expression Editor</a>. This information allows you to implement custom error-handling strategies based on the error’s properties:  </p>
+<p>When an error is handled, successors of the <strong>Handle Error</strong> block can access error details via the <code>Handle Error Result</code> in the <a href="expressioneditor.html">Expression Editor</a>. This information allows you to implement custom error-handling strategies based on the error’s properties:  </p>
 <ul>
 <li>Use the <code>code</code> to classify the error type.  </li>
 <li>Log meaningful details from the <code>message</code>.  </li>
@@ -4470,7 +4470,7 @@
 <p>Logging the error for analysis.  </p>
 </li>
 <li>Sending notifications to administrators.  </li>
-<li>Retrying the action after a delay (use the <a href="/flow-editing/waitblock.html">Wait Block</a>).  </li>
+<li>Retrying the action after a delay (use the <a href="waitblock.html">Wait Block</a>).  </li>
 <li>Switching to fallback options, like an alternative service.  </li>
 <li>Calling another flow for advanced error handling (see <a href="../reference/call-flow-action.html">Call Flow Action</a>).  </li>
 </ol>

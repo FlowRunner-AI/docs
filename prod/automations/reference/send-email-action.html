@@ -119,7 +119,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#send-email-properties" class="md-skip">
+        <a href="#send-email-block" class="md-skip">
           Skip to content
         </a>
       
@@ -3438,6 +3438,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -3469,6 +3471,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">
@@ -4279,6 +4283,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -4356,15 +4362,14 @@
 
 
 
-  <h1>Send Email</h1>
-
-<p>The "Send Email" action block in FlowRunner™ is a versatile tool designed to automate the process of sending emails. This block can be configured to send emails using a predefined template and can target specific recipients either explicitly or based on query from your Backendless database.</p>
+<h1 id="send-email-block">Send Email Block<a class="headerlink" href="#send-email-block" title="Permanent link">&para;</a></h1>
+<p>The <strong>Send Email</strong> block automates the process of sending emails. This block can be configured to send emails using a predefined template and can target specific recipients either explicitly or based on query from your Backendless database.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Sending customized emails requires that you configure an email provider in Backendless. You can choose from a variety of pre-configured options (you will need to create an account with a provider) or <a href="https://backendless.com/docs/rest/email_settings.html">configure a custom SMTP server provider</a>.</p>
 </div>
 <h2 id="send-email-properties">Send Email Properties<a class="headerlink" href="#send-email-properties" title="Permanent link">&para;</a></h2>
-<p>The Send Email action block includes the following configuration properties:</p>
+<p>The <strong>Send Email</strong> block includes the following configuration properties:</p>
 <ol>
 <li>
 <p><strong>Email Template</strong>: A template to use. The template defines the static content and visual presentation of the email. Backendless templates can include substitution variables and "smart text" with dynamic values injected from the database.</p>
@@ -4389,25 +4394,25 @@
 <p>At least one of the fields must be set. Otherwise, you will see the following block input validation errors:</p>
 <p><a class="glightbox" href="../images/sendemail-validation-errors.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="send email validation errors" src="../images/sendemail-validation-errors.png" /></a></p>
 <h2 id="email-templates">Email Templates<a class="headerlink" href="#email-templates" title="Permanent link">&para;</a></h2>
-<p>The "Send Email" block uses a selected email template to define the content of the email body. This template can be in plain text or HTML format, allowing for visually appealing and well-structured emails. Templates can also include template variables and smart substitution tags to dynamically insert data into the email content. For more information about Backendless Templates, see the <a href="https://backendless.com/docs/rest/email_templates.html">Email Templates</a> section of the Backendless Developer Guide. To select a template, use the <strong>Email Template</strong> drop-down list. If you need to quickly navigate to the Email Template Management interface, use the icon on the right. The refresh icon will update the list of available templates.</p>
+<p>The <strong>Send Email</strong> block uses a selected email template to define the content of the email body. This template can be in plain text or HTML format, allowing for visually appealing and well-structured emails. Templates can also include template variables and smart substitution tags to dynamically insert data into the email content. For more information about Backendless Templates, see the <a href="https://backendless.com/docs/rest/email_templates.html">Email Templates</a> section of the Backendless Developer Guide. To select a template, use the <strong>Email Template</strong> drop-down list. If you need to quickly navigate to the Email Template Management interface, use the icon on the right. The refresh icon will update the list of available templates.</p>
 <p><a class="glightbox" href="../images/sendemail-template-selector.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="template selector" src="../images/sendemail-template-selector.png" /></a></p>
 <p>If the selected template has any <a href="https://backendless.com/docs/rest/email_templates.html#dynamic-text">dynamic text</a> variables, they will appear under the template selection drop-down list. You can assign values for the variables using the <a href="../flow-editing/expressioneditor.html">Expression Editor</a>. This allows for injecting any data available in the flow into the sent emails.
 Below is an example of an Email Template with a dynamic text variable called <code>{name}</code>:</p>
 <p><a class="glightbox" href="../images/sample-email-template.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="email template" src="../images/sample-email-template.png" /></a></p>
-<p>When the template is selected in a "Send Email" block, the <code>name</code> variable can be configured with data from the flow:</p>
+<p>When the template is selected in a <strong>Send Email</strong> block, the <code>name</code> variable can be configured with data from the flow:</p>
 <p><a class="glightbox" href="../images/dynamic-text-field-in-flow.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="dynamic text in email template in a flow" src="../images/dynamic-text-field-in-flow.png" /></a></p>
 <h2 id="specifying-recipients">Specifying Recipients<a class="headerlink" href="#specifying-recipients" title="Permanent link">&para;</a></h2>
 <p>You have several options for specifying recipients for your email:</p>
 <ul>
-<li><strong>Explicit Recipients</strong>: You can manually enter email addresses in the "Send To", "CC", and "BCC" fields. This is useful when you know the specific email addresses of your recipients.</li>
-<li><strong>Implicit Recipients via Criteria</strong>: You can also set a query in the "Criteria" field, which FlowRunner™ executes against the "Users" data table in Backendless. The email will be sent to the email addresses from the database records that match the criteria query. This allows you to target recipients dynamically based on specific conditions or attributes in your database.</li>
+<li><strong>Explicit Recipients</strong>: You can manually enter email addresses in the <strong>Send To</strong>, <strong>CC</strong>, and <strong>BCC</strong> fields. This is useful when you know the specific email addresses of your recipients.</li>
+<li><strong>Implicit Recipients via Criteria</strong>: You can also set a query in the <strong>Criteria</strong> field, which FlowRunner™ executes against the <code>Users</code> data table in Backendless. The email will be sent to the email addresses from the database records that match the criteria query. This allows you to target recipients dynamically based on specific conditions or attributes in your database.</li>
 </ul>
 <h2 id="adding-attachments">Adding Attachments<a class="headerlink" href="#adding-attachments" title="Permanent link">&para;</a></h2>
-<p>The "Send Email" block allows you to add one or more file attachments to your email. You can specify these attachments using the <strong>Attachments</strong>"** property. This feature is helpful for including documents, images, or other files in your email communications.</p>
+<p>The <strong>Send Email</strong> block allows you to add one or more file attachments to your email. You can specify these attachments using the <strong>Attachments</strong> property. This feature is helpful for including documents, images, or other files in your email communications.</p>
 <h2 id="using-the-expression-editor">Using the Expression Editor<a class="headerlink" href="#using-the-expression-editor" title="Permanent link">&para;</a></h2>
-<p>All fields in the "Send Email" block, including the <strong>Send To</strong>, <strong>CC</strong>, <strong>BCC</strong>, <strong>Criteria</strong>, and <strong>Attachments</strong> fields, are integrated with the <a href="../flow-editing/expressioneditor.html">Expression Editor</a>. The Expression Editor makes it easy to link data from other blocks in your flow to these fields. This ensures a seamless flow of information, allowing you to dynamically generate recipient lists, email content, and attachments based on the data processed within your flow.</p>
+<p>All fields in the <strong>Send Email</strong> block, including the <strong>Send To</strong>, <strong>CC</strong>, <strong>BCC</strong>, <strong>Criteria</strong>, and <strong>Attachments</strong> fields, are integrated with the <a href="../flow-editing/expressioneditor.html">Expression Editor</a>. The Expression Editor makes it easy to link data from other blocks in your flow to these fields. This ensures a seamless flow of information, allowing you to dynamically generate recipient lists, email content, and attachments based on the data processed within your flow.</p>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
-<p>Imagine you need to send a monthly newsletter to all users who have subscribed to your service. You could configure the "Send Email" block as follows:</p>
+<p>Imagine you need to send a monthly newsletter to all users who have subscribed to your service. You could configure the <strong>Send Email</strong> block as follows:</p>
 <ol>
 <li><strong>Template Selection</strong>: Choose an HTML template for your newsletter, including variables for the user's name and subscription details.</li>
 <li><strong>Criteria</strong>: Set a query in the "Criteria" field to select all users who have subscribed to your newsletter.</li>
