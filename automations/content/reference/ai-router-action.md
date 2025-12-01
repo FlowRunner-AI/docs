@@ -5,7 +5,7 @@ In addition to the prompt, you can provide *Decision Data* - larger sets of info
 For every Expected Decision, the AI Router block creates a block connector. Each connector links to a different branch of your flow, which allows you to control what happens next based on the AI’s response. This makes the AI Router block a flexible tool for building intelligent workflows that respond dynamically to the data your app processes.
 
 ???+ info "AI Router and OpenAI Integration"
-    The **AI Router** block in Backendless uses the **OpenAI API** to process prompts and make decisions. By default, FlowRunner comes with a built-in API key that allows you to experiment with the AI functionality. However, this key is provided for demonstration purposes only and has a **limited number of requests**.
+    The **AI Router** block in Backendless uses the **OpenAI API** to process prompts and make decisions. By default, FlowRunner™ comes with a built-in API key that allows you to experiment with the AI functionality. However, this key is provided for demonstration purposes only and has a **limited number of requests**.
 
     If you plan to use the AI Router in production or require a higher request limit, it’s recommended that you configure the system with your own OpenAI API key. This ensures you have full control over the number of API calls and can use the AI functionality without restrictions.
 

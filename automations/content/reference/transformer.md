@@ -1,9 +1,9 @@
 The "Transform Data" block is a versatile tool that offers various data transformation operations. Each operation has unique behavior based on how it transforms data. These operations are grouped according to the data type they work with. Below are tables detailing each operation within its respective category.
 
 ## Logic Operations
-Logic operations in FlowRunner provide essential tools for making decisions within your flows. These operations allow you to evaluate conditions in preparation for more advanced flow control decisions based on specific criteria. By incorporating logic operations, you can create more dynamic and responsive workflows that adapt to various situations.
+Logic operations in FlowRunner™ provide essential tools for making decisions within your flows. These operations allow you to evaluate conditions in preparation for more advanced flow control decisions based on specific criteria. By incorporating logic operations, you can create more dynamic and responsive workflows that adapt to various situations.
 
-There are four main logic operations in FlowRunner:
+There are four main logic operations in FlowRunner™:
 
 1. **If**: This operation checks a condition and returns one of two values based on whether the condition is true or false.
 2. **Equals**: This operation compares two values to determine if they are equal.
@@ -93,7 +93,7 @@ Let's see these operations in action with our fruit array:
 | Get First Item   | Apple                            |
 | Sort             | Apple, Banana, Cherry, Date, Elderberry |
 
-Arrays are a powerful way to manage collections of related items in programming. Below is a list of array operations supported by FlowRunner. By using these operations you can efficiently organize and manipulate your data.
+Arrays are a powerful way to manage collections of related items in programming. Below is a list of array operations supported by FlowRunner™. By using these operations you can efficiently organize and manipulate your data.
 
 | Operation | Description | Arguments |
 |-----------|-------------|-----------|

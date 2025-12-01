@@ -1,92 +1,191 @@
-Imagine you are running an e-commerce platform, and you need to process orders only after the payment is confirmed by a third-party payment gateway. This is where FlowRunner’s External Callback trigger shines. It pauses the workflow and waits for an external event to activate it, ensuring that the flow continues only when certain conditions are met. Let's dive into the details of how this powerful feature works.
+# External Callback Trigger
 
-Let’s consider a scenario where you want to process an order only after payment confirmation. Here’s how you can set up your workflow using the External Callback trigger:
+The External Callback trigger allows your workflow to pause and wait for external systems to send confirmation before continuing. This is essential when your process depends on events outside your application, such as payment confirmations, email verifications, or third-party approvals.
 
-1. **Order Received**: The flow starts when a new order is placed.
-2. **Process Order Details**: The flow processes the order details.
-3. **External Callback Trigger**: The flow pauses here and waits for the payment confirmation.
-4. **Complete Order**: Once the External Callback trigger is activated, the flow continues to complete the order and notify the customer.
+When your flow reaches an External Callback trigger, it pauses execution and waits for an HTTP request to a unique callback URL. External systems activate the trigger by calling this URL, optionally passing data that becomes available to subsequent blocks in your flow.
 
-When the flow reaches the External Callback trigger, it pauses and waits for the payment gateway to call a dedicated URL unique to that trigger. The payment gateway sends the confirmation by calling this URL, optionally passing data in a key/value structure (JSON object). This data remains available to the subsequent blocks in the flow, ensuring a smooth continuation of the process.
+## Common Use Case: Order Processing
 
-## External Callback Block
+Consider an e-commerce scenario where you need to process orders only after payment confirmation. Here's how you structure this workflow:
 
-The External Callback trigger is a block within FlowRunner. When you add the block to your flow, you will get a dedicated URL that uniquely identifies the trigger in the flow. 
+1. **Order Received**: The flow starts when a new order is placed
+2. **Process Order Details**: The flow processes the order details and prepares for fulfillment
+3. **External Callback Trigger**: The flow pauses and waits for payment confirmation
+4. **Complete Order**: Once payment is confirmed via the callback, the flow continues to complete the order
+
+This ensures orders are only processed after successful payment while allowing your system to prepare everything else in advance.
+
+## Setting Up the External Callback Block
+
+When you add an External Callback trigger to your flow, FlowRunner™ generates a unique URL for that trigger. This URL serves as the endpoint where external systems send their callback requests.
 
 ![external callback URL](../images/ext-callback-url.png)
 
-When you run the flow and it reaches this trigger, it pauses and waits until the trigger is activated by an external call to this URL. The external system (e.g., a payment gateway, an email verification service, or a supplier system) activates the trigger by making an HTTP request to the URL. 
+The URL includes unique identifiers for both your flow and the specific trigger, ensuring callbacks reach the correct destination even when you have multiple flows or multiple callback triggers running simultaneously.
 
 ## Callback Request Format
-A callback request must adhere to the following specifications:
 
- **Endpoint**: 
-    ```
-    POST https://xxxx.backendless.app/api/automation/flow/[FLOW-ID]/trigger/[TRIGGER-ID]/activate
-    ```
-    where:
-    
-`[FLOW-ID]` and `[TRIGGER-ID]` are unique identifiers assigned to the flow version and the trigger by the system. Use the block's properties panel as described below to get the complete callback URL value.
+External systems can activate your trigger using either GET or POST HTTP methods. The choice between methods affects how you pass data to the trigger and how you manage multiple workflow instances.
 
-**HTTP Headers**:
+**Base Endpoint**:
 ```
+https://xxxx.backendless.app/api/automation/flow/[FLOW-ID]/trigger/[TRIGGER-ID]/activate
+```
+
+The `[FLOW-ID]` and `[TRIGGER-ID]` are automatically generated identifiers. Use the trigger's properties panel to get the complete URL.
+
+### Understanding Trigger Placement
+
+How you structure your callback request depends on where the External Callback trigger is positioned in your workflow:
+
+**Flow-Starting Triggers**: When an External Callback trigger is the first block in your flow, activating it creates a new workflow instance. These triggers start fresh executions rather than resuming existing ones.
+
+**Mid-Flow Triggers**: When an External Callback trigger appears in the middle of your workflow, it pauses an already-running execution. Activating these triggers resumes the paused workflow instance from that specific point.
+
+This distinction is important because mid-flow triggers require you to specify which workflow instance should be resumed, while flow-starting triggers always create new instances.
+
+### GET Method Requests
+
+GET requests pass data through query parameters, making them useful for simple callbacks with minimal data.
+
+**For Flow-Starting Triggers**:
+```
+GET https://xxxx.backendless.app/api/automation/flow/[FLOW-ID]/trigger/[TRIGGER-ID]/activate?param1=value1&param2=value2
+```
+
+All query parameters become the trigger data object available to subsequent blocks. See the [Accessing Callback Data](#accessing-callback-data) section for additional details.
+
+**For Mid-Flow Triggers**:
+```
+GET https://xxxx.backendless.app/api/automation/flow/[FLOW-ID]/trigger/[TRIGGER-ID]/activate?execution=EXECUTION_ID&param1=value1&param2=value2
+```
+
+The `execution` or `executionId` parameter specifies which workflow instance to resume. All other query parameters form the trigger data object. For more details about the trigger data object, see the [Accessing Callback Data](#accessing-callback-data) section.
+
+### POST Method Requests
+
+POST requests allow you to send more complex data structures in the request body, making them suitable for callbacks with rich data payloads.
+
+**For Flow-Starting Triggers**:
+```
+POST https://xxxx.backendless.app/api/automation/flow/[FLOW-ID]/trigger/[TRIGGER-ID]/activate
 Content-Type: application/json
-user-token: value 
-```
-The `user-token` header is optional. When it is used, the identity of the user represented by the token is passed to the trigger and will be available in the successor blocks.
 
-**Request Body**:
-```json
 {
-  any valid JSON object can be passed to the trigger
+  "any valid JSON object can be passed to the trigger"
 }
 ```
-Any data passed to the trigger will be available as the trigger's "result" element to all successor blocks through the [Expression Editor](../flow-editing/expressioneditor.md) interface.
 
-**Response Body**
+FlowRunner™ uses the entire request body as the ["trigger data" object](#accessing-callback-data). Query parameters are ignored for flow-starting triggers.
 
-None. A successful trigger activation request returns no data.
+**For Mid-Flow Triggers**:
+```
+POST https://xxxx.backendless.app/api/automation/flow/[FLOW-ID]/trigger/[TRIGGER-ID]/activate?execution=EXECUTION_ID
+Content-Type: application/json
 
-## Accessing Trigger's Data
+{
+  "any valid JSON object can be passed to the trigger"
+}
+```
 
-A request to an External Callback URL may include additional data in the form of a key/value structure (JSON object), which will be accessible to other blocks in the flow that follow the trigger. Any data sent to the trigger's callback URL is referenced in the system as `Trigger Data`. Consider the example below. Notice the assigned name of the trigger is `Callback with Orders`. Any data sent to the trigger is called `Callback with Orders Data`: 
+The `execution` or `executionId` query parameter specifies which workflow instance to resume. FlowRunner™ uses the entire request body as the ["trigger data" object](#accessing-callback-data), and other query parameters are ignored.
+
+### Managing Multiple Workflow Instances
+
+When working with mid-flow triggers, you often need to manage multiple instances of the same workflow. For example, if your workflow processes orders and uses a timer to create new instances throughout the day, you might have several order processing workflows waiting at External Callback triggers for payment confirmments.
+
+The execution parameter provides three powerful options for managing these instances:
+
+**Specific Execution ID**: Use the exact execution ID to resume one particular workflow instance. This approach gives you precise control when you need to target a specific order or process.
+```
+?execution=ABC123-DEF456-GHI789
+```
+
+**Any Available Instance**: Use "any" to let FlowRunner™ pick any waiting workflow instance and resume it. This approach works well when all waiting instances are equivalent and you just need to process the next available one.
+```
+?execution=any
+```
+
+**All Waiting Instances**: Use "all" to resume every workflow instance that's waiting at this trigger. This approach is useful for broadcast scenarios where one external event should wake up multiple processes simultaneously.
+```
+?execution=all
+```
+
+### Obtaining Execution IDs for External Systems
+
+When using specific execution IDs, external systems need to know which execution ID to include in their callback requests. This creates an important design consideration: your workflow must actively share the execution ID with external systems before reaching the External Callback trigger.
+
+The execution ID becomes available through the Expression Editor as soon as your workflow starts running. Your flow logic should capture this ID and send it to external systems through whatever communication channel you're using.
+
+**Common Implementation Pattern**: A typical approach involves sending an email or creating a web page that includes the execution ID in a URL parameter. For example, your workflow might send a payment verification email containing a link like:
+
+```
+https://yourapp.com/verify-payment?executionId=ABC123-DEF456-GHI789&orderId=12345
+```
+
+When users click this link, your web application can extract the execution ID from the URL and include it in the callback request to resume that specific workflow instance.
+
+**Accessing Execution ID in Your Flow**: The execution ID is accessible through the Expression Editor interface at any point in your workflow. You can reference this value in email templates, API calls, database records, or any other blocks that communicate with external systems.
+
+![execution id in expression editor](../images/execution-id-exp-editor.png)
+
+This pattern ensures that external systems have the information they need to target specific workflow instances while maintaining the security and reliability of your automation processes.
+
+### Authentication Headers
+
+**Optional User Token**:
+```
+user-token: value 
+```
+
+The `user-token` header passes the identity of an authenticated user to the trigger, making user information available to subsequent blocks in your workflow.
+
+### Response Handling
+
+**Successful Activation**: Returns `HTTP 200` with no response body for single instance activation. When using `execution=all`, the response contains a comma-separated list of all resumed execution IDs.
+
+**Error Responses**: When no workflow instances are waiting at the trigger (for "any" or "all" options) or when a specific execution ID doesn't exist, FlowRunner™ returns a JSON error response with details about the failure.
+
+## Accessing Callback Data
+
+When external systems send data with callback requests, that data becomes available to subsequent blocks in your workflow through the Expression Editor. The system references this data using the trigger's assigned name.
 
 ![callback with orders sample](../images/callback-with-orders-sample.png)
 
-Below is a sample Backendless Codeless block that sends an HTTP request to the specified External Callback URL:
+In this example, the trigger is named "Callback with Orders" so any data sent to it becomes accessible as "Callback with Orders Data".
+
+Here's a sample callback request that sends order data:
 
 ![codeless external callback](../images/codeless-block-ext-callback.png)
 
-Notice the data it sends with the request, it is a variable called `orders`. Below is the same request in a cURL format:
-```
+The same request in cURL format:
+```bash
 curl 'https://demoapp.backendless.app/api/automation/flow/AC0B2747-EAD8-4C9A-BB9C-9F0A4EBEAB81/trigger/C778279B-B151-6272-EDA7-76C9141E1F11/activate' \
   -H 'Content-Type: application/json' \
-  --data-raw '{ \
-      "data":[ \
-         {"name":"shampoo","price":9.95}, \
-         {"name":"conditioner","price":8.99}, \
-         {"name":"body wash","price":5.99}\
-      ]\
+  --data-raw '{
+      "data":[
+         {"name":"shampoo","price":9.95},
+         {"name":"conditioner","price":8.99},
+         {"name":"body wash","price":5.99}
+      ]
   }'
 ```
 
- When the trigger is activated in the flow, any successor blocks of the trigger will be able to access that data via [Expression Editor](../flow-editing/expressioneditor.md).
+After the trigger activates, subsequent blocks can access this data through the Expression Editor:
 
 ![external callback result](../images/ext-callback-result-object.png)
 
-## Callback with a Logged-In User
+## Working with Authenticated Users
 
-The [trigger activation request](#callback-request-format) can include a reference to a logged-in Backendless User by using an HTTP header called `user-token`. This token is assigned by the Backendless system to the logged-in user. For more details, refer to the [Backendless Login API](https://backendless.com/docs/rest/users_login.html).
-
-When the trigger activation request includes a `user-token`, the system retrieves the complete user object, which is a key/value structure. This user object is then available for all subsequent blocks via the Expression Editor:
+Include a `user-token` header in callback requests to pass authenticated user information to your workflow. This token represents a logged-in Backendless user and makes the complete user object available to subsequent blocks.
 
 ![user object in trigger](../images/user-object-in-trigger.png)
 
-The `user` structure contains properties with values corresponding to the columns in the `Users` table in the Backendless application where the flow is running. For example, consider the following schema for the `Users` table in the application:
+The user object contains all properties from your application's Users table. For example, with this Users table schema:
 
 ![user table schema](../images/user-table-schema.png)
 
-Based on this schema, the `user` element accessible through the Expression Editor will have the following structure:
+The user object accessible through the Expression Editor would include:
 
 ```json
 {
@@ -96,39 +195,33 @@ Based on this schema, the `user` element accessible through the Expression Edito
   "gender": "male",
   "firstName": "James",
   "phoneNumber": "+44 007007007",
-  "name": null,
   "age": 45,
   "email": "jamesbond@mi6.co.uk",
   "created": 1719589705912,
   "accountType": "BACKENDLESS",
-  "socialAccount": "BACKENDLESS",
-  "ownerId": "087A2B43-EB71-4322-AD34-EDA9CA77B77E",
-  "oAuthIdentities": null,
-  "blUserLocale": "en",
-  "updated": null,
   "objectId": "087A2B43-EB71-4322-AD34-EDA9CA77B77E"
 }
 ```
 
-The Expression Editor simplifies accessing these property values:
+Access these properties easily through the Expression Editor:
 
 ![accessing user data in exp editor](../images/accessing-user-data-expeditor.png)
 
-## Required Authentication
+## Configuring Authentication Requirements
 
-You can configure the External Callback Trigger to require authentication, ensuring that a reference to an authenticated user is present in the callback request. To enable this, select the trigger block and set the `Authentication Type` property to `BACKENDLESS`:
+You can require authentication for callback requests to ensure only authorized users can trigger your workflow. Set the trigger's `Authentication Type` property to `BACKENDLESS`:
 
 ![trigger authentication type](../images/trigger-auth-type.png)
 
-With this setting, the trigger will activate only when a callback has a valid user reference through the `user-token` HTTP header. Additionally, you can specify the security roles that the referenced user must possess. This selection is made in the `Required Roles` drop-down list:
+With this setting, the trigger only activates when callbacks include a valid `user-token` header. You can further restrict access by specifying required security roles:
 
 ![trigger required roles](../images/trigger-required-roles.png)
 
-The `On Fail Policy` setting allows you to define how the trigger activation request should be handled if there is no authenticated user or if the user does not belong to the specified roles:
+The `On Fail Policy` setting controls how the system handles requests that fail authentication or role requirements:
 
 ![trigger on fail policy](../images/trigger-on-fail-policy.png)
 
-If the policy is set to `ERROR`, FlowRunner will return the following error for trigger activation requests that fail the authentication or role check:
+When set to `ERROR`, failed authentication returns this error response:
 
 ```json
 {
@@ -137,9 +230,12 @@ If the policy is set to `ERROR`, FlowRunner will return the following error for 
 }
 ```
 
-If the policy is set to `IGNORE`, the trigger activation request will be completed successfully, but the trigger will not be activated if the user reference is missing or the user does not have the required roles.
-
-By using these authentication settings, you can ensure that your workflows are secure and only triggered by authorized users.
+When set to `IGNORE`, the callback request completes successfully but the trigger does not activate if authentication fails.
 
 ## Conditional Trigger Activation
-The External Callback trigger can have a condition associated with it. When the callback URL is executed, FlowRunner™ evaluates the condition. If the condition evaluates to `TRUE`, the trigger is activated. If the condition evaluates to `FALSE`, the callback request is ignored. For more information about setting up and using conditions, see the [Conditional Logic](../flow-editing/conditions.md) section of this guide.
+
+You can add conditions to External Callback triggers to control when they actually activate. When a callback request arrives, FlowRunner™ evaluates the condition first. The trigger only activates if the condition evaluates to `TRUE`. If the condition evaluates to `FALSE`, the callback request is ignored and the workflow remains paused.
+
+This is useful when external systems might send multiple status updates but you only want to proceed when a specific condition is met, such as a payment status reaching "confirmed" rather than just "processing".
+
+For more information about setting up conditions, see the [Conditional Logic](../flow-editing/conditions.md) section.

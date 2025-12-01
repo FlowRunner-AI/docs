@@ -9,11 +9,11 @@ When you add an "App Logic Trigger" to a flow, the Codeless toolbar will automat
 ![app logic trigger codeless](../images/run-app-logic-trigger-codeless.png)
 
 ## Understanding Trigger Activation
-Trigger activation is a crucial concept in FlowRunner, and with its various options, it can become quite complex. Understanding all possibilities is essential for efficient flow management.
+Trigger activation is a crucial concept in FlowRunner™, and with its various options, it can become quite complex. Understanding all possibilities is essential for efficient flow management.
 
-A general rule to keep in mind is that a flow must be started with the [Call Flow](../flow-execution/overview.md#callflow-commandapi) request. If your flow has a schedule, the FlowRunner scheduler will automatically use the Call Flow request to initiate your flow. Using the Call Flow creates a new instance of your flow, which means you could have multiple instances running simultaneously.
+A general rule to keep in mind is that a flow must be started with the [Call Flow](../flow-execution/overview.md#callflow-commandapi) request. If your flow has a schedule, the FlowRunner™ scheduler will automatically use the Call Flow request to initiate your flow. Using the Call Flow creates a new instance of your flow, which means you could have multiple instances running simultaneously.
 
-When your flow includes an "App Logic Trigger," some or all instances may reach this trigger and wait for activation. There are three trigger acrivation modes described further in this chapter:
+When your flow includes an "App Logic Trigger," some or all instances may reach this trigger and wait for activation. There are three trigger activation modes described further in this chapter:
 1. The **`Activate All`** option will activate all waiting flow instances, causing all of them to run again. 
 2. The **`Activate Any`** option will activate a random flow instance. 
 3. Tthe **`Activate Specific`** option will activate a specific instance identified by the provided `executionId` value.
@@ -44,7 +44,7 @@ You can pass data to an "App Logic Trigger" through the "Body" connector on the 
 
 ![run app logic trigger with body](../images/run-app-logic-trigger-body.png)
 
-Any data passed to the trigger will be available through the Expression Editor as an element with the name assigned to the "App Logic Trigger" block followed by the word "Data":
+Any data passed to the trigger will be available through the [Expression Editor](../flow-editing/expressioneditor.md) as an element with the name assigned to the "App Logic Trigger" block:
 
 ![app logic trigger data](../images/app-logic-trigger-data.png)
 

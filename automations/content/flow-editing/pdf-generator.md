@@ -2,17 +2,17 @@
 icon: material/file-pdf-box
 ---
 
-In FlowRunner, the PDF generation process allows you to create customized PDF documents by dynamically incorporating data from your flow into predefined templates. Here's how it works in broad terms:
+In FlowRunner™, the PDF generation process allows you to create customized PDF documents by dynamically incorporating data from your flow into predefined templates. Here's how it works in broad terms:
 
 As a flow developer, you first create a **PDF template**. This template defines specific dynamic areas, called **fields**, which will hold content like data tables, images, QR codes, and text. These fields act as placeholders that will later be populated with actual data during the flow execution.
 
-Once your template is set up, you add the **PDF Generator action** to your flow. This action links the flow to the template you’ve created. At this stage, FlowRunner will show you a list of the available fields in the template. You can then map each template field to specific data from your flow, establishing the relationship between your flow's data and how it will appear in the PDF.
+Once your template is set up, you add the **PDF Generator action** to your flow. This action links the flow to the template you’ve created. At this stage, FlowRunner™ will show you a list of the available fields in the template. You can then map each template field to specific data from your flow, establishing the relationship between your flow's data and how it will appear in the PDF.
 
 When the flow runs, the PDF Generator action processes the template with your data, creating the final document. The outcome is a **URL** to the generated PDF. You can use this URL later in your flow for various purposes, such as sending it by email or storing it for future use.
 
 ## PDF Generator Components
 
-There are three essential components involved in generating a PDF within FlowRunner:
+There are three essential components involved in generating a PDF within FlowRunner™:
 
 - **PDF Template**: This defines the layout and structure of your PDF document. It includes placeholders (fields) for dynamic data such as images, text, or tables.
 - **PDF Generator Action**: This action initiates the PDF creation process. It manages the mapping between template fields and the data from your flow.
@@ -73,7 +73,7 @@ When you select a field in the template, the **Field Properties** panel opens. H
 !!! note
     When working in the **Field Properties** panel, it’s recommended to update the default value in the **Name** field. This field holds the name assigned to the component or field, which is important for later stages.
 
-    The name you assign will be used in **FlowRunner** for **data mapping** purposes. To avoid confusion, it’s best to choose a meaningful name that clearly and uniquely identifies the component. This makes it easier to manage and map your fields accurately when building flows, especially when you have multiple dynamic elements in your template.
+    The name you assign will be used in **FlowRunner™** for **data mapping** purposes. To avoid confusion, it’s best to choose a meaningful name that clearly and uniquely identifies the component. This makes it easier to manage and map your fields accurately when building flows, especially when you have multiple dynamic elements in your template.
  
 ### Field List
 Once you add components to your template, they appear in the **Field List**. Each component added to the template becomes a field, which can be either static or dynamic. If a field has a :octicons-lock-16: icon next to it, that means its value cannot be dynamically populated during the flow, meaning it's static.
@@ -97,7 +97,7 @@ A crucial step when working with the PDF Generator is to **save your template**.
 
 ## PDF Generator in FlowRunner
 
-To begin using the PDF Generator in your flow, the first step is to add the **PDF Generator action block** to your flow in FlowRunner. If there are any predecessor blocks in the flow, ensure they are connected to the PDF Generator action for seamless execution.
+To begin using the PDF Generator in your flow, the first step is to add the **PDF Generator action block** to your flow in FlowRunner™. If there are any predecessor blocks in the flow, ensure they are connected to the PDF Generator action for seamless execution.
 
 ![generate pdf action](../images/generate-pdf-action.png)
 
@@ -105,7 +105,7 @@ Once the action is placed, you will need to configure it. The first task is to s
 
 ![select pdf template](../images/select-pdf-template.png)
 
-If you have multiple browser windows open (for instance, one where you're editing the template and another where you’re creating the flow), you can click the **refresh** icon in the FlowRunner window to update the list of available templates.
+If you have multiple browser windows open (for instance, one where you're editing the template and another where you’re creating the flow), you can click the **refresh** icon in the FlowRunner™ window to update the list of available templates.
 
 ![refresh pdf templates](../images/refresh-pdf-templates.png)
 
@@ -115,7 +115,7 @@ Once you select a PDF Template, the properties panel will automatically update, 
 
 ![sample pdf template](../images/sample-pdf-template.png) 
 
-When selecting that template in FlowRunner, it will render the following form for field mappings:
+When selecting that template in FlowRunner™, it will render the following form for field mappings:
 
 ![demo template field mappings](../images/demo-pdf-template-field-mappings.png)
 
@@ -140,11 +140,11 @@ Suppose your PDF Template includes a table field with columns for **Customer Nam
 !!! note
     To edit the **table column names**, click directly on the header cell and modify the name using the inline content editing feature. Once you have made your changes, remember to click the **Save Template** button to ensure your updates are saved.
 
-When this template is used in FlowRunner, the properties panel for the PDF Generator action will look something like this:
+When this template is used in FlowRunner™, the properties panel for the PDF Generator action will look something like this:
 
 ![pdf template table mapping](../images/pdf-template-table-mapping.png)
 
-As shown, FlowRunner automatically recognizes the **ordersData** field and creates a mapping interface for both the data to populate the table and the data properties that correspond to the table columns.
+As shown, FlowRunner™ automatically recognizes the **ordersData** field and creates a mapping interface for both the data to populate the table and the data properties that correspond to the table columns.
 
 Now, let’s assume the flow retrieves table data from the **Backendless database**, and the data looks like this:
 

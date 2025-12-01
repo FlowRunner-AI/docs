@@ -3,36 +3,40 @@ icon: material/alphabetical-variant
 ---
 # Terminology
 
-Welcome to the "Terminology" chapter of the FlowRunner™ User Guide. Understanding the key terms used in this guide will make your experience with FlowRunner™ smoother and more intuitive. Let’s dive into the essential terms you’ll encounter as you explore the platform.
+This chapter defines the key terms used throughout the FlowRunner™ documentation.
 
-### The Basics
+## Flow Concepts
 
-- **Flow:** A Flow is the heart of an automated process in FlowRunner™. It’s like a roadmap that guides a series of events and actions to accomplish specific tasks, whether you’re automating business operations or simplifying daily routines. Flows are flexible and customizable, allowing you to design processes that fit your exact needs.
+- **Flow** - A flow is an automated process that executes a series of actions based on defined logic. Flows can run autonomously or include human oversight at designated points.
 
-- **Flow Version:** Flows are not set in stone—they can evolve as your needs change. Each Flow can have multiple versions, each one reflecting different updates or tweaks. Although you can only have one version active at a time, it’s easy to make changes. Just clone the current version, make your edits, then stop the old version and start the new one. Remember, you can’t edit a Flow that’s currently running, so always clone before making changes.
+- **Flow Version** - Each flow can have multiple versions. Only one version can be active at a time. To modify an active flow, clone the current version, make your changes, stop the old version, and start the new one. You cannot edit a running flow version.
 
-### Components of a Flow
+- **Flow Instance** - A flow instance is a single execution of a flow version. When a flow version is in `LIVE` state, it can be instantiated. Each instance maintains its own execution context and data. Instances are created by schedules (see [Scheduled Flows](./flow-management/scheduledflows.md)), events that activate triggers, or the [Call Flow API](./flow-execution/overview.md#callflow-commandapi).
 
-- **Block:** Blocks are the building pieces of your Flows—think of them like the Lego bricks that make up your automated process. Blocks include Triggers, Actions, Transformers, and Conditions. Each one has a specific job in making your Flow work smoothly.
+## Flow Components
 
-- **Trigger:** A Trigger is like a switch that waits for something to happen before your Flow continues. It might be waiting for a form to be submitted, an order to be placed, or any other event. Triggers can be placed anywhere in your Flow, giving you control over when and how your automated process moves forward.
+- **Block** - Blocks are the building components of flows. Block types include triggers, actions, transformers, and conditions.
 
-- **Action:** Actions are the steps that get things done in your Flow. They’re the tasks that do the work—like sending an email, generating a report, or calling an API. Actions take in data, do something with it, and can pass along results to the next step in the Flow.
+- **Trigger** - A trigger pauses flow execution until a specified event occurs. Examples include form submissions, API webhooks, or scheduled times. Triggers can be placed at any point in a flow.
 
-- **Transformer:** Transformers are like data editors within your Flow. They let you adjust, extract, convert, or manipulate data to fit your needs. If you need to make changes to your data as it moves through your Flow, Transformers are the tool for the job.
+- **Action** - An action performs a task within a flow. Actions can send emails, call APIs, generate reports, or execute custom code. Actions receive input data, process it, and pass results to subsequent blocks.
 
-- **Condition:** Conditions are decision points in your Flow. They let your Flow take different paths based on whether something is true or false. This adds a layer of logic to your Flow, making it more dynamic and responsive to different scenarios.
+- **Transformer** - A transformer modifies data as it moves through a flow. Use transformers to extract values, convert formats, or manipulate data structures.
 
-- **Groups:** Some Blocks can act as containers that hold other Blocks, helping to keep your Flow organized. FlowRunner™ has two types of groups: Triggers Group and Actions Group. These groups help you manage multiple triggers or actions within a single, cohesive structure.
+- **Condition** - A condition creates branching logic in a flow. The flow takes different paths based on whether the condition evaluates to true or false.
 
-- **Flow Editor:** The Flow Editor is where you build, edit, and test your Flows. It’s a visual workspace that lets you design your automated processes with a drag-and-drop interface. Think of it as your canvas for bringing automation ideas to life.
+- **Groups** - Groups are container blocks that organize other blocks. FlowRunner™ supports two group types: Trigger Group (contains multiple triggers) and Action Group (contains multiple actions).
 
-- **Test Mode:** Before putting your Flow into action, it’s a good idea to test it out. Test Mode in the Flow Editor lets you run your Flow with test data, helping you find and fix any issues before going live.
+## Flow Development
 
-- **SLA Condition:** SLA Conditions are the benchmarks you set for your workflows to make sure they’re meeting certain standards. FlowRunner™ monitors these conditions to keep your processes running smoothly and on track.
+- **Flow Editor** - The Flow Editor is the visual interface for building and editing flows. It provides a drag-and-drop workspace for designing automation logic.
 
-- **Non-compliance Rules:** If something goes off track and your Flow doesn’t meet the SLA Conditions, Non-compliance Rules kick in. These rules define what actions should be taken to address the issue and ensure things get back on track.
+- **Test Mode** - Test Mode runs flows with test data before deployment. Use it to validate flow logic and identify issues before activating a flow version.
 
-- **SLA Configurator:** The SLA Configurator is a tool within the Flow Editor that helps you set up and manage your SLA Conditions and Non-compliance Rules. It’s essential for making sure your Flows perform reliably and meet the standards you’ve set.
+## Compliance and Monitoring
 
-By getting familiar with these terms, you’re setting yourself up to make the most of FlowRunner™. With this foundation, you’ll find it easier to navigate the platform and start automating processes that enhance your business or daily life.
+- **SLA Condition** - An SLA condition defines performance benchmarks for workflows. FlowRunner™ monitors these conditions and tracks compliance.
+
+- **Non-compliance Rules** - Non-compliance rules specify actions to take when a flow fails to meet SLA conditions. These rules automate response to performance issues.
+
+- **SLA Configurator** - The SLA Configurator is a tool in the Flow Editor for defining SLA conditions and non-compliance rules. Use it to configure monitoring and compliance requirements for your flows.
