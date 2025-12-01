@@ -4,7 +4,13 @@
       "Bash(git remote remove:*)",
       "Bash(git remote add:*)",
       "Bash(git rm:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)",
+      "Bash(git count-objects:*)",
+      "Bash(git config:*)"
     ],
     "deny": [],
     "ask": []

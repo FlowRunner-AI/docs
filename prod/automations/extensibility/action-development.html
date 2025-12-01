@@ -119,7 +119,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lifecycle-of-action-development" class="md-skip">
+        <a href="#the-lifecycle-of-action-development" class="md-skip">
           Skip to content
         </a>
       
@@ -4350,8 +4350,8 @@
 
 
 
-<h1 id="lifecycle-of-action-development">Lifecycle of Action Development<a class="headerlink" href="#lifecycle-of-action-development" title="Permanent link">&para;</a></h1>
-<p>Developing a FlowRunner™ action follows a structured lifecycle, which involves creating the API service, defining operations, adding the logic, and configuring the operation for FlowRunner™. Below is an overview of each stage in the lifecycle:</p>
+<h1 id="the-lifecycle-of-action-development">The Lifecycle of Action Development<a class="headerlink" href="#the-lifecycle-of-action-development" title="Permanent link">&para;</a></h1>
+<p>Developing a FlowRunner™ action follows a structured lifecycle: creating the API service, defining operations, adding the logic, and configuring the operation for FlowRunner™. This section provides an overview of each stage.</p>
 <h2 id="1-create-the-api-service">1. Create the API Service<a class="headerlink" href="#1-create-the-api-service" title="Permanent link">&para;</a></h2>
 <p>The first step in developing a custom action is to create an API service within Backendless. This service acts as a container for one or more operations. Each operation can later be transformed into an action that is usable in FlowRunner™. To create a new API service, navigate to the <code>API Services</code> screen and click the <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg></span> icon:</p>
 <div class="admonition note">
@@ -4371,12 +4371,12 @@
 <p>To add an operation (also known as "method"), click the  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg></span> icon for your service as shown below:</p>
 <p><a class="glightbox" href="../images/add-method-service.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="new method" src="../images/add-method-service.png" /></a></p>
 <h2 id="3-operation-setup">3. Operation Setup<a class="headerlink" href="#3-operation-setup" title="Permanent link">&para;</a></h2>
-<p>Configuring a operation has a direct impact on the presentation of the corresponding action in FlowRunner™&trade;. The following configuration properties are of particular importance:</p>
-<p><strong>Name</strong>: Identifies the action in FlowRunner™&trade;. It is recommended to assign a name (or a short phrase) that clearly describes what the action does, providing insights about input and output values and overall functionality. The description will appear as a tooltip for the action block in the FlowRunner™&trade;'s <a href="../flow-editing/floweditor.html#blocks-toolbox">Blocks Toolbox</a> and when hovering the mouse of the block in a flow.</p>
-<p><strong>Description</strong>: A description should clearly explain what the action/operation does and how to effectively use it in FlowRunner™&trade; workflows.</p>
+<p>Configuring an operation has a direct impact on the presentation of the corresponding action in FlowRunner™. The following configuration properties are of particular importance:</p>
+<p><strong>Name</strong>: Identifies the action in FlowRunner™. Assign a name (or a short phrase) that clearly describes what the action does, providing insights about input and output values and overall functionality. The description will appear as a tooltip for the action block in FlowRunner™'s <a href="../flow-editing/floweditor.html#blocks-toolbox">Blocks Toolbox</a> and when hovering the mouse over the block in a flow.</p>
+<p><strong>Description</strong>: A description should clearly explain what the action/operation does and how to effectively use it in FlowRunner™ workflows.</p>
 <p><strong>Action Icon</strong>: Assign an icon that represents the action, making it easier to identify in the FlowRunner™ Flow Editor. The icon will appear in a block representing the action in Flow Editor.</p>
 <p><a class="glightbox" href="../images/set-action-icon.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="set action icon" src="../images/set-action-icon.png" /></a></p>
-<p><strong>Block’s Colors</strong>: Apply a custom color to the block’s border to help distinguish it from other actions. The border can consist of two colors which, if they are different, will gradient from one to the other. By default, the colors are "linked", which means if you change onethe one on the left, the other will automatically change to the same color. However, you can click the <img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f517.svg" title=":link:" /> icon to unlink the colors, or simply pick another color with the color picker on the right which will remove the linking:</p>
+<p><strong>Block's Colors</strong>: Apply a custom color to the block's border to help distinguish it from other actions. The border can consist of two colors which, if they are different, will gradient from one to the other. By default, the colors are "linked", which means if you change one color, the other will automatically change to the same color. You can click the <img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f517.svg" title=":link:" /> icon to unlink the colors, or simply pick another color with the color picker which will remove the linking:</p>
 <p><a class="glightbox" href="../images/action-border-colors.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="action border colors" src="../images/action-border-colors.png" /></a></p>
 <h2 id="4-define-service-configuration-parameters">4. Define Service Configuration Parameters<a class="headerlink" href="#4-define-service-configuration-parameters" title="Permanent link">&para;</a></h2>
 <p>In some cases, the operations of your service (i.e., FlowRunner™ Actions) may require configuration information provided in advance. For example, consider a service designed to send and receive emails. To connect to an email server, the service needs details such as the server’s address, port, username, and password. This information can be collected through <strong>service configuration parameters</strong>.</p>
