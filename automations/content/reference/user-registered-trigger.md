@@ -1,4 +1,4 @@
-The "User Registered" trigger block in FlowRunner is designed to pause a flow until a new user account is created within your Backendless application. This trigger is activated when the [user registration API](https://backendless.com/docs/rest/users_user_registration.html) call is used, which means a user uses the registration form in your application or someone with admin privileges registers a user.
+The "User Registered" trigger block in FlowRunner™ is designed to pause a flow until a new user account is created within your Backendless application. This trigger is activated when the [user registration API](https://backendless.com/docs/rest/users_user_registration.html) call is used, which means a user uses the registration form in your application or someone with admin privileges registers a user.
 
 ## Trigger Properties
 The trigger properties include:

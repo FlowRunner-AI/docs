@@ -2,8 +2,6 @@
 icon: material/transfer
 ---
 
-## Data Movement in Flows
-
 Creating workflows in FlowRunner™ involves dynamic data interactions across various components. Each element within your flow—such as actions, triggers, conditions, utilities, and transformers—handles data in specific ways. These elements take input parameters and produce results that drive your workflow forward. For example, the `Send Email` block requires an email address to send a message, demonstrating how inputs are essential for the block's function.
 
 ![Send Email Inputs Demo](../images/send-email-inputs-demo.png)

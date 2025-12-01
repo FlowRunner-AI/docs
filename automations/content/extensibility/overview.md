@@ -1,34 +1,64 @@
 ---
 icon: material/alpha-e-circle-outline
 ---
-## Overview
+# About Extensibility
 
-FlowRunner is designed to be highly customizable, allowing you to tailor its functionality to suit your specific needs. While FlowRunner offers a range of built-in actions and triggers, you can extend its capabilities by developing **Custom Actions** and **Custom Triggers**. These customizations can either be used internally, within your own apps, or shared with others through the Backendless Marketplace. This flexibility provides both personal extensibility and community-driven enhancements for creating more powerful and personalized workflows.
+You can extend FlowRunner™ to meet specific workflow requirements. Use MCP server integration for external tools, build custom actions for specialized operations, or create custom triggers for application-specific events.
 
-## Custom Actions
+!!! info "Pre-built Extensions"
+    FlowRunner™ includes pre-built extensions for popular services including Gmail, Google Drive, Google Sheets, Outlook, Airtable, Slack, and others. Each extension provides specialized actions and triggers for that service. These extensions are built using the same extensibility framework documented in this section.
 
-Custom Actions allow you to define new operations that can be used within your flows, just like any of the built-in actions. These are especially useful when your application requires capabilities beyond what’s provided by default. For instance, you may want to:
+    Community developers can create and publish additional extensions to the FlowRunner™ integration directory. Approved extensions become available to all users.
 
-- **Integrate with third-party APIs or external services**: Custom Actions allow you to connect your app to other systems, enabling tasks like fetching data from external APIs or posting updates to external services.
-- **Execute complex business logic**: You might need to handle logic specific to your app, such as calculating custom metrics or performing data transformations that aren’t covered by the default actions.
-- **Create reusable operations**: Once you develop a Custom Action, you can use it across multiple workflows, making your workflows more modular and maintainable.
+## Extension Methods
 
-![custom actions](../images/custom-actions.png)
+FlowRunner™ supports three approaches to extensibility:
 
-You can build Custom Actions using **Codeless** or **JavaScript (Node.js)** in Backendless. Once developed, these actions can be added to any flow within FlowRunner, offering a seamless way to expand your workflow capabilities.
+### MCP Server Integration
 
-## Custom Triggers
+Register Model Context Protocol (MCP) servers to add external tools to FlowRunner™. MCP integration provides access to tools from any MCP-compatible server with automatic tool discovery and registration. Tools become available as workflow actions and AI Agent tools without requiring custom code.
 
-Custom Triggers allow you to define custom events or conditions that can be used anywhere in your workflows. While triggers are often thought of as starting points, they are not limited to that role. A Custom Trigger can be used at any point within a flow, pausing execution until the trigger is activated. This allows you to:
+MCP integration works with publicly accessible MCP servers. Register a server once, and all its tools become available across your workflows. See [MCP Server Integration](mcp-server-integration.md) for registration and usage details.
 
-- **Trigger workflows based on external events**: You can create a Custom Trigger that starts a flow when an external event occurs, such as receiving a webhook from a third-party service.
-- **Pause and resume workflows**: Triggers can be placed in the middle of a flow, allowing the flow to pause and wait until the specified trigger condition is met before proceeding.
-- **Handle app-specific events**: Custom Triggers can activate flows based on unique app events that are specific to your business logic or data model.
+### Custom Actions
 
-Just like Custom Actions, Custom Triggers can be reused across multiple workflows. Once created, you can integrate them into your flows wherever they're needed, adding flexibility to how and when your workflows operate.
+Custom Actions define new operations that function like built-in FlowRunner™ actions. Build Custom Actions when you need to integrate with third-party APIs or external services, execute complex business logic specific to your application, create reusable operations across multiple workflows, or encapsulate domain-specific functionality.
 
-## Backendless Marketplace
+Custom Actions can be built using AI coding assistant or JavaScript (Node.js). Once developed, these actions appear in the Block List panel and can be added to any flow.
 
-The **Backendless Marketplace** serves as a platform where you can share your custom components or find pre-built solutions created by others. This marketplace offers two major benefits: the ability to **share** your own customizations with the Backendless community and the opportunity to **discover** solutions built by others to accelerate your development process.
+### Custom Triggers
 
-If you develop Custom Actions or Triggers that could benefit other developers, you can publish them to the Backendless Marketplace. Publishing allows other users to discover, install, and use your actions and triggers in their own flows. Whether you’re sharing freely or offering paid solutions, the marketplace gives you a way to contribute to the community while also potentially monetizing your work.
+Custom Triggers define events or conditions that pause workflow execution until activated. Unlike standard triggers that only start workflows, Custom Triggers can be placed anywhere in a flow. Use Custom Triggers to trigger workflows based on external events (webhooks, system events), pause and resume workflows at specific points, handle application-specific events tied to your business logic, or wait for user actions or external system state changes.
+
+Custom Triggers can be reused across multiple workflows and placed at any execution point where conditional pausing is needed.
+
+## Choosing an Extension Method
+
+Select the appropriate extension method based on your requirements:
+
+**Use MCP Server Integration when:**
+
+- Tools already exist on an MCP server
+- You need to integrate external services that provide MCP endpoints
+- You want to leverage the MCP ecosystem without writing code
+- Multiple workflows need access to the same external tools
+
+**Use Custom Actions when:**
+
+- You need application-specific business logic
+- Integration requires custom authentication or data transformation
+- Functionality is specific to your FlowRunner™ instance
+- You want to create proprietary operations
+
+**Use Custom Triggers when:**
+
+- Workflows must pause for external events
+- You need conditional execution based on application state
+- Standard triggers don't match your event model
+- User interaction or approval is required mid-workflow
+
+## Extension Development
+
+This section provides comprehensive documentation for building custom extensions. Topics include custom actions (defining new operations with configurable parameters), service configuration (adding authentication and connection settings), OAuth2 authorization (implementing OAuth2 flows for third-party services), no-code development (building actions using Codeless), JavaScript development (building actions using Node.js), dictionary operations (creating actions with dynamic parameter options), and parameter rendering (configuring how parameters appear in the UI).
+
+Start with the appropriate development guide based on your preferred approach (Codeless or JavaScript) and the complexity of your custom extension.

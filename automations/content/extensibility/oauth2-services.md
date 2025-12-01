@@ -4,7 +4,7 @@ icon: material/security
 
 # Services with OAuth2 Authorization
 
-FlowRunner's custom actions can integrate with any network-based resource. Many of these resources rely on the OAuth2 authorization protocol. Implementing OAuth2 can sometimes be complex, so FlowRunner and Backendless provide a built-in mechanism that makes it easier for developers to create services that use the OAuth2 authorization workflow.
+FlowRunner™'s custom actions can integrate with any network-based resource. Many of these resources rely on the OAuth2 authorization protocol. Implementing OAuth2 can sometimes be complex, so FlowRunner™ and Backendless provide a built-in mechanism that makes it easier for developers to create services that use the OAuth2 authorization workflow.
 
 Here’s an improved version of your draft with better flow and readability. I’ve kept the technical depth while making it more intuitive and easier to understand.
 
@@ -12,7 +12,7 @@ Here’s an improved version of your draft with better flow and readability. I�
 
 ## How Does It Work?
 
-Integrating OAuth2 into FlowRunner involves several key steps, making it easy for developers to add OAuth2 authorization to their custom services. Below is an overview of the process:
+Integrating OAuth2 into FlowRunner™ involves several key steps, making it easy for developers to add OAuth2 authorization to their custom services. Below is an overview of the process:
 
 ```mermaid
 sequenceDiagram
@@ -25,12 +25,12 @@ sequenceDiagram
     Developer->>Backendless: Create API service with OAuth2 Authorization template
     Developer->>Backendless: Implement OAuth2 methods and custom actions
     Developer->>Backendless: Deploy and test service
-    Developer->>FlowRunner: Add custom action to flow
+    Developer->>FlowRunner™: Add custom action to flow
     activate FlowRunner
-    FlowRunner->>Developer: Display "Login" button
+    FlowRunner™->>Developer: Display "Login" button
     deactivate FlowRunner
-    Developer->>FlowRunner: Click "Login" button
-    FlowRunner->>OAuth2Provider: Redirect to OAuth2 service provider
+    Developer->>FlowRunner™: Click "Login" button
+    FlowRunner™->>OAuth2Provider: Redirect to OAuth2 service provider
     activate OAuth2Provider
     OAuth2Provider->>Developer: Authenticate user
     OAuth2Provider-->>Backendless: Return OAuth2 access code
@@ -70,12 +70,12 @@ OAuth2 integrations may seem complex due to their many components, but we’ll b
 
 4. **Add Custom Actions to a Flow**
 
-    After deploying the service, any operation marked as a **FlowRunner Action** will appear in FlowRunner’s **Custom Actions** section. Each custom action is identified by its operation name, service name, and the icon you specified during setup. To use the action in a flow, simply drag it into the **Flow Editor**.
+    After deploying the service, any operation marked as a **FlowRunner™ Action** will appear in FlowRunner’s **Custom Actions** section. Each custom action is identified by its operation name, service name, and the icon you specified during setup. To use the action in a flow, simply drag it into the **Flow Editor**.
 
     ![custom actions toolbox](../images/flow-editor-custom-actions.png)
 
     !!! note
-        For a custom action to appear in Flow Editor, your service must have an operation marked as a *FlowRunner Action*.
+        For a custom action to appear in Flow Editor, your service must have an operation marked as a *FlowRunner™ Action*.
 
 5. **Displaying the OAuth2 Login Button**
 
@@ -85,11 +85,11 @@ OAuth2 integrations may seem complex due to their many components, but we’ll b
 
 6. **Starting the Authorization Process**
 
-    Clicking the **Login** button starts the OAuth2 authorization sequence. FlowRunner will redirect the user to the OAuth2 provider’s login page. The provider typically hosts a login form where users enter their credentials.
+    Clicking the **Login** button starts the OAuth2 authorization sequence. FlowRunner™ will redirect the user to the OAuth2 provider’s login page. The provider typically hosts a login form where users enter their credentials.
 
 7. **Redirect to OAuth2 Login**
 
-    FlowRunner retrieves the OAuth2 endpoint URL from the service when the **Login** button is clicked. A new window opens with the provider’s login form, where the user authenticates and grants access to the requested permissions (known as *scopes*). Scopes might include reading emails, accessing files, or viewing user information.
+    FlowRunner™ retrieves the OAuth2 endpoint URL from the service when the **Login** button is clicked. A new window opens with the provider’s login form, where the user authenticates and grants access to the requested permissions (known as *scopes*). Scopes might include reading emails, accessing files, or viewing user information.
 
     ![oauth popup](../images/slack-oauth-popup.png)
 
@@ -105,7 +105,7 @@ OAuth2 integrations may seem complex due to their many components, but we’ll b
 
 ## OAuth2 Service Operations
 
-To integrate an API Service with the OAuth2 workflow in FlowRunner, the service must implement the following key operations:
+To integrate an API Service with the OAuth2 workflow in FlowRunner™, the service must implement the following key operations:
 
 - **`getOAuth2ConnectionURL`**: Responsible for returning the complete Authorization Endpoint URL provided by the OAuth2 service provider. This URL is where users will be redirected to authenticate.
 - **`executeCallback`**: Handles the exchange of the temporary authorization code received from the OAuth2 provider for a more permanent authorization token.
@@ -122,36 +122,36 @@ When you create an OAuth2-enabled API service, Backendless automatically generat
 sequenceDiagram
     autonumber
     actor Developer
-    participant FlowRunner as FlowRunner/Backendless
+    participant FlowRunner™ as FlowRunner™/Backendless
     participant APIService as Your API Service
     participant OAuth2Provider as OAuth2 Service Provider
 
-    Developer->>FlowRunner: Click "Login" button
-    FlowRunner->>APIService: Call `getOAuth2ConnectionURL`
-    APIService-->>FlowRunner: Return Authorization Endpoint URL
-    FlowRunner->>Developer: Redirect to Authorization Endpoint
+    Developer->>FlowRunner™: Click "Login" button
+    FlowRunner™->>APIService: Call `getOAuth2ConnectionURL`
+    APIService-->>FlowRunner™: Return Authorization Endpoint URL
+    FlowRunner™->>Developer: Redirect to Authorization Endpoint
     Developer->>OAuth2Provider: Authenticate and grant permissions
-    OAuth2Provider->>FlowRunner: Send temporary auth code via callback
-    FlowRunner->>APIService: Call `executeCallback` on API Service
+    OAuth2Provider->>FlowRunner™: Send temporary auth code via callback
+    FlowRunner™->>APIService: Call `executeCallback` on API Service
     activate APIService
     APIService->>OAuth2Provider: Exchange code for auth token
     OAuth2Provider-->>APIService: Return auth token (with optional expiration)
-    APIService-->>FlowRunner: Return auth token and expiration (if any)
+    APIService-->>FlowRunner™: Return auth token and expiration (if any)
     deactivate APIService
-    FlowRunner->>FlowRunner: Monitor token expiration
-    FlowRunner->>APIService: Call `refreshToken` when needed
+    FlowRunner™->>FlowRunner™: Monitor token expiration
+    FlowRunner™->>APIService: Call `refreshToken` when needed
     APIService->>OAuth2Provider: Request new token
     OAuth2Provider-->>APIService: Return refreshed token
-    APIService-->>FlowRunner: Return refreshed token
+    APIService-->>FlowRunner™: Return refreshed token
 ```
 
 ### Step-by-Step Explanation
 
 1. **Developer/User clicks the Login button**  
-   The OAuth2 authorization process starts when the user clicks the **Login** button in FlowRunner.
+   The OAuth2 authorization process starts when the user clicks the **Login** button in FlowRunner™.
 
-2. **FlowRunner calls the `getOAuth2ConnectionURL` operation**  
-   FlowRunner, acting in conjunction with Backendless, calls the `getOAuth2ConnectionURL` method on your API Service to get the OAuth2 provider's Authorization Endpoint URL.
+2. **FlowRunner™ calls the `getOAuth2ConnectionURL` operation**  
+   FlowRunner™, acting in conjunction with Backendless, calls the `getOAuth2ConnectionURL` method on your API Service to get the OAuth2 provider's Authorization Endpoint URL.
 
 3. **API Service returns the Authorization Endpoint URL**  
    The API Service provides the URL where the user will be redirected to authenticate.
@@ -192,7 +192,7 @@ sequenceDiagram
 15. **API Service returns the refreshed token to Backendless**  
     Finally, the API Service passes the new token back to Backendless, ensuring continued access to the OAuth2-protected resources.
 
-This detailed explanation shows how each operation in the OAuth2 process is handled within FlowRunner/Backendless. The API Service plays a critical role in managing interactions with the OAuth2 provider, while FlowRunner ensures that the OAuth2 workflow, including token expiration and refreshing, is handled smoothly. By implementing the `getOAuth2ConnectionURL`, `executeCallback`, and `refreshToken` methods, you enable secure and dynamic OAuth2 authentication for your services.
+This detailed explanation shows how each operation in the OAuth2 process is handled within FlowRunner™/Backendless. The API Service plays a critical role in managing interactions with the OAuth2 provider, while FlowRunner™ ensures that the OAuth2 workflow, including token expiration and refreshing, is handled smoothly. By implementing the `getOAuth2ConnectionURL`, `executeCallback`, and `refreshToken` methods, you enable secure and dynamic OAuth2 authentication for your services.
 
 ## OAuth2 Connection Manager
 

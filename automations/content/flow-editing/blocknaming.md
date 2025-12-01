@@ -2,22 +2,24 @@
 icon: fontawesome/solid/tag
 ---
 
-# Naming Your Blocks
+# Naming Your Blocks  
 
-In the intricate world of FlowRunner™, each block within your flow is more than just a piece of the puzzle; it represents a crucial step in your business process. To harness the full potential of these blocks and the workflows they compose, it's essential to give them names that resonate with their role within your specific context. This chapter explores the significance of assigning meaningful names to your blocks and how doing so can enhance your workflow clarity and effectiveness.
+Block names in FlowRunner™ play a crucial role in maintaining clarity and understanding within your workflows. Assigning meaningful, context-specific names helps align blocks with your business processes, making workflows easier to navigate, understand, and maintain.  
 
-## Contextual Naming
+## Contextual Naming  
 
-The pre-defined names of automation blocks, while descriptive of their generic functions, often lack the nuance and specificity of your business operations. For instance, a generic action like **Save Record in Database** serves its purpose but falls short of conveying the full intent behind the action within your workflow. Renaming it to **Save Customer Details** instantly clarifies its role and relevance to your business process. Similarly, transforming a simple **Condition** block into **Has the Customer Ordered from Us Before?** provides immediate context and understanding of its function in the flow.
-![Using Assigned Names](../images/using-assigned-names.png)
+Pre-defined block names describe generic functions, but they may not reflect the specifics of your business operations. Renaming blocks to fit their role in your workflow improves clarity.  
 
-## Leveraging the `Name` Property
+For example:  
 
-Each block in FlowRunner™ is equipped with a **Name** property, a feature designed for customization. It's a best practice to assign a domain-specific name to each block as soon as you place it onto the canvas. This practice personalizes your flow and makes it infinitely more intuitive to navigate and understand. You're not just building a workflow; you're mapping out a digital narrative of your business process, with each named block contributing to the story.
+- Rename **Save Record in Database** to **Save Customer Details** to highlight its purpose.  
+- Update **Condition** to **Has the Customer Ordered from Us Before?** for immediate context.  
 
-## Switching Between Names
+Meaningful names make it easier for you and your team to understand a workflow at a glance.  
+![Using Assigned Names](../images/using-assigned-names.png)  
 
-Understanding the dual nature of block names - the system default versus your customized naming - is crucial for development and troubleshooting. The [Control Bar](./floweditor.md#control-bar) offers a seamless solution through the `Show System Names` toggle button. This feature lets you switch between viewing the system-defined names and your assigned ones with a simple click. Initially, activating this button replaces your custom names with the system defaults, offering a peek into the block's original identity. Clicking it again reverses the view, showcasing the names you've assigned. This flexibility is invaluable for aligning team members with different levels of familiarity with the system or for connecting your workflow's specific steps to the generic functions provided by Backendless.
-![Show System Names Button](../images/show-system-assigned-names.png)
+## Using the `Name` Property  
 
-Assigning meaningful names to the blocks in your FlowRunner™ flows is more than a cosmetic enhancement; it's a foundational practice for creating clear, understandable, and effective automations. By carefully naming each block, you not only make your workflows more accessible to yourself and your team but also ensure that they accurately reflect the specific processes and nuances of your business. Remember, a well-named workflow is well-understood, paving the way for efficient automation and streamlined operations.
+Each block includes a **Name** property that allows for customization. Assigning descriptive names as soon as you place blocks on the canvas is a best practice. This ensures your workflow is intuitive and reflects your business processes clearly.  
+
+Naming blocks isn’t just about aesthetics - it’s essential for creating workflows that are clear, maintainable, and aligned with your business objectives. Thoughtful naming ensures workflows are accessible to your team, accurately represent your processes, and support effective automation.  

@@ -2,14 +2,14 @@
 icon: material/rocket-launch-outline
 ---
 
-"Running a flow" means executing its sequence of actions, triggers, conditions, and transformations. How a flow runs depends on its structure and configuration. This section explains the different ways you can launch flows in FlowRunner.
+Running a flow means executing its sequence of actions, triggers, conditions, and transformations. How a flow runs depends on its structure and configuration. This section explains the different ways you can launch flows in FlowRunner™.
 
 ## Basic Rules for Launching Flows
 
 To ensure your flows start smoothly, follow these basic rules:
 
-1. **Enable the Flow**: A flow must be in the `ENABLED` state to run.
-   ![flow enabled](../images/flow-enabled.png)
+1. **Enable the Flow**: A flow must be in the `LIVE` state to run:
+   ![flow enabled](../images/flow-live.png)
 2. **Starting Without a Schedule**: If a flow doesn’t have a schedule, it must be started with a special command called [`CallFlow`](#callflow-commandapi).
 
     !!! note
@@ -24,10 +24,10 @@ Below is a diagram illustrating the "launch rules":
 
 ```mermaid
 flowchart TD
-    GOLIVE(Flow is Enabled) --> STARTS_WITH_ACTION
-    STARTS_WITH_ACTION{Starts with Action?} -->|YES|HASSCHEDULE 
+    GOLIVE(Flow is LIVE) --> STARTS_WITH_ACTION
+    STARTS_WITH_ACTION{Does the Flow start with an Action?} -->|YES|HASSCHEDULE 
     STARTS_WITH_ACTION --> |No, starts with a Trigger|START_TRIGGER
-    HASSCHEDULE{Has Schedule?} -->|YES|FLOW_STARTS
+    HASSCHEDULE{Has a Schedule?} -->|YES|FLOW_STARTS
     HASSCHEDULE -->|NO|NEEDS_CALL_FLOW
     NEEDS_CALL_FLOW --> FLOW_STARTS
     START_TRIGGER --> FLOW_STARTS
@@ -36,24 +36,24 @@ flowchart TD
     ...
     May optionally 
     use *CallFlow*`")
-    FLOW_STARTS(Flow is Started)
+    FLOW_STARTS(Flow Instance is Started)
 ```
 
-Don't worry if this sounds complex. We'll break down this information further.
+The sections below provide more detail on each scenario.
 
 ## Flow without a Schedule
 
-For a flow without a schedule, once you enable it (putting it in the `ENABLED` state), it won’t run automatically. If the flow starts with a trigger, the trigger needs to be activated for the flow to run. If the flow starts with an action, it must be started using the [`CallFlow`](#callflow-commandapi) command/API.
+For a flow without a schedule, once you enable it (putting it in the `LIVE` state), it won’t run automatically. If the flow starts with a trigger, the trigger needs to be activated for the flow to run. If the flow starts with an action, it must be started using the [`CallFlow`](#callflow-commandapi) command/API.
 
 ## Flow with a Schedule
 
-For a scheduled flow that is in the `ENABLED` state, the scheduler starts new executions automatically. The [`CallFlow`](#callflow-commandapi) command/API is not needed in this case. If the flow starts with an action, the action block will execute with each new iteration of the schedule. If the flow starts with a trigger, each new execution will wait for the trigger to be activated.
+For a scheduled flow that is in the `LIVE` state, the scheduler starts new executions automatically. The [`CallFlow`](#callflow-commandapi) command/API is not needed in this case. If the flow starts with an action, the action block will execute with each new iteration of the schedule. If the flow starts with a trigger, each new execution will wait for the trigger to be activated.
 
 ## CallFlow Command/API
 
 The `CallFlow` command creates a new execution of a flow. This command identifies the flow to execute and can optionally accept a key/value structure (object) to pass into the executed flow. The `CallFlow` command is available in several formats:
 
-1. **FlowRunner Action**: Execute a flow from another flow.
+1. **FlowRunner™ Action**: Execute a flow from another flow.
     ![call flow action](../images/call-flow-action.png)
 2. **Codeless block**: Execute a flow from your UI application created with UI Builder or from Backendless Cloud Code. You can find the `Call Flow` Codeless block in the Codeless `Logic Editor`. Every flow you create will have a dedicated menu item in the `FLOWRUNNER` section:
     ![call flow codeless](../images/call-flow-codeless.png)
@@ -71,7 +71,7 @@ The `Call Flow` Codeless block returns an object which contains the `executionId
     Content-Type: application/json
     user-token: value 
     ```
-    The `user-token` header is optional. When it is used, the identity of the user represented by the token is passed into the activated flow.
+    The `user-token` header is optional. When it is used, the activated flow receives the identity of the user represented by the token.
 
     **Request Body**:
     ```json

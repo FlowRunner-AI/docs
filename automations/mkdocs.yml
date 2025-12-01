@@ -3,53 +3,96 @@ site_url: https://docs.flowrunner.ai
 site_description: Comprehensive documentation for FlowRunner, a no-code platform for automating business processes with ease.
 
 nav:
-- 'Overview': 'index.md'
-- 'Terminology': 'definitions.md'
-- 'Flow Manager': 'flowmanager.md'
-- 'Quick Start Guide': 'quickstart.md'
-- 'Flow Management':
+- 'WELCOME / LEARN': 
+  - 'Overview' : index.md
+  - 'Terminology': 'definitions.md'
+  - 'Quick Start Guide': 'quickstart.md'
+  - 'DEMO/TRAINING FLOWS' :
+    - 'About Demo Flows' : 'training/about-demo-flows.md'
+    - 'Welcome Email Flow' : 'training/welcome-email.md'
+    - 'Basic Approval Flow': 'training/basic-approval-flow.md'
+    - 'Daily Reminder Email Flow' : 'training/daily-reminder-email.md'
+    - 'Customer Satisfaction Survey' : 'training/customer-satisfaction-surver-flow.md'
+    - 'AI-Driven Sentiment Analysis' : 'training/ai-driven-sentiment-analysis.md'
+    - 'AI-Powered Chatbot' : 'training/ai-chatbot.md'
+    - 'AI-Powered Daily Report' : 'training/ai-powered-daily-report.md'
+    - 'AI-Powered Data From Image' : 'training/ai-powered-extraction-from-image.md'
+    - 'Sample Error Handling' : 'training/sample-error-handling.md'
+- 'MANAGE':
+  - 'About Flow Manager': 'flowmanager.md'
   - 'Creating Flows' : 'flow-management/createflow.md' 
+  - 'Version Management' : 'flow-management/versionmanagement.md'
+  - 'SLA Management' : 'flow-management/sla.md'
+  - 'Flow Permissions': 'flow-management/callflowpermission.md'
   - 'Renaming Flows' : 'flow-management/renameflow.md'
   - 'Deleting Flows' : 'flow-management/deleteflow.md'
-  - 'Flow Permissions': 'flow-management/callflowpermission.md'
-  - 'Visual Customizations': 'flow-management/flowappearance.md' 
-  - 'Version Management' : 'flow-management/versionmanagement.md'
   - 'Scheduled Flows' : 'flow-management/scheduledflows.md'
+  - 'Import/Export' : 'flow-management/import-export.md'
   - 'Best Practices': 'flow-management/bestpractices.md'
-- 'Flow Editing' :
-  - 'Flow Editor' : 'flow-editing/floweditor.md'
+- 'EDIT':
+  - 'About Flow Editor' : 'flow-editing/floweditor.md'
   - 'Working with Blocks' : 'flow-editing/workingwithblocks.md' 
-  - 'Naming your Blocks' : 'flow-editing/blocknaming.md'
-- 'Flow Development' :  
-  - 'Data Movement in Flows' : 'flow-editing/dataflow.md'
-  - 'Expression Editor': 'flow-editing/expressioneditor.md'   
-  - 'Variables and Data Buckets': 'flow-editing/variables.md'  
-  - 'Data Transformations' : 'flow-editing/transformer.md'  
-  - 'Conditional Logic': 'flow-editing/conditions.md'
-  - 'Implementing Delays': 'flow-editing/waitblock.md'  
-  - 'Grouping Triggers' : 'flow-editing/grouping-triggers.md'    
-  - 'Groupping Actions' : 'flow-editing/grouping-actions.md'
-  - 'Repeated Behavior (Loops)' : 'flow-editing/loops.md' 
-  - 'Error Handling': 'flow-editing/error-handling.md'  
-  - 'AI Integration': 'flow-editing/using-ai.md'
-  - 'PDF Generator': 'flow-editing/pdf-generator.md'
-  - 'Testing your Flows' : 'flow-editing/testing.md'
-  - 'Custom Actions' : 'flow-editing/custom-actions.md'  
-- 'Extending FlowRunner' : 
+  - 'Naming your Blocks' : 'flow-editing/blocknaming.md'    
+- 'BUILD' :  
+  - 'Fundamentals':
+    - 'Data Movement in Flows' : 'flow-editing/dataflow.md'
+    - 'Expression Editor': 'flow-editing/expressioneditor.md'   
+    - 'Variables and Data Buckets': 'flow-editing/variables.md'
+  - 'Flow Control':
+    - 'Conditional Logic': 'flow-editing/conditions.md'
+    - 'Value Routing': 'flow-editing/valuerouter.md'
+    - 'Repeated Behavior (Loops)' : 'flow-editing/loops.md'
+    - 'Implementing Delays': 'flow-editing/waitblock.md'
+    - 'SubFlows': 'flow-editing/subflows.md'
+    - 'Return Result': 'flow-editing/return-result.md'  
+    - 'Error Handling': 'flow-editing/error-handling.md'
+    - 'Grouping Triggers' : 'flow-editing/grouping-triggers.md'    
+    - 'Grouping Actions' : 'flow-editing/grouping-actions.md'
+  - 'Data Operations':
+    - 'Data Transformations' : 'flow-editing/transformer.md'
+  - 'Integrations':
+    - 'AI Integration': 'flow-editing/using-ai.md'
+    - 'Communication with UI': 'flow-editing/communicate-with-ui.md'
+    - 'Custom Actions' : 'flow-editing/custom-actions.md'
+  - 'Output Generation':
+    - 'PDF Generator': 'flow-editing/pdf-generator.md'
+- 'EXTEND' : 
    - 'About Extensibility' : 'extensibility/overview.md'
+   - 'MCP Server Integration': 'extensibility/mcp-integration.md'
    - 'Custom Actions':
      - 'About Custom Actions': 'extensibility/custom-action.md'  
-     - 'Quick Start Guide' : 'extensibility/actions-quick-start.md'
-     - 'Action Development' : 'extensibility/action-development.md'
      - 'Service Config Params': 'extensibility/service-config.md'     
      - 'OAuth2 Authorization': 'extensibility/oauth2-services.md' 
-     - 'Custom Action Testing': 'extensibility/action-testing.md'
-- 'Running Flows' :
-  - 'Launching Flows' : 'flow-execution/overview.md'
+     - 'Custom Action Testing': 'extensibility/action-testing.md'  
+   - 'No-Code Action Development':
+     - 'Development Steps Overview' : 'extensibility/action-development.md'
+     - 'Build Basic Action' : 'extensibility/actions-quick-start.md'
+     - 'Build Action with Arguments' : 'extensibility/actions-with-args.md'
+     - 'Build Dictionary Operation' : 'extensibility/dictionary-arguments.md'
+   - 'Action Development with JS':  
+     - 'Dev Environment Setup' : 'extensibility/setup-node-env.md'
+     - 'Build Basic Action' : 'extensibility/basic-action-js.md'
+     - 'Build Action with Arguments' : 'extensibility/action-with-args-js.md'
+     - 'Build Dictionary Function' : 'extensibility/action-with-dictionary-js.md'
+     - 'Service Configuration Items' : 'extensibility/config-items.md'
+     - 'Parameter Rendering' : 'extensibility/parameter-ui-types.md'
+- 'TEST & DEBUG' :
+  - 'Testing Your Flows' : 'flow-testing/testing.md'
+  - 'Skipping Actions': 'flow-testing/action-skipping.md'
+  - 'Flow Debugging' : 'flow-testing/debugging.md'
+- 'RUN & MONITOR' :
+  - 'Running Flows' : 'flow-execution/overview.md'
   - 'Service Level Agreements (SLAs)' : 'flow-execution/sla.md'   
   - 'Compliance' : 'flow-execution/compliance.md'  
-  - 'Analytics' : 'flow-execution/analytics.md'  
-- 'Block Reference' :
+  - 'Analytics' : 'flow-execution/analytics.md'    
+- 'BLOCK REFERENCE' :
+  - 'AI' :
+    - 'AI Agent' : 'reference/ai-agent.md'
+    - 'AI Router': 'reference/ai-router-action.md'
+    - 'AI Assistants': 'reference/ai-assistant.md'
+    - 'Moderate Content' : 'reference/ai-content-moderation.md'
+    - 'Speech to Text' : 'reference/ai-speech-to-text.md'
+    - 'Text to Speech' : 'reference/ai-text-to-speech.md'
   - 'Triggers' : 
     - 'External Callback' : 'reference/external-callback-trigger.md'  
     - 'App Logic Trigger' : 'reference/applogic-trigger.md'  
@@ -63,28 +106,33 @@ nav:
     - 'Delete Record in Database': 'reference/delete-record-action.md'  
     - 'Find Record(s) in Database': 'reference/find-records-action.md'  
     - 'Send Push Notification': 'reference/send-push-notification-action.md'  
-    - 'AI Router': 'reference/ai-router-action.md'
-    - 'Run API Service': 'reference/run-api-service-action.md'  
-    - 'Call Flow': 'reference/call-flow-action.md'  
     - 'HTTP Request': 'reference/http-request-action.md'      
+    - 'Assign Instance Name': 'reference/assign-instance-name.md'
   - 'Conditions' :
     - 'Condition' : 'reference/condition.md'  
     - 'Condition with Transformer' : 'reference/condition-with-transformer.md'  
   - 'Groups' :
-    - 'Triggers Group': 'reference/triggers-group.md'  
-    - 'Actions Group' : 'reference/actions-group.md'  
+    - 'Triggers Group': 'reference/triggers-group.md'   
+    - 'Actions Group' : 'reference/actions-group.md'
+  - 'Reusability' :
+    - 'SubFlow' : 'reference/subflow.md'  
+    - 'Call Flow': 'reference/call-flow-action.md'     
   - 'Utilities' :
     - 'Repeat (Loops)': 'reference/repeat-loops.md'  
+    - 'List Iterator': 'reference/list-iterator.md'
+    - 'Value Router': 'reference/value-router.md'
     - 'Wait': 'reference/wait.md'  
     - 'Error Handler': 'reference/error-handler.md'  
     - 'Set Variables': 'reference/set-variables.md'  
     - 'Transform Data': 'reference/transformer.md'
+    - 'Return Result': 'reference/return-result.md'
+    - 'Synchronize': 'reference/synchronize.md'
 
    
 docs_dir: content
 site_dir: ../prod/automations
 
-copyright: 'Copyright &copy; 2024 Backendless Corp'
+copyright: 'Copyright &copy; 2025 Backendless Corp'
 
 extra_css:
   - 'css/style.css'
@@ -103,7 +151,7 @@ extra_css:
 
 theme:
   name: 'material'
-#  logo: 'flowrunner-logo.png'
+  logo: 'flowrunner-logo.png'
 #  custom_dir: material/overrides
   features:
 #    - header.autohide
@@ -120,7 +168,7 @@ theme:
     - navigation.sections
 #    - navigation.path
     - navigation.expand
-#    - navigation.tabs
+    - navigation.tabs
   palette: 
     # Palette toggle for light mode
     - scheme: default
@@ -130,34 +178,42 @@ theme:
 
     # Palette toggle for dark mode
     - scheme: slate
-      primary: blue
+      primary: indigo
       accent: cyan
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to light mode
+  icon:
+    annotation: material/help-network-outline
 
 use_directory_urls: false
 
 extra:
   generator: false
 
-watch:
-  - includes
+#watch:
+#  - includes
 
 markdown_extensions:
   - admonition
-  - codehilite:
-      linenums: False
-      guess_lang: False
+#  - codehilite:
+#      linenums: False
+#      guess_lang: False
   - toc:
       permalink: True
 #  - markdown_fenced_code_tabs:
 #      single_block_as_tab: False
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.keys
+  - pymdownx.smartsymbols
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
   - pymdownx.snippets:
       auto_append:
         - includes/abbreviations.md
+      base_path:
+        - ./snippets/  
   - pymdownx.tabbed:
       alternate_style: true 
   - pymdownx.emoji:
@@ -169,6 +225,7 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format      
   - attr_list    
+  - md_in_html
   - abbr
   - footnotes
 

@@ -2,13 +2,13 @@
 icon: material/code-greater-than
 ---
 
-In FlowRunner, an action represents a custom piece of logic that developers can use within a flow. From a technical standpoint, an action is an API service operation that is specifically configured to be recognized by FlowRunner as a usable block. This enables you to design, develop, and deploy functionality that can be easily integrated into flows, just like the built-in actions already provided by the platform.
+In FlowRunner™(tm), an action represents a custom piece of logic that developers can use within a flow. From a technical standpoint, an action is an API service operation that is specifically configured to be recognized by FlowRunner™(tm) as a (re)usable block. This enables you to design, develop, and deploy functionality that can be easily integrated into flows, just like the built-in actions already provided by the platform.
 
 ## What is an Action?
 
-An **action** is essentially an **operation** within an API service. Every action is defined as part of a service, meaning the first step in creating an action is to create an API service itself. Once the service is in place, you can define multiple **operations** within it. These operations can perform various tasks, such as processing data, connecting to third-party services, or executing custom business logic.
+An **action** is essentially an **operation/method** within an API service. Every action is defined as part of a service, meaning the first step in creating an action is to create an API service itself. Once the service is in place, you can define multiple **operations** within it. These operations can perform various tasks, such as processing data, connecting to third-party services, or executing custom business logic.
 
-For the operation to be recognized as a FlowRunner action, it must be specifically marked as a FlowRunner Action. This allows it to appear as a draggable block in the FlowRunner toolbox, where it can be easily used and connected to other blocks within a flow. Once set up, these custom actions behave exactly like the built-in actions, enabling smooth integration into any workflow.
+For the operation to be recognized as a FlowRunner™(tm) action, it must be specifically marked as a "FlowRunner™(tm) Action"[^1]. This allows it to appear as a draggable block in the FlowRunner™(tm) toolbox, where it can be easily used and connected to other blocks within a flow. Once set up, these custom actions behave exactly like the built-in actions, enabling smooth integration into any workflow.
 
 You can develop custom actions using either **Codeless** or **JavaScript (Node.js)**. Both approaches - Codeless and JavaScript - offer the same technical capabilities, but the Codeless approach provides more user-friendly features in the **Backendless Console**, making it easier to create, configure, and manage custom actions.
 
@@ -35,7 +35,7 @@ The **Codeless** approach not only simplifies the development of custom actions 
 
 When developing custom actions in the Backendless Console, you have access to a wide range of features designed to simplify the process and enhance your development workflow:
 
-- **Creation of New Actions**: Easily create and configure new actions that can be integrated into FlowRunner workflows.
+- **Creation of New Actions**: Easily create and configure new actions that can be integrated into FlowRunner™(tm) workflows.
   
 - **Visual Action Customization**: Customize the appearance of your action block by assigning an icon, adjusting the color border, and adding a descriptive tooltip that will appear when users hover over the action.
 
@@ -49,6 +49,8 @@ When developing custom actions in the Backendless Console, you have access to a 
 
 ## Getting Started
 
-To become familiar with the process of developing a custom action for FlowRunner, we recommend following the [**Quick Start Guide**](./actions-quick-start.md), which will walk you through creating, configuring, and deploying a custom action using both the Codeless and JavaScript approaches. 
+To become familiar with the process of developing a custom action for FlowRunner™(tm), we recommend following the [**Quick Start Guide**](./actions-quick-start.md), which will walk you through creating, configuring, and deploying a custom action using both the Codeless and JavaScript approaches. 
 
 For a complete walkthrough of all the features and capabilities available to developers of custom actions, follow the chapters in this section of the guide.
+
+[^1]:This option is enabled by default for Codeless API Services

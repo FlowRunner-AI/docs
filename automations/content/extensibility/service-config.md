@@ -52,7 +52,7 @@ The data type you choose should match the kind of information your service needs
 
 ## Config Parameters in FlowRunner
 
-If any of your service operations are marked as **FlowRunner Actions**, users will be able to configure the service directly within FlowRunner. When they add a service action to a flow, they’ll see a **Configure** button, which opens up the form with the configuration parameter fields. This makes it easy to set or update the service's configuration right in the flow, ensuring that the correct settings are applied without needing to leave the FlowRunner environment.
+If any of your service operations are marked as **FlowRunner™ Actions**, users will be able to configure the service directly within FlowRunner™. When they add a service action to a flow, they’ll see a **Configure** button, which opens up the form with the configuration parameter fields. This makes it easy to set or update the service's configuration right in the flow, ensuring that the correct settings are applied without needing to leave the FlowRunner™ environment.
 
 ![flow runner config service](../images/flow-runner-configure-service.png)
 
@@ -68,4 +68,4 @@ Once you've declared configuration parameters, they can easily be accessed in yo
 
 If you're planning to share your service through the Backendless Marketplace, configuration parameters are an essential part of making your service user-friendly. When someone installs your service, they’ll be prompted to complete the configuration form during the installation process. This ensures that the service is properly set up from the beginning, allowing it to run smoothly without additional setup.
 
-Once installed, users can always revisit the configuration settings. They can do this by opening the **Service Configuration** popup from the API Services section or by using the **Configure** button in FlowRunner. This ongoing flexibility allows users to adjust the service to their needs at any time, making your service adaptable and easy to use in various environments.
+Once installed, users can always revisit the configuration settings. They can do this by opening the **Service Configuration** popup from the API Services section or by using the **Configure** button in FlowRunner™. This ongoing flexibility allows users to adjust the service to their needs at any time, making your service adaptable and easy to use in various environments.

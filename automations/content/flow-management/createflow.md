@@ -4,23 +4,25 @@ icon: octicons/diff-added-24
 
 # Creating New Flows
 
-Embarking on your journey with FlowRunner™ begins with creating new flows. Flows are the essence of automation, enabling you to streamline complex processes into efficient, automated sequences. This chapter focuses on the initial steps of setting up a flow: crafting its identity with a name and enriching it with a description. Here, we'll guide you through the straightforward process of bringing a new flow to life.
+Creating new flows is the first step in building automation with FlowRunner™. This chapter covers how to set up a flow by providing a name and description.
 
 ## Creating a Flow
 
-The creation of a new flow in FlowRunner™ is both a simple and significant first step toward automating your business processes. Follow these steps to create your flow:
+Follow these steps to create a new flow in FlowRunner™:
 
-1. **Navigate to Flow Manager:** Your adventure starts in the Flow Manager, the control center for all your automation activities. Here, you'll find the tools and options to manage your flows.
+1. **Navigate to Flow Manager:** Open the Flow Manager, the control center for all your automation activities.
 
-2. **Create New Flow:** Look for the **`CREATE A NEW FLOW`** button. This is your gateway to initiating a new automation. Clicking this button brings you to the first step of flow creation.
+2. **Create New Flow:** Click the **CREATE A NEW FLOW** button to initiate a new automation.
+
+    ![new flow button](../images/new-flow-button.png)
 
 3. **Enter Flow Name:** Upon initiating a new flow, you’ll be prompted to give it a name. This name is how you'll identify your flow within the FlowRunner™ platform, so choose something descriptive and meaningful.
 
 4. **Add a Description (Optional):** While optional, adding a description is highly recommended. This is where you outline the flow's purpose and any other important notes that will guide you or your collaborators in understanding its function.
 
-5. **Confirm Creation:** With a name and an optional description in place, confirm the creation of your new flow by clicking the **`CREATE`** button. This action generates the flow and its first editable version within the system.
+5. **Confirm Creation:** With a name and an optional description in place, confirm the creation of your new flow by clicking the **CREATE** button. This action generates the flow and its first editable version within the system.
 
-<div style="position: relative; padding-bottom: calc(60.110386352232815% + 41px); height: 0; width: 100%;"><iframe src="https://demo.arcade.software/89xHndSgvzK0rRk6Xvin?embed&show_copy_link=true" title="Automations - Browser - CoolAutomations - Backendless" frameborder="0" loading="lazy" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="clipboard-write" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;color-scheme: light;"></iframe></div>
+<!--ARCADE EMBED START--><div style="position: relative; padding-bottom: calc(56.25% + 41px); height: 0; width: 100%;"><iframe src="https://demo.arcade.software/1QEoCU9vKIOriK7BudfQ?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true" title="Setting Up Your New Flow" frameborder="0" loading="lazy" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="clipboard-write" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; color-scheme: light;" ></iframe></div><!--ARCADE EMBED END-->
 
 ## Flow Name
 
@@ -40,4 +42,4 @@ Though optional, a well-crafted description is invaluable. It provides context a
 
 - **Keep it Clear and Concise:** While being thorough, aim for clarity and brevity. The goal is to communicate effectively, not to overwhelm with details.
 
-Once created, your new flow and its first version are ready for further development. At this stage, you can begin the creative process of structuring your automation by planning and eventually implementing the flow’s components and logic. This initial step of naming and describing your flow lays the groundwork for the automation magic that follows.
+Once created, your new flow and its first version are ready for further development. You can now structure your automation by planning and implementing the flow's components and logic.
