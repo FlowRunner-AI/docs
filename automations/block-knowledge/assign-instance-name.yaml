@@ -1,0 +1,62 @@
+id: assign-instance-name
+name: Assign Instance Name
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  subtype: SET_EXECUTION_NAME
+  config_keys: [instanceName, onFailElemId, logging, skipBlock]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    Assign a human-readable name to the running instance for traceability in analytics.
+  when_to_use: >
+    Make instances identifiable in the Instances list (vs raw GUIDs); assign early.
+  mental_model: >
+    Label this run. Instead of an Instance ID GUID, the Instances tab shows your name.
+  config:
+    - field: Instance Name
+      type: expression
+      required: true
+      description: 'Static text, dynamic values, or a composite (e.g. "User: {{name}}").'
+  produces_result: false        # no referenceable result
+  data_in: The name expression.
+  data_out: Sets the instance's display name.
+  gotchas:
+    - "No result alias (produces no referenceable result)."
+    - "Assign early so the name is visible throughout the instance lifecycle."
+  cross_refs: [instances-concept, expression-editor]
+  terminology: [Assign Instance Name, Instance Name, Instance ID]
+
+behavior:
+  - "Sets the instance's name; appears in the Instances list (else the raw GUID shows)."
+
+assertions:
+  - id: name-appears-in-instances
+    when: run-instance
+    given: "Assign Instance Name = 'DemoName'"
+    expect: "the instance is listed as 'DemoName' (not a GUID)"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Make instances findable with meaningful names."
+    - "Build composite names from runtime data."
+  prerequisites: [instances-concept, expression-editor]
+  common_mistakes:
+    - "Assigning late (name missing for early-failed instances)."
+  exercise: >
+    Name each instance from the trigger payload (e.g. the customer email) and find it in
+    the Instances tab.
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'This is my new flow' — Assign Instance Name from External Callback Data.name; 'DemoName' appears in Instances list. notes.md + screenshots 23,24."
+  verified_on: 2026-06-13

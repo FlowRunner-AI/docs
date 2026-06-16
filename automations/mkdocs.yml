@@ -37,6 +37,44 @@ nav:
     - 'Workspace': platform/workspace.md
   - 'Block Reference':
     # BEGIN generated reference nav
+    - 'AI':
+      - 'AI Agent': reference/ai-agent.md
+      - 'AI Router': reference/ai-router.md
+    - 'Actions':
+      - 'Assign Instance Name': reference/assign-instance-name.md
+      - 'Call Flow': reference/call-flow.md
+      - 'Custom Cloud Code': reference/custom-cloud-code.md
+      - 'HTTP Request': reference/http-request.md
+      - 'Knowledge Base: Add Document': reference/knowledge-base-add-document.md
+      - 'Knowledge Base: Delete Document': reference/knowledge-base-delete-document.md
+      - 'Knowledge Base: Delete by Filter': reference/knowledge-base-delete-by-filter.md
+      - 'Knowledge Base: List Documents': reference/knowledge-base-list-documents.md
+      - 'Shared Memory: Delete': reference/shared-memory-delete.md
+      - 'Shared Memory: Put': reference/shared-memory-put.md
+      - 'Shared Memory: Read': reference/shared-memory-read.md
+      - 'Start Scheduled Runs': reference/start-scheduled-runs.md
+      - 'Stop Scheduled Runs': reference/stop-scheduled-runs.md
+    - 'Concepts':
+      - 'Flow Scheduling (Configure Flow Schedule)': reference/flow-scheduling-concept.md
+      - 'Knowledge Bases (RAG stores)': reference/knowledge-bases-concept.md
+    - 'Groups':
+      - 'Actions Group': reference/actions-group.md
+      - 'Triggers Group': reference/triggers-group.md
+    - 'Subflows':
+      - 'SubFlow': reference/subflow.md
+    - 'Triggers':
+      - 'External Callback': reference/external-callback.md
+    - 'Utils':
+      - 'Condition': reference/condition.md
+      - 'Handle Error': reference/handle-error.md
+      - 'List Iterator': reference/list-iterator.md
+      - 'Repeat': reference/repeat.md
+      - 'Return Result': reference/return-result.md
+      - 'Set Variables': reference/set-variables.md
+      - 'Synchronize': reference/synchronize.md
+      - 'Transform Data': reference/transform-data.md
+      - 'Value Router': reference/value-router.md
+      - 'Wait': reference/wait.md
     # END generated reference nav
   - 'Extend':
     - 'About Custom Actions': extend/custom-actions.md
