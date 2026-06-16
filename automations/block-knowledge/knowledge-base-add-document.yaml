@@ -1,0 +1,84 @@
+id: knowledge-base-add-document
+name: "Knowledge Base: Add Document"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: KNOWLEDGE_BASE
+  subtype: ADD_DOCUMENT
+  config_keys: [knowledgeBaseId, content, fileName, metadata, retryPolicy, saveToVariable, storeResult, onFailElemId, logging]
+
+testability:
+  class: external          # writes to a real vector store + calls embeddings
+  hermetic: false
+  mock_strategy: "Use a dedicated test KB, or stub via Skip Block + Simulated Result. Processing is async (Processing -> Completed)."
+
+docs:
+  purpose: >
+    Programmatically add a document (content + metadata) to a Knowledge Base; it gets
+    chunked, embedded, and stored in the KB's vector store.
+  when_to_use: >
+    Ingest content into a RAG store from within a flow (the flow equivalent of uploading
+    a file on the KB Data tab).
+  mental_model: >
+    "Index this text into the knowledge base." The KB's Setup (embedding model + chunk
+    size/overlap + vector store) governs how it's stored; metadata lets you tag it for
+    later filtered list/delete.
+  config:
+    - field: Knowledge Base
+      type: dropdown (knowledgeBaseId)
+      required: true
+      description: Target KB (UI shows the KB name; stored as its id).
+    - field: Content
+      type: expression (string)
+      required: true
+      description: The document text to ingest (e.g. an HTTP Request result).
+    - field: File Name
+      type: expression (string)
+      description: Optional name for the document.
+    - field: Metadata
+      type: repeatable Property+Value
+      input_modes: [key_value, single]   # toggle: "Use Key/Value Pairs" | "Use single input" (pass one object)
+      description: Tags attached to the document; used by List/Delete filters.
+      help_tooltip: "Only flat key-value pairs are supported. Nested objects are not allowed."   # verbatim from product
+  produces_result: true
+  data_in: content (+ fileName + metadata) into a KB.
+  data_out: Add result (document reference); also assignable to a variable.
+  gotchas:
+    - "Ingestion is async (the Data tab shows Processing -> Completed)."
+    - "Metadata is what later filters (List/Delete by Filter) match on."
+    - "Metadata must be FLAT key-value pairs — nested objects are not allowed (product tooltip)."
+    - "KB is identified by id; the UI dropdown shows the friendly name."
+  cross_refs: [knowledge-base-list-documents, knowledge-base-delete-by-filter, knowledge-bases-concept, ai-agent]
+  terminology: [Knowledge Base, Document, Metadata, Chunk Size, Chunk Overlap, Embedding]
+
+behavior:
+  - "Adds the content to the KB; it is chunked + embedded per the KB's AI Setup and stored in the vector store."
+  - "Attached metadata is queryable by List/Delete-by-Filter."
+
+assertions:
+  - id: add-then-list-finds-it
+    when: run-instance
+    given: "Add content with metadata {tag: t1} to a test KB, then List filter {tag: t1}"
+    expect: "the added document appears in the List result (after processing completes)"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Ingest content into a Knowledge Base from a flow."
+    - "Tag documents with metadata for later retrieval/cleanup."
+    - "Understand chunking/embedding happens per the KB Setup."
+  prerequisites: [knowledge-bases-concept, http-request, expression-editor]
+  common_mistakes:
+    - "Expecting immediate availability (processing is async)."
+    - "Omitting metadata, then being unable to filter later."
+  exercise: >
+    Fetch a document via HTTP, Add it to a test KB with metadata {source: demo}, then
+    List with that filter to confirm it landed.
+
+provenance:
+  confidence: V-real
+  evidence: "Tests workspace 'KB Test' flow v1 — Add Document (knowledgeBaseId 'Test KB', content <- Fetch result, metadata metaPropDemo1/2). KB Setup + Data inspected. notes.md + screenshots 53-56."
+  verified_on: 2026-06-15

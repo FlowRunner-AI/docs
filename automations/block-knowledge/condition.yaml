@@ -1,0 +1,80 @@
+id: condition
+name: Condition
+category: Utils
+kind: native
+
+api:
+  element_type: CONDITION
+  config_keys: [parts, conditionLogic, storeResult, onFailElemId, logging]
+  branches: "Two outputs: Yes (true) and No (false)."
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    Branch the flow into Yes/No paths based on a logical test.
+  when_to_use: >
+    Any boolean decision point (gate, guard, simple routing on a known value).
+  mental_model: >
+    An if/else fork. Evaluate a value against an operation; true -> Yes path, false -> No path.
+  config:
+    - field: Value to Check
+      type: expression
+      required: true
+      description: The operand (block/trigger data, Initial Data, system values).
+    - field: Value Data Type
+      type: dropdown
+      required: true
+      description: STRING | INT | DOUBLE | BOOLEAN/CHECKBOX | DATETIME | IMAGE | JSON Object/Array.
+    - field: Operation
+      type: dropdown
+      required: true
+      description: Comparison operator (depends on data type, e.g. IS TRUE, IS NOT EMPTY, equals).
+    - field: Parts (+)
+      type: repeatable
+      description: Multiple sub-conditions joined by AND/OR with priority brackets.
+  produces_result: true
+  data_in: The Value to Check + comparison.
+  data_out: Boolean; routes Yes/No.
+  gotchas:
+    - "Yes path = true, No path = false."
+    - "Multi-part: AND/OR connector chips toggle; parentheses set precedence."
+    - "Can compare via Operation OR build the comparison inside the expression (op IS TRUE)."
+  cross_refs: [value-router, ai-router, expression-editor]
+  terminology: [Condition, Value to Check, Value Data Type, Operation, Part]
+
+behavior:
+  - "Evaluates to true/false; flow continues down the matching (Yes/No) connector."
+  - "Multi-part conditions combine sub-results with AND/OR + bracket precedence."
+
+assertions:
+  - id: true-takes-yes
+    when: run-instance
+    given: "Value to Check resolves true"
+    expect: "Yes branch executed; No branch did not"
+  - id: false-takes-no
+    when: run-instance
+    given: "Value to Check resolves false"
+    expect: "No branch executed; Yes branch did not"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Create a Yes/No branch on a typed value + operation."
+    - "Build a multi-part AND/OR condition with precedence."
+  prerequisites: [expression-editor]
+  common_mistakes:
+    - "Wrong Value Data Type for the operand (operations are type-specific)."
+    - "Confusing Yes/No path mapping."
+  exercise: >
+    Add a Condition that checks Initial Data.amount > 1000 and routes large vs small
+    on the Yes/No paths.
+
+provenance:
+  confidence: V-real
+  evidence: "FBB 'Application Processor' v4 — multiple Conditions (e.g. 'Is HSA Checking?': Initial Data.product_hsa_checking, BOOLEAN/CHECKBOX, IS TRUE). notes.md + screenshot 47."
+  verified_on: 2026-06-14

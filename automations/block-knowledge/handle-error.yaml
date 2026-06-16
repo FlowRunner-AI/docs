@@ -1,0 +1,77 @@
+id: handle-error
+name: Handle Error
+category: Utils
+kind: native
+
+api:
+  element_type: ERROR_HANDLER
+  config_keys: [storeResult, onFailElemId, logging]
+  wiring: >
+    NOT wired by a normal edge. Another block references this element via its
+    metaInfo.onFailElemId. On that block's failure, execution diverts here; this
+    block then continues down ITS nextElementIds (recovery path).
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: "Make the guarded block fail (e.g. Cloud Code throw) to trigger the handler."
+
+docs:
+  purpose: >
+    Catch a block's failure and route the flow to recovery logic instead of terminating.
+  when_to_use: >
+    Wrap any block that can fail (HTTP call, DB write, Cloud Code) so the flow can log,
+    notify, retry, or fall back.
+  mental_model: >
+    A try/catch target. You attach a Handle Error to a block (as its failure handler);
+    if the block throws, control jumps to Handle Error, which exposes the error and
+    continues down its own path.
+  config:
+    - field: Reference Result Data As
+      type: alias
+      default: Handle Error Result
+      description: The caught error is exposed as this result (code/message/source).
+  produces_result: true
+  data_in: The caught error (from the failed block).
+  data_out: Error object {code, message, source}; flow continues down recovery path.
+  gotchas:
+    - "Minimal config — no Test Panel / Skip Block; it's a structural catch target."
+    - "Attach it as a block's failure handler (onFailElemId), not via a normal connector."
+    - "Unhandled failures (no Handle Error) stop the flow."
+  cross_refs: [wait, custom-cloud-code, error-handling-concept]
+  terminology: [Handle Error, onFailElemId, error code/message/source]
+
+behavior:
+  - "When the guarded block fails, execution diverts to this block."
+  - "Exposes the error (storeResult) and continues down its nextElementIds."
+  - "Common pattern: Handle Error -> Wait (backoff) -> retry the failed action."
+
+assertions:
+  - id: catch-diverts-on-failure
+    when: run-instance
+    given: "a block with onFailElemId -> Handle Error, and the block throws"
+    expect: "Handle Error executed; its recovery successor executed; flow did not terminate"
+  - id: success-skips-handler
+    when: run-instance
+    given: "the guarded block succeeds"
+    expect: "Handle Error not executed"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Attach a Handle Error to a risky block and build a recovery path."
+    - "Read the error shape (code/message/source)."
+    - "Implement error -> backoff (Wait) -> retry."
+  prerequisites: [custom-cloud-code, wait, instances-concept]
+  common_mistakes:
+    - "Expecting it to wire via a normal connector (it's a failure pointer)."
+    - "Leaving risky blocks unhandled (flow terminates on error)."
+  exercise: >
+    Guard an HTTP Request with a Handle Error that waits 30s and retries once, then
+    routes to a notification on a second failure.
+
+provenance:
+  confidence: V-real
+  evidence: "FBB 'Create IRA' (LIVE) — 'Create IRA' action onFailElemId -> Handle Error (storeResult) -> Create Object Operation. MyProjects 'Content Engine' uses Handle Error -> Wait -> retry. notes.md."
+  verified_on: 2026-06-14

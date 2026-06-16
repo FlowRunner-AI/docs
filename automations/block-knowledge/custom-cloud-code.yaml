@@ -1,0 +1,120 @@
+id: custom-cloud-code
+name: Custom Cloud Code
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: CUSTOM_CLOUD_CODE
+  group_type: null
+  config_keys: [arguments, code, storeResult, onFailElemId, logging, skipBlock]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null   # no external deps; runs in the sandbox
+
+docs:
+  purpose: >
+    Run custom JavaScript inline as a flow step. Receives named Arguments as top-level
+    variables and returns an object that becomes the block's result.
+  when_to_use: >
+    Custom data shaping/logic no built-in block covers; glue between blocks. NOT for I/O —
+    the sandbox has no network/file access (fetch via an upstream block instead).
+  mental_model: >
+    A locked-down JS sandbox, not Node. Think "pure function": inputs via Arguments,
+    value out via `return`. External data must be fetched by an upstream block (e.g.
+    HTTP Request) and passed in as an Argument.
+  config:
+    - field: Open Code Editor
+      type: button
+      description: Opens the modal (Arguments pane + JS editor).
+    - field: Arguments
+      type: repeatable name+expression
+      description: >
+        Each argument becomes a top-level variable in the code; value is static or an
+        expression referencing prior block results / Initial Data.
+    - field: Reference Result Data As
+      type: alias
+      default: Custom Cloud Code Result
+      description: Alias for the returned object, referenceable downstream.
+  produces_result: true
+  data_in: Arguments (native JS values; no stringification).
+  data_out: The returned value, JSON-serialized.
+  gotchas:
+    - "V8 isolate ~ES2023, NOT Node: no require/fetch/process/Buffer/crypto/setInterval/btoa/structuredClone."
+    - "Server timezone UTC; locale en-US; full ICU present."
+    - "Result is JSON.stringify'd: Map/Set/RegExp -> {}; NaN/Infinity -> null; undefined/functions/Symbols dropped."
+    - "Non-strict (sloppy) mode; fresh isolate per run — no state persists between runs/instances."
+    - "10s execution timeout; ~400MB allocation OK; deep recursion -> RangeError."
+  cross_refs: [expression-editor, http-request, handle-error]
+  terminology: [Custom Cloud Code, Cloud Code, Arguments]
+
+behavior:
+  - "async/await + Promises supported and awaited before result capture."
+  - "A returned Promise is awaited and unwrapped."
+  - "Uncaught throw of an Error -> block status Error, message = error.message."
+  - "throw of a non-Error primitive -> Error but empty message (value lost) — always throw new Error()."
+  - "Arguments arrive as native typed JS values (arrays/objects/numbers/null), no stringification."
+  - "Floating (un-awaited) promise rejection is ignored; block returns normally."
+
+assertions:
+  - id: env-not-node
+    when: run-block
+    code: "return { hasProcess: typeof process, hasFetch: typeof fetch, hasRequire: typeof require }"
+    expect: { status: Success, result: { hasProcess: undefined, hasFetch: undefined, hasRequire: undefined } }
+  - id: timezone-utc
+    when: run-block
+    code: "return { tz: Intl.DateTimeFormat().resolvedOptions().timeZone }"
+    expect: { status: Success, result: { tz: UTC } }
+  - id: return-array-ok
+    when: run-block
+    code: "return [1, 'two', { three: 3 }]"
+    expect: { status: Success, result_is_array: true }
+  - id: promise-unwrapped
+    when: run-block
+    code: "return Promise.resolve({ n: 7 })"
+    expect: { status: Success, result: { n: 7 } }
+  - id: arg-native-types
+    when: run-block
+    note: "bind arg `payload` to an array-of-objects upstream result"
+    code: "return { isArr: Array.isArray(payload), idType: typeof payload[0].id }"
+    expect: { status: Success, result: { isArr: true, idType: number } }
+  - id: timeout-10s
+    when: run-block
+    code: "const s=Date.now(); while(Date.now()-s<12000){}; return {}"
+    expect: { status: Error, message_contains: "timed out after 10000ms" }
+
+known_bugs:
+  - id: BUG-ccc-number-return
+    repro: "return 42"
+    observed: { status: Error, message: "Invalid status code: 42" }
+    expected: { status: Success, result: 42 }
+    severity: medium
+    workaround: "Wrap scalars: return { value: 42 }"
+  - id: BUG-ccc-serialization-false-success
+    repro: "return { big: 123n }   # or a circular reference"
+    observed: { status: Success, result: { message: "Do not know how to serialize a BigInt" } }
+    expected: { status: Error }
+    severity: high
+    note: "Serialization failure swallowed as Success; downstream consumes the {message} object."
+
+training:
+  learning_objectives:
+    - "Explain that Cloud Code is a sandbox, not Node, and why I/O must come via blocks."
+    - "Pass data in via Arguments and return a result object."
+    - "Handle failure with try/catch and a Handle Error block."
+  prerequisites: [arguments-concept, expression-editor, instances-concept]
+  common_mistakes:
+    - "Calling fetch()/require() — undefined in the sandbox."
+    - "Returning a bare number (status-code bug) or a non-JSON value (Map/BigInt)."
+    - "Expecting module-level variables to persist between runs (they don't)."
+  exercise: >
+    Given an HTTP Request that returns a JSON array, add a Cloud Code block that receives
+    it as an argument and returns { count, firstId }. Then make it throw on empty input
+    and catch it with a Handle Error block.
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'This is my new flow' v3; ~40 Run-Block experiments (notes.md Custom Cloud Code RUNTIME); screenshots 27-34."
+  verified_on: 2026-06-13

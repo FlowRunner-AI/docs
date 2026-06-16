@@ -1,0 +1,81 @@
+id: call-flow
+name: Call Flow
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  operation: CALL_FLOW
+  meta_type: BACKENDLESS
+  subtype: AUTOMATION_SERVICE
+  config_keys: [flowId, initialData, initialDataParams, syncCall, storeResult, onFailElemId, logging]
+
+testability:
+  class: deterministic   # if the called flow is deterministic
+  hermetic: true
+  mock_strategy: "Call a hermetic test sub-flow, or stub via Skip Block + Simulated Result."
+
+docs:
+  purpose: >
+    Invoke another (LIVE) flow from within this flow, passing data in and (optionally)
+    waiting for its Return Result.
+  when_to_use: >
+    Compose flows: factor reusable logic into separate flows and orchestrate them.
+  mental_model: >
+    A function call to another flow. Pass named params (Initial Data); syncCall=true
+    waits and returns the callee's Return Result; async returns an executionId.
+  config:
+    - field: Flow Name
+      type: dropdown (flowId)
+      required: true
+      description: The target flow (must be LIVE to be callable).
+    - field: Initial Params
+      type: repeatable name+expression (initialDataParams)
+      description: Named values passed to the called flow's Initial Data.
+    - field: Wait for Execution
+      type: toggle (syncCall)
+      default: true
+      description: true = wait + capture Return Result; false = fire-and-forget (returns executionId).
+  produces_result: true
+  data_in: Initial Params (mapped from expressions).
+  data_out: The called flow's Return Result (if syncCall) else executionId.
+  gotchas:
+    - "Only LIVE flows can be called."
+    - "Sync vs async changes the return (Return Result vs executionId)."
+  cross_refs: [subflow, return-result, synchronize, initial-data-concept]
+  terminology: [Call Flow, Initial Data, Wait for Execution, executionId]
+
+behavior:
+  - "Starts an instance of the target flow with the mapped Initial Data params."
+  - "syncCall=true: blocks until the callee finishes, captures its Return Result."
+  - "syncCall=false: returns immediately with the executionId."
+
+assertions:
+  - id: sync-returns-callee-result
+    when: run-instance
+    given: "Call Flow (syncCall=true) to a flow that Return Results { ok:true }"
+    expect: "this block's result == { ok:true } after callee completes"
+  - id: params-passed
+    when: run-instance
+    given: "initialDataParams { x: 5 }"
+    expect: "callee instance Initial Data.x == 5"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Compose flows by calling one from another and passing params."
+    - "Choose sync vs async and handle the different return."
+    - "Distinguish Call Flow (other flow) from SubFlow (inline reuse)."
+  prerequisites: [return-result, subflow, initial-data-concept]
+  common_mistakes:
+    - "Calling a non-LIVE flow."
+    - "Assuming async returns the result (it returns executionId)."
+  exercise: >
+    Build a 'Create Record' flow that Return Results an id, then Call it from a parent
+    flow (sync) and use the returned id downstream.
+
+provenance:
+  confidence: V-real
+  evidence: "FBB 'Create IRA' (LIVE) — Call 'Create Beneficiary' Flow: operation CALL_FLOW, flowId, syncCall true, initialDataParams (deposit_id <- Create IRA Result.id, ...). notes.md."
+  verified_on: 2026-06-14

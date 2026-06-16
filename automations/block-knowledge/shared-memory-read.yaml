@@ -1,0 +1,80 @@
+id: shared-memory-read
+name: "Shared Memory: Read"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: SHARED_MEMORY
+  subtype: READ
+  config_keys: [key, defaultValue, assignToVariable (dataBucket+variableName), storeResult, onFailElemId, logging]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    Read one value from Shared Memory (the flow's persistent key/value store) by key.
+  when_to_use: >
+    Retrieve state that must persist ACROSS instances (counters, cursors, last-seen).
+  mental_model: >
+    A get() from a flow-scoped persistent store. Returns a Default Value when the key
+    doesn't exist yet.
+  config:
+    - field: Key
+      type: expression
+      required: true
+      description: The shared-memory key to read.
+    - field: Default Value
+      type: expression
+      description: Value used when the key does not exist yet (first run).
+      help_tooltip: "The return value if the value for the key has not yet been put"   # verbatim from product
+    - field: Reference Result Data As
+      type: alias
+      default: "Shared Memory: Read Result"
+    - field: Assign to a Variable
+      type: optional (Data Bucket + Variable Name)
+      description: Also drop the read value into a local variable.
+  produces_result: true
+  data_in: Key (+ Default Value).
+  data_out: The stored value (or Default Value).
+  gotchas:
+    - "Shared Memory persists BETWEEN instances (unlike Set Variables / Data Buckets)."
+    - "First run (no key yet) -> output is empty/None; the Default Value flows to the assigned variable."
+    - "Large values may be offloaded to S3 internally (impl detail)."
+  cross_refs: [shared-memory-put, shared-memory-delete, set-variables, flow-memory-settings]
+  terminology: [Shared Memory, Key, Default Value, Memory Anchor]
+
+behavior:
+  - "Returns the stored value for the key, or the Default Value if absent."
+  - "Optionally assigns the value to a Data-Bucket variable."
+
+assertions:
+  - id: read-default-when-absent
+    when: run-instance
+    given: "key absent, Default Value 0"
+    expect: "assigned variable == 0"
+  - id: read-persisted-value
+    when: run-instance
+    given: "a prior instance Put key=1"
+    expect: "Read output == 1"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Read cross-instance state with a default."
+    - "Distinguish Shared Memory (cross-instance) from Data Buckets (per-instance)."
+  prerequisites: [set-variables, instances-concept]
+  common_mistakes:
+    - "Expecting a value on first run (use Default Value)."
+  exercise: >
+    Build a counter: Read 'count' (default 0) -> Set count+1 -> Put 'count'. Run 3x and
+    confirm 1,2,3 across instances.
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'Flow Memory' v1, 3 instances — Read output 0/1/2 across runs. notes.md + screenshots 35,36,42,43."
+  verified_on: 2026-06-13

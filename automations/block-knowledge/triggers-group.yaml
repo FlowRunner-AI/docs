@@ -1,0 +1,67 @@
+id: triggers-group
+name: Triggers Group
+category: Groups
+kind: native
+
+api:
+  group_type: TRIGGERS
+  config_keys: [transitionMode, occurWithin, occurrenceTimeUnit, storeResult, onFailElemId]
+  inner_blocks: "trigger elements with element.groupId == this group's id"
+
+testability:
+  class: external          # depends on real trigger events
+  hermetic: false
+  mock_strategy: "Fire trigger events via their callback URLs / Learning Mode; or stub."
+
+docs:
+  purpose: >
+    Pause the flow until trigger condition(s) are met across a group of triggers.
+  when_to_use: >
+    Coordinate multiple inbound events (wait for any one, or all within a timeframe).
+  mental_model: >
+    A multi-trigger wait. Either "any one trigger fires" or "all triggers fire within a
+    time window".
+  config:
+    - field: Outgoing Transition Mode
+      type: dropdown
+      description: ONE_OCCUR (>=1 trigger fires) | all triggers within a timeframe.
+    - field: Occur Within / Time Unit
+      type: number + unit
+      description: Timeframe for the "all triggers" mode.
+  produces_result: true
+  data_in: Incoming trigger events.
+  data_out: Continues when the transition condition is met.
+  gotchas:
+    - "All triggers in the group are equal/unordered."
+    - "The 'all within timeframe' mode requires occurWithin + unit."
+    - "No group-level return value; use individual trigger results."
+    - "Stored as a groups[] entry (type TRIGGERS)."
+  cross_refs: [actions-group, external-callback]
+  terminology: [Triggers Group, Outgoing Transition Mode, ONE_OCCUR, occurWithin]
+
+behavior:
+  - "Waits for triggers; proceeds when >=1 fires (ONE_OCCUR) or all fire within the window."
+
+assertions:
+  - id: one-occur-proceeds
+    when: run-instance
+    given: "two triggers, ONE_OCCUR, one fires"
+    expect: "flow proceeds after the first trigger"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Coordinate multiple triggers with a group."
+    - "Choose ONE_OCCUR vs all-within-timeframe."
+  prerequisites: [external-callback, triggers-concept]
+  common_mistakes:
+    - "Using all-within mode without a timeframe."
+  exercise: >
+    Group two External Callback triggers (ONE_OCCUR) so either inbound event resumes the
+    flow.
+
+provenance:
+  confidence: V-config
+  evidence: "Schema from scratch flow (TRIGGERS group: transitionMode ONE_OCCUR, occurWithin/occurrenceTimeUnit). No real-flow usage in MyProjects/FBB. notes.md."
+  verified_on: 2026-06-14

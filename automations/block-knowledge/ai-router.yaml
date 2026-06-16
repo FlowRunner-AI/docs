@@ -1,0 +1,102 @@
+id: ai-router
+name: AI Router
+category: AI
+kind: native
+
+api:
+  element_type: AI_ROUTER
+  config_keys: [aiProvider, aiModel, aiApiKey, request, data, expectedDecisions, saveToVariable, storeResult, onFailElemId, logging]
+  branches: >
+    metaInfo.expectedDecisions[] — each {value (decision name), defaultDecision (bool),
+    nextComponents[] (route targets), id}. The decision with defaultDecision:true is the
+    fallback (named "Everything Else"). Branch targets also appear in nextElementIds.
+
+testability:
+  class: external          # makes a real AI call; decision is non-deterministic
+  hermetic: false
+  mock_strategy: >
+    Stub via Skip Block + Simulated Result (supply a chosen decision). Or assert
+    STRUCTURE (the expected branches/connectors exist) rather than which branch is taken.
+
+docs:
+  purpose: >
+    Use an AI model to classify input data into one of several named decisions, then
+    route the flow down the matching branch. The AI analog of Value Router.
+  when_to_use: >
+    Branch a flow on a judgment that needs an LLM (sentiment, intent, category, triage)
+    rather than a deterministic value match.
+  mental_model: >
+    "Ask an AI to pick a label, then follow that label's path." You give it a decision
+    request ("Determine the sentiment…"), the data to judge, and the allowed answers
+    (Expected Decisions); it returns one, and the flow takes that branch.
+  config:
+    - field: AI Model / AI API Key / AI Provider
+      type: dropdowns
+      required: true
+      description: The model + key making the decision (same API Keys registry as AI Agent).
+    - field: Decision Request
+      type: expression (prompt)
+      required: true
+      description: 'Instruction telling the AI what to determine (recommended to start with "Determine…").'
+    - field: Decision Data
+      type: repeatable name+expression map
+      description: Named inputs the AI evaluates (e.g. message <- External Callback Data.message).
+    - field: Expected Decisions
+      type: repeatable named branches
+      required: true
+      description: >
+        The allowed outcomes (e.g. positive / negative / neutral). Each becomes a named
+        output connector. "Everything Else" is the default/fallback decision.
+    - field: Reference Result Data As
+      type: alias
+      default: AI Router Result
+    - field: Assign to a Variable
+      type: optional (saveToVariable)
+      description: Optionally store the chosen decision into a Data-Bucket variable.
+  produces_result: true
+  data_in: Decision Request (prompt) + Decision Data (named inputs).
+  data_out: The chosen decision; flow routes to that branch (nextComponents).
+  gotchas:
+    - 'Hover the block to reveal the NAMED output connectors (one per Expected Decision + Everything Else).'
+    - "Non-deterministic: the same input may route differently across runs."
+    - "Needs an AI provider/model/key (here Anthropic claude-opus-4-8)."
+  cross_refs: [value-router, ai-agent, condition, api-keys-registry, expression-editor]
+  terminology: [AI Router, Decision Request, Decision Data, Expected Decisions, Everything Else]
+
+behavior:
+  - "AI selects exactly one of the Expected Decisions for the given Decision Data."
+  - "Flow continues down the branch whose decision value was chosen."
+  - '"Everything Else" (defaultDecision:true) is taken when none of the named decisions fit.'
+  - "Each Expected Decision is a named output connector visible on hover."
+
+assertions:
+  - id: branches-match-expected-decisions
+    when: run-instance
+    given: "AI Router with decisions [positive, negative, neutral, Everything Else]"
+    expect: "the node exposes 4 named connectors; exactly one branch executes per run"
+  - id: routes-to-chosen-decision
+    when: run-instance
+    given: "Decision Data message known to be positive; stub decision = positive"
+    expect: "the 'positive' branch's successor executed; others did not"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Branch a flow on an AI judgment using named decisions."
+    - "Distinguish AI Router (LLM decides) from Value Router (deterministic value match)."
+    - "Read the named output connectors that map to Expected Decisions."
+  prerequisites: [value-router, ai-agent, expression-editor, api-keys-registry]
+  common_mistakes:
+    - "Expecting deterministic routing (it's an LLM decision)."
+    - "Forgetting the Everything Else fallback path."
+    - "Not providing Decision Data, so the AI has nothing to judge."
+  exercise: >
+    Configure an AI Router to classify an incoming message as positive/negative/neutral
+    and set a Data-Bucket variable on each branch. Hover to see the named connectors,
+    then run it with a clearly positive message and confirm the positive branch ran.
+
+provenance:
+  confidence: V-real
+  evidence: "MyProjects 'This is my new flow' v1 — Mark's sample AI Router (Anthropic claude-opus-4-8; request 'Determine the sentiment of the message'; decisions positive/negative/neutral/Everything Else routing to Set *Sentiment). Definition + hover screenshot 52."
+  verified_on: 2026-06-15

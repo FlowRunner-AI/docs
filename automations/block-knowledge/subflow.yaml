@@ -1,0 +1,68 @@
+id: subflow
+name: SubFlow
+category: Subflows
+kind: native
+
+api:
+  group_type: SUBFLOW
+  config_keys: [subFlowId, subFlowVersionId, initialData, initialDataParams, storeResult, onFailElemId]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: "Reference a hermetic test subflow."
+
+docs:
+  purpose: >
+    Place a reusable block-sequence (defined once) into a flow; runs as a self-contained unit.
+  when_to_use: >
+    Avoid duplicating the same logic across a flow; encapsulate a reusable step.
+  mental_model: >
+    An inline reusable component referenced by subFlowId. Unlike Call Flow (which invokes
+    a separate top-level flow), a SubFlow is reuse WITHIN flows.
+  config:
+    - field: SubFlow (subFlowId / subFlowVersionId)
+      type: reference
+      required: true
+      description: The reusable subflow definition to run.
+    - field: Input Parameter Names / Initial Params
+      type: repeatable name+expression (initialDataParams)
+      description: Values passed into the subflow.
+  produces_result: true
+  data_in: initialDataParams.
+  data_out: The subflow's Return Result.
+  gotchas:
+    - "SubFlows cannot be nested (no SubFlow inside a SubFlow)."
+    - "Pairs with Return Result to produce output."
+    - "Stored as a groups[] entry (type SUBFLOW)."
+  cross_refs: [call-flow, return-result]
+  terminology: [SubFlow, Input Parameter Names]
+
+behavior:
+  - "Runs the referenced subflow with the passed params; captures its Return Result."
+  - "Edited/inspected by stepping into it (Expand)."
+
+assertions:
+  - id: subflow-returns-result
+    when: run-instance
+    given: "a SubFlow that Return Results { token } and is passed creds"
+    expect: "this block's result == { token }"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Extract repeated logic into a reusable SubFlow."
+    - "Distinguish SubFlow (inline reuse) from Call Flow (separate flow)."
+  prerequisites: [return-result, call-flow]
+  common_mistakes:
+    - "Trying to nest SubFlows."
+    - "Confusing SubFlow with Call Flow."
+  exercise: >
+    Create a 'Get New Token' SubFlow used twice in one flow; confirm both placements
+    reflect edits to the shared logic.
+
+provenance:
+  confidence: V-real
+  evidence: "FBB 'GetCustomerMatches' (LIVE) — SUBFLOW 'Get New Token' (subFlowId/subFlowVersionId, initialDataParams). notes.md."
+  verified_on: 2026-06-14

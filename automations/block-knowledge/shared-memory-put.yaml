@@ -1,0 +1,66 @@
+id: shared-memory-put
+name: "Shared Memory: Put"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: SHARED_MEMORY
+  subtype: PUT
+  config_keys: [override, changes, storeResult, onFailElemId, logging]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    Write one or more key/value pairs into Shared Memory (persists across instances).
+  when_to_use: >
+    Persist state for later instances (update a counter, store a cursor/token).
+  mental_model: >
+    A set() into the flow-scoped persistent store.
+  config:
+    - field: Override
+      type: toggle
+      default: true
+      description: Replace the existing stored value (on) vs (off) presumably merge/keep — confirm off behavior.
+    - field: Perform Changes
+      type: repeatable Name+Value
+      description: Keys + values (expressions) to store.
+  produces_result: false
+  data_in: Name/Value pairs.
+  data_out: Values written to Shared Memory.
+  gotchas:
+    - "No result alias (produces no referenceable result)."
+    - "Override off-behavior not yet fully verified — confirm."
+  cross_refs: [shared-memory-read, shared-memory-delete]
+  terminology: [Shared Memory, Override]
+
+behavior:
+  - "Writes each key=value into Shared Memory; persists for future instances."
+  - "Override on replaces existing value for the key."
+
+assertions:
+  - id: put-persists
+    when: run-instance
+    given: "Put 'count'=1"
+    expect: "a later instance's Read 'count' == 1"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Persist cross-instance state with Put."
+    - "Understand Override semantics."
+  prerequisites: [shared-memory-read]
+  common_mistakes:
+    - "Assuming Set Variables persists (it doesn't — use Put)."
+  exercise: >
+    See shared-memory-read exercise (counter pattern).
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'Flow Memory' v1 — Put 'Number of times I ran' = timesRan (Override on); instance output 1/2/3. notes.md."
+  verified_on: 2026-06-13

@@ -1,0 +1,100 @@
+id: flow-scheduling-concept
+name: "Flow Scheduling (Configure Flow Schedule)"
+category: Concepts
+kind: native
+concept: true
+
+api:
+  # Not a block — a per-flow-version setting stored at metaInfo.schedule on the flow version.
+  storage: "flow version metaInfo.schedule"
+  schedule_schema:
+    enabled: "bool — whether the schedule is actively creating instances (toggled by Start/Stop Scheduled Runs blocks)"
+    frequency: "{ schedule: 'custom'|..., repeat: { every: N } } — the cadence"
+    startDate: "epoch ms — when scheduling begins (UI 'Start')"
+    endDate: "epoch ms | null — null = Never (UI 'Expire')"
+    onlyScheduledInitiations: "bool — UI 'Allow only scheduled flow instances'"
+    allowApiInitiationsWhenScheduleExpired: "bool — UI 'Allow flow instantiation via API when the schedule expires'"
+
+docs:
+  purpose: >
+    Run a flow automatically on a calendar/interval/cron schedule. Scheduling is configured
+    PER FLOW VERSION via the "Configure Flow Schedule" popup.
+  when_to_use: >
+    Any time a flow should start itself on a timetable (polling, periodic jobs, recurring
+    sends) rather than only via triggers or manual/API invocation.
+  mental_model: >
+    A schedule attached to a flow version. The platform creates a new flow instance each time
+    the schedule fires. The schedule DEFINITION (frequency/dates/policies) is separate from
+    whether it is currently RUNNING (schedule.enabled) — the Start/Stop Scheduled Runs blocks
+    only toggle that enabled flag.
+  ui:
+    open_via:
+      - "Clock icon ('Schedule', lucide-clock3) in the flow editor top toolbar."
+      - "Version Admin tab -> Flow Schedule card (same popup)."
+    fields:
+      - field: Start
+        type: date/time picker
+        description: When the schedule begins (schedule.startDate).
+      - field: Frequency
+        type: dropdown
+        options: [Once, "Every X seconds", Daily, Weekly, Monthly, Cron]
+        description: >
+          Once = single run at Start. Every X seconds / Daily / Weekly = "Repeat every" [N]
+          (+ Weekly adds an 'On' day-of-week picker). Monthly = Months + Days + Day-Of-Month/Week.
+          Cron = a cron expression ("Configure Cron Expression").
+      - field: Expire
+        type: dropdown
+        options: [Never, "On date"]
+        description: Never = no end (endDate null); On date reveals a 2nd date/time picker (schedule.endDate).
+      - field: "Flow Execution Policy: Allow only scheduled flow instances"
+        type: checkbox (onlyScheduledInitiations)
+        help_tooltip: "When this option is enabled, new flow instances are created solely by the schedule, not by trigger invocations. If the flow begins with a trigger, there must already be a running instance of the flow created by the schedule for the trigger invocation to be accepted. This differs from traditional flow execution, where activating the first trigger created a new flow instance."
+      - field: "Flow Execution Policy: Allow flow instantiation via API when the schedule expires"
+        type: checkbox (allowApiInitiationsWhenScheduleExpired)
+        help_tooltip: "When this option is enabled and the flow's schedule has expired, a new flow instance can be created by using the 'Call Flow' API."
+    buttons: [REMOVE SCHEDULING, CANCEL, SAVE]
+  gotchas:
+    - "Scheduling is per FLOW VERSION (not per flow)."
+    - "DEFINE/REMOVE a schedule here; START/STOP whether it creates instances via the Start/Stop Scheduled Runs blocks (they flip schedule.enabled; the definition is preserved)."
+    - "REMOVE SCHEDULING deletes the schedule definition; Stop Scheduled Runs only pauses it."
+  cross_refs: [start-scheduled-runs, stop-scheduled-runs, call-flow, triggers-group]
+  terminology: [Schedule, Frequency, Cron, Expire, Flow Execution Policy, Scheduled Runs]
+
+behavior:
+  - "When enabled and within Start..Expire, the platform creates a flow instance each time the schedule fires."
+  - "Start/Stop Scheduled Runs blocks toggle schedule.enabled without altering the definition."
+
+assertions:
+  - id: schedule-creates-instances
+    when: run-instance
+    given: "a flow with Frequency 'Every X seconds' (every 30) enabled"
+    expect: "a new instance is created ~every 30s while enabled"
+  - id: stop-preserves-definition
+    when: run-instance
+    given: "Stop Scheduled Runs on a scheduled flow"
+    expect: "schedule.enabled=false but frequency/dates unchanged; Start resumes"
+
+known_bugs:
+  - id: sched-flow-dropdown-lists-all
+    note: "Start/Stop Scheduled Runs Flow dropdown lists all flows, not only scheduled ones. See start-scheduled-runs / stop-scheduled-runs records + memory flowrunner-bug-sched-flow-list."
+
+training:
+  learning_objectives:
+    - "Schedule a flow (frequency, start, expire) and set the execution policy."
+    - "Separate defining a schedule from starting/stopping instance creation."
+  prerequisites: [triggers-group, call-flow]
+  common_mistakes:
+    - "Confusing the schedule definition (this popup) with Start/Stop Scheduled Runs (instance gating)."
+    - "Expecting Stop to delete the schedule (it only pauses it)."
+  exercise: >
+    Schedule a test flow 'Every X seconds' (every 30), watch instances appear, then use a
+    Stop -> Wait -> Start sequence (per the Email Sender demo) to pause and resume them.
+
+provenance:
+  confidence: V-real
+  evidence: >
+    Configure Flow Schedule popup inspected live (MyProjects 'Scheduled Runs' flow). schedule
+    schema read from the Email Sender flow version metaInfo.schedule (frequency.repeat.every=30,
+    enabled, startDate, endDate, onlyScheduledInitiations, allowApiInitiationsWhenScheduleExpired).
+    notes.md ('FLOW SCHEDULING' + 'SCHEDULED RUNS DEMO').
+  verified_on: 2026-06-15

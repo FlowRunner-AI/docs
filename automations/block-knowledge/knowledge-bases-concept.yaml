@@ -1,0 +1,105 @@
+id: knowledge-bases-concept
+name: "Knowledge Bases (RAG stores)"
+category: Concepts
+kind: native
+concept: true
+
+api:
+  # A workspace-level resource (not a block). Nav: Agent tools & Knowledge → Knowledge Bases.
+  # URL: /app/<ws>/knowledge-base/<kbId>/setup  and  .../data
+  surface: "Knowledge Bases section (collapsible nav group + '+' to create; per-KB Setup + Data tabs)"
+
+docs:
+  purpose: >
+    A Knowledge Base is a RAG (retrieval-augmented generation) store: documents are chunked,
+    embedded, and stored in a vector store so AI Agents (and the KB action blocks) can retrieve
+    relevant content by similarity.
+  when_to_use: >
+    Give an AI Agent domain knowledge to ground its answers, or build a searchable corpus the
+    flow can add to / query / clean up via the Knowledge Base action blocks.
+  mental_model: >
+    Title + Description (identity) → AI Setup (which embedding model + chunking turns text into
+    vectors) → Vector Store (where the vectors live). Documents on the Data tab are processed
+    (chunk → embed → store) asynchronously.
+  ui:
+    tabs: [Setup, Data]
+    setup:
+      knowledge_details:
+        - field: Knowledge Title
+          editable_after_create: true
+        - field: Description
+          editable_after_create: true
+      ai_setup:   # the embedding configuration
+        - field: Provider
+          example: "Open AI"
+          editable_after_create: false
+          note: "AI provider for embeddings (from the API Keys registry; e.g. OpenAI, Voyage AI)."
+        - field: Model
+          example: "text-embedding-3-small (create-dialog label 'Text Embedding 3 Small')"
+          editable_after_create: false
+        - field: API Key
+          editable_after_create: true
+          note: "Pick a saved API Key Setup or enter a new key; 'Save as Setup' stores it in the API Keys registry. Key IS editable post-create (rotate without rebuilding)."
+        - field: Chunk Size
+          default: 2000
+          editable_after_create: false
+          help_tooltip: "Maximum size of each text chunk in characters. Larger chunks preserve more context but may be less precise for retrieval."
+        - field: Chunk Overlap
+          default: 300
+          editable_after_create: false
+          help_tooltip: "Number of characters to overlap between consecutive chunks. Overlap helps maintain context across chunk boundaries."
+      vector_store:
+        - field: Provider
+          example: "In Memory"
+          editable_after_create: false
+          note: "In Memory = TESTING ONLY, data lifetime 6 hours (non-extendable) — per the ⚠ tooltip. A persistent vector-store option also exists (exact option list TO CONFIRM)."
+    data_tab: >
+      Manage documents: add (upload/content), list, rename, delete (per-doc ⋯ menu + top-bar
+      file-plus / refresh / trash). Ingestion is ASYNC — a document shows Processing → Completed.
+  gotchas:
+    - "Embedding Provider/Model + Chunk Size/Overlap + Vector Store are CONFIGURABLE AT CREATION (Create dialog), then become READ-ONLY once data has been added to the KB — you can't re-chunk/re-embed documents already in the store. (On the Test KB, which had data, these showed readOnly while Title/Description/API Key stayed editable.)"
+    - "In-Memory vector store is for testing only — 6h data lifetime, non-extendable."
+    - "Document ingestion is async (Processing → Completed) — added docs aren't queryable instantly."
+  cross_refs: [knowledge-base-add-document, knowledge-base-list-documents, knowledge-base-delete-document, knowledge-base-delete-by-filter, ai-agent, api-keys-registry]
+  terminology: [Knowledge Base, RAG, Embedding Model, Chunk Size, Chunk Overlap, Vector Store, Document, Metadata]
+
+behavior:
+  - "Documents are chunked (Chunk Size/Overlap), embedded (Provider/Model), and stored in the Vector Store."
+  - "AI Agents attach a KB via Manage Capabilities → Knowledge; KB blocks add/list/delete documents."
+
+assertions:
+  - id: setup-locked-once-data-added
+    when: ui
+    given: "an existing KB that has data, on its Setup tab"
+    expect: "Provider, Model, Chunk Size, Chunk Overlap, Vector Store are read-only; Title/Description/API Key editable"
+    note: "Configurable at creation (Create dialog); locked once documents exist."
+  - id: add-then-query
+    when: run-instance
+    given: "Add Document then (after processing) a retrieval"
+    expect: "the new content is retrievable once Processing -> Completed"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Create a KB: pick embedding model, chunking, and vector store (all locked after)."
+    - "Understand In-Memory (testing, 6h) vs persistent vector store."
+    - "Feed a KB to an AI Agent and manage documents with the KB blocks."
+  prerequisites: [api-keys-registry, ai-agent]
+  common_mistakes:
+    - "Expecting to change the embedding model/chunking later (it's immutable after create)."
+    - "Using In-Memory for anything but testing (data expires in 6h)."
+    - "Querying immediately after Add (ingestion is async)."
+  exercise: >
+    Create a test KB (Text Embedding 3 Small, In Memory), add a doc with metadata on the Data
+    tab, wait for Completed, then List Documents with a metadata filter to confirm.
+
+provenance:
+  confidence: V-real
+  evidence: >
+    Tests workspace 'Test KB' Setup inspected live: Provider Open AI, Model text-embedding-3-small,
+    Chunk Size 2000, Chunk Overlap 300, Vector Store In Memory; fields disabled-state confirmed
+    (only Title/Description/API Key editable). Create dialog confirmed fields + verbatim Chunk
+    help texts. In-Memory 6h from earlier ⚠ tooltip. notes.md. TO CONFIRM: full Embedding Model
+    + Vector Store option lists.
+  verified_on: 2026-06-15

@@ -1,0 +1,68 @@
+id: synchronize
+name: Synchronize
+category: Utils
+kind: native
+
+api:
+  element_type: SYNCHRONIZE
+  config_keys: [maxWaitingTime, storeResult, onFailElemId, logging]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: "Use fast deterministic parallel branches (Cloud Code/Wait) feeding the Synchronize."
+
+docs:
+  purpose: >
+    Merge multiple parallel execution branches back into one path; wait for all to arrive.
+  when_to_use: >
+    After fanning out into concurrent branches (e.g. several Call Flows / Actions Group),
+    converge before continuing.
+  mental_model: >
+    A barrier / join. All incoming branches must reach it (or the timeout fires) before
+    the single downstream path proceeds.
+  config:
+    - field: Max Waiting Time
+      type: simple (D/H/M/S) or expression (seconds)
+      description: How long to wait for all branches before proceeding anyway.
+  produces_result: true
+  data_in: Completion of the incoming parallel branches.
+  data_out: Continues once all branches arrive (or timeout).
+  gotchas:
+    - "On timeout, execution continues even if not all branches arrived; late branches are dropped."
+    - "Pair with parallel fan-out (multiple predecessors)."
+  cross_refs: [actions-group, call-flow]
+  terminology: [Synchronize, Max Waiting Time]
+
+behavior:
+  - "Waits for ALL incoming parallel branches, then continues down its single successor."
+  - "If Max Waiting Time elapses first, continues anyway; late-arriving branches dropped."
+
+assertions:
+  - id: waits-for-all
+    when: run-instance
+    given: "two parallel branches, both finishing under maxWaitingTime"
+    expect: "successor runs once, after both branches complete"
+  - id: timeout-proceeds
+    when: run-instance
+    given: "one branch exceeds maxWaitingTime"
+    expect: "successor runs at timeout; slow branch dropped"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Fan out into parallel branches and converge with Synchronize."
+    - "Reason about the Max Waiting Time timeout behavior."
+  prerequisites: [call-flow, actions-group]
+  common_mistakes:
+    - "Setting Max Waiting Time too low (drops slow branches)."
+    - "Using it without actual parallel predecessors."
+  exercise: >
+    Call two sub-flows in parallel, Synchronize them with a 60s max wait, then continue
+    to a block that uses both results.
+
+provenance:
+  confidence: V-real
+  evidence: "FBB 'Create IRA' (LIVE) — Synchronize merges Call 'Create Funding Method' Flow || Call 'Create Ancillary Products' Flow -> Call 'Create Entity Involvement' Flow; maxWaitingTime 61s. notes.md."
+  verified_on: 2026-06-14

@@ -1,0 +1,79 @@
+id: transform-data
+name: Transform Data
+category: Utils
+kind: native
+
+api:
+  element_type: DATA_TRANSFORMER
+  config_keys: [operation, "<operation-specific args>", storeResult, saveToVariable, onFailElemId, logging]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    Apply a chosen data-transformation operation (from a large library) to reshape/derive data.
+  when_to_use: >
+    Extract/restructure values between blocks without writing code: get a property,
+    pick/omit keys, build/merge/sort/filter arrays, date/math/text/logic ops.
+  mental_model: >
+    A no-code "data function": pick an operation, give it inputs, get a result. (For
+    anything beyond the library, use Custom Cloud Code.)
+  config:
+    - field: Operation
+      type: dropdown (50+ ops)
+      required: true
+      description: e.g. Get Property Value, Pick/Omit, Create/Merge/Sort/Filter Array, If/Equals/Switch, date/math/text ops.
+    - field: (operation-specific args)
+      type: varies
+      description: Inputs depend on the chosen operation (e.g. Object + Property Name).
+    - field: Reference Result Data As
+      type: alias
+      default: Transform Data Result
+    - field: Assign to a Variable
+      type: optional
+      description: Also write the result to a Data-Bucket variable.
+  produces_result: true
+  data_in: Operation-specific inputs (expressions).
+  data_out: The transformed value.
+  gotchas:
+    - "Operation is required; each operation has its own argument set."
+    - "Has Assign to a Variable in addition to the result alias."
+  cross_refs: [set-variables, custom-cloud-code, expression-editor]
+  terminology: [Transform Data, Operation]
+
+behavior:
+  - "Evaluates the selected operation over its inputs and returns the result."
+  - "Optionally also assigns the result to a Data-Bucket variable."
+
+assertions:
+  - id: get-property-value
+    when: run-block
+    given: "operation Get Property Value, Object={a:1,b:2}, Property Name=b"
+    expect: { status: Success, result: 2 }
+  - id: sort-array
+    when: run-block
+    given: "operation Sort Array on [3,1,2]"
+    expect: { status: Success, result: [1,2,3] }
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Pick the right operation for a data-shaping need."
+    - "Chain Transform Data blocks to build a value step by step."
+    - "Know when to fall back to Custom Cloud Code."
+  prerequisites: [expression-editor, set-variables]
+  common_mistakes:
+    - "Reaching for Cloud Code when a built-in operation exists."
+    - "Wrong operation argument types."
+  exercise: >
+    From an API response, use Get Property Value to extract an id, then Create Array to
+    wrap several ids, then Filter Array to drop nulls.
+
+provenance:
+  confidence: V-real
+  evidence: "FBB 'Application Processor' v4 — 'Get Product Id' uses op Get Property Value (Object=Product List, Property=Primary Product Name) -> 'Product Id' + assigned to variable. MyProjects 'Content Engine' v6 has 74 Transform Data blocks. notes.md."
+  verified_on: 2026-06-14

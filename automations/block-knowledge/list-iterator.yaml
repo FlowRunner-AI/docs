@@ -1,0 +1,79 @@
+id: list-iterator
+name: List Iterator
+category: Utils
+kind: native
+
+api:
+  group_type: LOOP
+  loop_type: LIST_ITERATOR
+  config_keys: [list, firstElementId, storeResult, onFailElemId, enabled]
+  inner_blocks: "elements whose element.groupId == this group's id"
+
+testability:
+  class: deterministic   # the iterator itself; inner blocks may be external
+  hermetic: true
+  mock_strategy: "If inner blocks call external services, stub them via Skip Block + Simulated Result."
+
+docs:
+  purpose: >
+    Loop over the items of a list, running an inner sub-flow once per item.
+  when_to_use: >
+    Process each element of an array (bulk/batch operations).
+  mental_model: >
+    A "for each item" container. Build the per-item logic INSIDE it; the current item is
+    exposed as the system value "Current Iteration Item".
+  config:
+    - field: List
+      type: expression
+      required: true
+      description: The array to iterate (e.g. a prior block result property).
+  produces_result: true
+  data_in: The `list` array; per item, "Current Iteration Item" inside the loop body.
+  data_out: Aggregated loop result (storeResult).
+  gotchas:
+    - "Empty list -> inner sub-flow skipped entirely."
+    - "Inner logic edited by stepping INTO the loop (hover -> Expand; RETURN top-left to exit)."
+    - "Stored as a groups[] entry (loopType LIST_ITERATOR), not a leaf element."
+    - "Can't `return` from inside; capture results via Set Variables / Transform Data."
+  cross_refs: [repeat, current-iteration-item, instances-concept, set-variables]
+  terminology: [List Iterator, Current Iteration Item, Iteration]
+
+behavior:
+  - "Runs the inner sub-flow once per list item; inner blocks see Current Iteration Item."
+  - "In analytics each inner block shows an N/N execution-count badge (N = item count)."
+  - "Analytics 'Iteration #' stepper inspects per-iteration per-block Input/Output."
+  - "Empty list -> body executes 0 times."
+
+assertions:
+  - id: iterates-per-item
+    when: run-instance
+    given: "list of length N feeding the iterator"
+    expect: "each inner block executed exactly N times; per-iteration inputs differ"
+  - id: empty-list-skips
+    when: run-instance
+    given: "list = []"
+    expect: "inner blocks executed 0 times"
+  - id: exposes-current-item
+    when: run-instance
+    given: "inner block references Current Iteration Item"
+    expect: "iteration k input == list[k]"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Iterate an array and reference the current item via Current Iteration Item."
+    - "Step into a loop and inspect a single iteration in analytics."
+  prerequisites: [set-variables, expression-editor, instances-concept]
+  common_mistakes:
+    - "Trying to 'return' from inside the loop."
+    - "Forgetting an empty list skips the body."
+  exercise: >
+    Iterate a 3-row list; inside, build a string from Current Iteration Item and append it
+    to a Data-Bucket variable. Open an instance and step iterations 1->3 to confirm each
+    item was processed.
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'Recover180 Audit' v3 instance 2ECB07CF (24 iterations; iter 1 vendorRef Ref103125-1 vs iter 12 144557); 'Content Engine' v6 (7 LIST_ITERATOR groups). Screenshots 49-51."
+  verified_on: 2026-06-14
