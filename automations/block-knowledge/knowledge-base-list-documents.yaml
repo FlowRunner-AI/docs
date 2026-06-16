@@ -1,0 +1,74 @@
+id: knowledge-base-list-documents
+name: "Knowledge Base: List Documents"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: KNOWLEDGE_BASE
+  subtype: LIST_DOCUMENTS
+  config_keys: [knowledgeBaseId, filter, limit, offset, retryPolicy, saveToVariable, storeResult, onFailElemId, logging]
+
+testability:
+  class: external
+  hermetic: false
+  mock_strategy: "Use a dedicated test KB, or stub via Skip Block + Simulated Result."
+
+docs:
+  purpose: >
+    List the documents in a Knowledge Base, optionally filtered by metadata, with pagination.
+  when_to_use: >
+    Enumerate/inspect KB contents, or get document ids (fileId) to delete specific docs.
+  mental_model: >
+    A query over the KB's documents. Returns files[] (each with a fileId + metadata).
+  config:
+    - field: Knowledge Base
+      type: dropdown (knowledgeBaseId)
+      required: true
+    - field: Filter
+      type: repeatable Property+Value (metadata)
+      input_modes: [key_value, single]   # toggle: "Use Key/Value Pairs" | "Use single input"
+      description: Match documents by metadata (empty = all).
+      help_tooltip: "Optional. Flat key-value pairs to filter documents (AND logic, exact match). Nested objects are not supported."   # verbatim from product
+    - field: Limit / Offset
+      type: numbers (INT)
+      description: Pagination.
+  produces_result: true
+  data_in: knowledgeBaseId (+ filter + limit/offset).
+  data_out: "result.files[] — each document with fileId (+ metadata)."
+  gotchas:
+    - "Result shape: files[].fileId (used by Delete Document)."
+    - "Empty filter lists all (within limit/offset)."
+    - "Filter uses AND logic + exact match on flat key-value pairs (product tooltip); nested objects unsupported."
+  cross_refs: [knowledge-base-add-document, knowledge-base-delete-document, knowledge-bases-concept]
+  terminology: [Knowledge Base, Document, fileId, Filter]
+
+behavior:
+  - "Returns the KB's documents matching the metadata filter, paginated by limit/offset."
+
+assertions:
+  - id: list-returns-files
+    when: run-instance
+    given: "a KB with >=1 document"
+    expect: "result.files is a non-empty array; each item has a fileId"
+  - id: filter-narrows
+    when: run-instance
+    given: "filter {tag: t1} where only some docs have tag t1"
+    expect: "only matching documents returned"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Query KB documents and read fileId for follow-up actions."
+    - "Filter by metadata and paginate."
+  prerequisites: [knowledge-bases-concept, knowledge-base-add-document]
+  common_mistakes:
+    - "Assuming a flat list (it's files[]); reference files[i].fileId."
+  exercise: >
+    List a KB filtered by metadata, then feed files[0].fileId into a Delete Document.
+
+provenance:
+  confidence: V-real
+  evidence: "Tests 'KB Test' flow v1 — List Documents (knowledgeBaseId 'FlowRunner Extensions Catalog'); Delete Document references its Result.files[0].fileId. notes.md."
+  verified_on: 2026-06-15

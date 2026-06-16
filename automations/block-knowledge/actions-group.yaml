@@ -1,0 +1,67 @@
+id: actions-group
+name: Actions Group
+category: Groups
+kind: native
+
+api:
+  group_type: ACTIONS
+  config_keys: [transitionMode, storeResult, onFailElemId]
+  inner_blocks: "elements whose element.groupId == this group's id"
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: "Use deterministic inner actions (Cloud Code/Transform Data)."
+
+docs:
+  purpose: >
+    Group multiple actions to run in PARALLEL, then continue based on a transition mode.
+  when_to_use: >
+    Launch independent actions concurrently instead of sequentially (fan-out).
+  mental_model: >
+    A parallel block. Inner actions start together; the group transitions when they
+    start (ON_START) or when they all complete (ON_COMPLETION).
+  config:
+    - field: Outgoing Transition Mode
+      type: dropdown
+      description: ON_START (proceed when all started) | ON_COMPLETION (proceed when all finished).
+  produces_result: true
+  data_in: n/a (container).
+  data_out: Continues per transition mode; individual action results available.
+  gotchas:
+    - "Inner actions run in parallel, not sequenced."
+    - "ON_START may proceed before inner results are available."
+    - "No group-level return value; use individual action results."
+    - "Stored as a groups[] entry (type ACTIONS)."
+  cross_refs: [triggers-group, synchronize]
+  terminology: [Actions Group, Outgoing Transition Mode, ON_START, ON_COMPLETION]
+
+behavior:
+  - "Contained actions execute concurrently."
+  - "ON_COMPLETION: downstream proceeds only after all inner actions finish."
+  - "ON_START: downstream proceeds once all inner actions have started."
+
+assertions:
+  - id: parallel-on-completion
+    when: run-instance
+    given: "two inner actions (each ~1s) under ON_COMPLETION"
+    expect: "both ran; downstream started after both finished (~1s, not ~2s)"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Run actions in parallel with a group; pick a transition mode."
+    - "Pair with Synchronize when converging separate branches."
+  prerequisites: [synchronize]
+  common_mistakes:
+    - "Relying on inner results under ON_START."
+    - "Expecting a group-level result."
+  exercise: >
+    Put three independent enrichment calls in an Actions Group (ON_COMPLETION), then use
+    their results downstream.
+
+provenance:
+  confidence: V-real
+  evidence: "MyProjects 'Content Engine' v6 — ACTIONS group 'Load Context Files', transitionMode ON_COMPLETION. notes.md."
+  verified_on: 2026-06-14

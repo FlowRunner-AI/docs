@@ -1,0 +1,83 @@
+id: start-scheduled-runs
+name: "Start Scheduled Runs"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: SYSTEM
+  subtype: START_SCHEDULED_RUNS
+  config_keys: [flowId, logging, enabled, retryPolicy, saveToVariable, storeResult, onFailElemId, simulationResult, slaConditions]
+
+testability:
+  class: external          # acts on the platform scheduler; starts real scheduled instance creation
+  hermetic: false
+  mock_strategy: "Stub via Skip Block + Simulated Result; do not point at a live production flow."
+
+docs:
+  purpose: >
+    Resume scheduled instance creation for a flow that has a schedule — so the platform
+    (re)starts creating instances on that flow's schedule.
+  when_to_use: >
+    Programmatically turn scheduled processing back ON for a flow from within another flow
+    (e.g. an operator flow that resumes/halts scheduled runs).
+  mental_model: >
+    A switch that resumes a target flow's schedule. The schedule itself is defined separately
+    on the target flow (Configure Flow Schedule); this block only resumes instance creation.
+  config:
+    - field: Name
+      type: text
+      description: Block label on the canvas.
+    - field: Flow
+      type: dropdown (flowId)
+      required: true
+      description: >
+        The target flow whose scheduled runs to start. (BUG: currently lists ALL flows, not
+        only flows that have a schedule — see known_bugs.)
+  produces_result: true
+  data_in: flowId (target flow).
+  data_out: Start result (acknowledgement).
+  gotchas:
+    - "The flow must already HAVE a schedule (Configure Flow Schedule); this block only resumes instance creation."
+    - "Distinct from FLOW SCHEDULING (the clock-icon popup), which DEFINES the schedule. This block CONTROLS (resumes) it."
+    - "No Skip Block toggle is exposed on this block family in the config panel."
+  cross_refs: [stop-scheduled-runs, flow-scheduling-concept, call-flow]
+  terminology: [Scheduled Runs, Schedule, Flow]
+
+behavior:
+  - "Resumes scheduled instance creation for the selected flow by setting its schedule.enabled=true."
+  - "The schedule must already exist; this block only flips the enabled flag (it does not define the schedule)."
+
+assertions:
+  - id: start-resumes-schedule
+    when: run-instance
+    given: "a target flow that has a schedule, with instance creation halted"
+    expect: "instance creation resumes per the flow's schedule"
+
+known_bugs:
+  - id: sched-flow-dropdown-lists-all
+    repro: "Select Start Scheduled Runs; open the Flow dropdown in a workspace where 0 flows have a schedule."
+    observed: "Dropdown lists ALL flows (14/15 in MyProjects), including unscheduled ones."
+    expected: "Dropdown should list only flows that have a schedule (here: none)."
+    severity: medium
+    note: "Also affects Stop Scheduled Runs. Verified via API (metaInfo.schedule null for all). See memory flowrunner-bug-sched-flow-list; Jira candidate."
+
+training:
+  learning_objectives:
+    - "Start a flow's schedule programmatically."
+    - "Separate DEFINING a schedule (Configure Flow Schedule) from CONTROLLING it (this block)."
+  prerequisites: [flow-scheduling-concept]
+  common_mistakes:
+    - "Expecting this block to define the schedule (it only starts an already-defined one)."
+  exercise: >
+    On a test flow with a schedule configured, use Start Scheduled Runs to activate it, then
+    confirm instances begin appearing on the Instances tab.
+
+provenance:
+  confidence: V-real
+  evidence: >
+    MyProjects 'Scheduled Runs' flow (versionId DD085DD8-...) = Stop(->Email Sender) -> Wait 60s
+    -> Start(->Email Sender); both blocks' metaInfo.flowId = Email Sender (2EA402C3-...). Email
+    Sender has schedule.frequency.repeat.every=30; Start re-enables (schedule.enabled=true) while
+    the schedule object stays intact. Concept narrated by Mark 2026-06-15. notes.md.
+  verified_on: 2026-06-15

@@ -1,0 +1,66 @@
+id: return-result
+name: Return Result
+category: Utils
+kind: native
+
+api:
+  element_type: COMPOSE_RESULT
+  config_keys: [contentType, properties, logging, onFailElemId]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    Terminal block that defines the data a flow/subflow returns to its caller.
+  when_to_use: >
+    End a SubFlow or a flow invoked via Call Flow, structuring the output for the caller.
+  mental_model: >
+    A `return` statement for a flow. Composes the result object the caller receives.
+  config:
+    - field: Content Type
+      type: dropdown
+      default: JSON
+      description: Output format of the composed result.
+    - field: Compose Result
+      type: repeatable Property+Value
+      description: The result's properties (names + expression values).
+  produces_result: true
+  data_in: Composed Property/Value pairs.
+  data_out: The returned object (to Call Flow / SubFlow caller).
+  gotchas:
+    - "Terminal — ends the execution branch."
+    - "Single Return Result -> object; multiple -> { executionId, result(first-reached), results[], status }."
+    - "Block name becomes blockName in the multiple-result structure."
+  cross_refs: [call-flow, subflow]
+  terminology: [Return Result, Compose Result, Content Type]
+
+behavior:
+  - "Marks the end of a branch and yields the composed result to the caller."
+  - "Multiple Return Results in one flow -> a results[] array + first-reached result."
+
+assertions:
+  - id: returns-composed-object
+    when: run-instance
+    given: "Return Result with { ok: true, id: <expr> }"
+    expect: "the caller (Call Flow/SubFlow) result == { ok:true, id:<value> }"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Define a flow/subflow's output with Return Result."
+    - "Understand single vs multiple Return Result structures."
+  prerequisites: [call-flow, subflow, expression-editor]
+  common_mistakes:
+    - "Expecting blocks after Return Result to run (it's terminal)."
+  exercise: >
+    Make a SubFlow that composes and returns { token, expiresAt }, then consume it from
+    a Call Flow.
+
+provenance:
+  confidence: V-real
+  evidence: "FBB 'Application Processor' v4 + many FBB/MyProjects flows use COMPOSE_RESULT as terminal. Config (Content Type JSON + Property/Value) from scratch capture. notes.md."
+  verified_on: 2026-06-14

@@ -1,0 +1,84 @@
+id: stop-scheduled-runs
+name: "Stop Scheduled Runs"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: SYSTEM
+  subtype: STOP_SCHEDULED_RUNS
+  config_keys: [flowId, logging, enabled, retryPolicy, saveToVariable, storeResult, onFailElemId, simulationResult, slaConditions]
+
+testability:
+  class: external          # acts on the platform scheduler; stops real scheduled instance creation
+  hermetic: false
+  mock_strategy: "Stub via Skip Block + Simulated Result; do not point at a live production flow."
+
+docs:
+  purpose: >
+    Halt scheduled instance creation for a flow that has a schedule — so the platform stops
+    creating instances on that flow's schedule.
+  when_to_use: >
+    Programmatically turn scheduled processing OFF for a flow from within another flow (e.g.
+    pause scheduled runs during maintenance, or halt once a condition is met).
+  mental_model: >
+    The counterpart to Start Scheduled Runs — halts a target flow's scheduled instance
+    creation (Start resumes it).
+  config:
+    - field: Name
+      type: text
+      description: Block label on the canvas.
+    - field: Flow
+      type: dropdown (flowId)
+      required: true
+      description: >
+        The target flow whose scheduled runs to stop. (BUG: currently lists ALL flows, not
+        only flows that have a schedule — see known_bugs.)
+  produces_result: true
+  data_in: flowId (target flow).
+  data_out: Stop result (acknowledgement).
+  gotchas:
+    - "Halts instance creation (Start resumes it); pairs with Start Scheduled Runs."
+    - "Distinct from FLOW SCHEDULING (the clock-icon popup), which DEFINES the schedule. This block CONTROLS (halts) it."
+    - "Stop does NOT delete the schedule — it only sets schedule.enabled=false; the schedule object (frequency, dates, policies) is preserved, so Start can re-enable it. Verified via API on the Email Sender demo."
+    - "No Skip Block toggle is exposed on this block family in the config panel."
+  cross_refs: [start-scheduled-runs, flow-scheduling-concept, call-flow]
+  terminology: [Scheduled Runs, Schedule, Flow]
+
+behavior:
+  - "Halts scheduled instance creation for the selected flow by setting its schedule.enabled=false."
+  - "The schedule definition (frequency/dates/policies) is preserved; only the enabled flag changes."
+
+assertions:
+  - id: stop-halts-schedule
+    when: run-instance
+    given: "a target flow whose schedule is creating instances"
+    expect: "instance creation halts for that flow"
+
+known_bugs:
+  - id: sched-flow-dropdown-lists-all
+    repro: "Select Stop Scheduled Runs; open the Flow dropdown in a workspace where 0 flows have a schedule."
+    observed: "Dropdown lists ALL flows (14/15 in MyProjects), including unscheduled ones."
+    expected: "Dropdown should list only flows that have a schedule (here: none)."
+    severity: medium
+    note: "Also affects Start Scheduled Runs. Verified via API (metaInfo.schedule null for all). See memory flowrunner-bug-sched-flow-list; Jira candidate."
+
+training:
+  learning_objectives:
+    - "Halt a flow's scheduled instance creation programmatically."
+    - "Pair Start/Stop Scheduled Runs to resume/halt scheduled processing."
+  prerequisites: [flow-scheduling-concept, start-scheduled-runs]
+  common_mistakes:
+    - "Confusing Stop (halts instance creation; schedule preserved) with Remove Scheduling in the popup (deletes the schedule definition)."
+  exercise: >
+    With a flow whose schedule is running, use Stop Scheduled Runs to halt it, then confirm
+    no new instances appear.
+
+provenance:
+  confidence: V-real
+  evidence: >
+    MyProjects 'Scheduled Runs' flow (versionId DD085DD8-...) = Stop(->Email Sender) -> Wait 60s
+    -> Start(->Email Sender); both blocks' metaInfo.flowId = Email Sender (2EA402C3-...). Email
+    Sender has schedule.frequency.repeat.every=30 and stays intact while schedule.enabled toggles
+    — confirming Stop preserves the schedule. Concept narrated by Mark 2026-06-15. notes.md.
+  verified_on: 2026-06-15

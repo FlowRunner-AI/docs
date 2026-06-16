@@ -1,0 +1,84 @@
+id: value-router
+name: Value Router
+category: Utils
+kind: native
+
+api:
+  element_type: VALUE_ROUTER
+  config_keys: [valueToEvaluate, branches, storeResult, onFailElemId, logging]
+  branches: "Named branches + an 'Everything Else' default; each branch has a Value Mode."
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    Route the flow to a named branch by matching one input value against each branch's
+    configured value(s). Deterministic (vs AI Router).
+  when_to_use: >
+    Dispatch on a known value (product type, status code, category) into N paths.
+  mental_model: >
+    A switch/case. Evaluate one value; first branch whose value(s) match wins; else
+    "Everything Else".
+  config:
+    - field: Value to Evaluate
+      type: expression
+      required: true
+      description: The single value to match (e.g. Initial Data.ira_product_type).
+    - field: Branch Name
+      type: string (repeatable branch)
+      description: Label = the output connector name.
+    - field: Value Mode
+      type: dropdown
+      description: Single Value | Collection (OR) | Range (inclusive).
+    - field: (branch value / values / range)
+      type: expression
+      description: What the branch matches.
+    - field: Everything Else
+      type: built-in default branch
+      description: Taken when no branch matches.
+  produces_result: true
+  data_in: The Value to Evaluate.
+  data_out: Routes to the matching named branch.
+  gotchas:
+    - "Branches evaluated in order; first match wins."
+    - "Collection mode uses OR; Range is inclusive."
+    - "Everything Else is always present."
+  cross_refs: [ai-router, condition]
+  terminology: [Value Router, Value to Evaluate, Value Mode, Branch, Everything Else]
+
+behavior:
+  - "Matches Value to Evaluate against each branch's value(s); first match routes there."
+  - "No match -> Everything Else branch."
+
+assertions:
+  - id: single-value-match
+    when: run-instance
+    given: "value = 'ira_cd' and a branch 'IRA CD' = 'ira_cd' (Single Value)"
+    expect: "IRA CD branch executed"
+  - id: no-match-fallback
+    when: run-instance
+    given: "value matches no branch"
+    expect: "Everything Else branch executed"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Dispatch on a value into named branches."
+    - "Use Single Value vs Collection vs Range matching."
+    - "Distinguish Value Router (deterministic) from AI Router (LLM)."
+  prerequisites: [condition, expression-editor]
+  common_mistakes:
+    - "Overlapping branch values (first match wins, order matters)."
+    - "Forgetting Everything Else handles the unmatched case."
+  exercise: >
+    Route an order by status: 'paid' / 'pending' / 'failed' into three branches, with
+    Everything Else logging an unknown status.
+
+provenance:
+  confidence: V-real
+  evidence: "FBB 'Application Processor' v4 — Value Router on Initial Data.ira_product_type -> Performance MMA/Plus MMA/IRA CD (Single Value) + Everything Else. Screenshot 48."
+  verified_on: 2026-06-14

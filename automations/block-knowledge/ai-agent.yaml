@@ -1,0 +1,97 @@
+id: ai-agent
+name: AI Agent
+category: AI
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: AI_AGENT
+  config_keys: [aiProvider, aiModel, aiApiKey, systemPrompt, userPrompt, tools, messagesHistoryEnabled, messagesHistoryLimit, forceParsedOutput, langSmithSettings, storeResult, onFailElemId, logging]
+
+testability:
+  class: external          # real LLM call; non-deterministic
+  hermetic: false
+  mock_strategy: "Stub via Skip Block + Simulated Result; or assert structure, not exact text."
+
+docs:
+  purpose: >
+    Invoke an LLM with system/user prompts and (optionally) tools, returning its response.
+  when_to_use: >
+    Generate/summarize/classify/extract content, or run an agent that calls tools.
+  mental_model: >
+    A configurable LLM call. Give it a model, prompts, optional tools (extensions /
+    flows / MCP / knowledge bases), and it returns a response (optionally JSON).
+  config:
+    - field: AI Model / AI API Key / AI Provider
+      type: dropdowns
+      required: true
+      description: Model + key (API Keys registry). Provider e.g. ANTHROPIC.
+    - field: System Prompt / User Prompt
+      type: expressions
+      description: Instruction + input (User Prompt often a prior block result).
+    - field: Tools
+      type: capabilities ("Manage Capabilities" button → modal)
+      description: >
+        Attach tools the agent can call. The "Manage AI Agent Capabilities" modal has 4
+        categories: Extensions (built-in integration actions), MCP Extensions (tools from
+        registered MCP servers, grouped by server — checkbox = all, or expand to pick),
+        Flows (other flows as tools), Knowledge (knowledge bases). Has a search + a
+        "Register new MCP Server" link.
+    - field: Messages History (+ limit)
+      type: toggle + number (<=20)
+      description: Feed prior instances' messages as context.
+    - field: Force Parsed Output
+      type: toggle
+      description: Appends instruction to return JSON.
+    - field: LangSmith Settings
+      type: toggle
+      description: Observability integration.
+  produces_result: true
+  data_in: System/User prompts (+ tool results, history).
+  data_out: The model's response (text or parsed JSON).
+  gotchas:
+    - "Non-deterministic output."
+    - "Tool params left blank are filled by the AI at runtime; pre-set to pin them."
+    - "Needs a provider/model/key."
+  cross_refs: [ai-router, api-keys-registry, knowledge-bases, mcp-servers, manage-capabilities]
+  terminology: [AI Agent, System Prompt, User Prompt, Tools, Knowledge Base, Messages History, Force Parsed Output]
+
+help_tooltips:   # verbatim from product UI (hover the `?` icons); AI Agent is heavily annotated
+  AI Model: "Choose the specific AI model grouped by provider (e.g., GPT-4, Claude, Gemini)"
+  AI API Key: "Enter your API key for authentication with the selected AI provider"
+  System Prompt: "Define the agent's behavior, role, and instructions that remain consistent across all interactions"
+  User Prompt: "The message or query to send to the AI agent, can include dynamic variables from your workflow"
+  LangSmith Settings: "Settings for LangSmith - a tracing and monitoring system for AI Agent"
+  Messages History: "Enable conversation memory to maintain context across multiple agent interactions"
+  Force Parsed Output: "Automatically parse the AI response as structured data (JSON) instead of plain text. When enabled, it extends your system prompt with instructions to return structured results"
+
+behavior:
+  - "Calls the configured model with the prompts (+ tools/history); returns the response."
+  - "With tools attached, it may call them to fulfill the task."
+
+assertions:
+  - id: returns-response
+    when: run-block
+    given: "system 'reply with the word OK', user 'go'"
+    expect: { status: Success, result_contains: "OK" }
+    note: "Non-deterministic — prefer structural assertions or stubs."
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Configure an LLM call with prompts and a model/key."
+    - "Attach tools/knowledge bases; understand AI-filled vs pinned params."
+    - "Choose Force Parsed Output for downstream JSON."
+  prerequisites: [api-keys-registry, expression-editor]
+  common_mistakes:
+    - "Expecting deterministic output."
+    - "Not pinning critical tool params."
+  exercise: >
+    Build an agent that summarizes an HTTP Request result (User Prompt = that result) and
+    returns JSON via Force Parsed Output.
+
+provenance:
+  confidence: V-real
+  evidence: "MyProjects 'Content Engine' v6 — 33 AI_AGENT actions (Seed Quality Assessor, Classify Content Type, Generate Angles...). Config also captured live in 'This is my new flow'. notes.md + screenshots 09-12."
+  verified_on: 2026-06-14

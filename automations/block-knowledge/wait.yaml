@@ -1,0 +1,63 @@
+id: wait
+name: Wait
+category: Utils
+kind: native
+
+api:
+  element_type: WAIT
+  config_keys: [delay, storeResult, onFailElemId]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: "Use a tiny delay in tests; assert downstream runs after it."
+
+docs:
+  purpose: >
+    Pause flow execution for a specified duration.
+  when_to_use: >
+    Delay subsequent steps: backoff before a retry, rate-limiting, scheduled-feeling delays.
+  mental_model: >
+    A sleep(n). Simple mode (D/H/M/S) or Advanced (expression -> seconds).
+  config:
+    - field: Expression Mode
+      type: toggle
+      description: Off = simple Days/Hours/Minutes/Seconds; On = expression evaluating to seconds.
+    - field: Days/Hours/Minutes/Seconds (delay)
+      type: numbers
+      description: The pause duration (at least one non-zero in simple mode).
+  produces_result: true
+  data_in: The delay (seconds).
+  data_out: Continues after the delay.
+  gotchas:
+    - "Config field is `delay` (seconds when expression mode)."
+    - "Minimal block (no Skip/Logging/Test Panel in some builds)."
+  cross_refs: [handle-error, synchronize]
+  terminology: [Wait, Expression Mode, delay]
+
+behavior:
+  - "Suspends the branch for `delay` seconds, then continues."
+  - "Common pattern: Handle Error -> Wait (backoff) -> retry."
+
+assertions:
+  - id: pauses-then-continues
+    when: run-instance
+    given: "Wait 2s before a downstream block"
+    expect: "downstream block start ~2s after Wait start"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Insert a delay; use simple vs expression mode."
+    - "Apply Wait in an error-backoff-retry pattern."
+  prerequisites: [handle-error]
+  common_mistakes:
+    - "Zero delay in simple mode (needs a non-zero unit)."
+  exercise: >
+    After a failed API call (Handle Error), Wait 30s and retry once.
+
+provenance:
+  confidence: V-real
+  evidence: "MyProjects 'Content Engine' v6 — two Wait blocks (delay 60 & 300s) used as Handle Error -> Wait -> re-call API. notes.md."
+  verified_on: 2026-06-14

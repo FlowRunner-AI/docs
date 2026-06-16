@@ -1,0 +1,69 @@
+id: knowledge-base-delete-by-filter
+name: "Knowledge Base: Delete by Filter"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: KNOWLEDGE_BASE
+  subtype: DELETE_BY_FILTER
+  config_keys: [knowledgeBaseId, filter, retryPolicy, saveToVariable, storeResult, onFailElemId, logging]
+
+testability:
+  class: external
+  hermetic: false
+  mock_strategy: "Use a dedicated test KB, or stub via Skip Block + Simulated Result."
+
+docs:
+  purpose: >
+    Delete all documents in a Knowledge Base whose metadata matches a filter.
+  when_to_use: >
+    Bulk-remove documents by tag (e.g. clear everything from a given source/run).
+  mental_model: >
+    A delete-by-query on the KB's documents, keyed on metadata.
+  config:
+    - field: Knowledge Base
+      type: dropdown (knowledgeBaseId)
+      required: true
+    - field: Filter
+      type: repeatable Property+Value (metadata)
+      input_modes: [key_value, single]   # toggle: "Use Key/Value Pairs" | "Use single input"
+      required: true
+      description: Documents whose metadata matches are deleted.
+      help_tooltip: "Optional. Flat key-value pairs to filter documents (AND logic, exact match). Nested objects are not supported."   # verbatim from product (same Filter widget as List)
+  produces_result: true
+  data_in: knowledgeBaseId + filter (metadata).
+  data_out: Delete result (e.g. count removed).
+  gotchas:
+    - "Matches on the metadata set at Add time — tag documents you may want to bulk-delete."
+    - "An overly broad filter can delete more than intended."
+  cross_refs: [knowledge-base-add-document, knowledge-base-delete-document, knowledge-bases-concept]
+  terminology: [Knowledge Base, Document, Metadata, Filter]
+
+behavior:
+  - "Deletes every document whose metadata matches the filter."
+
+assertions:
+  - id: delete-by-filter-removes-matches
+    when: run-instance
+    given: "docs tagged {run: r1} and {run: r2}; filter {run: r1}"
+    expect: "only the {run: r1} docs are removed"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Bulk-delete KB documents by metadata."
+    - "Design metadata tagging to support cleanup."
+  prerequisites: [knowledge-base-add-document]
+  common_mistakes:
+    - "Too-broad a filter (deletes unintended docs)."
+    - "Filtering on metadata that wasn't set at Add time."
+  exercise: >
+    Add three docs tagged {run: demo}; then Delete by Filter {run: demo} and List to
+    confirm they're gone.
+
+provenance:
+  confidence: V-real
+  evidence: "Tests 'KB Test' flow v1 — Delete by Filter (knowledgeBaseId 'Test KB', filter metaPropDemo1=metaPropValue1). notes.md."
+  verified_on: 2026-06-15

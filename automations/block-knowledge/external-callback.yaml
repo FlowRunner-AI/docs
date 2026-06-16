@@ -1,0 +1,78 @@
+id: external-callback
+name: External Callback
+category: Triggers
+kind: native
+
+api:
+  element_type: TRIGGER
+  meta_type: CALLBACK
+  config_keys: [callbackUrl, conditions, referenceTriggerDataAs, executionParam, userToken, logging]
+
+testability:
+  class: external          # driven by inbound HTTP events
+  hermetic: false
+  mock_strategy: "Hit the Callback URL with a sample payload (Postman/test tool) or use Learning Mode."
+
+docs:
+  purpose: >
+    Start or resume a flow when an external system calls the trigger's unique Callback URL.
+  when_to_use: >
+    Webhook-style entry: let an external system invoke the flow (flow-start) or resume a
+    waiting instance (mid-flow).
+  mental_model: >
+    An inbound webhook. The caller's payload becomes the trigger data; fires only when
+    the flow is LIVE.
+  config:
+    - field: Callback URL
+      type: generated (read-only)
+      description: Unique URL embedding workspace/api-key/flow/trigger ids; external systems POST/GET to it.
+    - field: Add a Condition
+      type: condition(s)
+      description: Govern WHEN the trigger should fire (false condition -> trigger doesn't fire).
+    - field: Reference Trigger Data As
+      type: alias
+      default: External Callback Data
+      description: Alias for the inbound payload (the trigger has no "result").
+    - field: Execution parameter
+      type: option
+      description: specific ID | any | all (which waiting instance(s) to target for mid-flow resume).
+  produces_result: true        # the inbound trigger data
+  data_in: The external HTTP request (GET query params or POST body).
+  data_out: External Callback Data (the inbound payload), referenceable downstream.
+  gotchas:
+    - "Fires only when the flow is LIVE."
+    - "Flow-start trigger creates a new instance; mid-flow trigger resumes a paused instance."
+    - "Learning Mode (phone icon) captures the event shape at design time (no LIVE needed)."
+    - "Open: whether an instance is created when a condition evaluates false (TODO confirm)."
+  cross_refs: [triggers-group, conditions-concept, learning-mode, instances-concept]
+  terminology: [External Callback, Callback URL, Reference Trigger Data As, Learning Mode, Execution parameter]
+
+behavior:
+  - "On an inbound call (flow LIVE), creates/resumes an instance with the payload as External Callback Data."
+  - "A false trigger condition prevents firing."
+
+assertions:
+  - id: callback-starts-instance
+    when: run-instance
+    given: "flow LIVE; POST to the Callback URL with { name: 'X' }"
+    expect: "a new instance starts; External Callback Data.name == 'X'"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Expose a webhook entry point and consume its payload."
+    - "Capture the event shape with Learning Mode."
+    - "Use trigger conditions and execution targeting."
+  prerequisites: [triggers-concept, conditions-concept, instances-concept]
+  common_mistakes:
+    - "Expecting it to fire when the flow isn't LIVE."
+    - "Not learning the event shape before referencing fields."
+  exercise: >
+    Activate Learning Mode, POST a sample payload to the Callback URL, then reference a
+    payload field downstream.
+
+provenance:
+  confidence: V-real
+  evidence: "MyProjects 'This is my new flow' — External Callback (Callback URL, Reference Trigger Data As, Learning Mode, conditions). notes.md + screenshots 19-24."
+  verified_on: 2026-06-13

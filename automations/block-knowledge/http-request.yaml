@@ -1,0 +1,78 @@
+id: http-request
+name: HTTP Request
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: HTTP
+  config_keys: [url, method, body, query, headers, storeResult, onFailElemId, logging, skipBlock]
+
+testability:
+  class: external          # hits a real endpoint
+  hermetic: false
+  mock_strategy: "Point at a deterministic test endpoint, or stub via Skip Block + Simulated Result."
+
+docs:
+  purpose: >
+    Call an external HTTP API (GET/POST/PUT/PATCH/DELETE/HEAD).
+  when_to_use: >
+    Integrate with any web service/API not covered by an extension.
+  mental_model: >
+    A fetch() block. Configure URL/method/headers/body/query; the response body becomes
+    the result.
+  config:
+    - field: URL
+      type: expression
+      required: true
+    - field: HTTP Method
+      type: dropdown
+      default: GET
+    - field: Body
+      type: expression
+      description: Request payload (JSON/XML/text).
+    - field: Query
+      type: expression
+    - field: Headers
+      type: repeatable Name/Value
+      description: e.g. Content-Type, Authorization (API key / Bearer / Basic).
+    - field: Reference Result Data As
+      type: alias
+      default: HTTP Request Result
+  produces_result: true
+  data_in: URL/method/headers/body/query.
+  data_out: The response body (declared minimal schema pre-run; real shape after a Test run).
+  gotchas:
+    - "Returns the response BODY; status/headers must be inferred from the body or are not exposed."
+    - "Use Run Block (Test Mode) to capture the real result shape for the Expression Editor."
+  cross_refs: [custom-cloud-code, handle-error, expression-editor]
+  terminology: [HTTP Request, Headers, Method]
+
+behavior:
+  - "Performs the HTTP call and exposes the response body as the result."
+  - "Test Mode run captures the actual response structure for downstream referencing."
+
+assertions:
+  - id: get-returns-body
+    when: run-block
+    given: "GET a known JSON endpoint"
+    expect: { status: Success, result_shape: "matches the endpoint's JSON" }
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Call an API with method/headers/body and consume the response."
+    - "Authenticate via headers."
+    - "Capture the response shape with a Test run."
+  prerequisites: [expression-editor]
+  common_mistakes:
+    - "Expecting status codes/headers in the result (body only)."
+    - "Forgetting auth headers."
+  exercise: >
+    GET a public JSON API, run it in Test Mode, then reference a nested field downstream.
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'This is my new flow' — HTTP Request (GET github orgs) run in Test Mode; result inspected. FBB 'Application Processor' 'Create Application'. notes.md + screenshots 06,16."
+  verified_on: 2026-06-13

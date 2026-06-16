@@ -1,0 +1,63 @@
+id: shared-memory-delete
+name: "Shared Memory: Delete"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: SHARED_MEMORY
+  subtype: DELETE
+  config_keys: [mode (all), keys, storeResult, onFailElemId, logging]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    Remove key(s) from Shared Memory.
+  when_to_use: >
+    Reset/clear persisted state (e.g. clear a counter or all flow memory).
+  mental_model: >
+    A delete()/clear() on the persistent store.
+  config:
+    - field: Mode (All)
+      type: toggle
+      description: All on = delete ALL keys; off = specify individual Keys.
+    - field: Keys
+      type: key list
+      description: The specific keys to delete (when All is off).
+  produces_result: false
+  data_in: Key(s) or All.
+  data_out: Keys removed from Shared Memory.
+  gotchas:
+    - "All=on wipes the whole store; otherwise at least one key required."
+    - "No result alias."
+  cross_refs: [shared-memory-read, shared-memory-put]
+  terminology: [Shared Memory, Mode, Keys]
+
+behavior:
+  - "Deletes the specified key(s), or all keys when Mode=All."
+
+assertions:
+  - id: delete-removes-key
+    when: run-instance
+    given: "key 'count' exists, Delete 'count'"
+    expect: "a later Read 'count' returns the Default Value (absent)"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Clear persisted state selectively or entirely."
+  prerequisites: [shared-memory-read, shared-memory-put]
+  common_mistakes:
+    - "Using Mode=All when only one key should be cleared."
+  exercise: >
+    After a run completes, Delete the run's cursor key so the next cycle starts fresh.
+
+provenance:
+  confidence: V-config
+  evidence: "Config captured live (Mode/All toggle + Keys list). No real-flow usage. notes.md."
+  verified_on: 2026-06-14

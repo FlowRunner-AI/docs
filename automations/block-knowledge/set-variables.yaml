@@ -1,0 +1,71 @@
+id: set-variables
+name: Set Variables
+category: Utils
+kind: native
+
+api:
+  element_type: DATA_BUCKET
+  config_keys: [dataBucket, changes, onFailElemId, logging, skipBlock]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    Create or update one or more variables, grouped into a named Data Bucket.
+  when_to_use: >
+    Hold/compute values for use by later blocks (flags, counters, derived values).
+  mental_model: >
+    Assign variables into a labeled namespace (the Data Bucket). Referenced downstream
+    as "<Bucket> - <name>" in the Expression Editor's Variables tab.
+  config:
+    - field: Data Bucket
+      type: editable dropdown
+      default: Default
+      description: Namespace for the variables; type a new name to create one.
+    - field: Perform Changes
+      type: repeatable Name+Value
+      description: Each variable's name + value (literal or expression).
+  produces_result: false        # no Reference Result Data As; writes variables
+  data_in: Name/Value pairs.
+  data_out: Variables written into the Data Bucket (per-instance).
+  gotchas:
+    - "No result alias — output is the variables, not a block result."
+    - "Variables are per-instance; for cross-instance persistence use Shared Memory."
+    - "Referenced as '<Bucket> - <name>' pills."
+  cross_refs: [shared-memory-read, transform-data, expression-editor]
+  terminology: [Set Variables, Data Bucket, Variable]
+
+behavior:
+  - "Writes each Name=Value into the chosen Data Bucket for this instance."
+  - "Values can be literals or expressions (incl. referencing the variable itself)."
+
+assertions:
+  - id: writes-variable
+    when: run-instance
+    given: "Set name=Joe in Default bucket"
+    expect: "downstream 'Default - name' resolves to 'Joe'"
+  - id: increment-self
+    when: run-instance
+    given: "timesRan = timesRan + 1 (timesRan starts 0)"
+    expect: "timesRan == 1"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Store/compute variables and reference them later."
+    - "Understand Data Buckets as variable namespaces."
+    - "Know variables are per-instance (vs Shared Memory cross-instance)."
+  prerequisites: [expression-editor]
+  common_mistakes:
+    - "Expecting variables to persist across instances (use Shared Memory)."
+  exercise: >
+    Set a 'Default - greeting' variable from an incoming name and use it in a later block.
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'Flow Memory' / 'This is my new flow' — Set Variables writing to Default bucket; '<Bucket> - <name>' pills; instance I/O. notes.md + screenshots 30,37."
+  verified_on: 2026-06-13

@@ -1,0 +1,64 @@
+id: knowledge-base-delete-document
+name: "Knowledge Base: Delete Document"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: KNOWLEDGE_BASE
+  subtype: DELETE_DOCUMENT
+  config_keys: [knowledgeBaseId, fileId, retryPolicy, saveToVariable, storeResult, onFailElemId, logging]
+
+testability:
+  class: external
+  hermetic: false
+  mock_strategy: "Use a dedicated test KB, or stub via Skip Block + Simulated Result."
+
+docs:
+  purpose: >
+    Delete a single document from a Knowledge Base by its fileId.
+  when_to_use: >
+    Remove a specific document (typically a fileId obtained from List Documents).
+  mental_model: >
+    A delete-by-id on the KB's documents.
+  config:
+    - field: Knowledge Base
+      type: dropdown (knowledgeBaseId)
+      required: true
+    - field: File Id
+      type: expression (string)
+      required: true
+      description: The document id (e.g. List Documents Result.files[0].fileId).
+  produces_result: true
+  data_in: knowledgeBaseId + fileId.
+  data_out: Delete result.
+  gotchas:
+    - "Needs the exact fileId (get it from List Documents)."
+  cross_refs: [knowledge-base-list-documents, knowledge-base-delete-by-filter, knowledge-bases-concept]
+  terminology: [Knowledge Base, Document, fileId]
+
+behavior:
+  - "Removes the document with the given fileId from the KB."
+
+assertions:
+  - id: delete-removes-doc
+    when: run-instance
+    given: "a fileId from List Documents"
+    expect: "a subsequent List no longer includes that fileId"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Delete a specific KB document by fileId."
+    - "Chain List -> Delete Document."
+  prerequisites: [knowledge-base-list-documents]
+  common_mistakes:
+    - "Passing a name instead of the fileId."
+  exercise: >
+    List a KB, take files[0].fileId, and delete that document; re-list to confirm.
+
+provenance:
+  confidence: V-real
+  evidence: "Tests 'KB Test' flow v1 — Delete Document (fileId <- List Documents Result.files[0].fileId). notes.md."
+  verified_on: 2026-06-15
