@@ -9,7 +9,7 @@ This feature allows you to grant access to specific individuals or groups via ro
 By setting clear permissions, you safeguard your automation while giving authorized entities the access they need.
 
 !!! note
-    This section uses the term *activate* when it refers to the concept of starting a flow. To activate a flow, it must have the `LIVE` status. To activate the flow, use the `Call Flow` API or the **Call Flow** action block. (both are documented [here](../flow-execution/overview.html#callflow-commandapi)).
+    This section uses the term *activate* when it refers to the concept of starting a flow. To activate a flow, it must have the `LIVE` status. To activate the flow, use the `Call Flow` API or the **Call Flow** action block. (both are documented [here](../flow-execution/overview.md#callflow-commandapi)).
 
 You can access flow permissions by selecting a flow version and clicking the **PERMISSIONS** tab:
 
