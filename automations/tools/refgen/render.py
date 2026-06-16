@@ -69,9 +69,6 @@ class _DictProxy:
     def __bool__(self):
         return bool(self._d)
 
-    def __iter__(self):
-        return iter(self._d)
-
 
 def render_page(record: dict, name_by_id: dict) -> str:
     docs = record.get("docs", {})
