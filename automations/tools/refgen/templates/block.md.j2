@@ -1,0 +1,40 @@
+<!-- GENERATED FILE — do not edit. Source: block-knowledge/{{ record.id }}.yaml. Regenerate: make refgen -->
+# {{ record.name }}
+
+{{ record.docs.purpose | trim }}
+{% if record.docs.mental_model %}
+## How it works
+
+{{ record.docs.mental_model | trim }}
+{% endif %}
+{% if record.docs.when_to_use %}
+## When to use it
+
+{{ record.docs.when_to_use | trim }}
+{% endif %}
+{% if config_rows %}
+## Configuration
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+{% for row in config_rows %}| {{ row.field }} | {{ row.type }} | {{ row.required }} | {{ row.description }} |
+{% endfor %}
+{% endif %}
+{% if record.behavior %}
+## Behavior
+
+{% for b in record.behavior %}- {{ b | trim }}
+{% endfor %}
+{% endif %}
+{% if record.docs.gotchas %}
+## Things to watch for
+
+{% for g in record.docs.gotchas %}- {{ g | trim }}
+{% endfor %}
+{% endif %}
+{% if related %}
+## Related
+
+{% for r in related %}- {{ r }}
+{% endfor %}
+{% endif %}
