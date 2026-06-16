@@ -1,15 +1,64 @@
-"""Render a block record into a Markdown reference page."""
-from jinja2 import Environment, FileSystemLoader, StrictUndefined
+"""Render a block record into a Markdown reference page.
 
-from .paths import TEMPLATES
+The page is assembled as a list of section strings joined by blank lines, so
+Markdown block separation is always correct - in particular, a table is always
+followed by a blank line before the next heading (otherwise the heading is
+swallowed into the table).
+"""
+import re
 
-_env = Environment(
-    loader=FileSystemLoader(str(TEMPLATES)),
-    undefined=StrictUndefined,
-    trim_blocks=True,
-    lstrip_blocks=True,
-    keep_trailing_newline=True,
+HEADER = ("<!-- GENERATED FILE - do not edit. "
+          "Source: block-knowledge/{id}.yaml. Regenerate: make refgen -->")
+
+# Regions that must never be touched by link-insertion: HTML comments, fenced
+# and inline code, and existing links/images.
+_PROTECT = re.compile(
+    r"<!--.*?-->|```.*?```|`[^`]*`|!\[[^\]]*\]\([^)]*\)|\[[^\]]*\]\([^)]*\)",
+    re.DOTALL,
 )
+
+
+def linkify(md: str, name_by_id: dict, self_id: str) -> str:
+    """Link the first mention of each known block name to its reference page.
+
+    Skips the block's own name, anything inside code or HTML comments, and text
+    already inside a Markdown link. Longer names match first so
+    'Knowledge Base: Add Document' wins over 'Knowledge Base'.
+    """
+    stash: list[str] = []
+
+    def protect(m: "re.Match") -> str:
+        stash.append(m.group(0))
+        return f"\x00{len(stash) - 1}\x00"
+
+    text = _PROTECT.sub(protect, md)
+
+    linked: set[str] = set()
+    for name, rid in sorted(((n, i) for i, n in name_by_id.items() if i != self_id),
+                            key=lambda p: -len(p[0])):
+        if rid in linked:
+            continue
+        pattern = re.compile(r"(?<![\w-])" + re.escape(name) + r"(?![\w-])")
+        text, n = pattern.subn(lambda m: f"[{m.group(0)}]({rid}.md)", text, count=1)
+        if n:
+            linked.add(rid)
+
+    return re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], text)
+
+
+def _behavior(items) -> str:
+    """Bullets, each optionally followed by a short code example indented under it."""
+    out = []
+    for it in items:
+        if isinstance(it, dict):
+            out.append(f"- {(it.get('note') or '').strip()}")
+            ex = (it.get("example") or "").strip()
+            if ex:
+                fence = f"```{it.get('lang', '')}\n{ex}\n```"
+                out.append("\n".join("  " + line for line in fence.splitlines()))
+        else:
+            out.append(f"- {str(it).strip()}")
+    return "\n".join(out)
 
 
 def _cell(text) -> str:
@@ -18,69 +67,79 @@ def _cell(text) -> str:
     return s.replace("\n", " ").replace("|", r"\|").strip()
 
 
-def _config_rows(docs: dict) -> list[dict]:
+def _bullets(items) -> str:
+    return "\n".join(f"- {str(i).strip()}" for i in items)
+
+
+def _config_table(docs: dict) -> str:
+    """Field / Description table. 'Required' is folded into the description (as a
+    leading 'Required.') only when a field actually is; a field's help tooltip is
+    folded in too."""
+    tooltips = docs.get("help_tooltips") or {}
     rows = []
-    tooltips = docs.get("help_tooltips") or {}      # some records carry a top-level-ish map
     for c in docs.get("config") or []:
         field = c.get("field", "")
-        description = c.get("description", "") or ""
+        desc = (c.get("description") or "").strip()
         tip = c.get("help_tooltip") or tooltips.get(field)
         if tip:
-            description = f"{description} — {tip}" if description else tip
-        rows.append({
-            "field": _cell(field),
-            "type": _cell(c.get("type", "")),
-            "required": "Yes" if c.get("required") else "",
-            "description": _cell(description),
-        })
-    return rows
+            desc = f"{desc} {tip}".strip()
+        if c.get("required"):
+            desc = f"Required. {desc}".strip()
+        rows.append((field, desc))
+    if not rows:
+        return ""
+    lines = ["| Field | Description |", "| --- | --- |"]
+    lines += [f"| {_cell(f)} | {_cell(d)} |" for f, d in rows]
+    return "\n".join(lines)
 
 
-def _related(docs: dict, name_by_id: dict) -> list[str]:
-    out = []
+def _example(ex: dict) -> str:
+    parts = []
+    if (ex.get("intro") or "").strip():
+        parts.append(ex["intro"].strip())
+    if (ex.get("code") or "").strip():
+        parts.append(f"```{ex.get('lang', '')}\n{ex['code'].strip()}\n```")
+    if (ex.get("image") or "").strip():
+        parts.append(f"![{(ex.get('alt') or '').strip()}]({ex['image'].strip()})")
+    if (ex.get("outro") or "").strip():
+        parts.append(ex["outro"].strip())
+    return "\n\n".join(parts)
+
+
+def _related(docs: dict, name_by_id: dict) -> str:
+    items = []
     for ref in docs.get("cross_refs") or []:
-        if ref in name_by_id:
-            out.append(f"[{name_by_id[ref]}]({ref}.md)")
-        else:
-            out.append(str(ref))                    # concept not yet a reference page
-    return out
-
-
-class _DictProxy:
-    """Attribute-access wrapper for a dict that returns None for missing keys.
-
-    Avoids StrictUndefined errors when the template tests optional fields with
-    ``{% if record.behavior %}`` — missing keys become None (falsy) rather
-    than raising UndefinedError.  Nested dicts are also wrapped on access.
-    """
-
-    def __init__(self, d: dict):
-        self._d = d
-
-    def __getattr__(self, name: str):
-        val = self._d.get(name)
-        if isinstance(val, dict):
-            return _DictProxy(val)
-        return val
-
-    def __getitem__(self, name: str):
-        return self.__getattr__(name)
-
-    def __bool__(self):
-        return bool(self._d)
+        items.append(f"[{name_by_id[ref]}]({ref}.md)" if ref in name_by_id else str(ref))
+    return _bullets(items) if items else ""
 
 
 def render_page(record: dict, name_by_id: dict) -> str:
-    docs = record.get("docs", {})
-    # help_tooltips can live at the record top level too; fold it into docs view.
-    docs_view = dict(docs)
-    if "help_tooltips" in record and "help_tooltips" not in docs_view:
-        docs_view["help_tooltips"] = record["help_tooltips"]
-    template = _env.get_template("block.md.j2")
-    # Use _DictProxy so optional fields return None (falsy) rather than raising
-    # StrictUndefined when the template guards with {% if record.behavior %} etc.
-    return template.render(
-        record=_DictProxy(record),
-        config_rows=_config_rows(docs_view),
-        related=_related(docs, name_by_id),
-    )
+    docs = record.get("docs", {}) or {}
+    sections = [
+        HEADER.format(id=record["id"]) + f"\n# {record['name']}",
+        (docs.get("purpose") or "").strip(),
+    ]
+
+    def add(title: str, body: str) -> None:
+        body = (body or "").strip()
+        if body:
+            sections.append(f"## {title}\n\n{body}")
+
+    add("How it works", docs.get("mental_model"))
+    add("When to use it", docs.get("when_to_use"))
+    if docs.get("example"):
+        add("Example", _example(docs["example"]))
+    config_body = _config_table(docs)
+    if docs.get("common_settings"):
+        config_body = f'{config_body}\n\n--8<-- "block-common-settings.md"'.strip()
+    add("Configuration", config_body)
+    if record.get("behavior"):
+        add("Behavior", _behavior(record["behavior"]))
+    if docs.get("limitations"):
+        add("Limitations", _bullets(docs["limitations"]))
+    elif docs.get("gotchas"):
+        add("Things to watch for", _bullets(docs["gotchas"]))
+    add("Related", _related(docs, name_by_id))
+
+    page = "\n\n".join(s for s in sections if s.strip()) + "\n"
+    return linkify(page, name_by_id, record["id"])

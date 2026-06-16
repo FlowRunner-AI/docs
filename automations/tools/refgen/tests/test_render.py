@@ -52,3 +52,94 @@ def test_omitted_sections_when_absent():
     assert "## Configuration" not in md
     assert "## Behavior" not in md
     assert "## Things to watch for" not in md
+
+
+def test_sections_separated_by_blank_lines(sample_record):
+    import re
+    md = render_page(sample_record, name_by_id={"demo-block": "Demo Block"})
+    for heading in ["## How it works", "## When to use it", "## Configuration",
+                    "## Behavior", "## Things to watch for"]:
+        assert f"\n\n{heading}" in md                 # heading never glued to prior block
+    # regression: a table row directly followed by a heading (no blank line) swallows it
+    assert "| Key |" in md
+    assert re.search(r"\|\n## ", md) is None
+
+
+def test_config_table_two_columns_required_folded():
+    rec = {"id": "x", "name": "X", "category": "Utils",
+           "docs": {"purpose": "p", "config": [
+               {"field": "Key", "type": "t", "required": True, "description": "the key"}]}}
+    md = render_page(rec, name_by_id={"x": "X"})
+    assert "| Field | Description |" in md             # 2 columns: no Type, no Required
+    assert "| Type |" not in md
+    assert "Required. the key" in md
+
+
+def test_prose_block_names_are_linked_first_occurrence_only():
+    rec = {"id": "x", "name": "X", "category": "Utils",
+           "docs": {"purpose": "Use a HTTP Request first, then more HTTP Request work."}}
+    md = render_page(rec, name_by_id={"x": "X", "http-request": "HTTP Request"})
+    assert "[HTTP Request](http-request.md)" in md
+    assert md.count("[HTTP Request](http-request.md)") == 1     # first mention only
+    assert "then more HTTP Request work" in md                  # second stays plain
+
+
+def test_self_name_never_linked_and_code_is_protected():
+    rec = {"id": "x", "name": "Cool Block", "category": "Utils",
+           "docs": {"purpose": "Cool Block pairs with HTTP Request.",
+                    "example": {"code": "// HTTP Request happens elsewhere\nreturn 1;"}}}
+    md = render_page(rec, name_by_id={"x": "Cool Block", "http-request": "HTTP Request"})
+    assert "[Cool Block]" not in md                              # own name never linked
+    assert "[HTTP Request](http-request.md)" in md               # prose mention linked
+    assert "// HTTP Request happens elsewhere" in md             # code mention untouched
+
+
+def test_behavior_item_with_example_renders_indented_fence():
+    rec = {"id": "x", "name": "X", "category": "Utils", "docs": {"purpose": "p"},
+           "behavior": [{"note": "Throwing fails the block.", "lang": "javascript",
+                         "example": 'throw new Error("nope");'},
+                        "A plain bullet with no example."]}
+    md = render_page(rec, name_by_id={"x": "X"})
+    assert "- Throwing fails the block." in md
+    assert "  ```javascript" in md                              # fence indented under bullet
+    assert '  throw new Error("nope");' in md
+    assert "- A plain bullet with no example." in md
+
+
+def test_common_settings_include_emitted_when_opted_in():
+    rec = {"id": "x", "name": "X", "category": "Utils",
+           "docs": {"purpose": "p", "common_settings": True,
+                    "config": [{"field": "Key", "description": "the key"}]}}
+    md = render_page(rec, name_by_id={"x": "X"})
+    assert "## Configuration" in md
+    assert "| Key |" in md
+    assert '--8<-- "block-common-settings.md"' in md
+
+    # opted out -> no include
+    rec2 = {"id": "y", "name": "Y", "category": "Utils",
+            "docs": {"purpose": "p", "config": [{"field": "Key", "description": "k"}]}}
+    assert "--8<--" not in render_page(rec2, name_by_id={"y": "Y"})
+
+
+def test_example_section_renders_code_block_and_image():
+    rec = {"id": "x", "name": "X", "category": "Utils",
+           "docs": {"purpose": "p", "example": {
+               "intro": "Like so:", "lang": "javascript", "code": "return 1;",
+               "image": "../images/reference/x.png", "alt": "x in the editor",
+               "outro": "Done."}}}
+    md = render_page(rec, name_by_id={"x": "X"})
+    assert "## Example" in md
+    assert "Like so:" in md
+    assert "```javascript\nreturn 1;\n```" in md
+    assert "![x in the editor](../images/reference/x.png)" in md
+    assert "Done." in md
+
+
+def test_limitations_section_preferred_over_gotchas():
+    rec = {"id": "x", "name": "X", "category": "Utils",
+           "docs": {"purpose": "p", "limitations": ["No network access."],
+                    "gotchas": ["should be ignored when limitations present"]}}
+    md = render_page(rec, name_by_id={"x": "X"})
+    assert "## Limitations" in md
+    assert "No network access." in md
+    assert "## Things to watch for" not in md
