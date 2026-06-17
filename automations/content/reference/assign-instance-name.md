@@ -27,6 +27,8 @@ Drop an <span class="fr-block">Assign Instance Name</span> block in early, and s
 Ticket: {{Initial Data->customer}}
 ```
 
+![The Assign Instance Name block on the canvas with its configuration panel open: the Instance Name field is set to the expression Ticket: {{Initial Data->customer}}.](../images/reference/assign-instance-name-config.png)
+
 Here `{{Initial Data->customer}}` reads the `customer` field from that payload, so for the payload above this run is named `Ticket: acme@example.com`. Open the Instances tab and that is the row you see, instead of a GUID. A second run for a different customer gets its own name the same way, so the two are simple to tell apart.
 
 ## Configuration

@@ -44,6 +44,10 @@ docs:
     - lang: text
       code: |
         Ticket: {{Initial Data->customer}}
+    - image: ../images/reference/assign-instance-name-config.png
+      alt: >
+        The Assign Instance Name block on the canvas with its configuration panel open: the Instance
+        Name field is set to the expression Ticket: {{Initial Data->customer}}.
     - text: >
         Here `{{Initial Data->customer}}` reads the `customer` field from that payload, so for the
         payload above this run is named `Ticket: acme@example.com`. Open the Instances tab and that

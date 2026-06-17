@@ -17,6 +17,8 @@ Suppose you want a flow to number each run it makes - run 1, run 2, run 3 - even
 
 Drop a <span class="fr-block">Shared Memory: Read</span> block at the top of the flow. Set its **Key** to `runCount`, and set its **Default Value** to `0` so the first run (when nothing has been saved yet) reads a clean starting point instead of an empty value. The flow then adds one to whatever it read and writes the new count back with a <span class="fr-block">Shared Memory: Put</span> block aimed at the same key, so each run leaves the next run a higher number.
 
+![The Shared Memory: Read block on the canvas with its configuration panel open: Key is set to runCount and Default Value is set to 0.](../images/reference/shared-memory-read-config.png)
+
 On the very first run, no value has been stored under `runCount`, so the Read block returns the Default Value, `0`. The flow adds one to it (an expression of the read value plus 1) and the <span class="fr-block">Shared Memory: Put</span> block writes the result back to `runCount`, so the store now holds `1`. The next run reads `1` and writes `2`, and the run after that reads `2` and writes `3`. The value climbs because Shared Memory holds onto it between runs, which a Data Bucket variable would not do.
 
 ## Configuration
