@@ -62,13 +62,7 @@ docs:
       type: expression
       description: Value used when the key does not exist yet (first run).
       help_tooltip: "The return value if the value for the key has not yet been put"   # verbatim from product
-    - field: Reference Result Data As
-      type: alias
-      default: "Shared Memory: Read Result"
-      description: The name this block's result is referenced by later in the flow. Leave the default unless a clearer label helps.
-    - field: Assign to a Variable
-      type: optional (Data Bucket + Variable Name)
-      description: Also drop the read value into a Data Bucket variable.
+  common: [name, result_alias, assign_variable, skip_block, logging, notes]
   produces_result: true
   data_in: Key (+ Default Value).
   data_out: The stored value (or Default Value).

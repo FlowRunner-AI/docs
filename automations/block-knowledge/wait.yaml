@@ -54,6 +54,7 @@ docs:
     - field: Days/Hours/Minutes/Seconds (delay)
       type: numbers
       description: The pause duration (at least one non-zero in simple mode).
+  common: [name, notes]
   produces_result: true
   data_in: The delay (seconds).
   data_out: Continues after the delay.
