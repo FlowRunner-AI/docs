@@ -9,7 +9,7 @@ Title + Description (identity) → AI Setup (which embedding model + chunking tu
 
 ## When to use it
 
-Give an [AI Agent](ai-agent.md) domain knowledge to ground its answers, or build a searchable corpus the flow can add to / query / clean up via the Knowledge Base action blocks.
+Give an [AI Agent](ai-agent.md){.fr-block} domain knowledge to ground its answers, or build a searchable corpus the flow can add to / query / clean up via the Knowledge Base action blocks.
 
 ## Behavior
 

@@ -9,7 +9,7 @@ A `return` statement for a flow. Composes the result object the caller receives.
 
 ## When to use it
 
-End a [SubFlow](subflow.md) or a flow invoked via [Call Flow](call-flow.md), structuring the output for the caller.
+End a [SubFlow](subflow.md){.fr-block} or a flow invoked via [Call Flow](call-flow.md){.fr-block}, structuring the output for the caller.
 
 ## Configuration
 
@@ -26,7 +26,7 @@ End a [SubFlow](subflow.md) or a flow invoked via [Call Flow](call-flow.md), str
 ## Things to watch for
 
 - Terminal — ends the execution branch.
-- Single Return Result -> object; multiple -> { executionId, result(first-reached), results[], status }.
+- Single <span class="fr-block">Return Result</span> -> object; multiple -> { executionId, result(first-reached), results[], status }.
 - Block name becomes blockName in the multiple-result structure.
 
 ## Related

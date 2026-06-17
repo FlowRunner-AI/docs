@@ -17,7 +17,7 @@ Generate/summarize/classify/extract content, or run an agent that calls tools.
 | --- | --- |
 | AI Model / AI API Key / AI Provider | Required. Model + key (API Keys registry). Provider e.g. ANTHROPIC. |
 | System Prompt / User Prompt | Instruction + input (User Prompt often a prior block result). |
-| Tools | Attach tools the agent can call. The "Manage AI Agent Capabilities" modal has 4 categories: Extensions (built-in integration actions), MCP Extensions (tools from registered MCP servers, grouped by server — checkbox = all, or expand to pick), Flows (other flows as tools), Knowledge (knowledge bases). Has a search + a "Register new MCP Server" link. |
+| Tools | Attach tools the agent can call. The "Manage <span class="fr-block">AI Agent</span> Capabilities" modal has 4 categories: Extensions (built-in integration actions), MCP Extensions (tools from registered MCP servers, grouped by server — checkbox = all, or expand to pick), Flows (other flows as tools), Knowledge (knowledge bases). Has a search + a "Register new MCP Server" link. |
 | Messages History (+ limit) | Feed prior instances' messages as context. |
 | Force Parsed Output | Appends instruction to return JSON. |
 | LangSmith Settings | Observability integration. |

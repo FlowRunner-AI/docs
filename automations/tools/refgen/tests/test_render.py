@@ -79,9 +79,9 @@ def test_prose_block_names_are_linked_first_occurrence_only():
     rec = {"id": "x", "name": "X", "category": "Utils",
            "docs": {"purpose": "Use a HTTP Request first, then more HTTP Request work."}}
     md = render_page(rec, name_by_id={"x": "X", "http-request": "HTTP Request"})
-    assert "[HTTP Request](http-request.md)" in md
-    assert md.count("[HTTP Request](http-request.md)") == 1     # first mention only
-    assert "then more HTTP Request work" in md                  # second stays plain
+    assert "[HTTP Request](http-request.md){.fr-block}" in md   # first mention linked + styled
+    assert md.count("](http-request.md)") == 1                  # only the first mention links
+    assert '<span class="fr-block">HTTP Request</span>' in md   # second mention styled, not linked
 
 
 def test_self_name_never_linked_and_code_is_protected():
@@ -90,7 +90,8 @@ def test_self_name_never_linked_and_code_is_protected():
                     "example": [{"code": "// HTTP Request happens elsewhere\nreturn 1;"}]}}
     md = render_page(rec, name_by_id={"x": "Cool Block", "http-request": "HTTP Request"})
     assert "[Cool Block]" not in md                              # own name never linked
-    assert "[HTTP Request](http-request.md)" in md               # prose mention linked
+    assert '<span class="fr-block">Cool Block</span>' in md      # own name still styled
+    assert "[HTTP Request](http-request.md){.fr-block}" in md    # prose mention linked + styled
     assert "// HTTP Request happens elsewhere" in md             # code mention untouched
 
 

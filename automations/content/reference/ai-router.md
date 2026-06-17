@@ -1,7 +1,7 @@
 <!-- GENERATED FILE - do not edit. Source: block-knowledge/ai-router.yaml. Regenerate: make refgen -->
 # AI Router
 
-Use an AI model to classify input data into one of several named decisions, then route the flow down the matching branch. The AI analog of [Value Router](value-router.md).
+Use an AI model to classify input data into one of several named decisions, then route the flow down the matching branch. The AI analog of [Value Router](value-router.md){.fr-block}.
 
 ## How it works
 
@@ -15,9 +15,9 @@ Branch a flow on a judgment that needs an LLM (sentiment, intent, category, tria
 
 | Field | Description |
 | --- | --- |
-| AI Model / AI API Key / AI Provider | Required. The model + key making the decision (same API Keys registry as [AI Agent](ai-agent.md)). |
+| AI Model / AI API Key / AI Provider | Required. The model + key making the decision (same API Keys registry as [AI Agent](ai-agent.md){.fr-block}). |
 | Decision Request | Required. Instruction telling the AI what to determine (recommended to start with "Determine…"). |
-| Decision Data | Named inputs the AI evaluates (e.g. message <- [External Callback](external-callback.md) Data.message). |
+| Decision Data | Named inputs the AI evaluates (e.g. message <- [External Callback](external-callback.md){.fr-block} Data.message). |
 | Expected Decisions | Required. The allowed outcomes (e.g. positive / negative / neutral). Each becomes a named output connector. "Everything Else" is the default/fallback decision. |
 | Reference Result Data As |  |
 | Assign to a Variable | Optionally store the chosen decision into a Data-Bucket variable. |

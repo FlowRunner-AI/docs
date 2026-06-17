@@ -11,37 +11,48 @@ HEADER = ("<!-- GENERATED FILE - do not edit. "
           "Source: block-knowledge/{id}.yaml. Regenerate: make refgen -->")
 
 # Regions that must never be touched by link-insertion: HTML comments, fenced
-# and inline code, and existing links/images.
+# and inline code, existing links/images, and heading lines (the H1 is the
+# block's own name and must stay a plain title, not a styled token).
 _PROTECT = re.compile(
-    r"<!--.*?-->|```.*?```|`[^`]*`|!\[[^\]]*\]\([^)]*\)|\[[^\]]*\]\([^)]*\)",
+    r"<!--.*?-->|```.*?```|`[^`]*`|!\[[^\]]*\]\([^)]*\)|\[[^\]]*\]\([^)]*\)|(?m:^\#{1,6}[^\n]*)",
     re.DOTALL,
 )
 
 
 def linkify(md: str, name_by_id: dict, self_id: str) -> str:
-    """Link the first mention of each known block name to its reference page.
+    """Mark every block-name mention as a styled token (`.fr-block`) so block
+    references stand out from ordinary copy; the first prose mention of another
+    block is also a link to its reference page.
 
-    Skips the block's own name, anything inside code or HTML comments, and text
-    already inside a Markdown link. Longer names match first so
+    Skips anything inside code or HTML comments and text already inside a
+    Markdown link/image. Longer names match first so
     'Knowledge Base: Add Document' wins over 'Knowledge Base'.
     """
     stash: list[str] = []
 
-    def protect(m: "re.Match") -> str:
-        stash.append(m.group(0))
+    def put(s: str) -> str:
+        stash.append(s)
         return f"\x00{len(stash) - 1}\x00"
 
-    text = _PROTECT.sub(protect, md)
+    # Protect existing links/images, code, and comments from processing.
+    text = _PROTECT.sub(lambda m: put(m.group(0)), md)
 
     linked: set[str] = set()
-    for name, rid in sorted(((n, i) for i, n in name_by_id.items() if i != self_id),
+    for name, rid in sorted(((n, i) for i, n in name_by_id.items()),
                             key=lambda p: -len(p[0])):
-        if rid in linked:
-            continue
         pattern = re.compile(r"(?<![\w-])" + re.escape(name) + r"(?![\w-])")
-        text, n = pattern.subn(lambda m: f"[{m.group(0)}]({rid}.md)", text, count=1)
-        if n:
-            linked.add(rid)
+
+        def repl(m: "re.Match", rid=rid) -> str:
+            word = m.group(0)
+            if rid != self_id and rid not in linked:
+                linked.add(rid)
+                token = f"[{word}]({rid}.md){{.fr-block}}"
+            else:
+                token = f'<span class="fr-block">{word}</span>'
+            # Stash each token so later (shorter) names cannot match inside it.
+            return put(token)
+
+        text = pattern.sub(repl, text)
 
     return re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], text)
 

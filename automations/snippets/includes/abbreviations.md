@@ -6,3 +6,17 @@
     A key/value pairs structure, also known as an object, is a method of organizing<br> and storing data. Imagine it as a labeled filing cabinet where drawer has a<br> specific label, and inside each drawer is a piece of information. The label on the<br> drawer is the key, and the information inside is the value.<br><br> For instance, if you have an object to store information about a person, you might<br> have a key called "name" with the value "Alice". Another key could be "age" with the<br> value "30". This way, if you want to find out the person's age, you look for the<br> "age" key and find the value "30" associated with it.<br>
 *[data bucket]:
     A data bucket is a way to organize and store related pieces of information together. <br>Think of it as a labeled box where you can keep various items that belong to a <br>specific category. Each piece of information, or variable, in the box has its own label,<br>making it easy to find and use. For example, if you have settings that apply to<br>an entire project, you might put all those settings in a data bucket called "Project Settings". This helps keep your information organized and easy to manage.    
+*[Shared Memory]:
+    A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.
+*[Data Bucket]:
+    A named container for a flow's variables during a single run. Each value has its own<br>label, so a step can store something under a name and a later step can read it back.<br>A Data Bucket resets when the run ends - for state that has to survive between runs, use<br>Shared Memory instead.
+*[Data Buckets]:
+    A named container for a flow's variables during a single run. Each value has its own<br>label, so a step can store something under a name and a later step can read it back.<br>A Data Bucket resets when the run ends - for state that has to survive between runs, use<br>Shared Memory instead.
+*[Instance]:
+    One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual<br>launch - it creates a new instance with its own data and its own Instance ID. The<br>Instances tab lists them.
+*[Instances]:
+    One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual<br>launch - it creates a new instance with its own data and its own Instance ID. The<br>Instances tab lists them.
+*[Initial Data]:
+    The data a flow starts a run with - typically the payload from its trigger. It is<br>available to expressions as Initial Data, so steps can read the values the run began with.
+*[Expression Editor]:
+    The panel where you build a dynamic value from references, operators, and literals.<br>A live preview shows the result as you go, so you can confirm a reference resolves<br>before you use it.

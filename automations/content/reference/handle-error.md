@@ -5,7 +5,7 @@ Catch a block's failure and route the flow to recovery logic instead of terminat
 
 ## How it works
 
-A try/catch target. You attach a Handle Error to a block (as its failure handler); if the block throws, control jumps to Handle Error, which exposes the error and continues down its own path.
+A try/catch target. You attach a <span class="fr-block">Handle Error</span> to a block (as its failure handler); if the block throws, control jumps to <span class="fr-block">Handle Error</span>, which exposes the error and continues down its own path.
 
 ## When to use it
 
@@ -21,13 +21,13 @@ Wrap any block that can fail (HTTP call, DB write, Cloud Code) so the flow can l
 
 - When the guarded block fails, execution diverts to this block.
 - Exposes the error (storeResult) and continues down its nextElementIds.
-- Common pattern: Handle Error -> [Wait](wait.md) (backoff) -> retry the failed action.
+- Common pattern: <span class="fr-block">Handle Error</span> -> [Wait](wait.md){.fr-block} (backoff) -> retry the failed action.
 
 ## Things to watch for
 
 - Minimal config — no Test Panel / Skip Block; it's a structural catch target.
 - Attach it by connecting the failure-expecting block to it as a successor; that block keeps its normal success path and gains this failure path.
-- Unhandled failures (no Handle Error) stop the flow.
+- Unhandled failures (no <span class="fr-block">Handle Error</span>) stop the flow.
 
 ## Related
 

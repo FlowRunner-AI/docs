@@ -62,8 +62,14 @@ and/or `image`+`alt`) precisely so a worked example can interleave narration, da
 
 - **No em-dashes (—).** Use a regular hyphen, a spaced hyphen " - ", or restructure the sentence.
 - **Reference hierarchy - apply consistently:**
-  - **Block names** (HTTP Request, Transform Data, Break, ...) are **links** to their reference
-    pages. The generator links the first prose mention automatically; do not hand-format them.
+  - **Block names** (HTTP Request, Transform Data, Break, ...) render as styled tokens: the
+    generator wraps every mention in `.fr-block` (a subtle green pill) so block references stand
+    out from copy, and links the first mention of each *other* block to its reference page. Do not
+    hand-format block names - write them in plain prose and let the generator style and link them.
+  - **Concept terms** a newcomer may not know (Shared Memory, Data Bucket, Instance, Initial Data,
+    Expression Editor, ...) are grounded by glossary tooltips: define them once in
+    `snippets/includes/abbreviations.md` and every page shows a hover definition automatically. Add
+    a definition the first time the batch introduces a new term; do not redefine inline.
   - **Named system values / Expression Editor pills** (`Current Iteration Item`, `Simulated
     Result`, ...) take `code` backticks - they are concrete named values the user sees in the UI.
   - **UI labels, buttons, sections** take **bold** (per CLAUDE.md).

@@ -21,7 +21,7 @@ Suppose a flow runs once per support ticket, and each run starts with this trigg
 }
 ```
 
-Drop an Assign Instance Name block in early, and set its Instance Name to a composite that pulls the customer in from Initial Data, so each run announces who it is for:
+Drop an <span class="fr-block">Assign Instance Name</span> block in early, and set its Instance Name to a composite that pulls the customer in from Initial Data, so each run announces who it is for:
 
 ```text
 Ticket: {{Initial Data->customer}}
