@@ -3,7 +3,16 @@ from pathlib import Path
 
 import yaml
 
-from .paths import NON_RECORD_FILES
+from .paths import COMMON_FILE, NON_RECORD_FILES
+
+
+def load_common(records_dir: Path) -> dict:
+    """Load the shared common-settings definitions (_common.yaml). Returns {} if absent."""
+    path = records_dir / COMMON_FILE
+    if not path.exists():
+        return {}
+    data = yaml.safe_load(path.read_text())
+    return data if isinstance(data, dict) else {}
 
 
 def load_records(records_dir: Path) -> list[dict]:

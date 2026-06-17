@@ -1,0 +1,61 @@
+id: break
+name: Break
+category: Utils
+kind: native
+
+api:
+  element_type: BREAK
+  config_keys: [logging, onFailElemId, storeResult]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    Placed inside a loop, this block ends the loop early: when the flow reaches it, the loop
+    stops and the flow carries on after it, leaving any not-yet-processed items untouched.
+  mental_model: >
+    It is the loop's exit. You put it inside a List Iterator or Repeat loop, usually right after
+    a Condition, so that when that condition is met and the flow reaches the Break, the loop
+    stops there instead of running through every remaining item.
+  when_to_use: >
+    Use it when you do not always need to finish the whole loop: stop as soon as you have found
+    the item you were looking for, hit a situation where you should bail out, or reached a limit
+    you set. Pair it with a Condition so the loop breaks only when you mean it to.
+  gotchas:
+    - "Break only makes sense inside a List Iterator or Repeat loop; outside a loop it has nothing to exit."
+    - "It is almost always placed after a Condition, so the loop stops only when your test is met rather than on the first item."
+  cross_refs: [list-iterator, repeat, condition]
+  terminology: [Break, Loop]
+
+behavior:
+  - "Reaching the Break ends the enclosing loop immediately; remaining items are not processed."
+  - "The flow continues from whatever comes after the loop."
+
+assertions:
+  - id: break-stops-loop
+    when: run-instance
+    given: "a List Iterator over N items with a Condition then Break that fires on item k"
+    expect: "the inner steps run k times, not N"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Exit a loop early with a Break."
+    - "Combine a Condition and a Break to stop a loop on a test."
+  prerequisites: [list-iterator, condition]
+  common_mistakes:
+    - "Placing a Break outside a loop."
+    - "Expecting the loop to keep going after the Break is reached."
+  exercise: >
+    Iterate a list of numbers; inside the loop, use a Condition to test for a target value and a
+    Break to stop as soon as it is found. Confirm in analytics that the loop ran only up to the
+    matching item.
+
+provenance:
+  confidence: V-real
+  evidence: "MyProjects 'Break Test' flow v1 - a LIST_ITERATOR loop containing a CONDITION then a BREAK element (type BREAK). notes.md."
+  verified_on: 2026-06-16

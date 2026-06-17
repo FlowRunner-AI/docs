@@ -87,7 +87,7 @@ def test_prose_block_names_are_linked_first_occurrence_only():
 def test_self_name_never_linked_and_code_is_protected():
     rec = {"id": "x", "name": "Cool Block", "category": "Utils",
            "docs": {"purpose": "Cool Block pairs with HTTP Request.",
-                    "example": {"code": "// HTTP Request happens elsewhere\nreturn 1;"}}}
+                    "example": [{"code": "// HTTP Request happens elsewhere\nreturn 1;"}]}}
     md = render_page(rec, name_by_id={"x": "Cool Block", "http-request": "HTTP Request"})
     assert "[Cool Block]" not in md                              # own name never linked
     assert "[HTTP Request](http-request.md)" in md               # prose mention linked
@@ -106,33 +106,40 @@ def test_behavior_item_with_example_renders_indented_fence():
     assert "- A plain bullet with no example." in md
 
 
-def test_common_settings_include_emitted_when_opted_in():
+def test_common_settings_table_built_from_shared_defs():
+    common = {"name": {"field": "Name", "description": "A label."},
+              "logging": {"field": "Logging", "description": "What to log."}}
     rec = {"id": "x", "name": "X", "category": "Utils",
-           "docs": {"purpose": "p", "common_settings": True,
+           "docs": {"purpose": "p", "common": ["name", "logging"],
                     "config": [{"field": "Key", "description": "the key"}]}}
-    md = render_page(rec, name_by_id={"x": "X"})
+    md = render_page(rec, name_by_id={"x": "X"}, common_defs=common)
     assert "## Configuration" in md
-    assert "| Key |" in md
-    assert '--8<-- "block-common-settings.md"' in md
+    assert "| Key |" in md                              # block-specific field still shown
+    assert "**Common settings**" in md
+    assert "| Name | A label. |" in md
+    assert "| Logging | What to log. |" in md
 
-    # opted out -> no include
+    # opted out -> no common-settings table
     rec2 = {"id": "y", "name": "Y", "category": "Utils",
             "docs": {"purpose": "p", "config": [{"field": "Key", "description": "k"}]}}
-    assert "--8<--" not in render_page(rec2, name_by_id={"y": "Y"})
+    assert "**Common settings**" not in render_page(rec2, name_by_id={"y": "Y"}, common_defs=common)
 
 
-def test_example_section_renders_code_block_and_image():
+def test_example_renders_interleaved_steps_in_order():
     rec = {"id": "x", "name": "X", "category": "Utils",
-           "docs": {"purpose": "p", "example": {
-               "intro": "Like so:", "lang": "javascript", "code": "return 1;",
-               "image": "../images/reference/x.png", "alt": "x in the editor",
-               "outro": "Done."}}}
+           "docs": {"purpose": "p", "example": [
+               {"text": "Like so:"},
+               {"lang": "json", "code": '[{"id": 1}]'},
+               {"text": "Then the loop runs."},
+               {"image": "../images/reference/x.png", "alt": "x in the editor"},
+               {"text": "Done."}]}}
     md = render_page(rec, name_by_id={"x": "X"})
     assert "## Example" in md
-    assert "Like so:" in md
-    assert "```javascript\nreturn 1;\n```" in md
-    assert "![x in the editor](../images/reference/x.png)" in md
-    assert "Done." in md
+    # order is preserved: intro text, then code, then the next text, then image, then closing text
+    order = [md.index("Like so:"), md.index("```json"), md.index("Then the loop runs."),
+             md.index("![x in the editor]"), md.index("Done.")]
+    assert order == sorted(order)
+    assert '[{"id": 1}]' in md
 
 
 def test_limitations_section_preferred_over_gotchas():
