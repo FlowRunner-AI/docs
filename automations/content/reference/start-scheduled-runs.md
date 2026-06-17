@@ -31,11 +31,6 @@ The payoff: from the moment the <span class="fr-block">Start Scheduled Runs</spa
 | --- | --- |
 | Flow | Required. The flow whose scheduled runs you want to turn back on. Note that this dropdown currently lists every flow in the workspace, not only the ones that already have a schedule, so pick the target flow carefully. |
 
-## Behavior
-
-- Turns the selected flow's existing schedule back to active, so the platform resumes creating an instance each time the schedule comes due.
-- Only the on/off state changes; the schedule's timing is left exactly as it was, and the block does not create a schedule where none exists.
-
 ## Things to watch for
 
 - The target flow has to already have a schedule defined on it. This block only turns an existing schedule back on - it does not create one, so if the flow was never scheduled there is nothing here to start.

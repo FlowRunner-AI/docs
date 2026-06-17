@@ -33,11 +33,6 @@ Had Branch B instead hung past 60 seconds, the Max Waiting Time would have fired
 | --- | --- |
 | Max Waiting Time | How long to wait for all branches to arrive before giving up and continuing anyway. With Expression Mode off you fill in plain Days, Hours, Minutes, and Seconds fields; with it on you supply an expression that works out to a number of seconds, so the cap can be computed at run time. |
 
-## Behavior
-
-- Holds the flow until every incoming parallel branch has arrived, then releases its single downstream path.
-- If the Max Waiting Time elapses first, the flow continues without the branches that have not arrived yet; their results are not available downstream.
-
 ## Things to watch for
 
 - This block only does something when more than one branch feeds into it. If a single path reaches it, there is nothing to wait for and the flow passes straight through.

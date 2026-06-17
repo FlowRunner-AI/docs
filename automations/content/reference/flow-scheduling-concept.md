@@ -12,11 +12,6 @@ There are two separate ideas here, and keeping them apart saves a lot of confusi
 
 Reach for a schedule whenever a flow should start itself on a timetable rather than waiting for a trigger, an API call, or a manual launch - a nightly cleanup job, a poll that checks a source every few minutes, a weekly report, a recurring batch of emails. The trade-off to weigh is control: a schedule starts runs on the clock whether or not there is anything to do, so for work that should start in response to an event (a record changed, a request came in) a trigger fits better. Pick a schedule when the timing itself is the thing that should drive the flow.
 
-## Behavior
-
-- While the schedule is switched on and the current time falls between its start and its expiry, FlowRunner starts a new run of the flow each time the timetable comes due.
-- The <span class="fr-block">Start Scheduled Runs</span> and <span class="fr-block">Stop Scheduled Runs</span> blocks turn the timetable on and off without changing the start, frequency, or expiry you set in the popup.
-
 ## Things to watch for
 
 - A schedule belongs to one version of the flow, not to the flow as a whole. If you publish a new version, check that the version meant to run on the timetable is the one carrying the schedule.

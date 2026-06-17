@@ -104,12 +104,6 @@ docs:
   cross_refs: [value-router, ai-agent, condition, api-keys-registry, expression-editor]
   terminology: [AI Router, Decision Request, Decision Data, Expected Decisions, Everything Else]
 
-behavior:
-  - "The AI picks exactly one of the labels in Expected Decisions for the given Decision Data."
-  - "The flow leaves through the connector for whichever label was chosen."
-  - "Everything Else is the fallback, taken when none of your named labels fit the data."
-  - "Each label in Expected Decisions is a named output connector, visible when you hover the block."
-
 assertions:
   - id: branches-match-expected-decisions
     when: run-instance

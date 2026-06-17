@@ -34,12 +34,6 @@ Had you chosen On Start instead, the flow would have moved on the instant the th
 | --- | --- |
 | Outgoing Transition Mode | When the rest of the flow is allowed to continue. On Start releases the downstream path as soon as every inner action has been started, without waiting for results. On Completion holds it until every inner action has finished. |
 
-## Behavior
-
-- The inner actions all start together and run side by side.
-- Under On Completion, the downstream path waits until every inner action has finished.
-- Under On Start, the downstream path continues as soon as every inner action has been started, without waiting for them to finish.
-
 ## Things to watch for
 
 - The inner actions run side by side, not one after another, so you cannot count on one finishing before another starts. If an action needs another's result, those two cannot share a single <span class="fr-block">Actions Group</span>.

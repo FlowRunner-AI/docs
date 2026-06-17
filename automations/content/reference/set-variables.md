@@ -5,7 +5,7 @@ This block stores values under names you choose, so later steps can read them ba
 
 ## How it works
 
-Each variable you set lives in a Data Bucket - a named container that holds a run's variables. You pick the bucket and list the variables to write, each as a name and a value, and the block writes them all when the flow reaches it. A value can be a fixed literal you type, or an expression worked out at run time, including one that reads the variable's own current value - so a counter can set itself to its current value plus one. Later steps read what you wrote by referencing the variable from its bucket. A bucket's variables belong to the current run, so a fresh run starts with the bucket empty.
+Each variable you set lives in a Data Bucket. You pick the bucket and list the variables to write, each as a name and a value, and the block writes them all when the flow reaches it. A value can be a fixed literal you type, or an expression worked out at run time, including one that reads the variable's own current value - so a counter can set itself to its current value plus one. Later steps read what you wrote by referencing the variable from its bucket. A bucket's variables belong to the current run, so a fresh run starts with the bucket empty.
 
 ## When to use it
 
@@ -39,11 +39,6 @@ When the flow reaches the block, both variables are written into the Ticket buck
 | --- | --- |
 | Data Bucket | The named container the variables are written into. Pick an existing bucket, or type a new name to create one. Defaults to a bucket named Default. |
 | Perform Changes | The variables to write, one row each. Every row has a name and a value, where the value is either a fixed literal you type or an expression worked out at run time. |
-
-## Behavior
-
-- Writes each variable's name and value into the chosen Data Bucket for the current run.
-- A value can be a fixed literal or an expression, including one that reads the variable's own current value (for example, to raise a counter by one).
 
 ## Things to watch for
 

@@ -17,7 +17,7 @@ docs:
     This block stores values under names you choose, so later steps can read them back. You give
     it a name and a value for each variable, and it writes them for the rest of the run to use.
   mental_model: >
-    Each variable you set lives in a Data Bucket - a named container that holds a run's variables.
+    Each variable you set lives in a Data Bucket.
     You pick the bucket and list the variables to write, each as a name and a value, and the block
     writes them all when the flow reaches it. A value can be a fixed literal you type, or an
     expression worked out at run time, including one that reads the variable's own current value -
@@ -78,10 +78,6 @@ docs:
     - "Variables are referenced by their bucket and name together, shown as a 'Bucket - name' pill when you pick one in the Expression Editor."
   cross_refs: [shared-memory-read, transform-data, expression-editor]
   terminology: [Set Variables, Data Bucket, Variable]
-
-behavior:
-  - "Writes each variable's name and value into the chosen Data Bucket for the current run."
-  - "A value can be a fixed literal or an expression, including one that reads the variable's own current value (for example, to raise a counter by one)."
 
 assertions:
   - id: writes-variable

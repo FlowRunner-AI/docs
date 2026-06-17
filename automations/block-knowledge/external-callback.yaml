@@ -100,10 +100,6 @@ docs:
   cross_refs: [triggers-group, conditions-concept, learning-mode, instances-concept]
   terminology: [External Callback, Callback URL, Reference Trigger Data As, Learning Mode, Execution parameter]
 
-behavior:
-  - "While the flow is LIVE, an incoming call starts a new run (or resumes a waiting one) with the request available as External Callback Data."
-  - "When an Add a Condition gate evaluates false for a call, the trigger does not fire for it."
-
 assertions:
   - id: callback-starts-instance
     when: run-instance

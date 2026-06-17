@@ -37,13 +37,6 @@ On the negative connector, place a [Set Variables](set-variables.md){.fr-block} 
 | Decision Data | The values the AI judges. Each one has a name and an expression pointing at the data to evaluate, usually a previous block's result or a trigger's payload. |
 | Expected Decisions | Required. The labels the AI is allowed to choose from. Each label becomes a named output connector on the block. One of them, Everything Else, is the fallback the AI takes when none of the others fit. |
 
-## Behavior
-
-- The AI picks exactly one of the labels in Expected Decisions for the given Decision Data.
-- The flow leaves through the connector for whichever label was chosen.
-- Everything Else is the fallback, taken when none of your named labels fit the data.
-- Each label in Expected Decisions is a named output connector, visible when you hover the block.
-
 ## Things to watch for
 
 - The named output connectors are only visible when you hover the block - one for each label in Expected Decisions, plus Everything Else. If a branch looks unwired, hover the block to find its connector.

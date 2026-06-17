@@ -73,10 +73,6 @@ docs:
   cross_refs: [shared-memory-read, shared-memory-put]
   terminology: [Shared Memory, Key]
 
-behavior:
-  - "Removes the keys you name from Shared Memory, or clears the whole store when All is on."
-  - "A later Shared Memory: Read of a removed key returns that read's Default Value, since the key is no longer present."
-
 assertions:
   - id: delete-removes-key
     when: run-instance

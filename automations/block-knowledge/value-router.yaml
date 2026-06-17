@@ -23,10 +23,7 @@ docs:
     for that branch to win. Every branch name becomes its own output connector on the block, so
     you build different steps off each one. When the flow reaches the block, it checks your branches
     from top to bottom and leaves through the first one whose match succeeds. There is always one
-    extra branch, Everything Else, that catches any value none of your branches claimed. Each branch
-    matches in one of three ways, chosen by its Value Mode: Single Value matches one exact value;
-    Collection matches if the value equals any value in a list you provide; and Range matches when
-    the value falls between a low and a high bound, both ends included.
+    extra branch, Everything Else, that catches any value none of your branches claimed.
   when_to_use: >
     Reach for it when one known value decides which path the flow takes and there are several
     possible paths - dispatch on a product type, a status code, an order status, a category. A
@@ -101,10 +98,6 @@ docs:
     - "Everything Else is always there and cannot be removed. Build something onto it even if you expect every value to match a named branch, so an unexpected value still has somewhere to go instead of stopping the flow."
   cross_refs: [ai-router, condition]
   terminology: [Value Router, Value to Evaluate, Value Mode, Branch, Everything Else]
-
-behavior:
-  - "Checks the Value to Evaluate against each branch from top to bottom and routes through the first branch that matches."
-  - "When no branch matches, the flow leaves through the Everything Else branch."
 
 assertions:
   - id: single-value-match

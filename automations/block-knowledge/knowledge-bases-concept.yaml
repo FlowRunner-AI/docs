@@ -79,7 +79,6 @@ docs:
   terminology: [Knowledge Base, RAG, Embedding Model, Chunk Size, Chunk Overlap, Vector Store, Document, Metadata]
 
 behavior:
-  - "When you add a document, it is split into chunks, each chunk is turned into an embedding, and the embeddings are saved in the vector store - which is what makes the content searchable by meaning."
   - "An AI Agent draws on a Knowledge Base by attaching it as a capability, and a flow can add, list, or remove documents using the Knowledge Base action blocks."
 
 assertions:

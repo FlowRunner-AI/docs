@@ -36,10 +36,6 @@ When the flow runs, the block removes only that one document. The X100 manual is
 | File Id | Required. The id of the document to delete. This is the `fileId` the Knowledge Base assigned the document, usually supplied as an expression that reads it from an earlier List Documents result. |
 | Retry Policy | Optional. How the block should retry if the delete request fails, so a brief hiccup does not stop the flow. |
 
-## Behavior
-
-- Removes the single document whose fileId you supply from the chosen Knowledge Base, and leaves every other document in place.
-
 ## Things to watch for
 
 - This block deletes by document id, not by name or content. You have to give it the exact fileId the Knowledge Base assigned the document; a title or filename will not match. The reliable way to get that id is from a List Documents block, which returns each document together with its fileId.

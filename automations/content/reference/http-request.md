@@ -40,11 +40,6 @@ That captured shape is what makes the result easy to use next. A following block
 | Query | Extra parameters appended to the URL, such as a search term, a page number, or a filter the service understands. |
 | Headers | Named values sent alongside the request, each a Name and a Value. Most often used for authentication (an API key, a Bearer token, or Basic credentials) and to declare the content type. |
 
-## Behavior
-
-- Sends one request to the configured address and exposes the response body as the result.
-- Running the block in Test Mode captures the real response shape so later blocks can reference its fields.
-
 ## Things to watch for
 
 - The result is only the response body - the data the service sent back. The status code and the response headers are not handed to you separately, so if you need to know whether a call succeeded, check for a value the body itself contains.

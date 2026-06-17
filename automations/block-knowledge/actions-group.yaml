@@ -80,11 +80,6 @@ docs:
   cross_refs: [triggers-group, synchronize]
   terminology: [Actions Group, Outgoing Transition Mode]
 
-behavior:
-  - "The inner actions all start together and run side by side."
-  - "Under On Completion, the downstream path waits until every inner action has finished."
-  - "Under On Start, the downstream path continues as soon as every inner action has been started, without waiting for them to finish."
-
 assertions:
   - id: parallel-on-completion
     when: run-instance

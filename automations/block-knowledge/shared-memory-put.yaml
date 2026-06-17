@@ -82,10 +82,6 @@ docs:
   cross_refs: [shared-memory-read, shared-memory-delete]
   terminology: [Shared Memory, Override]
 
-behavior:
-  - "Saves each name/value pair into Shared Memory, where it is kept for later runs of the flow to read."
-  - "With Override on, writing to a name that already holds a value replaces it; writing to a new name creates it."
-
 assertions:
   - id: put-persists
     when: run-instance

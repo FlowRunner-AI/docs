@@ -5,7 +5,7 @@ This block takes one value and sends the flow down a named path based on what th
 
 ## How it works
 
-You give the block a single value to look at - the Value to Evaluate. You then add a branch for each outcome you care about, give the branch a name, and tell it what the value has to be for that branch to win. Every branch name becomes its own output connector on the block, so you build different steps off each one. When the flow reaches the block, it checks your branches from top to bottom and leaves through the first one whose match succeeds. There is always one extra branch, Everything Else, that catches any value none of your branches claimed. Each branch matches in one of three ways, chosen by its Value Mode: Single Value matches one exact value; Collection matches if the value equals any value in a list you provide; and Range matches when the value falls between a low and a high bound, both ends included.
+You give the block a single value to look at - the Value to Evaluate. You then add a branch for each outcome you care about, give the branch a name, and tell it what the value has to be for that branch to win. Every branch name becomes its own output connector on the block, so you build different steps off each one. When the flow reaches the block, it checks your branches from top to bottom and leaves through the first one whose match succeeds. There is always one extra branch, Everything Else, that catches any value none of your branches claimed.
 
 ## When to use it
 
@@ -38,11 +38,6 @@ If you later add a second money-market code that should be handled exactly like 
 | Value Mode | How a branch matches the value. Single Value matches one exact value; Collection matches if the value equals any value in a list you give the branch; Range matches when the value falls between a low and a high bound, with both bounds included. |
 | Branch value | What the branch matches against the value - one value in Single Value mode, a list of values in Collection mode, or a low and high bound in Range mode. |
 | Everything Else | The built-in fallback branch, always present, taken when no other branch matches the value. |
-
-## Behavior
-
-- Checks the Value to Evaluate against each branch from top to bottom and routes through the first branch that matches.
-- When no branch matches, the flow leaves through the Everything Else branch.
 
 ## Things to watch for
 

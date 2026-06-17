@@ -44,10 +44,6 @@ Each entry is one document, and the part you usually want is its fileId. To remo
 | Limit | How many documents to return at most. Use it with Offset to read a long list one page at a time. |
 | Offset | How far into the full list to start, counting from 0. With Limit, this is how you step through the documents a page at a time - for example, Offset 50 with Limit 50 returns the second page. |
 
-## Behavior
-
-- Returns the documents in the chosen Knowledge Base, keeping only the ones whose metadata matches the Filter, and bounded by the Limit and Offset you set.
-
 ## Things to watch for
 
 - The result is a list of documents under files, not a bare array of ids. To act on a single document, read its file id from the entry you want, for example the entry at index 0.

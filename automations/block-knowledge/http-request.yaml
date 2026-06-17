@@ -98,10 +98,6 @@ docs:
   cross_refs: [custom-cloud-code, handle-error, expression-editor]
   terminology: [HTTP Request, Headers, Method]
 
-behavior:
-  - "Sends one request to the configured address and exposes the response body as the result."
-  - "Running the block in Test Mode captures the real response shape so later blocks can reference its fields."
-
 assertions:
   - id: get-returns-body
     when: run-block

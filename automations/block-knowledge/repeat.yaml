@@ -19,7 +19,8 @@ docs:
     This block runs the same set of steps over and over for as long as a condition you set stays
     true. You build the steps inside it, and it keeps running them until the condition turns false.
   mental_model: >
-    It is a block container that works like a while loop. Before each pass it checks your condition;
+    It is a block container that repeats the steps inside it for as long as your condition stays
+    true - what other tools call a while loop. Before each pass it checks your condition;
     while the condition is true it runs the steps inside once more, then checks again. The moment
     the check comes back false, the loop stops and the flow moves on. Because the same steps run each
     pass, something inside the loop has to change a value the condition depends on - otherwise the
@@ -49,10 +50,10 @@ docs:
         Condition:  Order Status   not equals   "shipped"
         Max Iterations (failsafe):  20
     - text: >
-        Inside the loop you build two steps. A Wait block pauses for 30 seconds so the service has
-        time to make progress, and then an HTTP Request block re-fetches the order and a Set Variables
-        block writes the fresh status back into Order Status. Each pass the loop re-checks the
-        condition against that updated value.
+        Inside the loop you build a pause followed by a fetch-and-store. A Wait block pauses for 30
+        seconds so the service has time to make progress, and then an HTTP Request block re-fetches
+        the order and a Set Variables block writes the fresh status back into Order Status. Each pass
+        the loop re-checks the condition against that updated value.
     - text: |
         Here is how it plays out for an order that ships on the third check:
 
@@ -93,10 +94,6 @@ docs:
 help_tooltips:   # verbatim from product UI (i.fa-circle-question on hover)
   Maximum Iteration Count: "Set the maximum iteration limit to interrupt the Repeat While loop. Useful for preventing endless loops if the logic does not exit as expected."
   Current Iteration: "TODO: Create a help text here"   # UNWRITTEN placeholder in product (flag to product team)
-
-behavior:
-  - "Checks the condition before each pass and runs the steps inside while it is true; the product calls this a Repeat While loop."
-  - "Stops as soon as the condition turns false, or when it reaches the failsafe cap on the number of passes, whichever comes first."
 
 assertions:
   - id: loops-until-false

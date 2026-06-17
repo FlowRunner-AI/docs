@@ -77,10 +77,6 @@ docs:
   cross_refs: [actions-group, call-flow, wait]
   terminology: [Synchronize, Max Waiting Time]
 
-behavior:
-  - "Holds the flow until every incoming parallel branch has arrived, then releases its single downstream path."
-  - "If the Max Waiting Time elapses first, the flow continues without the branches that have not arrived yet; their results are not available downstream."
-
 assertions:
   - id: waits-for-all
     when: run-instance

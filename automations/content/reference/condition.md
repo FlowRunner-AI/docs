@@ -39,11 +39,6 @@ Now suppose approval should also kick in for any expedited order, whatever its s
 | Operation | Required. The comparison to run against the value, for example GREATER THAN, EQUALS, IS TRUE, or IS NOT EMPTY. Comparisons that take a second value - such as EQUALS - show a field where you supply the value to compare against. |
 | Parts | Additional sub-tests added with the plus control. Each part is its own value, type, and comparison. Parts are joined with AND or OR, and brackets group parts so you control which ones are weighed together. |
 
-## Behavior
-
-- The test comes out true or false, and the flow continues down the matching Yes or No path.
-- When several parts are combined, their individual results are weighed together using the AND and OR connectors and the bracket grouping to reach a single true or false.
-
 ## Things to watch for
 
 - The Yes path runs when the test is true and the No path runs when it is false. Both paths leave the block; if you build steps on only one of them, the other case quietly leaves the flow with nothing to do.

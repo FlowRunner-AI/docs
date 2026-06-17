@@ -35,12 +35,6 @@ So a single <span class="fr-block">Handle Error</span> turns a one-shot call tha
 | --- | --- |
 | Reference Result Data As | The alias later steps use to read the caught error, which has a code, a message, and a source naming the block that failed. |
 
-## Behavior
-
-- When the guarded block fails, the flow diverts to this block instead of stopping.
-- It exposes the caught error - its code, message, and source - as its result, then continues down its recovery steps.
-- A common recovery pattern is to follow the <span class="fr-block">Handle Error</span> with a <span class="fr-block">Wait</span> to pause, then retry the step that failed.
-
 ## Things to watch for
 
 - A <span class="fr-block">Handle Error</span> is not wired with an ordinary connection between two steps. You attach it to the block you want to guard, and that block keeps its normal success path while gaining this failure path - so the same block can lead to two different places depending on whether it succeeds or fails.

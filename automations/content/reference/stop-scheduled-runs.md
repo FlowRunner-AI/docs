@@ -33,11 +33,6 @@ The payoff: throughout the wait, Email Sender launches no scheduled batches, so 
 | --- | --- |
 | Flow | Required. The flow whose schedule you want to pause. Note - the dropdown currently lists every flow in the workspace, not only the ones that actually have a schedule, so pick the scheduled flow by name. |
 
-## Behavior
-
-- Pauses scheduled runs for the flow you select, so the platform stops launching it on its set times.
-- Leaves the flow's schedule fully defined - its frequency, dates, and policies are kept; only its on/off state changes to off.
-
 ## Things to watch for
 
 - This block pauses a schedule; it does not delete one. The flow's schedule - its frequency, its dates, its policies - is left fully defined, just switched off. Its counterpart <span class="fr-block">Start Scheduled Runs</span> flips that same switch back on. To remove a schedule outright, you use the flow scheduling popup instead, not this block.

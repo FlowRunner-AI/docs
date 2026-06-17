@@ -43,7 +43,6 @@ With a longer, unsorted list the payoff is clearer - sorting `["new", "clearance
 
 ## Behavior
 
-- When the flow reaches the block, it runs the selected operation over its inputs and returns the result.
 - If you turn on the option to store the result in a variable, the same value is also written to the Data Bucket variable you choose.
 
 ## Things to watch for

@@ -31,11 +31,6 @@ When that path runs, the block erases `cursor` from Shared Memory and leaves any
 | All | When on, the block clears the entire Shared Memory store, removing every key. When off, you list the specific keys to remove and only those are erased. |
 | Keys | The keys to remove when All is off. Name at least one. Listing a key that was never written does no harm - the block has nothing to remove for it. |
 
-## Behavior
-
-- Removes the keys you name from Shared Memory, or clears the whole store when All is on.
-- A later <span class="fr-block">Shared Memory: Read</span> of a removed key returns that read's Default Value, since the key is no longer present.
-
 ## Things to watch for
 
 - With All on, the block clears the whole store - every key the flow has ever saved, not just the one you had in mind. Use it only when you mean to wipe all of the flow's memory; to remove a single value, leave All off and name the key.
