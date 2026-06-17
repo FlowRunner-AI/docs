@@ -26,7 +26,7 @@ Wrap any block that can fail (HTTP call, DB write, Cloud Code) so the flow can l
 ## Things to watch for
 
 - Minimal config — no Test Panel / Skip Block; it's a structural catch target.
-- Attach it as a block's failure handler (onFailElemId), not via a normal connector.
+- Attach it by connecting the failure-expecting block to it as a successor; that block keeps its normal success path and gains this failure path.
 - Unhandled failures (no Handle Error) stop the flow.
 
 ## Related

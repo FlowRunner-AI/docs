@@ -22,9 +22,14 @@ newcomer could read it and genuinely understand the block. That means:
 - **Walked through, step by step.** For anything with moving parts, trace what happens against
   the sample data - pass 1 does X, pass 2 hits the condition and does Y - so there is nothing
   left to guess.
-- **Illustrated.** Use screenshots of the real product (the actual config, the actual data, the
-  Expression Editor) to show *where things are, what they look like, and how they work*. One
-  vague screenshot is not enough; show each part that matters.
+- **Illustrated - every block page is shown, not just told.** When we document a block, a
+  screenshot is always helpful. **Every block page carries at least one screenshot that captures
+  the block itself and its config panel in the same image** - the reader sees the block on the
+  canvas and the fields they will fill in, together, in one shot. (Mark) **Complex / control-flow
+  blocks** (loops, conditions, error handling, the Expression Editor, anything with moving parts to
+  trace) get that base screenshot *plus* additional ones - the actual data, the Expression Editor,
+  the traced passes - and one vague screenshot is not enough; show each part that matters. The base
+  block+config image is the floor for every page; add more wherever a part genuinely needs showing.
 - **Thoroughness beats brevity.** Never trade away the substance to keep a page short. A short
   page that does not educate is a failed page.
 
