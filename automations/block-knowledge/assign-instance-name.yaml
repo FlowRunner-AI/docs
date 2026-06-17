@@ -39,8 +39,9 @@ docs:
           "customer": "acme@example.com"
         }
     - text: >
-        Drop an Assign Instance Name block in early, and set its Instance Name to a composite that
-        pulls the customer in from Initial Data, so each run announces who it is for:
+        Drop an Assign Instance Name block in early, and in the Expression Editor set its Instance
+        Name to a composite that pulls the customer in from Initial Data, so each run announces who
+        it is for:
     - lang: text
       code: |
         Ticket: {{Initial Data->customer}}
