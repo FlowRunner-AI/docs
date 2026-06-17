@@ -20,33 +20,72 @@ testability:
 
 docs:
   purpose: >
-    Catch a block's failure and route the flow to recovery logic instead of terminating.
-  when_to_use: >
-    Wrap any block that can fail (HTTP call, DB write, Cloud Code) so the flow can log,
-    notify, retry, or fall back.
+    This block catches the failure of another block and sends the flow down a recovery path
+    instead of stopping the run. It gives you a place to react when a step goes wrong.
   mental_model: >
-    A try/catch target. You attach a Handle Error to a block (as its failure handler);
-    if the block throws, control jumps to Handle Error, which exposes the error and
-    continues down its own path.
+    A Handle Error is the recovery path for a block that might fail. You attach it to a block
+    that can go wrong, and from then on that block has two exits: its normal path when it
+    succeeds, and the Handle Error when it fails. If the block fails, the flow does not stop -
+    instead it diverts to the Handle Error, which hands you the error that occurred and then
+    continues down its own steps, the ones you build to recover. The error it hands you has
+    three parts: a **code**, a **message** describing what went wrong, and a **source** saying
+    which block produced it. One Handle Error can be the recovery path for several blocks at
+    once, or each risky block can have its own.
+  when_to_use: >
+    Reach for it around any step that can fail for reasons outside your control: an HTTP Request
+    to a service that might be down, a database write that might be rejected, a Custom Cloud Code
+    block that might throw. Without a Handle Error, the first failure ends the whole run. With one,
+    you decide what happens next - log it, send a notification, fall back to a default, or pause
+    and retry. It is the difference between a flow that gives up on the first hiccup and one that
+    copes with the things that go wrong in the real world.
+  example:
+    - text: >
+        Suppose your flow calls a payment provider with an HTTP Request, and that provider is
+        sometimes briefly unavailable. On its own, a failed call ends the run. Instead, attach a
+        Handle Error to the HTTP Request so the call gains a recovery path. Now the request has
+        two exits: when it succeeds the flow carries on as normal, and when it fails the flow
+        diverts to the Handle Error.
+    - text: >
+        Inside the recovery path, you want to wait a moment and try the call once more, so you
+        place a Wait block after the Handle Error and then run the same HTTP Request again. The
+        recovery path looks like this: when the call fails, the flow reaches the Handle Error,
+        then the Wait pauses for 30 seconds, then the call runs a second time.
+    - text: >
+        The Handle Error also hands you the error itself, which later steps read through its
+        result. Say the second attempt fails too and you want to notify someone with the reason -
+        a notification step can read the error's message and source from the Handle Error's
+        result, so the alert says exactly which block failed and why:
+    - lang: json
+      code: |
+        {
+          "code": 503,
+          "message": "Service Unavailable",
+          "source": "Charge Card (HTTP Request)"
+        }
+    - text: >
+        So a single Handle Error turns a one-shot call that would have killed the run into a step
+        that retries once, and, if it still fails, reports the reason instead of disappearing.
   config:
     - field: Reference Result Data As
       type: alias
       default: Handle Error Result
-      description: The caught error is exposed as this result (code/message/source).
+      description: >
+        The alias later steps use to read the caught error, which has a code, a message, and a
+        source naming the block that failed.
   produces_result: true
-  data_in: The caught error (from the failed block).
-  data_out: Error object {code, message, source}; flow continues down recovery path.
+  data_in: The error caught from the block that failed.
+  data_out: The error (code, message, and source), then the flow continues down the recovery steps.
   gotchas:
-    - "Minimal config — no Test Panel / Skip Block; it's a structural catch target."
-    - "Attach it by connecting the failure-expecting block to it as a successor; that block keeps its normal success path and gains this failure path."
-    - "Unhandled failures (no Handle Error) stop the flow."
-  cross_refs: [wait, custom-cloud-code, error-handling-concept]
-  terminology: [Handle Error, onFailElemId, error code/message/source]
+    - "A Handle Error is not wired with an ordinary connection between two steps. You attach it to the block you want to guard, and that block keeps its normal success path while gaining this failure path - so the same block can lead to two different places depending on whether it succeeds or fails."
+    - "A failure with no Handle Error attached stops the run. Any step you cannot afford to have end the flow needs one."
+    - "It carries very little configuration of its own, because its job is structural: it marks where a failed block's recovery begins. The real work lives in the steps you build after it."
+  cross_refs: [wait, custom-cloud-code, http-request, error-handling-concept]
+  terminology: [Handle Error, error code/message/source]
 
 behavior:
-  - "When the guarded block fails, execution diverts to this block."
-  - "Exposes the error (storeResult) and continues down its nextElementIds."
-  - "Common pattern: Handle Error -> Wait (backoff) -> retry the failed action."
+  - "When the guarded block fails, the flow diverts to this block instead of stopping."
+  - "It exposes the caught error - its code, message, and source - as its result, then continues down its recovery steps."
+  - "A common recovery pattern is to follow the Handle Error with a Wait to pause, then retry the step that failed."
 
 assertions:
   - id: catch-diverts-on-failure

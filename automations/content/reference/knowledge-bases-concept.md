@@ -1,26 +1,27 @@
 <!-- GENERATED FILE - do not edit. Source: block-knowledge/knowledge-bases-concept.yaml. Regenerate: make refgen -->
 # Knowledge Bases (RAG stores)
 
-A Knowledge Base is a RAG (retrieval-augmented generation) store: documents are chunked, embedded, and stored in a vector store so AI Agents (and the KB action blocks) can retrieve relevant content by similarity.
+A Knowledge Base is a searchable store of your own documents that an [AI Agent](ai-agent.md){.fr-block} can draw on to answer questions. You add documents to it, and the AI can later pull back the passages that match what it was asked.
 
 ## How it works
 
-Title + Description (identity) → AI Setup (which embedding model + chunking turns text into vectors) → Vector Store (where the vectors live). Documents on the Data tab are processed (chunk → embed → store) asynchronously.
+A Knowledge Base is a place you put documents so an AI can find the parts that matter. When you add a document, FlowRunner does not store it as one long block of text. It breaks the document into smaller pieces, called chunks, and turns each chunk into an embedding - a list of numbers that captures the meaning of that piece of text. Those embeddings live in a vector store, which is built to compare meanings and return the closest matches. So when an <span class="fr-block">AI Agent</span> asks the Knowledge Base a question, the question is turned into an embedding too, and the store hands back the chunks whose meaning is nearest. That is how a Knowledge Base answers from your content instead of from the model's general training.
+You set this up in two parts. The Setup tab is the configuration: a title and description, an Embedding Model that decides how text becomes numbers, the chunk size and overlap that decide how documents are sliced, and the vector store where the embeddings are kept. The Data tab is the content: the documents themselves, which you add, rename, and remove there.
 
 ## When to use it
 
-Give an [AI Agent](ai-agent.md){.fr-block} domain knowledge to ground its answers, or build a searchable corpus the flow can add to / query / clean up via the Knowledge Base action blocks.
+Reach for a Knowledge Base when you want an <span class="fr-block">AI Agent</span> to answer from facts you supply - a product manual, a policy handbook, a set of support articles - rather than from whatever the model already knows. It keeps answers grounded in your material and lets you update what the AI knows by changing documents instead of retraining anything. The trade-off is that it is a standing resource you configure and feed, not a single block you drop into a flow, so it is worth setting up when an agent needs real, current domain knowledge, and overkill when a short fixed instruction in the agent's prompt would do.
 
 ## Behavior
 
-- Documents are chunked (Chunk Size/Overlap), embedded (Provider/Model), and stored in the Vector Store.
-- AI Agents attach a KB via Manage Capabilities → Knowledge; KB blocks add/list/delete documents.
+- When you add a document, it is split into chunks, each chunk is turned into an embedding, and the embeddings are saved in the vector store - which is what makes the content searchable by meaning.
+- An <span class="fr-block">AI Agent</span> draws on a Knowledge Base by attaching it as a capability, and a flow can add, list, or remove documents using the Knowledge Base action blocks.
 
 ## Things to watch for
 
-- Embedding Provider/Model + Chunk Size/Overlap + Vector Store are CONFIGURABLE AT CREATION (Create dialog), then become READ-ONLY once data has been added to the KB — you can't re-chunk/re-embed documents already in the store. (On the Test KB, which had data, these showed readOnly while Title/Description/API Key stayed editable.)
-- In-Memory vector store is for testing only — 6h data lifetime, non-extendable.
-- Document ingestion is async (Processing → Completed) — added docs aren't queryable instantly.
+- The embedding model, chunk size, chunk overlap, and vector store are set when you create the Knowledge Base and lock once it holds any documents. You cannot change how existing content was sliced or embedded after the fact, so choose these with care up front - to switch, you create a fresh Knowledge Base and add the documents again. The title, description, and API Key stay editable, so you can rename it or rotate the key at any time.
+- The In Memory vector store is meant for testing only. Anything you add to it is kept for about six hours and then dropped, and that window cannot be extended. For content that has to stick around, pick a vector store that persists.
+- Adding a document is not instant. A new document shows as Processing while it is being chunked and embedded, and only becomes searchable once it reaches Completed. A query run right after you add will not find content that is still processing.
 
 ## Related
 

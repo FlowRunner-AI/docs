@@ -16,32 +16,80 @@ testability:
 
 docs:
   purpose: >
-    Delete all documents in a Knowledge Base whose metadata matches a filter.
-  when_to_use: >
-    Bulk-remove documents by tag (e.g. clear everything from a given source/run).
+    This block removes documents from a Knowledge Base in bulk. You describe the documents to
+    remove by their metadata labels, and every document whose metadata matches is deleted in one
+    step.
   mental_model: >
-    A delete-by-query on the KB's documents, keyed on metadata.
+    You do not name the documents to delete one by one. Instead you give the block a filter - a
+    set of metadata labels - and it removes every document in the Knowledge Base whose metadata
+    carries all of those labels. Matching is exact and combines with AND: if your filter sets two
+    labels, a document has to match both to be removed, and one label is enough to spare a
+    document only if it does not match. The labels you can match on are the metadata that was
+    attached when each document was added, so this block reaches back to the tags you set at Add
+    time and uses them to select what goes. One run can remove many documents at once, or none if
+    nothing matches.
+  when_to_use: >
+    Reach for it when you want to clear out a whole group of documents at once and you have tagged
+    them so they can be found together - everything from one source, one import run, or one
+    category. It saves you from listing and removing documents individually, which is the job of
+    Knowledge Base: Delete Document when you already hold a single document's reference. The
+    trade-off is that the filter, not a hand-picked list, decides what goes, so a filter that is
+    broader than you intended will take more documents with it than you meant to remove.
+  example:
+    - text: >
+        Suppose every night a flow imports fresh product descriptions into a Knowledge Base, and
+        each import tags its documents with the source and the date it ran. A document added on
+        the 14th was stored with metadata like this:
+    - lang: text
+      code: |
+        source     : nightly-import
+        importDate : 2026-06-14
+    - text: >
+        The next night's import is about to load the current descriptions, so you want to clear
+        out the previous night's batch first - and only that batch, not the documents from any
+        other source. Point the block's Knowledge Base field at your product Knowledge Base, then
+        build the filter from the two labels that single out that batch:
+    - lang: text
+      code: |
+        Knowledge Base : Product Catalog
+        Filter
+          source     : nightly-import
+          importDate : 2026-06-14
+    - text: >
+        When the flow runs, the block looks at every document in the Product Catalog Knowledge
+        Base and removes the ones whose metadata has both source equal to nightly-import and
+        importDate equal to 2026-06-14. A description tagged with a different importDate stays,
+        and so does anything from a different source, because it fails the source match. The
+        result tells you how many documents were removed, so a later step can confirm the batch
+        was cleared before the new import begins.
   config:
     - field: Knowledge Base
-      type: dropdown (knowledgeBaseId)
+      type: dropdown
       required: true
+      description: Required. The Knowledge Base to delete documents from. The dropdown lists your Knowledge Bases by name.
     - field: Filter
-      type: repeatable Property+Value (metadata)
-      input_modes: [key_value, single]   # toggle: "Use Key/Value Pairs" | "Use single input"
+      type: repeatable Property/Value
       required: true
-      description: Documents whose metadata matches are deleted.
-      help_tooltip: "Optional. Flat key-value pairs to filter documents (AND logic, exact match). Nested objects are not supported."   # verbatim from product (same Filter widget as List)
+      description: >
+        Required. The metadata labels a document has to match to be deleted, as key/value pairs.
+        Matching is exact and combines with AND, so a document is removed only when it carries
+        every label in the filter. You can enter the labels as separate Property/Value rows, or
+        switch to passing a single object instead. Only flat key/value pairs are allowed - a
+        value cannot be a nested object.
   produces_result: true
   data_in: knowledgeBaseId + filter (metadata).
   data_out: Delete result (e.g. count removed).
   gotchas:
-    - "Matches on the metadata set at Add time — tag documents you may want to bulk-delete."
-    - "An overly broad filter can delete more than intended."
-  cross_refs: [knowledge-base-add-document, knowledge-base-delete-document, knowledge-bases-concept]
+    - "You can only filter on metadata that was attached when the document was added. If a document was stored without the label you are filtering on, this block has no way to select it - plan your tagging when you add documents so the groups you will want to clear out later can be matched."
+    - "The filter decides what goes, so a filter that is broader than you intended deletes more than you meant to. A single label that many documents share will remove all of them - narrow the filter with enough labels to pick out only the group you want, and consider checking with a Knowledge Base: List Documents step using the same filter first to see exactly what it matches."
+    - "Deletion is permanent. There is no undo, and a removed document is gone from the Knowledge Base for good - you would have to add it again to bring it back."
+  cross_refs: [knowledge-base-add-document, knowledge-base-delete-document, knowledge-base-list-documents, knowledge-bases-concept]
   terminology: [Knowledge Base, Document, Metadata, Filter]
 
 behavior:
-  - "Deletes every document whose metadata matches the filter."
+  - "Removes every document in the Knowledge Base whose metadata matches all of the filter's labels."
+  - "Matching is exact and combines with AND - a document has to carry every label in the filter to be removed."
+  - "If no document matches the filter, nothing is removed and the flow carries on."
 
 assertions:
   - id: delete-by-filter-removes-matches

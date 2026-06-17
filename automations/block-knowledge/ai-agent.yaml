@@ -15,44 +15,126 @@ testability:
 
 docs:
   purpose: >
-    Invoke an LLM with system/user prompts and (optionally) tools, returning its response.
-  when_to_use: >
-    Generate/summarize/classify/extract content, or run an agent that calls tools.
+    This block sends a request to a large language model and returns its answer. You give it a
+    model, a System Prompt that sets the model's role, and a User Prompt that carries the actual
+    input, and the block hands back whatever the model replies.
   mental_model: >
-    A configurable LLM call. Give it a model, prompts, optional tools (extensions /
-    flows / MCP / knowledge bases), and it returns a response (optionally JSON).
+    Think of it as one call to an AI model, configured entirely from the panel. The System Prompt
+    is standing instruction - the role and rules the model keeps for every request - and the User
+    Prompt is the specific input for this call, which is usually an expression that pulls in a
+    previous block's result. You pick the model and the API Key that authorizes the call, the block
+    sends both prompts, and the model's reply becomes this block's result. By default that reply is
+    plain text. You can also attach Capabilities - tools the model is allowed to reach for while it
+    works - so the model can do more than answer from the prompt alone: call a built-in integration
+    action, run another flow, query an external tool server, or look something up in a Knowledge
+    Base. When you attach tools, the model decides on its own whether and when to use them to
+    fulfill the request.
+  when_to_use: >
+    Reach for it whenever a step needs a model to produce language: summarizing a long result,
+    classifying or extracting fields from messy input, drafting a message, or answering a question.
+    It is also how you build an agent - attach Capabilities and the model can take actions, not only
+    return text, so it can look up a record or run a flow as part of answering. The trade-off to keep
+    in mind is that the output is not fixed: the same prompt can come back worded differently from one
+    run to the next, so it suits work where the exact wording can vary, not steps that need an
+    identical value every time. When you do need the result in a fixed shape a later block can read,
+    turn on Force Parsed Output so the model returns structured JSON instead of prose.
+  example:
+    - text: >
+        Suppose an earlier HTTP Request block fetched a customer support ticket, and you want the
+        agent to triage it - decide how urgent it is and pull out a one-line summary - so a later
+        block can route it. The block returned this ticket:
+    - lang: json
+      code: |
+        {
+          "id": "TCK-4821",
+          "subject": "Cannot log in after password reset",
+          "body": "I reset my password an hour ago and now the app rejects every login. I have a demo with a client in 30 minutes and I am completely locked out. Please help urgently."
+        }
+    - text: >
+        In the System Prompt, set the model's role and rules so they hold for every ticket:
+    - lang: text
+      code: |
+        You are a support triage assistant. Read the ticket and classify its urgency as
+        one of: low, normal, high. Write a one-sentence summary of the problem. Do not
+        invent details that are not in the ticket.
+    - text: >
+        In the User Prompt, feed in the ticket from the previous block. Because the User Prompt is an
+        expression, you reference the HTTP Request result there rather than pasting the ticket text,
+        so a fresh ticket flows in on every run. To make the result usable downstream, turn on Force
+        Parsed Output and describe the shape you want in the System Prompt - for example, fields named
+        `urgency` and `summary`. With that on, the model returns JSON instead of prose:
+    - lang: json
+      code: |
+        {
+          "urgency": "high",
+          "summary": "Customer is locked out after a password reset and needs access before a client demo in 30 minutes."
+        }
+    - text: >
+        That object is the block's result. A later block can read its `urgency` field to route the
+        ticket - say, page the on-call team when it is high - and show the `summary` so a human sees
+        the gist without opening the full ticket. Run the same flow on a calmer ticket and you would
+        get the same two fields back, with `urgency` more likely to read `normal` or `low`.
   config:
-    - field: AI Model / AI API Key / AI Provider
-      type: dropdowns
-      required: true
-      description: Model + key (API Keys registry). Provider e.g. ANTHROPIC.
-    - field: System Prompt / User Prompt
-      type: expressions
-      description: Instruction + input (User Prompt often a prior block result).
-    - field: Tools
-      type: capabilities ("Manage Capabilities" button → modal)
+    - field: AI Provider
+      type: dropdown
       description: >
-        Attach tools the agent can call. The "Manage AI Agent Capabilities" modal has 4
-        categories: Extensions (built-in integration actions), MCP Extensions (tools from
-        registered MCP servers, grouped by server — checkbox = all, or expand to pick),
-        Flows (other flows as tools), Knowledge (knowledge bases). Has a search + a
-        "Register new MCP Server" link.
-    - field: Messages History (+ limit)
-      type: toggle + number (<=20)
-      description: Feed prior instances' messages as context.
+        Required. Which model vendor to call, for example ANTHROPIC. Picking a provider determines
+        which models and keys are available in the fields below.
+    - field: AI Model
+      type: dropdown
+      description: >
+        Required. The specific model to call, listed under the chosen provider (for example a Claude,
+        GPT, or Gemini model).
+    - field: AI API Key
+      type: dropdown
+      description: >
+        Required. The saved key that authorizes the call, chosen from the keys you have registered in
+        the API Keys registry. Without a valid key the call cannot run.
+    - field: System Prompt
+      type: expression
+      description: >
+        The standing instruction that sets the model's role, behavior, and rules, applied to every
+        request this block makes.
+    - field: User Prompt
+      type: expression
+      description: >
+        The specific input or question for this call. It is commonly an expression that references a
+        previous block's result, so the input changes from run to run.
+    - field: Manage Capabilities
+      type: button (opens the Manage AI Agent Capabilities modal)
+      description: >
+        Opens a modal where you attach the tools the model may use while it works, organized into four
+        groups - Extensions (built-in integration actions), MCP Extensions (tools published by
+        registered external tool servers, grouped by server, where you take a whole server or expand it
+        to pick individual tools), Flows (other flows the model can run as tools), and Knowledge
+        (Knowledge Bases the model can search). The modal also has a search box and a link to register a
+        new tool server.
+    - field: Messages History
+      type: toggle with a message limit
+      description: >
+        When on, the model is also fed the messages from recent prior runs of this block, up to the
+        limit you set (maximum 20), so it can carry context across separate interactions.
     - field: Force Parsed Output
       type: toggle
-      description: Appends instruction to return JSON.
+      description: >
+        When on, the block asks the model to return structured JSON instead of plain text, by adding an
+        instruction to your System Prompt. Use it when a later block needs to read specific fields from
+        the result.
     - field: LangSmith Settings
       type: toggle
-      description: Observability integration.
+      description: >
+        Connects this block to LangSmith, an external service for tracing and monitoring AI calls, so
+        you can inspect what was sent and returned.
+  common: [name, result_alias, assign_variable, skip_block, logging, notes]
   produces_result: true
-  data_in: System/User prompts (+ tool results, history).
-  data_out: The model's response (text or parsed JSON).
+  data_in: System and User prompts, plus any tool results and prior-run messages when those are enabled.
+  data_out: The model's reply - plain text, or structured JSON when Force Parsed Output is on.
   gotchas:
-    - "Non-deterministic output."
-    - "Tool params left blank are filled by the AI at runtime; pre-set to pin them."
-    - "Needs a provider/model/key."
+    - "The output is not deterministic: the same prompts can come back worded differently from one run to the next. Write downstream steps to tolerate that, and prefer Force Parsed Output when you need to read specific fields out of the result."
+    - "When you attach a tool but leave one of its inputs blank, the model fills that input in itself while it runs. That is convenient, but it means the value is the model's guess. If an input has to be a specific value, set it explicitly so the model cannot choose its own."
+    - "The block cannot run without a provider, a model, and a valid API Key. The key comes from the API Keys registry; register one there first if the AI API Key dropdown is empty."
+    - "Messages History only carries context when it is turned on, and even then only up to the limit you set (maximum 20). With it off, each run starts with no memory of earlier runs."
+    - "While testing, you can avoid a real model call - and its cost - by turning on Skip Block and putting a sample reply in Simulated Result, so the rest of the flow runs against that stand-in instead."
   cross_refs: [ai-router, api-keys-registry, knowledge-bases, mcp-servers, manage-capabilities]
   terminology: [AI Agent, System Prompt, User Prompt, Tools, Knowledge Base, Messages History, Force Parsed Output]
 
@@ -66,15 +148,15 @@ help_tooltips:   # verbatim from product UI (hover the `?` icons); AI Agent is h
   Force Parsed Output: "Automatically parse the AI response as structured data (JSON) instead of plain text. When enabled, it extends your system prompt with instructions to return structured results"
 
 behavior:
-  - "Calls the configured model with the prompts (+ tools/history); returns the response."
-  - "With tools attached, it may call them to fulfill the task."
+  - "Sends the System and User prompts to the chosen model - along with any attached tools and prior-run messages you have enabled - and returns the model's reply as the block's result."
+  - "When tools are attached, the model decides on its own whether to call them while answering, and folds their results into its reply."
 
 assertions:
   - id: returns-response
     when: run-block
     given: "system 'reply with the word OK', user 'go'"
     expect: { status: Success, result_contains: "OK" }
-    note: "Non-deterministic — prefer structural assertions or stubs."
+    note: "Non-deterministic - prefer structural assertions or stubs."
 
 known_bugs: []
 

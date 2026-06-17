@@ -14,32 +14,72 @@ testability:
 
 docs:
   purpose: >
-    Terminal block that defines the data a flow/subflow returns to its caller.
-  when_to_use: >
-    End a SubFlow or a flow invoked via Call Flow, structuring the output for the caller.
+    This block builds the object a flow hands back to whatever started it, and ends that path of
+    the flow. You list the properties you want to send back, give each one a value, and that object
+    becomes the flow's output.
   mental_model: >
-    A `return` statement for a flow. Composes the result object the caller receives.
+    Think of it as the answer a flow gives back to its caller. You build that answer in the block's
+    Compose Result list: each row is one property of the returned object, a name paired with an
+    expression for its value, so you assemble the exact shape you want to send back - say
+    { token, expiresAt } - from values the flow worked out along the way. When a path of the flow
+    reaches this block, it composes that object and stops there: this block is terminal, so any
+    blocks wired after it on the same path do not run. The composed object is what a Call Flow block
+    waiting on this flow, or a SubFlow block running it, reads back as its result.
+  when_to_use: >
+    Reach for it at the end of any flow that another flow runs and reads back from - a flow invoked
+    by a Call Flow block, or the steps inside a SubFlow block. Those callers only get back what a
+    Return Result hands them, so this is how you decide what they see: the new record's id, a token,
+    a status object, rather than the flow's whole internal workings. A flow with no Return Result
+    still runs to completion, but it gives its caller nothing structured to read, so add this block
+    whenever the caller needs an answer.
+  example:
+    - text: >
+        Suppose you build a SubFlow named Issue Token that authenticates against a service and gets
+        back an access token and how long it stays valid. Earlier steps in that subflow have already
+        landed those two values - the token sits in a Data Bucket variable named accessToken, and the
+        expiry in expiresAt. You want the parent flow that runs this subflow to read both back, and
+        nothing else.
+    - text: >
+        Add a Return Result block at the end of the subflow. Leave Content Type on JSON, then add two
+        rows to Compose Result - one property per row, each a name paired with an expression for its
+        value:
+    - lang: text
+      code: |
+        Content Type: JSON
+
+        Compose Result:
+          token       =  {{Data Buckets:Auth - accessToken->}}
+          expiresAt   =  {{Data Buckets:Auth - expiresAt->}}
+    - text: >
+        When the subflow runs and a path reaches this block, it composes
+        { "token": "...", "expiresAt": "..." } and ends there. Back in the parent flow, the SubFlow
+        block's result is that object, so the next step can read the token through it and use it on a
+        later call. Anything the subflow did to obtain the token stays inside the subflow - the caller
+        sees only the two properties you chose to return.
   config:
     - field: Content Type
       type: dropdown
-      default: JSON
-      description: Output format of the composed result.
+      description: >
+        The format of the returned data. The default is JSON, which composes the object from the
+        rows below.
     - field: Compose Result
-      type: repeatable Property+Value
-      description: The result's properties (names + expression values).
+      type: repeatable property and value
+      description: >
+        The properties of the returned object. Each row is a property name paired with an expression
+        that supplies its value. Together the rows make up the object the caller reads back.
   produces_result: true
-  data_in: Composed Property/Value pairs.
-  data_out: The returned object (to Call Flow / SubFlow caller).
+  data_in: Composed property and value pairs.
+  data_out: The returned object that the Call Flow or SubFlow caller reads back.
   gotchas:
-    - "Terminal — ends the execution branch."
-    - "Single Return Result -> object; multiple -> { executionId, result(first-reached), results[], status }."
-    - "Block name becomes blockName in the multiple-result structure."
-  cross_refs: [call-flow, subflow]
+    - "This block is terminal: it ends the path of the flow that reaches it. Any block wired after it on that same path does not run, so put it last and do not expect later steps on that branch to execute."
+    - "If a flow has more than one Return Result block - for example one on each branch of a Condition - the caller does not get a single plain object. Instead it gets back a structure that holds the result from the first Return Result a run reaches, plus a list of every Return Result that ran, each tagged with the name of the block it came from, and an overall status. When you need the caller to read a simple object directly, keep to a single Return Result on the path it will take."
+  cross_refs: [call-flow, subflow, condition]
   terminology: [Return Result, Compose Result, Content Type]
 
 behavior:
-  - "Marks the end of a branch and yields the composed result to the caller."
-  - "Multiple Return Results in one flow -> a results[] array + first-reached result."
+  - "When a path of the flow reaches this block, it composes the object from the Compose Result rows and ends that path - no block wired after it on the same path runs."
+  - "The composed object is what a waiting Call Flow block, or the SubFlow block running this flow, reads back as its result."
+  - "When a flow has more than one Return Result, the caller gets back a structure holding the first-reached result, a list of every Return Result that ran (each labeled with its block name), and an overall status, rather than one plain object."
 
 assertions:
   - id: returns-composed-object
