@@ -1,33 +1,46 @@
 <!-- GENERATED FILE - do not edit. Source: block-knowledge/start-scheduled-runs.yaml. Regenerate: make refgen -->
 # Start Scheduled Runs
 
-Resume scheduled instance creation for a flow that has a schedule — so the platform (re)starts creating instances on that flow's schedule.
+This block turns a flow's schedule back on, so the platform resumes creating instances of that flow on its set schedule. You pick the target flow, and reaching this block restarts its scheduled runs.
 
 ## How it works
 
-A switch that resumes a target flow's schedule. The schedule itself is defined separately on the target flow (Configure Flow Schedule); this block only resumes instance creation.
+A flow's schedule has two separate parts: the schedule itself - how often the flow should run, defined once on the target flow - and whether that schedule is currently active. This block touches only the second part. It finds the schedule that already exists on the flow you pick and switches it back to active, so the platform starts creating a new instance each time the schedule comes due again. It does not set, change, or read the timing; if the target flow has no schedule at all, there is nothing for it to turn on.
 
 ## When to use it
 
-Programmatically turn scheduled processing back ON for a flow from within another flow (e.g. an operator flow that resumes/halts scheduled runs).
+Reach for it when one flow needs to switch another flow's scheduled runs back on without a person doing it by hand. A common shape is an operator flow that pauses a scheduled flow for a maintenance window with [Stop Scheduled Runs](stop-scheduled-runs.md){.fr-block}, waits, and then resumes it with this block - so the pause-and-resume happens automatically on its own timer. It is the programmatic equivalent of toggling the schedule on yourself, which is the better choice when a person is right there and only needs to do it once.
+
+## Example
+
+Suppose you run a flow called Nightly Report Export on a schedule - it runs every night and emails a report. During a database migration you need it to stay quiet for an hour, then pick its schedule back up on its own. You build a small operator flow to do that.
+
+The operator flow does three things in sequence. First a <span class="fr-block">Stop Scheduled Runs</span> block, pointed at Nightly Report Export, halts its scheduled runs so no report goes out during the migration. Next a [Wait](wait.md){.fr-block} block holds for the length of the maintenance window. Finally a <span class="fr-block">Start Scheduled Runs</span> block, pointed at the same Nightly Report Export flow, turns its schedule back on:
+
+```text
+Stop Scheduled Runs   -> Flow: Nightly Report Export   (schedule paused)
+Wait                  -> 1 hour
+Start Scheduled Runs  -> Flow: Nightly Report Export   (schedule resumed)
+```
+
+The payoff: from the moment the <span class="fr-block">Start Scheduled Runs</span> block runs, Nightly Report Export is scheduled again, and the next nightly run creates an instance as normal. The schedule's timing was never changed - it was only switched off and back on. You can confirm it resumed by watching the Instances tab on Nightly Report Export for the next scheduled run to appear.
 
 ## Configuration
 
 | Field | Description |
 | --- | --- |
-| Name | Block label on the canvas. |
-| Flow | Required. The target flow whose scheduled runs to start. (BUG: currently lists ALL flows, not only flows that have a schedule — see known_bugs.) |
+| Flow | Required. The flow whose scheduled runs you want to turn back on. Note that this dropdown currently lists every flow in the workspace, not only the ones that already have a schedule, so pick the target flow carefully. |
 
 ## Behavior
 
-- Resumes scheduled instance creation for the selected flow by setting its schedule.enabled=true.
-- The schedule must already exist; this block only flips the enabled flag (it does not define the schedule).
+- Turns the selected flow's existing schedule back to active, so the platform resumes creating an instance each time the schedule comes due.
+- Only the on/off state changes; the schedule's timing is left exactly as it was, and the block does not create a schedule where none exists.
 
 ## Things to watch for
 
-- The flow must already HAVE a schedule (Configure Flow Schedule); this block only resumes instance creation.
-- Distinct from FLOW SCHEDULING (the clock-icon popup), which DEFINES the schedule. This block CONTROLS (resumes) it.
-- No Skip Block toggle is exposed on this block family in the config panel.
+- The target flow has to already have a schedule defined on it. This block only turns an existing schedule back on - it does not create one, so if the flow was never scheduled there is nothing here to start.
+- Defining a flow's schedule and turning that schedule on or off are two different things. The schedule (how often the flow runs) is set up separately on the flow itself; this block controls whether that schedule is active. Use it to resume scheduled runs, not to set their timing.
+- The Flow dropdown currently lists every flow in the workspace, including flows that have no schedule at all. Selecting an unscheduled flow does not start anything, so make sure the flow you choose is one that actually has a schedule.
 
 ## Related
 

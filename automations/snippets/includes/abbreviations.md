@@ -20,3 +20,23 @@
     The data a flow starts a run with - typically the payload from its trigger. It is available to expressions as Initial Data, so steps can read the values the run began with.
 *[Expression Editor]:
     The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.
+*[Knowledge Base]:
+    A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.
+*[Knowledge Bases]:
+    A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.
+*[RAG]:
+    Retrieval-Augmented Generation - giving an AI model relevant snippets from your own documents at question time, so its answer is grounded in your content rather than only what the model was trained on.
+*[embedding]:
+    A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.
+*[embeddings]:
+    A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.
+*[vector store]:
+    The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.
+*[Cron]:
+    A compact schedule expression (for example "0 9 * * 1-5") that says when something repeats - here, when a flow runs on a schedule.
+*[webhook]:
+    A URL you hand to an outside service so it can call your flow when something happens, passing data along in the request.
+*[MCP server]:
+    A Model Context Protocol server that exposes tools an AI Agent can call. Register one to give your agent extra capabilities beyond the built-in blocks.
+*[Scheduled Runs]:
+    Flow runs that fire automatically on a schedule you set, rather than from a trigger or a manual launch.

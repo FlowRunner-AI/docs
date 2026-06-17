@@ -20,54 +20,95 @@ testability:
 
 docs:
   purpose: >
-    Use an AI model to classify input data into one of several named decisions, then
-    route the flow down the matching branch. The AI analog of Value Router.
-  when_to_use: >
-    Branch a flow on a judgment that needs an LLM (sentiment, intent, category, triage)
-    rather than a deterministic value match.
+    This block hands some data to an AI model, asks it to pick one label from a list you
+    define, and then sends the flow down the branch that matches the label it picked.
   mental_model: >
-    "Ask an AI to pick a label, then follow that label's path." You give it a decision
-    request ("Determine the sentiment…"), the data to judge, and the allowed answers
-    (Expected Decisions); it returns one, and the flow takes that branch.
+    You set up three things: an instruction telling the AI what to decide (the Decision
+    Request, like "Determine the sentiment of the message"), the data you want it to judge
+    (the Decision Data), and the list of labels it is allowed to choose from (the Expected
+    Decisions, like positive, negative, and neutral). Each label you list becomes its own
+    named output connector on the block. When the flow reaches the block, the AI reads the
+    data, chooses exactly one of your labels, and the flow leaves through that label's
+    connector. One label is always the fallback, named Everything Else: the AI falls back to
+    it when none of your other labels fit the data.
+  when_to_use: >
+    Reach for it when the branch your flow should take depends on a judgment a human would
+    make rather than a value you can match exactly - is this message angry or pleased, is
+    this request a refund or a complaint, is this ticket urgent. A Value Router or a
+    Condition can split the flow when the deciding factor is a known value (status equals
+    "cancelled", priority equals "high"), but neither can read a sentence and tell you the
+    mood behind it. The trade-off is that the answer comes from an AI model, so it costs a
+    model call and the same input will not always route the same way.
+  example:
+    - text: >
+        Suppose an External Callback trigger receives an incoming support message, and you
+        want to route it by how the customer sounds. The trigger hands you a payload like this:
+    - lang: json
+      code: |
+        {
+          "message": "I have been waiting three days and nobody has replied. This is unacceptable.",
+          "customerId": 4821
+        }
+    - text: >
+        Add an AI Router. In Decision Request, write the instruction for the AI: "Determine
+        the sentiment of the message." In Decision Data, add one named input - call it
+        message - and point it at the trigger's message field. In Expected Decisions, list
+        the three labels you want to handle: positive, negative, and neutral. The block
+        keeps a fourth label, Everything Else, as the fallback. Each of these four labels now
+        shows up as a named output connector on the block.
+    - text: >
+        On the negative connector, place a Set Variables block that stores a Sentiment
+        variable set to "negative" (and the matching value on the other two branches). When
+        the flow runs against the message above, the AI reads it, judges the tone as angry,
+        and chooses negative - so the flow leaves through the negative connector and runs the
+        block that marks the message negative. A calm "Thanks, that fixed it!" would instead
+        leave through the positive connector. Anything the AI cannot place in positive,
+        negative, or neutral leaves through Everything Else, so the message is never stuck
+        with nowhere to go.
   config:
-    - field: AI Model / AI API Key / AI Provider
-      type: dropdowns
-      required: true
-      description: The model + key making the decision (same API Keys registry as AI Agent).
-    - field: Decision Request
-      type: expression (prompt)
-      required: true
-      description: 'Instruction telling the AI what to determine (recommended to start with "Determine…").'
-    - field: Decision Data
-      type: repeatable name+expression map
-      description: Named inputs the AI evaluates (e.g. message <- External Callback Data.message).
-    - field: Expected Decisions
-      type: repeatable named branches
-      required: true
+    - field: AI Provider
+      type: dropdown
+      description: Required. Which AI service makes the decision.
+    - field: AI Model
+      type: dropdown
+      description: Required. Which model from that provider judges the data.
+    - field: AI API Key
+      type: dropdown
       description: >
-        The allowed outcomes (e.g. positive / negative / neutral). Each becomes a named
-        output connector. "Everything Else" is the default/fallback decision.
-    - field: Reference Result Data As
-      type: alias
-      default: AI Router Result
-    - field: Assign to a Variable
-      type: optional (saveToVariable)
-      description: Optionally store the chosen decision into a Data-Bucket variable.
+        Required. The saved key that authorizes the model call, chosen from the same keys
+        you register for the AI Agent block.
+    - field: Decision Request
+      type: expression
+      description: >
+        Required. The instruction telling the AI what to decide. Starting it with
+        "Determine" works well, for example "Determine the sentiment of the message".
+    - field: Decision Data
+      type: named inputs
+      description: >
+        The values the AI judges. Each one has a name and an expression pointing at the data
+        to evaluate, usually a previous block's result or a trigger's payload.
+    - field: Expected Decisions
+      type: named branches
+      description: >
+        Required. The labels the AI is allowed to choose from. Each label becomes a named
+        output connector on the block. One of them, Everything Else, is the fallback the AI
+        takes when none of the others fit.
   produces_result: true
-  data_in: Decision Request (prompt) + Decision Data (named inputs).
-  data_out: The chosen decision; flow routes to that branch (nextComponents).
+  data_in: The Decision Request instruction plus the named Decision Data inputs.
+  data_out: The label the AI chose; the flow leaves through that label's connector.
   gotchas:
-    - 'Hover the block to reveal the NAMED output connectors (one per Expected Decision + Everything Else).'
-    - "Non-deterministic: the same input may route differently across runs."
-    - "Needs an AI provider/model/key (here Anthropic claude-opus-4-8)."
+    - "The named output connectors are only visible when you hover the block - one for each label in Expected Decisions, plus Everything Else. If a branch looks unwired, hover the block to find its connector."
+    - "Because an AI makes the call, routing is not deterministic - the same input can take a different branch on a different run. Do not rely on it for decisions that must be exact and repeatable; use a Value Router or a Condition for those."
+    - "The block needs an AI provider, model, and saved API key before it can run. Without a working key the decision cannot be made."
+    - "Always handle the Everything Else branch. The AI sends anything it cannot place into one of your labels down this path, so leave it wired to something rather than a dead end."
   cross_refs: [value-router, ai-agent, condition, api-keys-registry, expression-editor]
   terminology: [AI Router, Decision Request, Decision Data, Expected Decisions, Everything Else]
 
 behavior:
-  - "AI selects exactly one of the Expected Decisions for the given Decision Data."
-  - "Flow continues down the branch whose decision value was chosen."
-  - '"Everything Else" (defaultDecision:true) is taken when none of the named decisions fit.'
-  - "Each Expected Decision is a named output connector visible on hover."
+  - "The AI picks exactly one of the labels in Expected Decisions for the given Decision Data."
+  - "The flow leaves through the connector for whichever label was chosen."
+  - "Everything Else is the fallback, taken when none of your named labels fit the data."
+  - "Each label in Expected Decisions is a named output connector, visible when you hover the block."
 
 assertions:
   - id: branches-match-expected-decisions

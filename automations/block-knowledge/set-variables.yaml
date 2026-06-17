@@ -14,33 +14,74 @@ testability:
 
 docs:
   purpose: >
-    Create or update one or more variables, grouped into a named Data Bucket.
-  when_to_use: >
-    Hold/compute values for use by later blocks (flags, counters, derived values).
+    This block stores values under names you choose, so later steps can read them back. You give
+    it a name and a value for each variable, and it writes them for the rest of the run to use.
   mental_model: >
-    Assign variables into a labeled namespace (the Data Bucket). Referenced downstream
-    as "<Bucket> - <name>" in the Expression Editor's Variables tab.
+    Each variable you set lives in a Data Bucket - a named container that holds a run's variables.
+    You pick the bucket and list the variables to write, each as a name and a value, and the block
+    writes them all when the flow reaches it. A value can be a fixed literal you type, or an
+    expression worked out at run time, including one that reads the variable's own current value -
+    so a counter can set itself to its current value plus one. Later steps read what you wrote by
+    referencing the variable from its bucket. A bucket's variables belong to the current run, so a
+    fresh run starts with the bucket empty.
+  when_to_use: >
+    Reach for it whenever a value you compute or receive in one step is needed by a later step:
+    a flag that records a decision, a counter you raise as you go, or a derived value you work out
+    once and reuse. Holding it in a named variable is cleaner than recomputing it everywhere it is
+    needed, and it gives the value a clear label the rest of the flow can read. If the value has to
+    survive past the current run - a total that carries from one run to the next - a Data Bucket
+    will not keep it; use Shared Memory for that instead.
+  example:
+    - text: >
+        Suppose a flow processes support tickets, and you want to greet the requester by name and
+        keep a running count of how many tickets this run has handled. The trigger hands the flow a
+        ticket, available as Initial Data:
+    - lang: json
+      code: |
+        {
+          "ticketId": 4821,
+          "requester": "Dana Okafor",
+          "priority": "high"
+        }
+    - text: >
+        Add a Set Variables block at the start and write two variables into a bucket named Ticket.
+        The first, greeting, takes an expression that builds a sentence from the requester's name.
+        The second, processedCount, sets the counter to its own current value plus one - on the
+        first ticket it reads as nothing yet, which counts as zero, so processedCount becomes 1:
+    - lang: text
+      code: |
+        Bucket: Ticket
+          greeting        = "Hi " + Initial Data->requester + ", we are on it."
+          processedCount  = Ticket - processedCount + 1
+    - text: >
+        When the flow reaches the block, both variables are written into the Ticket bucket. A later
+        step reads them back: a message block can drop in the greeting variable to send "Hi Dana
+        Okafor, we are on it.", and a logging step can record that processedCount is now 1. Each new
+        run starts with the Ticket bucket empty, so processedCount begins counting from one again.
   config:
     - field: Data Bucket
       type: editable dropdown
-      default: Default
-      description: Namespace for the variables; type a new name to create one.
+      description: >
+        The named container the variables are written into. Pick an existing bucket, or type a new
+        name to create one. Defaults to a bucket named Default.
     - field: Perform Changes
-      type: repeatable Name+Value
-      description: Each variable's name + value (literal or expression).
-  produces_result: false        # no Reference Result Data As; writes variables
-  data_in: Name/Value pairs.
-  data_out: Variables written into the Data Bucket (per-instance).
+      type: repeatable name and value rows
+      description: >
+        The variables to write, one row each. Every row has a name and a value, where the value is
+        either a fixed literal you type or an expression worked out at run time.
+  produces_result: false
+  data_in: The name and value for each variable to write.
+  data_out: The named variables, written into the chosen Data Bucket for the current run.
   gotchas:
-    - "No result alias — output is the variables, not a block result."
-    - "Variables are per-instance; for cross-instance persistence use Shared Memory."
-    - "Referenced as '<Bucket> - <name>' pills."
+    - "This block does not produce a block result, so there is no Reference Result Data As alias for it. What it leaves behind is the variables themselves, which later steps read by name from the bucket."
+    - "A Data Bucket's variables belong to the current run and are gone when the run ends. If a value has to carry over to a future run - a running total, for example - Set Variables will not hold it; use Shared Memory, which keeps its values between runs."
+    - "Variables are referenced by their bucket and name together, shown as a 'Bucket - name' pill when you pick one in the Expression Editor."
   cross_refs: [shared-memory-read, transform-data, expression-editor]
   terminology: [Set Variables, Data Bucket, Variable]
 
 behavior:
-  - "Writes each Name=Value into the chosen Data Bucket for this instance."
-  - "Values can be literals or expressions (incl. referencing the variable itself)."
+  - "Writes each variable's name and value into the chosen Data Bucket for the current run."
+  - "A value can be a fixed literal or an expression, including one that reads the variable's own current value (for example, to raise a counter by one)."
 
 assertions:
   - id: writes-variable

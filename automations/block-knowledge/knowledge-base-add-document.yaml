@@ -16,46 +16,93 @@ testability:
 
 docs:
   purpose: >
-    Programmatically add a document (content + metadata) to a Knowledge Base; it gets
-    chunked, embedded, and stored in the KB's vector store.
-  when_to_use: >
-    Ingest content into a RAG store from within a flow (the flow equivalent of uploading
-    a file on the KB Data tab).
+    This block takes a piece of text and adds it as a document to a Knowledge Base. You can
+    attach a few labels to it so you can find or remove that document later.
   mental_model: >
-    "Index this text into the knowledge base." The KB's Setup (embedding model + chunk
-    size/overlap + vector store) governs how it's stored; metadata lets you tag it for
-    later filtered list/delete.
+    A Knowledge Base stores text in a form that later steps can search by meaning rather than
+    by exact wording. When you hand this block some content, the Knowledge Base does not keep it
+    as one long string: it breaks the text into smaller passages and converts each one into the
+    numeric form a meaning-based search needs, then files those away. How it splits and converts
+    the text is decided once on the Knowledge Base itself, not on this block - so the same Add
+    Document block behaves consistently no matter where in the flow you place it. Alongside the
+    text you can attach metadata: a small set of labels, like a source name or a category, that
+    travel with the document and that you can match against later when you list or remove documents.
+  when_to_use: >
+    Reach for it when a flow needs to put content into a Knowledge Base on its own, without anyone
+    uploading a file by hand. A typical case is feeding in text another block just produced - the
+    body of a fetched web page, a support ticket, a generated summary - so it becomes searchable
+    for later steps or for an AI Agent that answers from that Knowledge Base. It is the in-flow
+    equivalent of dropping a file onto the Knowledge Base by hand, which means you can keep the
+    store current automatically as new content arrives, instead of maintaining it yourself.
+  example:
+    - text: >
+        Suppose an earlier HTTP Request block fetched a help article from your support site and
+        returned it like this:
+    - lang: json
+      code: |
+        {
+          "title": "Resetting your password",
+          "body": "To reset your password, open Settings, choose Security, and click Reset...",
+          "category": "account"
+        }
+    - text: >
+        You want this article searchable so an AI Agent can answer password questions from it later.
+        Point the block's Knowledge Base field at your support Knowledge Base, set Content to the
+        article body from the fetch result, and give it a File Name so it is recognizable in the
+        Knowledge Base's document list:
+    - lang: text
+      code: |
+        Knowledge Base : Support Articles
+        Content        : {{HTTP Request Result->body}}
+        File Name       : Resetting your password
+    - text: >
+        Now attach metadata so you can find or clean up this article later. Add two labels - a
+        source and a category - using the metadata's key/value rows:
+    - lang: text
+      code: |
+        source   : support-site
+        category : account
+    - text: >
+        When the flow runs, the block hands the article body to the Support Articles Knowledge Base.
+        The Knowledge Base splits it into passages, converts each into searchable form, and stores
+        them with your two labels attached. The Knowledge Base does this work in the background, so
+        the document shows as processing for a moment before it is finished and ready to be searched.
+        From then on, a later Knowledge Base: List Documents step filtered to category equals account
+        will return this article, and an AI Agent pointed at this Knowledge Base can draw on it when
+        it answers.
   config:
     - field: Knowledge Base
-      type: dropdown (knowledgeBaseId)
+      type: dropdown
       required: true
-      description: Target KB (UI shows the KB name; stored as its id).
+      description: Required. The Knowledge Base to add the document to. The dropdown lists your Knowledge Bases by name.
     - field: Content
       type: expression (string)
       required: true
-      description: The document text to ingest (e.g. an HTTP Request result).
+      description: Required. The document text to add, usually an expression pointing at a previous block's result.
     - field: File Name
       type: expression (string)
-      description: Optional name for the document.
+      description: An optional name for the document, used to recognize it in the Knowledge Base's document list.
     - field: Metadata
-      type: repeatable Property+Value
-      input_modes: [key_value, single]   # toggle: "Use Key/Value Pairs" | "Use single input" (pass one object)
-      description: Tags attached to the document; used by List/Delete filters.
-      help_tooltip: "Only flat key-value pairs are supported. Nested objects are not allowed."   # verbatim from product
+      type: repeatable Property/Value
+      description: >
+        Optional labels attached to the document, as key/value pairs, that later List and Delete
+        steps can match against. You can enter them as separate Property/Value rows, or switch to
+        passing a single object instead. Only flat key/value pairs are allowed - a value cannot be
+        a nested object.
   produces_result: true
   data_in: content (+ fileName + metadata) into a KB.
   data_out: Add result (document reference); also assignable to a variable.
   gotchas:
-    - "Ingestion is async (the Data tab shows Processing -> Completed)."
-    - "Metadata is what later filters (List/Delete by Filter) match on."
-    - "Metadata must be FLAT key-value pairs — nested objects are not allowed (product tooltip)."
-    - "KB is identified by id; the UI dropdown shows the friendly name."
+    - "Adding a document does not finish the instant the block does. The Knowledge Base processes the text in the background, so a document you just added may not be searchable or appear in a list for a short while - it shows as processing until it is ready."
+    - "Metadata is how you find a document again. The labels you attach here are exactly what a later Knowledge Base: List Documents or Delete by Filter step matches on, so if you skip metadata you will have no way to filter for this document later."
+    - "Metadata labels have to be flat key/value pairs. A label's value can be text or a number, but not another object nested inside it."
   cross_refs: [knowledge-base-list-documents, knowledge-base-delete-by-filter, knowledge-bases-concept, ai-agent]
   terminology: [Knowledge Base, Document, Metadata, Chunk Size, Chunk Overlap, Embedding]
 
 behavior:
-  - "Adds the content to the KB; it is chunked + embedded per the KB's AI Setup and stored in the vector store."
-  - "Attached metadata is queryable by List/Delete-by-Filter."
+  - "Adds the content to the Knowledge Base, where it is split into passages and converted into searchable form, then stored."
+  - "The labels you attach as metadata can be matched against later by Knowledge Base: List Documents and Delete by Filter."
+  - "Processing happens in the background, so an added document becomes searchable a moment after the block finishes, not instantly."
 
 assertions:
   - id: add-then-list-finds-it
