@@ -17,9 +17,7 @@ Suppose an [HTTP Request](http-request.md){.fr-block} block calls a payment prov
 
 Leave **Expression Mode** off and set the fields to one minute - **Minutes** is 1, the rest are 0:
 
-```text
-Days: 0   Hours: 0   Minutes: 1   Seconds: 0
-```
+![The Wait block on the canvas with its configuration panel open: Expression Mode is off, and under Wait for, Days, Hours, and Seconds are 0 while Minutes is 1.](../images/reference/wait-config.png)
 
 Now when the call fails, the error path reaches the <span class="fr-block">Wait</span>, the branch pauses for 60 seconds, and only then does it run the same <span class="fr-block">HTTP Request</span> again.
 
