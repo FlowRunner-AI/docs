@@ -245,3 +245,20 @@
 [data-md-color-scheme="slate"] .md-typeset a.fr-block:hover {
   background: rgba(255, 255, 255, 0.14);
 }
+
+
+/* ---------- GLOSSARY TOOLTIPS ----------
+
+   The improved tooltips (abbr + content.tooltips) default to the page
+   background, so the popover blends into the page. Lift it onto the
+   surface token with a clear border and a little elevation. Both
+   tokens are scheme-aware, so light and dark both read correctly.
+
+*/
+.md-tooltip2__inner,
+.md-tooltip {
+  background-color: var(--fr-surface);
+  border: 1px solid var(--fr-border);
+  border-radius: 0.3rem;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.16);
+}

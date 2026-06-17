@@ -9,14 +9,14 @@
 *[Shared Memory]:
     A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.
 *[Data Bucket]:
-    A named container for a flow's variables during a single run. Each value has its own<br>label, so a step can store something under a name and a later step can read it back.<br>A Data Bucket resets when the run ends - for state that has to survive between runs, use<br>Shared Memory instead.
+    A named container for a flow's variables during a single run. Each value has its own label, so a step can store something under a name and a later step can read it back. A Data Bucket resets when the run ends - for state that has to survive between runs, use Shared Memory instead.
 *[Data Buckets]:
-    A named container for a flow's variables during a single run. Each value has its own<br>label, so a step can store something under a name and a later step can read it back.<br>A Data Bucket resets when the run ends - for state that has to survive between runs, use<br>Shared Memory instead.
+    A named container for a flow's variables during a single run. Each value has its own label, so a step can store something under a name and a later step can read it back. A Data Bucket resets when the run ends - for state that has to survive between runs, use Shared Memory instead.
 *[Instance]:
-    One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual<br>launch - it creates a new instance with its own data and its own Instance ID. The<br>Instances tab lists them.
+    One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.
 *[Instances]:
-    One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual<br>launch - it creates a new instance with its own data and its own Instance ID. The<br>Instances tab lists them.
+    One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.
 *[Initial Data]:
-    The data a flow starts a run with - typically the payload from its trigger. It is<br>available to expressions as Initial Data, so steps can read the values the run began with.
+    The data a flow starts a run with - typically the payload from its trigger. It is available to expressions as Initial Data, so steps can read the values the run began with.
 *[Expression Editor]:
-    The panel where you build a dynamic value from references, operators, and literals.<br>A live preview shows the result as you go, so you can confirm a reference resolves<br>before you use it.
+    The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.
