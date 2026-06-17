@@ -77,10 +77,6 @@ docs:
   cross_refs: [start-scheduled-runs, stop-scheduled-runs, call-flow, triggers-group]
   terminology: [Schedule, Frequency, Cron, Expire, Flow Execution Policy, Scheduled Runs]
 
-behavior:
-  - "While the schedule is switched on and the current time falls between its start and its expiry, FlowRunner starts a new run of the flow each time the timetable comes due."
-  - "The Start Scheduled Runs and Stop Scheduled Runs blocks turn the timetable on and off without changing the start, frequency, or expiry you set in the popup."
-
 assertions:
   - id: schedule-creates-instances
     when: run-instance

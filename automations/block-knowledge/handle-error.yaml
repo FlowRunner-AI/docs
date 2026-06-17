@@ -82,11 +82,6 @@ docs:
   cross_refs: [wait, custom-cloud-code, http-request, error-handling-concept]
   terminology: [Handle Error, error code/message/source]
 
-behavior:
-  - "When the guarded block fails, the flow diverts to this block instead of stopping."
-  - "It exposes the caught error - its code, message, and source - as its result, then continues down its recovery steps."
-  - "A common recovery pattern is to follow the Handle Error with a Wait to pause, then retry the step that failed."
-
 assertions:
   - id: catch-diverts-on-failure
     when: run-instance

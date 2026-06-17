@@ -40,3 +40,9 @@
     A Model Context Protocol server that exposes tools an AI Agent can call. Register one to give your agent extra capabilities beyond the built-in blocks.
 *[Scheduled Runs]:
     Flow runs that fire automatically on a schedule you set, rather than from a trigger or a manual launch.
+*[connector]:
+    A wiring point on a block's edge where you draw the line to the next block. A block can expose several - for example a Condition's Yes and No, or one per branch on a router.
+*[output connector]:
+    A wiring point on a block's edge that starts one of its outgoing paths; you draw from it to the next block. Blocks that branch (Condition, Value Router, AI Router) expose one per branch, plus a fallback.
+*[while loop]:
+    A programming pattern that repeats a set of steps over and over for as long as a condition stays true, then stops once it becomes false.

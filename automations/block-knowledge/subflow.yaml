@@ -82,11 +82,6 @@ docs:
   cross_refs: [call-flow, return-result]
   terminology: [SubFlow]
 
-behavior:
-  - "Runs the chosen subflow's steps as one unit, using the mapped input parameters."
-  - "Captures the object the subflow's Return Result block hands back as this block's result."
-  - "You open and edit the steps by stepping into the block (Expand), the same as any block container."
-
 assertions:
   - id: subflow-returns-result
     when: run-instance

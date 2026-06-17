@@ -39,12 +39,6 @@ When the flow reaches the block, the Get New Token steps run as one unit and the
 | <span class="fr-block">SubFlow</span> | Required. The subflow whose steps this block runs. You pick from the subflows defined for this flow, and the block always runs the version you selected. |
 | Input parameters | The values handed to the subflow to work with. Each row pairs a name, which has to match a value the subflow expects, with an expression that supplies it from this flow. |
 
-## Behavior
-
-- Runs the chosen subflow's steps as one unit, using the mapped input parameters.
-- Captures the object the subflow's <span class="fr-block">Return Result</span> block hands back as this block's result.
-- You open and edit the steps by stepping into the block (Expand), the same as any block container.
-
 ## Things to watch for
 
 - A subflow cannot contain another <span class="fr-block">SubFlow</span> block - you cannot place a subflow inside a subflow.

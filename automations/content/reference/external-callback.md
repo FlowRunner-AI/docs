@@ -41,11 +41,6 @@ Set the flow LIVE. Now each successful payment posts to the Callback URL, the co
 | Reference Trigger Data As | The name you use to read the incoming request elsewhere in the flow. A trigger has no computed result, so this alias points at the request that came in. |
 | Execution parameter | Which waiting run to resume when this trigger is used to continue a paused run - a specific run by id, any one waiting run, or all of them. |
 
-## Behavior
-
-- While the flow is LIVE, an incoming call starts a new run (or resumes a waiting one) with the request available as <span class="fr-block">External Callback</span> Data.
-- When an Add a <span class="fr-block">Condition</span> gate evaluates false for a call, the trigger does not fire for it.
-
 ## Things to watch for
 
 - The trigger listens only while the flow is in the LIVE state. A request that arrives when the flow is not LIVE is not handled and starts no run.

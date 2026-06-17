@@ -51,9 +51,8 @@ When the flow runs, the block hands the article body to the Support Articles Kno
 
 ## Behavior
 
-- Adds the content to the Knowledge Base, where it is split into passages and converted into searchable form, then stored.
-- The labels you attach as metadata can be matched against later by <span class="fr-block">Knowledge Base: List Documents</span> and Delete by Filter.
-- Processing happens in the background, so an added document becomes searchable a moment after the block finishes, not instantly.
+- Returns a reference to the added document, which you can store in a variable for a later step to use.
+- Surfaces the document's processing status, which starts as Processing and moves to Completed once the Knowledge Base finishes indexing it.
 
 ## Things to watch for
 

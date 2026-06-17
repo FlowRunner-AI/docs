@@ -96,11 +96,6 @@ docs:
   cross_refs: [subflow, return-result, synchronize, initial-data-concept]
   terminology: [Call Flow, Initial Data, Wait for Execution, executionId]
 
-behavior:
-  - "Starts a fresh run of the chosen flow, with the mapped values as its Initial Data."
-  - "When Wait for Execution is on, this flow waits for the called flow to finish and captures the value from its Return Result block as this block's result."
-  - "When Wait for Execution is off, the block returns the new run's executionId right away and this flow continues without waiting."
-
 assertions:
   - id: sync-returns-callee-result
     when: run-instance

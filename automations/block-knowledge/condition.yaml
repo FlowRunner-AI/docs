@@ -97,10 +97,6 @@ docs:
   cross_refs: [value-router, ai-router, expression-editor]
   terminology: [Condition, Value to Check, Value Data Type, Operation, Part]
 
-behavior:
-  - "The test comes out true or false, and the flow continues down the matching Yes or No path."
-  - "When several parts are combined, their individual results are weighed together using the AND and OR connectors and the bracket grouping to reach a single true or false."
-
 assertions:
   - id: true-takes-yes
     when: run-instance

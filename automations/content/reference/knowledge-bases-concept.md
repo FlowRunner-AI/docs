@@ -14,7 +14,6 @@ Reach for a Knowledge Base when you want an <span class="fr-block">AI Agent</spa
 
 ## Behavior
 
-- When you add a document, it is split into chunks, each chunk is turned into an embedding, and the embeddings are saved in the vector store - which is what makes the content searchable by meaning.
 - An <span class="fr-block">AI Agent</span> draws on a Knowledge Base by attaching it as a capability, and a flow can add, list, or remove documents using the Knowledge Base action blocks.
 
 ## Things to watch for

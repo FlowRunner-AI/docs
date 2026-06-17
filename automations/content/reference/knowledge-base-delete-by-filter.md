@@ -40,9 +40,7 @@ When the flow runs, the block looks at every document in the Product Catalog Kno
 
 ## Behavior
 
-- Removes every document in the Knowledge Base whose metadata matches all of the filter's labels.
-- Matching is exact and combines with AND - a document has to carry every label in the filter to be removed.
-- If no document matches the filter, nothing is removed and the flow carries on.
+- A filter that matches nothing is not an error - the block removes zero documents and the flow carries on to the next step.
 
 ## Things to watch for
 

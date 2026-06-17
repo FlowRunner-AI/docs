@@ -28,11 +28,6 @@ On the first run, the Read returns the Default Value `0`, the flow works out `1`
 | Perform Changes | The list of values to save. Each entry has a name (the key it is stored under in Shared Memory) and a value, which can be a fixed value you type or an expression. Add a row for each value you want to write in one go. |
 | Override | When on, writing to a name that already holds a value replaces it with the new value. Confirm the off behavior in-product before documenting it. |
 
-## Behavior
-
-- Saves each name/value pair into Shared Memory, where it is kept for later runs of the flow to read.
-- With Override on, writing to a name that already holds a value replaces it; writing to a new name creates it.
-
 ## Things to watch for
 
 - Shared Memory keeps what you save between runs of the flow, unlike a Data Bucket variable, which resets every run. That is the whole point of using it, but it also means a value lingers until something overwrites or clears it.

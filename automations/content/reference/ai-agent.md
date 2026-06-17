@@ -9,7 +9,7 @@ Think of it as one call to an AI model, configured entirely from the panel. The 
 
 ## When to use it
 
-Reach for it whenever a step needs a model to produce language: summarizing a long result, classifying or extracting fields from messy input, drafting a message, or answering a question. It is also how you build an agent - attach Capabilities and the model can take actions, not only return text, so it can look up a record or run a flow as part of answering. The trade-off to keep in mind is that the output is not fixed: the same prompt can come back worded differently from one run to the next, so it suits work where the exact wording can vary, not steps that need an identical value every time. When you do need the result in a fixed shape a later block can read, turn on Force Parsed Output so the model returns structured JSON instead of prose.
+Reach for it whenever a step needs a model to produce language: summarizing a long result, classifying or extracting fields from messy input, drafting a message, or answering a question. It is also how you build an agent - attach Capabilities and the model can take actions, not only return text, so it can look up a record or run a flow as part of answering. It suits work where the exact wording can vary, not steps that need an identical value every time.
 
 ## Example
 
@@ -67,14 +67,9 @@ That object is the block's result. A later block can read its `urgency` field to
 | Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
 | Notes | Freeform notes for documenting the block; they do not affect execution. |
 
-## Behavior
-
-- Sends the System and User prompts to the chosen model - along with any attached tools and prior-run messages you have enabled - and returns the model's reply as the block's result.
-- When tools are attached, the model decides on its own whether to call them while answering, and folds their results into its reply.
-
 ## Things to watch for
 
-- The output is not deterministic: the same prompts can come back worded differently from one run to the next. Write downstream steps to tolerate that, and prefer Force Parsed Output when you need to read specific fields out of the result.
+- The output is not deterministic: the same prompts can come back worded differently from one run to the next, so this block suits work where the wording can vary, not a step that needs an identical value every time. Write downstream steps to tolerate that, and when a later block needs the result in a fixed shape, turn on Force Parsed Output so the model returns structured JSON instead of prose.
 - When you attach a tool but leave one of its inputs blank, the model fills that input in itself while it runs. That is convenient, but it means the value is the model's guess. If an input has to be a specific value, set it explicitly so the model cannot choose its own.
 - The block cannot run without a provider, a model, and a valid API Key. The key comes from the API Keys registry; register one there first if the AI API Key dropdown is empty.
 - Messages History only carries context when it is turned on, and even then only up to the limit you set (maximum 20). With it off, each run starts with no memory of earlier runs.

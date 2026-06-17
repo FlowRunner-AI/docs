@@ -76,11 +76,6 @@ docs:
   cross_refs: [call-flow, subflow, condition]
   terminology: [Return Result, Compose Result, Content Type]
 
-behavior:
-  - "When a path of the flow reaches this block, it composes the object from the Compose Result rows and ends that path - no block wired after it on the same path runs."
-  - "The composed object is what a waiting Call Flow block, or the SubFlow block running this flow, reads back as its result."
-  - "When a flow has more than one Return Result, the caller gets back a structure holding the first-reached result, a list of every Return Result that ran (each labeled with its block name), and an overall status, rather than one plain object."
-
 assertions:
   - id: returns-composed-object
     when: run-instance

@@ -34,12 +34,6 @@ When the subflow runs and a path reaches this block, it composes { "token": "...
 | Content Type | The format of the returned data. The default is JSON, which composes the object from the rows below. |
 | Compose Result | The properties of the returned object. Each row is a property name paired with an expression that supplies its value. Together the rows make up the object the caller reads back. |
 
-## Behavior
-
-- When a path of the flow reaches this block, it composes the object from the Compose Result rows and ends that path - no block wired after it on the same path runs.
-- The composed object is what a waiting <span class="fr-block">Call Flow</span> block, or the <span class="fr-block">SubFlow</span> block running this flow, reads back as its result.
-- When a flow has more than one <span class="fr-block">Return Result</span>, the caller gets back a structure holding the first-reached result, a list of every <span class="fr-block">Return Result</span> that ran (each labeled with its block name), and an overall status, rather than one plain object.
-
 ## Things to watch for
 
 - This block is terminal: it ends the path of the flow that reaches it. Any block wired after it on that same path does not run, so put it last and do not expect later steps on that branch to execute.

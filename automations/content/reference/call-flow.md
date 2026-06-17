@@ -37,12 +37,6 @@ When the parent flow reaches this block, it starts a run of Create Beneficiary w
 | Initial Data params | The values handed to the called flow to start its run. Each row pairs a name, which has to match a value the called flow expects in its Initial Data, with an expression that supplies it from this flow. |
 | <span class="fr-block">Wait</span> for Execution | When on, this flow waits for the called flow to finish and this block's result is the value from the called flow's <span class="fr-block">Return Result</span> block. When off, this flow does not wait and the block returns an executionId for the run it started. |
 
-## Behavior
-
-- Starts a fresh run of the chosen flow, with the mapped values as its Initial Data.
-- When <span class="fr-block">Wait</span> for Execution is on, this flow waits for the called flow to finish and captures the value from its <span class="fr-block">Return Result</span> block as this block's result.
-- When <span class="fr-block">Wait</span> for Execution is off, the block returns the new run's executionId right away and this flow continues without waiting.
-
 ## Things to watch for
 
 - You can only call a flow that is LIVE. A flow still in draft does not appear in the list, so publish it before you try to call it.

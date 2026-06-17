@@ -74,9 +74,6 @@ docs:
   cross_refs: [actions-group, external-callback]
   terminology: [Triggers Group, Outgoing Transition Mode]
 
-behavior:
-  - "The group waits on the triggers inside it and continues when its transition condition is met - either the first trigger to fire, or all of them firing within the time window."
-
 assertions:
   - id: one-occur-proceeds
     when: run-instance

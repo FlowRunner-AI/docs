@@ -5,7 +5,7 @@ This block runs the same set of steps over and over for as long as a condition y
 
 ## How it works
 
-It is a block container that works like a while loop. Before each pass it checks your condition; while the condition is true it runs the steps inside once more, then checks again. The moment the check comes back false, the loop stops and the flow moves on. Because the same steps run each pass, something inside the loop has to change a value the condition depends on - otherwise the check would stay true forever. So the loop also carries a failsafe: a cap on how many passes it will ever make, which stops it even if the condition never turns false. The pass count is available inside the loop as `Current Iteration Number`, counting up from 0 on the first pass.
+It is a block container that repeats the steps inside it for as long as your condition stays true - what other tools call a while loop. Before each pass it checks your condition; while the condition is true it runs the steps inside once more, then checks again. The moment the check comes back false, the loop stops and the flow moves on. Because the same steps run each pass, something inside the loop has to change a value the condition depends on - otherwise the check would stay true forever. So the loop also carries a failsafe: a cap on how many passes it will ever make, which stops it even if the condition never turns false. The pass count is available inside the loop as `Current Iteration Number`, counting up from 0 on the first pass.
 
 ## When to use it
 
@@ -22,7 +22,7 @@ Condition:  Order Status   not equals   "shipped"
 Max Iterations (failsafe):  20
 ```
 
-Inside the loop you build two steps. A [Wait](wait.md){.fr-block} block pauses for 30 seconds so the service has time to make progress, and then an [HTTP Request](http-request.md){.fr-block} block re-fetches the order and a <span class="fr-block">Set Variables</span> block writes the fresh status back into Order Status. Each pass the loop re-checks the condition against that updated value.
+Inside the loop you build a pause followed by a fetch-and-store. A [Wait](wait.md){.fr-block} block pauses for 30 seconds so the service has time to make progress, and then an [HTTP Request](http-request.md){.fr-block} block re-fetches the order and a <span class="fr-block">Set Variables</span> block writes the fresh status back into Order Status. Each pass the loop re-checks the condition against that updated value.
 
 Here is how it plays out for an order that ships on the third check:
 
@@ -39,11 +39,6 @@ The flow carries on with Order Status holding "shipped". Had the service stalled
 | --- | --- |
 | <span class="fr-block">Condition</span> | Required. The loop keeps running while this is true and stops the moment it is false. It is re-checked before every pass, so a step inside the loop must change something the condition looks at, or the loop would never stop on its own. In the product this is called the <span class="fr-block">Repeat</span> While condition. |
 | Max Iterations (failsafe) | A hard cap on the number of passes, defaulting to 10000. The loop stops when it reaches this many passes even if the condition is still true - a safety net against a loop that never ends. Set it to a sensible number for your case while you are building the flow. |
-
-## Behavior
-
-- Checks the condition before each pass and runs the steps inside while it is true; the product calls this a <span class="fr-block">Repeat</span> While loop.
-- Stops as soon as the condition turns false, or when it reaches the failsafe cap on the number of passes, whichever comes first.
 
 ## Things to watch for
 

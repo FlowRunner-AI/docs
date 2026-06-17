@@ -72,10 +72,6 @@ docs:
   cross_refs: [stop-scheduled-runs, flow-scheduling-concept, call-flow]
   terminology: [Scheduled Runs, Schedule, Flow]
 
-behavior:
-  - "Turns the selected flow's existing schedule back to active, so the platform resumes creating an instance each time the schedule comes due."
-  - "Only the on/off state changes; the schedule's timing is left exactly as it was, and the block does not create a schedule where none exists."
-
 assertions:
   - id: start-resumes-schedule
     when: run-instance

@@ -82,9 +82,6 @@ docs:
   cross_refs: [knowledge-base-list-documents, knowledge-base-delete-by-filter, knowledge-bases-concept]
   terminology: [Knowledge Base, Document, fileId]
 
-behavior:
-  - "Removes the single document whose fileId you supply from the chosen Knowledge Base, and leaves every other document in place."
-
 assertions:
   - id: delete-removes-doc
     when: run-instance

@@ -96,9 +96,6 @@ docs:
   cross_refs: [knowledge-base-add-document, knowledge-base-delete-document, knowledge-bases-concept, list-iterator]
   terminology: [Knowledge Base, Document, fileId, Filter]
 
-behavior:
-  - "Returns the documents in the chosen Knowledge Base, keeping only the ones whose metadata matches the Filter, and bounded by the Limit and Offset you set."
-
 assertions:
   - id: list-returns-files
     when: run-instance

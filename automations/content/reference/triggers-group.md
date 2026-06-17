@@ -25,10 +25,6 @@ Set the group's Outgoing Transition Mode to the "any one fires" mode. Now whiche
 | Outgoing Transition Mode | Required. How the group decides to continue. One choice continues as soon as any single trigger inside it fires; the other continues only after every trigger has fired within the time window you set below. |
 | Occur Within / Time Unit | The length of the time window for the "all fire" mode, given as a number and a unit (for example 30 and Minutes). Every trigger must fire inside this window for the group to continue. It does not apply to the "any one fires" mode. |
 
-## Behavior
-
-- The group waits on the triggers inside it and continues when its transition condition is met - either the first trigger to fire, or all of them firing within the time window.
-
 ## Things to watch for
 
 - The triggers in the group have no order and no priority - the group reacts to whichever of them fire, not to a particular one.
