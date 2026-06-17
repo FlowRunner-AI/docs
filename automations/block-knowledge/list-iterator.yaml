@@ -52,7 +52,7 @@ docs:
         order, `"cancelled"` - the value the loop will check to decide whether to keep going.
     - text: >
         Now the work. A loop cannot hand a value back to the rest of the flow on its own, so you
-        collect what you build up in a variable that lives outside it - a Data Bucket variable.
+        collect what you build up in a variable that lives outside it - a [Data Bucket](../learn/concepts/variables.md) variable.
         Before the List Iterator, a Set Variables block declares that variable, here `List with IDs`,
         and sets it to Empty List, a built-in value that gives you a fresh list with nothing in it yet:
     - image: ../images/reference/list-iterator-seed.png
@@ -67,7 +67,11 @@ docs:
         The Condition's configuration: Value to Check is Current Iteration Item arrow status,
         Operation is EQUALS, and Value is cancelled.
     - text: >
-        While an order is not cancelled, the Condition's No branch runs a Transform Data block. A
+        A Condition splits the flow in two: its **Yes** branch runs when the check is true, its
+        **No** branch when it is false. The check here is `status` equals `"cancelled"`, so the
+        everyday per-order work sits on the No branch (the order is not cancelled) and the early
+        exit on the Yes branch (it is). While an order is not cancelled, the Condition's No branch
+        runs a Transform Data block. A
         Transform Data block lets you pick an operation; here you choose Add To List, which appends
         the order's `id` to `List with IDs` and writes the result back to that same variable, so the
         list grows by one entry each pass:

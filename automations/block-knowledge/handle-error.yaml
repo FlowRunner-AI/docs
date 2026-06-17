@@ -7,9 +7,11 @@ api:
   element_type: ERROR_HANDLER
   config_keys: [storeResult, onFailElemId, logging]
   wiring: >
-    NOT wired by a normal edge. Another block references this element via its
-    metaInfo.onFailElemId. On that block's failure, execution diverts here; this
-    block then continues down ITS nextElementIds (recovery path).
+    Connect the failure-expecting block to this Handle Error as a successor (a
+    normal connection); that makes it the block's failure handler. On the block's
+    failure, control diverts here and continues down the handler's own successors
+    (recovery path). One Handle Error can be shared by several blocks, or each
+    error-expecting block can have its own.
 
 testability:
   class: deterministic
@@ -36,7 +38,7 @@ docs:
   data_out: Error object {code, message, source}; flow continues down recovery path.
   gotchas:
     - "Minimal config — no Test Panel / Skip Block; it's a structural catch target."
-    - "Attach it as a block's failure handler (onFailElemId), not via a normal connector."
+    - "Attach it by connecting the failure-expecting block to it as a successor; that block keeps its normal success path and gains this failure path."
     - "Unhandled failures (no Handle Error) stop the flow."
   cross_refs: [wait, custom-cloud-code, error-handling-concept]
   terminology: [Handle Error, onFailElemId, error code/message/source]

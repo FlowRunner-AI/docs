@@ -29,7 +29,7 @@ Say you want to collect the id of every order you process, stopping as soon as y
 
 So for the Acme order `Current Iteration Item->status` reads `"open"`, and for the Globex order, `"cancelled"` - the value the loop will check to decide whether to keep going.
 
-Now the work. A loop cannot hand a value back to the rest of the flow on its own, so you collect what you build up in a variable that lives outside it - a Data Bucket variable. Before the List Iterator, a [Set Variables](set-variables.md) block declares that variable, here `List with IDs`, and sets it to Empty List, a built-in value that gives you a fresh list with nothing in it yet:
+Now the work. A loop cannot hand a value back to the rest of the flow on its own, so you collect what you build up in a variable that lives outside it - a [Data Bucket](../learn/concepts/variables.md) variable. Before the List Iterator, a [Set Variables](set-variables.md) block declares that variable, here `List with IDs`, and sets it to Empty List, a built-in value that gives you a fresh list with nothing in it yet:
 
 ![A Set Variables block before the loop, assigning the Empty List value to a Data Bucket variable named List with IDs.](../images/reference/list-iterator-seed.png)
 
@@ -37,7 +37,7 @@ Inside the loop, a [Condition](condition.md) - call it Order cancelled - checks 
 
 ![The Condition's configuration: Value to Check is Current Iteration Item arrow status, Operation is EQUALS, and Value is cancelled.](../images/reference/list-iterator-condition.png)
 
-While an order is not cancelled, the Condition's No branch runs a [Transform Data](transform-data.md) block. A Transform Data block lets you pick an operation; here you choose Add To List, which appends the order's `id` to `List with IDs` and writes the result back to that same variable, so the list grows by one entry each pass:
+A Condition splits the flow in two: its **Yes** branch runs when the check is true, its **No** branch when it is false. The check here is `status` equals `"cancelled"`, so the everyday per-order work sits on the No branch (the order is not cancelled) and the early exit on the Yes branch (it is). While an order is not cancelled, the Condition's No branch runs a [Transform Data](transform-data.md) block. A Transform Data block lets you pick an operation; here you choose Add To List, which appends the order's `id` to `List with IDs` and writes the result back to that same variable, so the list grows by one entry each pass:
 
 ![The Transform Data block with the Add To List operation, adding Current Iteration Item arrow id to the List with IDs variable and assigning the result back to it.](../images/reference/list-iterator-transform.png)
 
