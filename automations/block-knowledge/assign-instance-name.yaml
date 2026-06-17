@@ -58,6 +58,7 @@ docs:
       type: expression
       required: true
       description: 'Static text, dynamic values, or a composite (e.g. "User: {{name}}").'
+  common: [name, skip_block, logging, notes]
   produces_result: false        # no referenceable result
   data_in: The name expression.
   data_out: Sets the instance's display name.

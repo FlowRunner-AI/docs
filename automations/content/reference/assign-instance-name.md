@@ -37,6 +37,15 @@ Here `{{Initial Data->customer}}` reads the `customer` field from that payload, 
 | --- | --- |
 | Instance Name | Required. Static text, dynamic values, or a composite (e.g. "User: {{name}}"). |
 
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Skip Block | When on, the block is skipped during execution and the value in Simulated Result is used as its output. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
+
 ## Behavior
 
 - Sets the instance's name; appears in the Instances list (else the raw GUID shows).

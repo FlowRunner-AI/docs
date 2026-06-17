@@ -28,6 +28,13 @@ Now when the call fails, the error path reaches the <span class="fr-block">Wait<
 | Expression Mode | Off = simple Days/Hours/Minutes/Seconds; On = an expression that works out to a number of seconds. |
 | Days/Hours/Minutes/Seconds (delay) | The pause duration (at least one non-zero in simple mode). |
 
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
+
 ## Behavior
 
 - Suspends the branch for the duration you set, then continues.
