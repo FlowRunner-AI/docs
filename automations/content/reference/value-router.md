@@ -1,7 +1,7 @@
 <!-- GENERATED FILE - do not edit. Source: block-knowledge/value-router.yaml. Regenerate: make refgen -->
 # Value Router
 
-Route the flow to a named branch by matching one input value against each branch's configured value(s). Deterministic (vs [AI Router](ai-router.md)).
+Route the flow to a named branch by matching one input value against each branch's configured value(s). Deterministic (vs [AI Router](ai-router.md){.fr-block}).
 
 ## How it works
 

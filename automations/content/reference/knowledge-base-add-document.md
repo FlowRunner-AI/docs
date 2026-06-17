@@ -16,7 +16,7 @@ Ingest content into a RAG store from within a flow (the flow equivalent of uploa
 | Field | Description |
 | --- | --- |
 | Knowledge Base | Required. Target KB (UI shows the KB name; stored as its id). |
-| Content | Required. The document text to ingest (e.g. an [HTTP Request](http-request.md) result). |
+| Content | Required. The document text to ingest (e.g. an [HTTP Request](http-request.md){.fr-block} result). |
 | File Name | Optional name for the document. |
 | Metadata | Tags attached to the document; used by List/Delete filters. Only flat key-value pairs are supported. Nested objects are not allowed. |
 

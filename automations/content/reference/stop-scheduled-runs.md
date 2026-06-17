@@ -5,7 +5,7 @@ Halt scheduled instance creation for a flow that has a schedule — so the platf
 
 ## How it works
 
-The counterpart to [Start Scheduled Runs](start-scheduled-runs.md) — halts a target flow's scheduled instance creation (Start resumes it).
+The counterpart to [Start Scheduled Runs](start-scheduled-runs.md){.fr-block} — halts a target flow's scheduled instance creation (Start resumes it).
 
 ## When to use it
 
@@ -25,7 +25,7 @@ Programmatically turn scheduled processing OFF for a flow from within another fl
 
 ## Things to watch for
 
-- Halts instance creation (Start resumes it); pairs with Start Scheduled Runs.
+- Halts instance creation (Start resumes it); pairs with <span class="fr-block">Start Scheduled Runs</span>.
 - Distinct from FLOW SCHEDULING (the clock-icon popup), which DEFINES the schedule. This block CONTROLS (halts) it.
 - Stop does NOT delete the schedule — it only sets schedule.enabled=false; the schedule object (frequency, dates, policies) is preserved, so Start can re-enable it. Verified via API on the Email Sender demo.
 - No Skip Block toggle is exposed on this block family in the config panel.

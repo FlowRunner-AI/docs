@@ -16,13 +16,13 @@ Webhook-style entry: let an external system invoke the flow (flow-start) or resu
 | Field | Description |
 | --- | --- |
 | Callback URL | Unique URL embedding workspace/api-key/flow/trigger ids; external systems POST/GET to it. |
-| Add a [Condition](condition.md) | Govern WHEN the trigger should fire (false condition -> trigger doesn't fire). |
+| Add a [Condition](condition.md){.fr-block} | Govern WHEN the trigger should fire (false condition -> trigger doesn't fire). |
 | Reference Trigger Data As | Alias for the inbound payload (the trigger has no "result"). |
 | Execution parameter | specific ID \| any \| all (which waiting instance(s) to target for mid-flow resume). |
 
 ## Behavior
 
-- On an inbound call (flow LIVE), creates/resumes an instance with the payload as External Callback Data.
+- On an inbound call (flow LIVE), creates/resumes an instance with the payload as <span class="fr-block">External Callback</span> Data.
 - A false trigger condition prevents firing.
 
 ## Things to watch for

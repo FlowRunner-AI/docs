@@ -5,7 +5,7 @@ Apply a chosen data-transformation operation (from a large library) to reshape/d
 
 ## How it works
 
-A no-code "data function": pick an operation, give it inputs, get a result. (For anything beyond the library, use [Custom Cloud Code](custom-cloud-code.md).)
+A no-code "data function": pick an operation, give it inputs, get a result. (For anything beyond the library, use [Custom Cloud Code](custom-cloud-code.md){.fr-block}.)
 
 ## When to use it
 

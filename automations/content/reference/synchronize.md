@@ -9,7 +9,7 @@ A barrier / join. All incoming branches must reach it (or the timeout fires) bef
 
 ## When to use it
 
-After fanning out into concurrent branches (e.g. several Call Flows / [Actions Group](actions-group.md)), converge before continuing.
+After fanning out into concurrent branches (e.g. several Call Flows / [Actions Group](actions-group.md){.fr-block}), converge before continuing.
 
 ## Configuration
 

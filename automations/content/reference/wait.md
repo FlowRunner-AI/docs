@@ -13,7 +13,7 @@ Reach for it whenever a step should not happen immediately. The most common case
 
 ## Example
 
-Suppose an [HTTP Request](http-request.md) block calls a payment provider, and that provider sometimes returns an error when it is briefly busy. You want to give it one more try, but not the instant it failed. Wire a [Handle Error](handle-error.md) block off the failing call - that gives you a separate branch that only runs when the request fails - and on that branch place a Wait before you run the same HTTP Request again.
+Suppose an [HTTP Request](http-request.md){.fr-block} block calls a payment provider, and that provider sometimes returns an error when it is briefly busy. You want to give it one more try, but not the instant it failed. Wire a [Handle Error](handle-error.md){.fr-block} block off the failing call - that gives you a separate branch that only runs when the request fails - and on that branch place a <span class="fr-block">Wait</span> before you run the same <span class="fr-block">HTTP Request</span> again.
 
 Leave **Expression Mode** off and set the fields to one minute - **Minutes** is 1, the rest are 0:
 
@@ -21,7 +21,7 @@ Leave **Expression Mode** off and set the fields to one minute - **Minutes** is 
 Days: 0   Hours: 0   Minutes: 1   Seconds: 0
 ```
 
-Now when the call fails, the error path reaches the Wait, the branch pauses for 60 seconds, and only then does it run the same HTTP Request again.
+Now when the call fails, the error path reaches the <span class="fr-block">Wait</span>, the branch pauses for 60 seconds, and only then does it run the same <span class="fr-block">HTTP Request</span> again.
 
 ## Configuration
 
@@ -33,7 +33,7 @@ Now when the call fails, the error path reaches the Wait, the branch pauses for 
 ## Behavior
 
 - Suspends the branch for the duration you set, then continues.
-- Common pattern: Handle Error -> Wait (backoff) -> retry.
+- Common pattern: <span class="fr-block">Handle Error</span> -> <span class="fr-block">Wait</span> (backoff) -> retry.
 
 ## Things to watch for
 

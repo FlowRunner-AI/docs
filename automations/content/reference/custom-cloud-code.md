@@ -9,11 +9,11 @@ Each time the flow reaches this block, your code runs once, on the server, as a 
 
 ## When to use it
 
-Reach for it when a few lines of code would be cleaner than wiring up several blocks to do the same thing. Reshaping a payload, computing a value, or combining two blocks' outputs is often a short snippet, where the no-code equivalent might be a chain of [Transform Data](transform-data.md) blocks that clutters the flow. It is also how you do something genuinely custom that no built-in block offers. The one thing it is not for is reaching outside the flow: the code has no network or file access, so let blocks like [HTTP Request](http-request.md) and the database actions handle input and output, and use your code to work on what they return.
+Reach for it when a few lines of code would be cleaner than wiring up several blocks to do the same thing. Reshaping a payload, computing a value, or combining two blocks' outputs is often a short snippet, where the no-code equivalent might be a chain of [Transform Data](transform-data.md){.fr-block} blocks that clutters the flow. It is also how you do something genuinely custom that no built-in block offers. The one thing it is not for is reaching outside the flow: the code has no network or file access, so let blocks like [HTTP Request](http-request.md){.fr-block} and the database actions handle input and output, and use your code to work on what they return.
 
 ## Example
 
-Suppose an upstream HTTP Request block fetched a list of orders. Declare an argument named orders bound to that block's result, then shape it down to what the next step needs:
+Suppose an upstream <span class="fr-block">HTTP Request</span> block fetched a list of orders. Declare an argument named orders bound to that block's result, then shape it down to what the next step needs:
 
 ```javascript
 // "orders" is the array returned by the HTTP Request block
@@ -26,7 +26,7 @@ return {
 
 ![The Custom Cloud Code editor: an argument named orders bound to the HTTP Request result, alongside the code that uses it.](../images/reference/custom-cloud-code-example.png)
 
-The block's result is the object you return, which later blocks read through its alias, Custom Cloud Code Result.
+The block's result is the object you return, which later blocks read through its alias, <span class="fr-block">Custom Cloud Code</span> Result.
 
 ## Configuration
 
