@@ -261,12 +261,39 @@
   border: 1px solid var(--fr-border);
   border-radius: 0.3rem;
   box-shadow: 0 6px 22px rgba(0, 0, 0, 0.16);
-  font-weight: 300;
+  font-weight: 400;
+  letter-spacing: 0.04em;
 }
 /* Dark mode: lift the tooltip onto a lighter surface so it does not read
    as a near-black slab against the page. */
 [data-md-color-scheme="slate"] .md-tooltip2 .md-tooltip2__inner.md-typeset,
 [data-md-color-scheme="slate"] .md-tooltip {
-  background-color: #262626;
-  border-color: rgba(255, 255, 255, 0.16);
+  background-color: #565656;
+  border-color: rgba(255, 255, 255, 0.213);
+}
+
+
+/* ---------- FENCED CODE BLOCKS ----------
+
+   The default code background sits a hair off the page background, so code
+   snippets read as washed-out. Lift them onto the surface token with a clear
+   border, rounded corners, a little elevation, and more comfortable padding
+   and type. Scheme-aware tokens keep light and dark correct.
+
+*/
+.md-typeset .highlight {
+  background-color: var(--fr-surface);
+  border: 1px solid var(--fr-border);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.md-typeset .highlight > pre {
+  background-color: transparent;
+  margin: 0;
+}
+.md-typeset .highlight pre > code {
+  background-color: transparent;
+  padding: 0.9rem 1rem;
+  font-size: 0.78rem;
+  line-height: 1.6;
 }
