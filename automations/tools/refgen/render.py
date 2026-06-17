@@ -93,16 +93,34 @@ def _config_table(docs: dict) -> str:
     return "\n".join(lines)
 
 
-def _example(ex: dict) -> str:
+def _common_table(common_defs: dict, keys) -> str:
+    """A 'Common settings' table built from the shared _common.yaml definitions,
+    listing only the keys this block opts into (docs.common: [...])."""
+    rows = []
+    for key in keys or []:
+        d = common_defs.get(key)
+        if d:
+            rows.append((d.get("field", key), d.get("description", "")))
+    if not rows:
+        return ""
+    lines = ["**Common settings** (available on most blocks):", "",
+             "| Field | Description |", "| --- | --- |"]
+    lines += [f"| {_cell(f)} | {_cell(d)} |" for f, d in rows]
+    return "\n".join(lines)
+
+
+def _example(steps) -> str:
+    """A worked example is a sequence of steps rendered in order. Each step may
+    carry prose (`text`), a code/JSON block (`code` + `lang`), and/or a screenshot
+    (`image` + `alt`) - so an example can interleave narration, data, and visuals."""
     parts = []
-    if (ex.get("intro") or "").strip():
-        parts.append(ex["intro"].strip())
-    if (ex.get("code") or "").strip():
-        parts.append(f"```{ex.get('lang', '')}\n{ex['code'].strip()}\n```")
-    if (ex.get("image") or "").strip():
-        parts.append(f"![{(ex.get('alt') or '').strip()}]({ex['image'].strip()})")
-    if (ex.get("outro") or "").strip():
-        parts.append(ex["outro"].strip())
+    for s in steps or []:
+        if (s.get("text") or "").strip():
+            parts.append(s["text"].strip())
+        if (s.get("code") or "").strip():
+            parts.append(f"```{s.get('lang', '')}\n{s['code'].strip()}\n```")
+        if (s.get("image") or "").strip():
+            parts.append(f"![{(s.get('alt') or '').strip()}]({s['image'].strip()})")
     return "\n\n".join(parts)
 
 
@@ -113,8 +131,9 @@ def _related(docs: dict, name_by_id: dict) -> str:
     return _bullets(items) if items else ""
 
 
-def render_page(record: dict, name_by_id: dict) -> str:
+def render_page(record: dict, name_by_id: dict, common_defs: dict = None) -> str:
     docs = record.get("docs", {}) or {}
+    common_defs = common_defs or {}
     sections = [
         HEADER.format(id=record["id"]) + f"\n# {record['name']}",
         (docs.get("purpose") or "").strip(),
@@ -129,10 +148,8 @@ def render_page(record: dict, name_by_id: dict) -> str:
     add("When to use it", docs.get("when_to_use"))
     if docs.get("example"):
         add("Example", _example(docs["example"]))
-    config_body = _config_table(docs)
-    if docs.get("common_settings"):
-        config_body = f'{config_body}\n\n--8<-- "block-common-settings.md"'.strip()
-    add("Configuration", config_body)
+    config_parts = [_config_table(docs), _common_table(common_defs, docs.get("common"))]
+    add("Configuration", "\n\n".join(p for p in config_parts if p))
     if record.get("behavior"):
         add("Behavior", _behavior(record["behavior"]))
     if docs.get("limitations"):

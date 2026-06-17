@@ -10,5 +10,8 @@ OUTPUT_DIR = PROJECT / "content" / "reference"
 MKDOCS = PROJECT / "mkdocs.yml"
 TEMPLATES = Path(__file__).resolve().parent / "templates"
 
+# Shared common-settings definitions (not a block record):
+COMMON_FILE = "_common.yaml"
+
 # Files in block-knowledge that are NOT block records:
-NON_RECORD_FILES = {"README.md", "VOICE.md"}
+NON_RECORD_FILES = {"README.md", "VOICE.md", COMMON_FILE}

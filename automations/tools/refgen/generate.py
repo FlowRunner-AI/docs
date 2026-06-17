@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 from . import paths
-from .loader import load_records
+from .loader import load_common, load_records
 from .navgen import update_mkdocs_nav
 from .render import render_page
 from .schema import validate_record
@@ -18,6 +18,7 @@ def run(records_dir: Path, output_dir: Path, mkdocs_path: Path) -> list[str]:
     On any validation error, nothing is written (fail fast, no partial output).
     """
     records = load_records(records_dir)
+    common_defs = load_common(records_dir)
 
     errors: list[str] = []
     for r in records:
@@ -29,7 +30,7 @@ def run(records_dir: Path, output_dir: Path, mkdocs_path: Path) -> list[str]:
 
     output_dir.mkdir(parents=True, exist_ok=True)
     for r in records:
-        page = render_page(r, name_by_id=name_by_id)
+        page = render_page(r, name_by_id=name_by_id, common_defs=common_defs)
         (output_dir / f"{r['id']}.md").write_text(page)
 
     mkdocs_path.write_text(update_mkdocs_nav(mkdocs_path.read_text(), records))

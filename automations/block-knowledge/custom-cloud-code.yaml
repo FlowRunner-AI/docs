@@ -33,24 +33,24 @@ docs:
     file access, so let blocks like HTTP Request and the database actions handle input and output,
     and use your code to work on what they return.
   example:
-    intro: >
-      Suppose an upstream HTTP Request block fetched a list of orders. Declare an argument named
-      orders bound to that block's result, then shape it down to what the next step needs:
-    lang: javascript
-    code: |
-      // "orders" is the array returned by the HTTP Request block
-      const open = orders.filter(order => order.status === "open");
-      return {
-        openCount: open.length,
-        openIds: open.map(order => order.id),
-      };
-    image: ../images/reference/custom-cloud-code-example.png
-    alt: >
-      The Custom Cloud Code editor: an argument named orders bound to the HTTP Request
-      result, alongside the code that uses it.
-    outro: >
-      The block's result is the object you return, which later blocks read through its alias,
-      Custom Cloud Code Result.
+    - text: >
+        Suppose an upstream HTTP Request block fetched a list of orders. Declare an argument named
+        orders bound to that block's result, then shape it down to what the next step needs:
+    - lang: javascript
+      code: |
+        // "orders" is the array returned by the HTTP Request block
+        const open = orders.filter(order => order.status === "open");
+        return {
+          openCount: open.length,
+          openIds: open.map(order => order.id),
+        };
+    - image: ../images/reference/custom-cloud-code-example.png
+      alt: >
+        The Custom Cloud Code editor: an argument named orders bound to the HTTP Request
+        result, alongside the code that uses it.
+    - text: >
+        The block's result is the object you return, which later blocks read through its alias,
+        Custom Cloud Code Result.
   config:
     - field: Arguments
       description: >
@@ -61,7 +61,7 @@ docs:
       description: >
         The JavaScript to run, written in the Open Code Editor modal. Return the value that
         becomes this block's result.
-  common_settings: true
+  common: [name, result_alias, assign_variable, skip_block, logging, notes]
   produces_result: true
   data_in: Arguments (native JS values; no stringification).
   data_out: The returned value, JSON-serialized.

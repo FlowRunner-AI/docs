@@ -65,6 +65,7 @@ nav:
     - 'Triggers':
       - 'External Callback': reference/external-callback.md
     - 'Utils':
+      - 'Break': reference/break.md
       - 'Condition': reference/condition.md
       - 'Handle Error': reference/handle-error.md
       - 'List Iterator': reference/list-iterator.md
