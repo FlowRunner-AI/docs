@@ -255,10 +255,18 @@
    tokens are scheme-aware, so light and dark both read correctly.
 
 */
-.md-tooltip2__inner,
+.md-tooltip2 .md-tooltip2__inner.md-typeset,
 .md-tooltip {
   background-color: var(--fr-surface);
   border: 1px solid var(--fr-border);
   border-radius: 0.3rem;
   box-shadow: 0 6px 22px rgba(0, 0, 0, 0.16);
+  font-weight: 300;
+}
+/* Dark mode: lift the tooltip onto a lighter surface so it does not read
+   as a near-black slab against the page. */
+[data-md-color-scheme="slate"] .md-tooltip2 .md-tooltip2__inner.md-typeset,
+[data-md-color-scheme="slate"] .md-tooltip {
+  background-color: #262626;
+  border-color: rgba(255, 255, 255, 0.16);
 }
