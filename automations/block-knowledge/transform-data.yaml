@@ -61,6 +61,10 @@ docs:
         returns `["clearance", "featured", "new"]`. Two small blocks, each doing one operation, took
         the raw response and produced exactly the id and the ordered list the rest of the flow needs,
         with no code written.
+    - image: ../images/reference/transform-data-config.png
+      alt: >
+        The Transform Data block with the Get Property Value operation selected, showing its Object and Property Name inputs.
+  common: [name, result_alias, assign_variable, skip_block, logging, notes]
   config:
     - field: Operation
       type: dropdown

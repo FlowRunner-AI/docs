@@ -60,6 +60,10 @@ docs:
         would have continued at the 60-second mark without that branch, and its result would not be
         available downstream. That is the behavior the cap is there to give you - a guarantee the
         flow eventually moves on rather than waiting forever.
+    - image: ../images/reference/synchronize-config.png
+      alt: >
+        The Synchronize block with its configuration panel: a Max Waiting Time (Days, Hours, Minutes, Seconds) the block waits for parallel branches to arrive before it continues.
+  common: [name, logging, notes]
   config:
     - field: Max Waiting Time
       type: simple (Days/Hours/Minutes/Seconds) or expression (seconds)

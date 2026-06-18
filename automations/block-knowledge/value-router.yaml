@@ -63,6 +63,10 @@ docs:
         If you later add a second money-market code that should be handled exactly like
         `performance_mma`, you do not need a new branch. Switch that branch's Value Mode to
         Collection and list both codes; the branch then wins when the value equals either one.
+    - image: ../images/reference/value-router-config.png
+      alt: >
+        The Value Router block: Value to Evaluate reads Initial Data plan, and each branch name (for example premium) becomes its own output connector on the block.
+  common: [name, result_alias, logging, notes]
   config:
     - field: Value to Evaluate
       type: expression

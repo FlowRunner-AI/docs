@@ -56,6 +56,10 @@ docs:
         block's result is that object, so the next step can read the token through it and use it on a
         later call. Anything the subflow did to obtain the token stays inside the subflow - the caller
         sees only the two properties you chose to return.
+    - image: ../images/reference/return-result-config.png
+      alt: >
+        The Return Result block with its configuration panel: a Content Type and a list of Property and Value rows that compose the result handed back to the calling flow.
+  common: [name, logging, notes]
   config:
     - field: Content Type
       type: dropdown
