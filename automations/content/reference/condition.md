@@ -30,6 +30,8 @@ For this order the amount is 1450, so the test is true and the flow takes the **
 
 Now suppose approval should also kick in for any expedited order, whatever its size. Instead of a second <span class="fr-block">Condition</span>, add a second part to this one: keep the amount check as the first part, add a part that checks the expedited flag (**Value Data Type** BOOLEAN/CHECKBOX, **Operation** IS TRUE), and join the two parts with OR. The **Yes** path now runs whenever the amount is over 1000 or the order is expedited, and only orders that are both small and not expedited fall through to the **No** path.
 
+![The Condition block configured on the canvas: Value to Check reads Initial Data status, Value Data Type is STRING, Operation is EQUALS, and Value is cancelled.](../images/reference/condition-config.png)
+
 ## Configuration
 
 | Field | Description |
@@ -38,6 +40,14 @@ Now suppose approval should also kick in for any expedited order, whatever its s
 | Value Data Type | Required. The kind of value you are checking, such as STRING, INT, DOUBLE, BOOLEAN/CHECKBOX, DATETIME, IMAGE, or a JSON object or array. The available comparisons depend on this choice, so a number offers GREATER THAN while a checkbox offers IS TRUE. |
 | Operation | Required. The comparison to run against the value, for example GREATER THAN, EQUALS, IS TRUE, or IS NOT EMPTY. Comparisons that take a second value - such as EQUALS - show a field where you supply the value to compare against. |
 | Parts | Additional sub-tests added with the plus control. Each part is its own value, type, and comparison. Parts are joined with AND or OR, and brackets group parts so you control which ones are weighed together. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 
