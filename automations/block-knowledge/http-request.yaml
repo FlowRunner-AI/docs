@@ -61,6 +61,10 @@ docs:
         item's login property - and the Expression Editor offers those names for you because
         the Test run showed it the real structure. The payoff: one block turned a public API
         into structured data your flow can act on.
+    - image: ../images/reference/http-request-config.png
+      alt: >
+        The HTTP Request block configured: the URL points at a GitHub API endpoint, with HTTP Method, Body, Query, and Headers below it.
+  common: [name, result_alias, assign_variable, skip_block, logging, notes]
   config:
     - field: URL
       type: expression

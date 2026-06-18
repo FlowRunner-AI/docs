@@ -21,12 +21,23 @@ Early in the flow a <span class="fr-block">Shared Memory: Read</span> block read
 
 On the first run, the Read returns the Default Value `0`, the flow works out `1`, and this block writes `1` to `runCount`, replacing the old value in place. The next run reads `1`, works out `2`, and writes `2`; the run after that reads `2` and writes `3`. The number climbs run after run because Shared Memory holds onto it between runs, which a Data Bucket variable could never do.
 
+![The Shared Memory: Put block with its configuration panel: an Override toggle and a Perform Changes section where each key is given a value to write into Shared Memory.](../images/reference/shared-memory-put-config.png)
+
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | Perform Changes | The list of values to save. Each entry has a name (the key it is stored under in Shared Memory) and a value, which can be a fixed value you type or an expression. Add a row for each value you want to write in one go. |
 | Override | When on, writing to a name that already holds a value replaces it with the new value. Confirm the off behavior in-product before documenting it. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

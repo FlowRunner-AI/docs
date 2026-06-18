@@ -27,11 +27,23 @@ Start Scheduled Runs  (Flow: Email Sender)   -> schedule resumed
 
 The payoff: throughout the wait, Email Sender launches no scheduled batches, so the migration runs clean. Its schedule was never deleted - every detail of its every-30-minutes setup is still there - so the <span class="fr-block">Start Scheduled Runs</span> block at the end brings it straight back to life, and the next batch goes out on the regular rhythm.
 
+![The Stop Scheduled Runs block configured with the flow whose schedule it should stop.](../images/reference/stop-scheduled-runs-config.png)
+
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | Flow | Required. The flow whose schedule you want to pause. Note - the dropdown currently lists every flow in the workspace, not only the ones that actually have a schedule, so pick the scheduled flow by name. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

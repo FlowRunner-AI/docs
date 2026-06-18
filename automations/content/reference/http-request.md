@@ -30,6 +30,8 @@ GitHub asks callers to identify the kind of response they want, so add one Heade
 
 That captured shape is what makes the result easy to use next. A following block can now reach into it - for example, the first organization's login is the result's first item's login property - and the Expression Editor offers those names for you because the Test run showed it the real structure. The payoff: one block turned a public API into structured data your flow can act on.
 
+![The HTTP Request block configured: the URL points at a GitHub API endpoint, with HTTP Method, Body, Query, and Headers below it.](../images/reference/http-request-config.png)
+
 ## Configuration
 
 | Field | Description |
@@ -39,6 +41,17 @@ That captured shape is what makes the result easy to use next. A following block
 | Body | The data you are sending with the request, usually JSON. Used by methods that write, such as POST, PUT, and PATCH; a GET typically has none. |
 | Query | Extra parameters appended to the URL, such as a search term, a page number, or a filter the service understands. |
 | Headers | Named values sent alongside the request, each a Name and a Value. Most often used for authentication (an API key, a Bearer token, or Basic credentials) and to declare the content type. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Skip Block | When on, the block is skipped during execution and the value in Simulated Result is used as its output. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

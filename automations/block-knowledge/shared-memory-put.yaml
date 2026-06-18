@@ -59,6 +59,10 @@ docs:
         works out `2`, and writes `2`; the run after that reads `2` and writes `3`. The number
         climbs run after run because Shared Memory holds onto it between runs, which a Data Bucket
         variable could never do.
+    - image: ../images/reference/shared-memory-put-config.png
+      alt: >
+        The Shared Memory: Put block with its configuration panel: an Override toggle and a Perform Changes section where each key is given a value to write into Shared Memory.
+  common: [name, result_alias, logging, notes]
   config:
     - field: Perform Changes
       type: repeatable name + value

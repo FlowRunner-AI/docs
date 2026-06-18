@@ -52,6 +52,10 @@ docs:
         keys untouched. On the next run, the Shared Memory: Read block looks up `cursor`, finds nothing
         stored, and returns its **Default Value** instead - so the flow starts fresh from the top of
         the list, exactly as it did the first time.
+    - image: ../images/reference/shared-memory-delete-config.png
+      alt: >
+        The Shared Memory: Delete block with its configuration panel: a Mode that removes all keys or only specific Keys you list.
+  common: [name, result_alias, logging, notes]
   config:
     - field: All
       type: toggle

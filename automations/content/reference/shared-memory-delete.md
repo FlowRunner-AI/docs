@@ -24,12 +24,23 @@ Keys: cursor
 
 When that path runs, the block erases `cursor` from Shared Memory and leaves any other saved keys untouched. On the next run, the <span class="fr-block">Shared Memory: Read</span> block looks up `cursor`, finds nothing stored, and returns its **Default Value** instead - so the flow starts fresh from the top of the list, exactly as it did the first time.
 
+![The Shared Memory: Delete block with its configuration panel: a Mode that removes all keys or only specific Keys you list.](../images/reference/shared-memory-delete-config.png)
+
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | All | When on, the block clears the entire Shared Memory store, removing every key. When off, you list the specific keys to remove and only those are erased. |
 | Keys | The keys to remove when All is off. Name at least one. Listing a key that was never written does no harm - the block has nothing to remove for it. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 
