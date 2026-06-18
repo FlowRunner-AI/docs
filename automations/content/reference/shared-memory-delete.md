@@ -45,6 +45,7 @@ When that path runs, the block erases `cursor` from Shared Memory and leaves any
 ## Things to watch for
 
 - With All on, the block clears the whole store - every key the flow has ever saved, not just the one you had in mind. Use it only when you mean to wipe all of the flow's memory; to remove a single value, leave All off and name the key.
+- With All on you also erase any [AI Agent](ai-agent.md){.fr-block} Flow Memory in this flow. An agent's Messages History is its Flow Memory, and it is kept in Shared Memory - so clearing the whole store makes every such agent forget its earlier runs and start cold. If you only meant to clear your own keys, leave All off and name them.
 - With All off you have to name at least one key, otherwise the block has nothing to remove.
 - Removing a key does not break a later read of it. A <span class="fr-block">Shared Memory: Read</span> of a key that is gone returns that read's Default Value, the same as if the key had never been written.
 
@@ -52,3 +53,4 @@ When that path runs, the block erases `cursor` from Shared Memory and leaves any
 
 - [Shared Memory: Read](shared-memory-read.md)
 - [Shared Memory: Put](shared-memory-put.md)
+- [Flow Memory (Agent Memory)](flow-memory-concept.md)

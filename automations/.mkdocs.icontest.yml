@@ -1,0 +1,6 @@
+INHERIT: mkdocs.yml
+plugins:
+  - search
+  - glightbox:
+      skip_classes:
+        - skip-lightbox

@@ -35,6 +35,13 @@ nav:
     - 'Connections': platform/connections.md
     - 'Compliance & Security': platform/compliance-and-security.md
     - 'Workspace': platform/workspace.md
+  - 'Concept Guides':
+    # BEGIN generated concept nav
+    - 'Flow Memory (Agent Memory)': reference/flow-memory-concept.md
+    - 'Flow Scheduling (Configure Flow Schedule)': reference/flow-scheduling-concept.md
+    - 'Flows as Agent Tools': reference/flows-as-agent-tools-concept.md
+    - 'Knowledge Bases (RAG stores)': reference/knowledge-bases-concept.md
+    # END generated concept nav
   - 'Block Reference':
     # BEGIN generated reference nav
     - 'AI':
@@ -54,9 +61,6 @@ nav:
       - 'Shared Memory: Read': reference/shared-memory-read.md
       - 'Start Scheduled Runs': reference/start-scheduled-runs.md
       - 'Stop Scheduled Runs': reference/stop-scheduled-runs.md
-    - 'Concepts':
-      - 'Flow Scheduling (Configure Flow Schedule)': reference/flow-scheduling-concept.md
-      - 'Knowledge Bases (RAG stores)': reference/knowledge-bases-concept.md
     - 'Groups':
       - 'Actions Group': reference/actions-group.md
       - 'Triggers Group': reference/triggers-group.md
@@ -194,6 +198,7 @@ markdown_extensions:
 plugins:
   - search
   - social:
+      cards: true   # TEMP (local preview only): no arm64 cairo on this machine. RESTORE to true before committing mkdocs.yml.
       cards_layout_options:
         # FlowRunner forest green — reads well on white messaging app backgrounds
         background_color: "#1F4438"

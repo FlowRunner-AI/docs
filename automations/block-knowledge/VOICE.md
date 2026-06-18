@@ -32,9 +32,39 @@ newcomer could read it and genuinely understand the block. That means:
   block+config image is the floor for every page; add more wherever a part genuinely needs showing.
 - **Thoroughness beats brevity.** Never trade away the substance to keep a page short. A short
   page that does not educate is a failed page.
+- **Lead with value, not mechanics - the stage you set.** The lede and How-it-works must make the
+  reader *want* the block: open with what it lets them do that is worth doing, not a dry restatement
+  of the request it sends. For a feature-rich block, name its standout capabilities up front - an AI
+  Agent uses tools, searches Knowledge Bases, and remembers across runs, so the *intro* says that,
+  not page two. Excitement comes from *concrete capability*, not adjectives: the banned-words rule
+  (no "powerful/robust/seamless") still holds; you earn the energy by showing what it does. A weak,
+  incomplete stage is a failed page even if every fact is present. (AI Agent review, Mark)
+- **How it works explains, it does not catalogue.** Convey the model or the loop plainly and
+  vividly. Do not drop to an implementation detail the user would never bring (e.g. how many requests
+  a call makes under the hood), and do not open on a confusing framing. Each sentence should build
+  understanding, not list a mechanic.
+- **Flagship features get their own section.** A block's standout capability does not belong buried
+  in a config-table cell. Give it a `docs.sections` entry (`{title, body, image?, alt?}`, rendered as
+  its own `##` heading between When-to-use and the Example) and write it like the reason the block
+  exists - because it is. (e.g. AI Agent's *Manage Capabilities*.) When a feature is too deep for one
+  page, give it a whole **concept record** (`category: Concepts`, `concept: true`); the generator navs
+  these into their own top-level **Concept Guides** section, *not* a Block Reference category - a concept
+  guide is a different beast from a block. (Mark)
+- **Never assume FlowRunner fluency mid-sentence.** A term a newcomer may not know (expression, Data
+  Bucket, Instance) is a glossary term - write it in plain prose so its tooltip applies; do not use
+  it cold or redefine it inline.
+- **Screenshots must show a VALID, working config - never an error state.** Fill required fields so
+  no red error badge shows; a placeholder value is fine (type "Demo API Key" into a key field). Build
+  **every expression value in the Expression Editor** so it binds (a reference renders as a coloured
+  pill); never paste an expression like `{{Initial Data->x}}` straight into the field - it does not
+  bind, and the screenshot would show a config the reader literally cannot reproduce. If you cannot
+  produce a clean config, do not ship the shot. (AI Agent review, Mark)
 
 The `docs.example` field is a **sequence of steps** (each may carry `text`, `code`+`lang`,
 and/or `image`+`alt`) precisely so a worked example can interleave narration, data, and visuals.
+Beyond the example, a record may add **`docs.sections`** - a list of `{title, body, image?, alt?}`
+custom sections rendered between *When to use it* and *Example* - to give a flagship feature its own
+heading.
 
 ## Voice
 
@@ -104,6 +134,33 @@ Things to watch for) → Related`.
 ## Calibration log
 
 Generalizable rules extracted from review feedback, newest first.
+
+### 2026-06-18 - AI Agent (cluster + flagship depth)
+- **A flagship block can spawn a cluster of concept sub-articles.** When a feature is too deep for one
+  page (AI Agent's flows-as-tools, Flow Memory), give it its own `*-concept.yaml` record
+  (`category: Concepts`, `concept: true`) - it auto-loads and auto-navs through the same pipeline, the
+  way Knowledge Bases and Flow Scheduling already do. The block page keeps the short version + an inline
+  link; the sub-article details and shows it. (Mark)
+- **Get the result shape exactly right.** An AI Agent's reply always arrives under an `output` property
+  on the result (`output`, or `output->field` with Force Parsed Output); reading the result directly
+  gets nothing. A wrong reference path on an example is a content defect - confirm the result shape, do
+  not infer it. (Mark)
+- **Trace where state physically lives.** Flow Memory (the agent's Messages History) is persisted in
+  Shared Memory, so a Shared Memory: Delete with All on wipes it. When one feature is backed by another,
+  document the link on BOTH pages (the warning belongs on Shared Memory: Delete too). (Mark)
+- **Do not invent UI mechanics to fill a sub-article.** Where the exact UI (e.g. where flow/argument
+  descriptions are entered) is not yet verified in-product, write the confirmed concept and park the
+  screen specifics + screenshots for a capture pass - never fabricate a menu path. (carries the List
+  Iterator "verify in-app" rule into concept pages.)
+- **Multi-paragraph prose fields MUST use a literal block scalar (`|`), not folded (`>`).** YAML's
+  folded `>` collapses the blank line between paragraphs to a single newline, so the whole field renders
+  as one wall of text and a footnote definition loses its required blank line and breaks. Use `|` (with
+  real blank lines between paragraphs) for any `mental_model`/section body that has more than one
+  paragraph or a footnote; `>` is fine only for a single-paragraph field. (Pre-existing multi-paragraph
+  `>` fields, e.g. flow-scheduling-concept, want the same fix in the Phase B sweep.)
+- **Footnotes are available** (the `footnotes` extension is enabled): use `text[^id]` + a `[^id]:`
+  definition line for caveats that would clutter the sentence (e.g. "waits for days[^plan]" → a note
+  that prolonged waits depend on the pricing plan).
 
 ### 2026-06-16 - List Iterator (accumulation idiom + connectivity)
 - **Blocks cannot hang disconnected.** Every block must sit on the connected path from Start; a

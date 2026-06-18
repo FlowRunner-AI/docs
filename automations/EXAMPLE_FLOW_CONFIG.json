@@ -1,0 +1,162 @@
+{
+  "name": "Documentation Chat Assistant",
+  "description": "AI-powered chat assistant for FlowRunner™ documentation",
+  "trigger": {
+    "type": "App Logic Trigger",
+    "config": {
+      "activationMode": "Synchronous",
+      "returnResult": true
+    }
+  },
+  "blocks": [
+    {
+      "blockType": "Set Variables",
+      "name": "Extract Request Data",
+      "variables": {
+        "userQuestion": "${triggerData.question}",
+        "sessionId": "${triggerData.sessionId}",
+        "currentPage": "${triggerData.context.currentPage}",
+        "pageTitle": "${triggerData.context.pageTitle}"
+      }
+    },
+    {
+      "blockType": "Find Records",
+      "name": "Get Conversation History",
+      "config": {
+        "table": "ChatHistory",
+        "whereClause": "sessionId = '${sessionId}'",
+        "orderBy": "timestamp ASC",
+        "pageSize": 20,
+        "properties": ["role", "content", "timestamp"]
+      }
+    },
+    {
+      "blockType": "AI Agent",
+      "name": "Documentation Assistant",
+      "config": {
+        "model": "gpt-4-turbo-preview",
+        "systemPrompt": "You are a helpful FlowRunner™ documentation assistant. Your role is to help users understand FlowRunner™ features, blocks, and how to build automations.\n\nCurrent documentation page: ${currentPage}\nPage title: ${pageTitle}\n\nGuidelines:\n- Be concise but thorough\n- Use examples when helpful  \n- Reference specific blocks and features by name\n- If you don't know something, say so\n- Use markdown formatting (**, `, etc.) in responses\n- Focus on practical implementation guidance\n\nProvide accurate, helpful answers based on FlowRunner™ documentation.",
+        "userMessage": "${userQuestion}",
+        "temperature": 0.7,
+        "maxTokens": 500,
+        "tools": [
+          {
+            "name": "searchDocumentation",
+            "description": "Search the FlowRunner™ documentation for relevant information",
+            "parameters": {
+              "query": "string - search query",
+              "section": "string (optional) - specific doc section to search"
+            }
+          },
+          {
+            "name": "getBlockReference",
+            "description": "Get detailed reference information about a specific FlowRunner™ block",
+            "parameters": {
+              "blockName": "string - name of the block (e.g., 'AI Agent', 'Condition', 'Send Email')"
+            }
+          }
+        ],
+        "memory": {
+          "enabled": true,
+          "conversationHistory": "${conversationHistory}",
+          "maxMessages": 10
+        }
+      }
+    },
+    {
+      "blockType": "Save Record",
+      "name": "Save User Question",
+      "config": {
+        "table": "ChatHistory",
+        "object": {
+          "sessionId": "${sessionId}",
+          "role": "user",
+          "content": "${userQuestion}",
+          "timestamp": "${currentTimestamp}"
+        }
+      }
+    },
+    {
+      "blockType": "Save Record",
+      "name": "Save AI Response",
+      "config": {
+        "table": "ChatHistory",
+        "object": {
+          "sessionId": "${sessionId}",
+          "role": "assistant",
+          "content": "${aiAgentResponse}",
+          "timestamp": "${currentTimestamp}"
+        }
+      }
+    },
+    {
+      "blockType": "Return Result",
+      "name": "Return AI Response",
+      "config": {
+        "resultData": {
+          "answer": "${aiAgentResponse}",
+          "timestamp": "${currentTimestamp}",
+          "model": "gpt-4-turbo-preview",
+          "sessionId": "${sessionId}"
+        }
+      }
+    }
+  ],
+  "errorHandling": {
+    "onError": {
+      "blockType": "Return Result",
+      "name": "Error Response",
+      "config": {
+        "resultData": {
+          "answer": "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.",
+          "error": true,
+          "errorMessage": "${errorDetails}"
+        }
+      }
+    }
+  },
+  "notes": [
+    "This is a conceptual representation of the flow structure",
+    "Actual implementation will be done in the FlowRunner™ visual editor",
+    "You'll need to configure the AI Agent with your OpenAI or other LLM provider credentials",
+    "The tool functions (searchDocumentation, getBlockReference) need to be implemented",
+    "Consider adding rate limiting and input validation for production use"
+  ],
+  "databaseSetup": {
+    "tableName": "ChatHistory",
+    "schema": {
+      "sessionId": {
+        "type": "STRING",
+        "required": true,
+        "indexed": true,
+        "description": "Unique session identifier from the chat widget"
+      },
+      "role": {
+        "type": "STRING",
+        "required": true,
+        "description": "Either 'user' or 'assistant'"
+      },
+      "content": {
+        "type": "TEXT",
+        "required": true,
+        "description": "The message content"
+      },
+      "timestamp": {
+        "type": "DATETIME",
+        "required": true,
+        "indexed": true,
+        "description": "When the message was created"
+      }
+    },
+    "indexes": [
+      "sessionId",
+      "timestamp"
+    ],
+    "notes": [
+      "Create this table in Backendless Data before running the flow",
+      "sessionId index improves query performance when retrieving conversation history",
+      "Consider adding a cleanup job to delete old sessions (e.g., older than 30 days)",
+      "Optional: Add userId field if you want to track authenticated users"
+    ]
+  }
+}

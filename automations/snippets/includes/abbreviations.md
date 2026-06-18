@@ -46,3 +46,7 @@
     A wiring point on a block's edge that starts one of its outgoing paths; you draw from it to the next block. Blocks that branch (Condition, Value Router, AI Router) expose one per branch, plus a fallback.
 *[while loop]:
     A programming pattern that repeats a set of steps over and over for as long as a condition stays true, then stops once it becomes false.
+*[expression]:
+    A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.
+*[expressions]:
+    A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.
