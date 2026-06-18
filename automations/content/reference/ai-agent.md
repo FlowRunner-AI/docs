@@ -42,6 +42,8 @@ In the User Prompt, feed in the ticket from the previous block. Because the User
 
 That object is the block's result. A later block can read its `urgency` field to route the ticket - say, page the on-call team when it is high - and show the `summary` so a human sees the gist without opening the full ticket. Run the same flow on a calmer ticket and you would get the same two fields back, with `urgency` more likely to read `normal` or `low`.
 
+![The AI Agent block configuration panel: AI Provider, AI Model, and AI API Key selectors, a System Prompt and User Prompt, and a Manage Capabilities button for tools.](../images/reference/ai-agent-config.png)
+
 ## Configuration
 
 | Field | Description |

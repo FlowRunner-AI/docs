@@ -61,6 +61,7 @@ docs:
         SubFlow block - again pointing at Get New Token - before the second call, and it produces a
         fresh token the same way. Because both placements run the one definition, the day the token
         endpoint changes you edit Get New Token once and both calls pick up the fix.
+  common: [name, result_alias, notes]
   config:
     - field: SubFlow
       type: reference

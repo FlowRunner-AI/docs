@@ -26,6 +26,8 @@ Add an <span class="fr-block">AI Router</span>. In Decision Request, write the i
 
 On the negative connector, place a [Set Variables](set-variables.md){.fr-block} block that stores a Sentiment variable set to "negative" (and the matching value on the other two branches). When the flow runs against the message above, the AI reads it, judges the tone as angry, and chooses negative - so the flow leaves through the negative connector and runs the block that marks the message negative. A calm "Thanks, that fixed it!" would instead leave through the positive connector. Anything the AI cannot place in positive, negative, or neutral leaves through Everything Else, so the message is never stuck with nowhere to go.
 
+![The AI Router block configuration panel: an AI Decision Request prompt, Decision Data inputs, and the Expected Decisions that each become an output branch.](../images/reference/ai-router-config.png)
+
 ## Configuration
 
 | Field | Description |
@@ -36,6 +38,16 @@ On the negative connector, place a [Set Variables](set-variables.md){.fr-block} 
 | Decision Request | Required. The instruction telling the AI what to decide. Starting it with "Determine" works well, for example "Determine the sentiment of the message". |
 | Decision Data | The values the AI judges. Each one has a name and an expression pointing at the data to evaluate, usually a previous block's result or a trigger's payload. |
 | Expected Decisions | Required. The labels the AI is allowed to choose from. Each label becomes a named output connector on the block. One of them, Everything Else, is the fallback the AI takes when none of the others fit. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

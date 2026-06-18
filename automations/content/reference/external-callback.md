@@ -32,6 +32,8 @@ The provider also sends other events to the same URL - refunds, disputes - that 
 
 Set the flow LIVE. Now each successful payment posts to the Callback URL, the condition passes, a new run begins with that payment as <span class="fr-block">External Callback</span> Data, and the steps after the trigger can read `External Callback Data->orderId` and `External Callback Data->amount` to record the sale.
 
+![The External Callback trigger with its configuration panel: a generated, read-only Callback URL that an outside service calls to start or resume the flow, with an optional Condition gate.](../images/reference/external-callback-config.png)
+
 ## Configuration
 
 | Field | Description |
@@ -40,6 +42,14 @@ Set the flow LIVE. Now each successful payment posts to the Callback URL, the co
 | Add a <span class="fr-block">Condition</span> | An optional gate on whether the trigger fires for a given request. If the condition is false for an incoming call, the trigger does not start a run for it. |
 | Reference Trigger Data As | The name you use to read the incoming request elsewhere in the flow. A trigger has no computed result, so this alias points at the request that came in. |
 | Execution parameter | Which waiting run to resume when this trigger is used to continue a paused run - a specific run by id, any one waiting run, or all of them. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

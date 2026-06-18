@@ -67,6 +67,10 @@ docs:
         passes, a new run begins with that payment as External Callback Data, and the steps after
         the trigger can read `External Callback Data->orderId` and `External Callback Data->amount`
         to record the sale.
+    - image: ../images/reference/external-callback-config.png
+      alt: >
+        The External Callback trigger with its configuration panel: a generated, read-only Callback URL that an outside service calls to start or resume the flow, with an optional Condition gate.
+  common: [name, logging, notes]
   config:
     - field: Callback URL
       type: generated (read-only)

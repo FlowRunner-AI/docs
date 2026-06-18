@@ -65,6 +65,10 @@ docs:
         leave through the positive connector. Anything the AI cannot place in positive,
         negative, or neutral leaves through Everything Else, so the message is never stuck
         with nowhere to go.
+    - image: ../images/reference/ai-router-config.png
+      alt: >
+        The AI Router block configuration panel: an AI Decision Request prompt, Decision Data inputs, and the Expected Decisions that each become an output branch.
+  common: [name, result_alias, assign_variable, logging, notes]
   config:
     - field: AI Provider
       type: dropdown
