@@ -29,11 +29,22 @@ The <span class="fr-block">Handle Error</span> also hands you the error itself, 
 
 So a single <span class="fr-block">Handle Error</span> turns a one-shot call that would have killed the run into a step that retries once, and, if it still fails, reports the reason instead of disappearing.
 
+![The Handle Error block with its configuration panel: the caught error is exposed under the Reference Result Data As alias and can also be assigned to a variable.](../images/reference/handle-error-config.png)
+
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | Reference Result Data As | The alias later steps use to read the caught error, which has a code, a message, and a source naming the block that failed. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

@@ -33,12 +33,21 @@ Bucket: Ticket
 
 When the flow reaches the block, both variables are written into the Ticket bucket. A later step reads them back: a message block can drop in the greeting variable to send "Hi Dana Okafor, we are on it.", and a logging step can record that processedCount is now 1. Each new run starts with the Ticket bucket empty, so processedCount begins counting from one again.
 
+![The Set Variables block on the canvas with its configuration panel: a Data Bucket selector and a Perform Changes section where each row names a variable and gives it a value.](../images/reference/set-variables-config.png)
+
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | Data Bucket | The named container the variables are written into. Pick an existing bucket, or type a new name to create one. Defaults to a bucket named Default. |
 | Perform Changes | The variables to write, one row each. Every row has a name and a value, where the value is either a fixed literal you type or an expression worked out at run time. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

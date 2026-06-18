@@ -65,6 +65,9 @@ docs:
     - text: >
         So a single Handle Error turns a one-shot call that would have killed the run into a step
         that retries once, and, if it still fails, reports the reason instead of disappearing.
+    - image: ../images/reference/handle-error-config.png
+      alt: >
+        The Handle Error block with its configuration panel: the caught error is exposed under the Reference Result Data As alias and can also be assigned to a variable.
   config:
     - field: Reference Result Data As
       type: alias
@@ -72,6 +75,7 @@ docs:
       description: >
         The alias later steps use to read the caught error, which has a code, a message, and a
         source naming the block that failed.
+  common: [name, result_alias, assign_variable, notes]
   produces_result: true
   data_in: The error caught from the block that failed.
   data_out: The error (code, message, and source), then the flow continues down the recovery steps.

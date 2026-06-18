@@ -63,6 +63,9 @@ docs:
         IS TRUE), and join the two parts with OR. The **Yes** path now runs whenever the amount is over
         1000 or the order is expedited, and only orders that are both small and not expedited fall
         through to the **No** path.
+    - image: ../images/reference/condition-config.png
+      alt: >
+        The Condition block configured on the canvas: Value to Check reads Initial Data status, Value Data Type is STRING, Operation is EQUALS, and Value is cancelled.
   config:
     - field: Value to Check
       type: expression
@@ -87,6 +90,7 @@ docs:
         Additional sub-tests added with the plus control. Each part is its own value, type, and
         comparison. Parts are joined with AND or OR, and brackets group parts so you control which
         ones are weighed together.
+  common: [name, result_alias, notes]
   produces_result: true
   data_in: The value to check and its comparison.
   data_out: A true or false result that routes the flow down the Yes or No path.

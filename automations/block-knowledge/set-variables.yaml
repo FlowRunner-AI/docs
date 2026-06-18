@@ -58,6 +58,9 @@ docs:
         step reads them back: a message block can drop in the greeting variable to send "Hi Dana
         Okafor, we are on it.", and a logging step can record that processedCount is now 1. Each new
         run starts with the Ticket bucket empty, so processedCount begins counting from one again.
+    - image: ../images/reference/set-variables-config.png
+      alt: >
+        The Set Variables block on the canvas with its configuration panel: a Data Bucket selector and a Perform Changes section where each row names a variable and gives it a value.
   config:
     - field: Data Bucket
       type: editable dropdown
@@ -69,6 +72,7 @@ docs:
       description: >
         The variables to write, one row each. Every row has a name and a value, where the value is
         either a fixed literal you type or an expression worked out at run time.
+  common: [name, notes]
   produces_result: false
   data_in: The name and value for each variable to write.
   data_out: The named variables, written into the chosen Data Bucket for the current run.
