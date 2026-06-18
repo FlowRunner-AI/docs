@@ -29,6 +29,8 @@ For the application above, the value is `"ira_cd"`. The block checks the branche
 
 If you later add a second money-market code that should be handled exactly like `performance_mma`, you do not need a new branch. Switch that branch's Value Mode to Collection and list both codes; the branch then wins when the value equals either one.
 
+![The Value Router block: Value to Evaluate reads Initial Data plan, and each branch name (for example premium) becomes its own output connector on the block.](../images/reference/value-router-config.png)
+
 ## Configuration
 
 | Field | Description |
@@ -38,6 +40,15 @@ If you later add a second money-market code that should be handled exactly like 
 | Value Mode | How a branch matches the value. Single Value matches one exact value; Collection matches if the value equals any value in a list you give the branch; Range matches when the value falls between a low and a high bound, with both bounds included. |
 | Branch value | What the branch matches against the value - one value in Single Value mode, a list of values in Collection mode, or a low and high bound in Range mode. |
 | Everything Else | The built-in fallback branch, always present, taken when no other branch matches the value. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

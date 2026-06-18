@@ -27,11 +27,21 @@ The <span class="fr-block">Synchronize</span> block holds the flow until the las
 
 Had Branch B instead hung past 60 seconds, the Max Waiting Time would have fired: the flow would have continued at the 60-second mark without that branch, and its result would not be available downstream. That is the behavior the cap is there to give you - a guarantee the flow eventually moves on rather than waiting forever.
 
+![The Synchronize block with its configuration panel: a Max Waiting Time (Days, Hours, Minutes, Seconds) the block waits for parallel branches to arrive before it continues.](../images/reference/synchronize-config.png)
+
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | Max Waiting Time | How long to wait for all branches to arrive before giving up and continuing anyway. With Expression Mode off you fill in plain Days, Hours, Minutes, and Seconds fields; with it on you supply an expression that works out to a number of seconds, so the cap can be computed at run time. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

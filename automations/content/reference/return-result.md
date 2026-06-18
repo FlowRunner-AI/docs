@@ -27,12 +27,22 @@ Compose Result:
 
 When the subflow runs and a path reaches this block, it composes { "token": "...", "expiresAt": "..." } and ends there. Back in the parent flow, the <span class="fr-block">SubFlow</span> block's result is that object, so the next step can read the token through it and use it on a later call. Anything the subflow did to obtain the token stays inside the subflow - the caller sees only the two properties you chose to return.
 
+![The Return Result block with its configuration panel: a Content Type and a list of Property and Value rows that compose the result handed back to the calling flow.](../images/reference/return-result-config.png)
+
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | Content Type | The format of the returned data. The default is JSON, which composes the object from the rows below. |
 | Compose Result | The properties of the returned object. Each row is a property name paired with an expression that supplies its value. Together the rows make up the object the caller reads back. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

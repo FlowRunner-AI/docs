@@ -33,12 +33,21 @@ Here is how it plays out for an order that ships on the third check:
 
 The flow carries on with Order Status holding "shipped". Had the service stalled and never shipped, the failsafe of 20 would have stopped the loop after 20 passes rather than letting it run forever, and the flow could then handle the timeout however you choose.
 
+![The Repeat block configured: its loop condition checks that Initial Data status DOES NOT EQUAL completed, so the steps inside repeat while the status is not completed.](../images/reference/repeat-config.png)
+
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | <span class="fr-block">Condition</span> | Required. The loop keeps running while this is true and stops the moment it is false. It is re-checked before every pass, so a step inside the loop must change something the condition looks at, or the loop would never stop on its own. In the product this is called the <span class="fr-block">Repeat</span> While condition. |
 | Max Iterations (failsafe) | A hard cap on the number of passes, defaulting to 10000. The loop stops when it reaches this many passes even if the condition is still true - a safety net against a loop that never ends. Set it to a sensible number for your case while you are building the flow. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

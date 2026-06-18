@@ -65,6 +65,10 @@ docs:
         The flow carries on with Order Status holding "shipped". Had the service stalled and never
         shipped, the failsafe of 20 would have stopped the loop after 20 passes rather than letting
         it run forever, and the flow could then handle the timeout however you choose.
+    - image: ../images/reference/repeat-config.png
+      alt: >
+        The Repeat block configured: its loop condition checks that Initial Data status DOES NOT EQUAL completed, so the steps inside repeat while the status is not completed.
+  common: [name, notes]
   config:
     - field: Condition
       type: condition

@@ -34,12 +34,25 @@ Now suppose the next step needs the tags in alphabetical order. Operations do on
 
 With a longer, unsorted list the payoff is clearer - sorting `["new", "clearance", "featured"]` returns `["clearance", "featured", "new"]`. Two small blocks, each doing one operation, took the raw response and produced exactly the id and the ordered list the rest of the flow needs, with no code written.
 
+![The Transform Data block with the Get Property Value operation selected, showing its Object and Property Name inputs.](../images/reference/transform-data-config.png)
+
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | Operation | Required. The transformation to perform, chosen from the built-in library. The library covers reading and reshaping objects (for example Get Property Value, Pick, Omit), building and reshaping arrays (Create Array, Merge, Sort Array, Filter Array), comparisons and branching (If, Equals, Switch), and date, math, and text operations. |
 | (operation inputs) | The inputs the chosen operation needs - they change with the operation. Get Property Value, for instance, asks for an **Object** and a **Property Name**, while Sort Array asks only for the array to sort. Each input is a value or an expression that references an earlier result. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Skip Block | When on, the block is skipped during execution and the value in Simulated Result is used as its output. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Behavior
 
