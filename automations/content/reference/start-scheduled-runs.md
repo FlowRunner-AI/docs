@@ -25,11 +25,23 @@ Start Scheduled Runs  -> Flow: Nightly Report Export   (schedule resumed)
 
 The payoff: from the moment the <span class="fr-block">Start Scheduled Runs</span> block runs, Nightly Report Export is scheduled again, and the next nightly run creates an instance as normal. The schedule's timing was never changed - it was only switched off and back on. You can confirm it resumed by watching the Instances tab on Nightly Report Export for the next scheduled run to appear.
 
+![The Start Scheduled Runs block configured with the flow whose schedule it should start.](../images/reference/start-scheduled-runs-config.png)
+
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | Flow | Required. The flow whose scheduled runs you want to turn back on. Note that this dropdown currently lists every flow in the workspace, not only the ones that already have a schedule, so pick the target flow carefully. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

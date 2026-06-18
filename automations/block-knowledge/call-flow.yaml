@@ -68,6 +68,10 @@ docs:
         beneficiary to the account. Had you turned **Wait for Execution** off instead, the block
         would hand back an `executionId` right away and the parent flow would continue without
         waiting for the beneficiary record to be written.
+    - image: ../images/reference/call-flow-config.png
+      alt: >
+        The Call Flow block configured to run the Email Sender flow, with Initial Params rows that pass values into the called flow.
+  common: [name, result_alias, assign_variable, logging, notes]
   config:
     - field: Flow to run
       type: dropdown

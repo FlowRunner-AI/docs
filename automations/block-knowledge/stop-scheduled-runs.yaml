@@ -59,6 +59,10 @@ docs:
         migration runs clean. Its schedule was never deleted - every detail of its every-30-minutes
         setup is still there - so the Start Scheduled Runs block at the end brings it straight
         back to life, and the next batch goes out on the regular rhythm.
+    - image: ../images/reference/stop-scheduled-runs-config.png
+      alt: >
+        The Stop Scheduled Runs block configured with the flow whose schedule it should stop.
+  common: [name, result_alias, assign_variable, logging, notes]
   config:
     - field: Flow
       type: dropdown

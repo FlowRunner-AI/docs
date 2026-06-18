@@ -55,6 +55,10 @@ docs:
         timing was never changed - it was only switched off and back on. You can confirm it
         resumed by watching the Instances tab on Nightly Report Export for the next scheduled run
         to appear.
+    - image: ../images/reference/start-scheduled-runs-config.png
+      alt: >
+        The Start Scheduled Runs block configured with the flow whose schedule it should start.
+  common: [name, result_alias, assign_variable, logging, notes]
   config:
     - field: Flow
       type: dropdown

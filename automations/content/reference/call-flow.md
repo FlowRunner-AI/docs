@@ -29,6 +29,8 @@ Initial Data params:
 
 When the parent flow reaches this block, it starts a run of Create Beneficiary with those three values as its Initial Data, then pauses. Create Beneficiary writes its record and its <span class="fr-block">Return Result</span> block sends back the new id, say `{ "id": 88412 }`. That object becomes this block's result, so the next block in the parent flow can read the id and go on to link the beneficiary to the account. Had you turned **<span class="fr-block">Wait</span> for Execution** off instead, the block would hand back an `executionId` right away and the parent flow would continue without waiting for the beneficiary record to be written.
 
+![The Call Flow block configured to run the Email Sender flow, with Initial Params rows that pass values into the called flow.](../images/reference/call-flow-config.png)
+
 ## Configuration
 
 | Field | Description |
@@ -36,6 +38,16 @@ When the parent flow reaches this block, it starts a run of Create Beneficiary w
 | Flow to run | Required. The flow this block runs. Only flows that are LIVE - published and ready to run - appear in the list and can be called. |
 | Initial Data params | The values handed to the called flow to start its run. Each row pairs a name, which has to match a value the called flow expects in its Initial Data, with an expression that supplies it from this flow. |
 | <span class="fr-block">Wait</span> for Execution | When on, this flow waits for the called flow to finish and this block's result is the value from the called flow's <span class="fr-block">Return Result</span> block. When off, this flow does not wait and the block returns an executionId for the run it started. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 
