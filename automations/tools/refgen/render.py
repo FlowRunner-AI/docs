@@ -157,6 +157,13 @@ def render_page(record: dict, name_by_id: dict, common_defs: dict = None) -> str
 
     add("How it works", docs.get("mental_model"))
     add("When to use it", docs.get("when_to_use"))
+    # Optional custom sections (e.g. a deep-dive on a flagship feature). Each is
+    # {title, body, image?, alt?}; rendered between When-to-use and the Example.
+    for sec in docs.get("sections") or []:
+        body = (sec.get("body") or "").strip()
+        if (sec.get("image") or "").strip():
+            body = f"{body}\n\n![{(sec.get('alt') or '').strip()}]({sec['image'].strip()})".strip()
+        add(sec.get("title", "").strip(), body)
     if docs.get("example"):
         add("Example", _example(docs["example"]))
     config_parts = [_config_table(docs), _common_table(common_defs, docs.get("common"))]
