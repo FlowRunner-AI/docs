@@ -58,6 +58,10 @@ docs:
         the Knowledge Base, while the X200 manual stays untouched. Run List Documents again
         afterward and `doc_8f21a` is no longer in the list - confirmation the right document, and
         only that document, was deleted.
+    - image: ../images/reference/knowledge-base-delete-document-config.png
+      alt: >
+        The Knowledge Base: Delete Document block: a Knowledge Base selector and the file id of the document to remove.
+  common: [name, result_alias, assign_variable, logging, notes]
   config:
     - field: Knowledge Base
       type: dropdown

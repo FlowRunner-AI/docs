@@ -28,6 +28,8 @@ The discontinued model is the X100, the first entry, so the document you want to
 
 When the flow runs, the block removes only that one document. The X100 manual is gone from the Knowledge Base, while the X200 manual stays untouched. Run List Documents again afterward and `doc_8f21a` is no longer in the list - confirmation the right document, and only that document, was deleted.
 
+![The Knowledge Base: Delete Document block: a Knowledge Base selector and the file id of the document to remove.](../images/reference/knowledge-base-delete-document-config.png)
+
 ## Configuration
 
 | Field | Description |
@@ -35,6 +37,16 @@ When the flow runs, the block removes only that one document. The X100 manual is
 | Knowledge Base | Required. The Knowledge Base to delete the document from. Pick it from the list of your Knowledge Bases. |
 | File Id | Required. The id of the document to delete. This is the `fileId` the Knowledge Base assigned the document, usually supplied as an expression that reads it from an earlier List Documents result. |
 | Retry Policy | Optional. How the block should retry if the delete request fails, so a brief hiccup does not stop the flow. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

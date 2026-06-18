@@ -40,6 +40,8 @@ category : account
 
 When the flow runs, the block hands the article body to the Support Articles Knowledge Base. The Knowledge Base splits it into passages, converts each into searchable form, and stores them with your two labels attached. The Knowledge Base does this work in the background, so the document shows as processing for a moment before it is finished and ready to be searched. From then on, a later [Knowledge Base: List Documents](knowledge-base-list-documents.md){.fr-block} step filtered to category equals account will return this article, and an <span class="fr-block">AI Agent</span> pointed at this Knowledge Base can draw on it when it answers.
 
+![The Knowledge Base: Add Document block: a Knowledge Base selector, the document content to index, and optional Metadata.](../images/reference/knowledge-base-add-document-config.png)
+
 ## Configuration
 
 | Field | Description |
@@ -48,6 +50,16 @@ When the flow runs, the block hands the article body to the Support Articles Kno
 | Content | Required. Required. The document text to add, usually an expression pointing at a previous block's result. |
 | File Name | An optional name for the document, used to recognize it in the Knowledge Base's document list. |
 | Metadata | Optional labels attached to the document, as key/value pairs, that later List and Delete steps can match against. You can enter them as separate Property/Value rows, or switch to passing a single object instead. Only flat key/value pairs are allowed - a value cannot be a nested object. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Behavior
 

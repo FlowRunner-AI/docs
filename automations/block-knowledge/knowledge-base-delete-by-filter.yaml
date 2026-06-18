@@ -62,6 +62,10 @@ docs:
         and so does anything from a different source, because it fails the source match. The
         result tells you how many documents were removed, so a later step can confirm the batch
         was cleared before the new import begins.
+    - image: ../images/reference/knowledge-base-delete-by-filter-config.png
+      alt: >
+        The Knowledge Base: Delete by Filter block: a Knowledge Base selector and a Filter that selects which documents to remove.
+  common: [name, result_alias, assign_variable, logging, notes]
   config:
     - field: Knowledge Base
       type: dropdown
