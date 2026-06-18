@@ -71,6 +71,10 @@ docs:
         ticket - say, page the on-call team when it is high - and show the `summary` so a human sees
         the gist without opening the full ticket. Run the same flow on a calmer ticket and you would
         get the same two fields back, with `urgency` more likely to read `normal` or `low`.
+    - image: ../images/reference/ai-agent-config.png
+      alt: >
+        The AI Agent block configuration panel: AI Provider, AI Model, and AI API Key selectors, a System Prompt and User Prompt, and a Manage Capabilities button for tools.
+  common: [name, result_alias, assign_variable, logging, notes]
   config:
     - field: AI Provider
       type: dropdown
