@@ -31,12 +31,24 @@ Filter
 
 When the flow runs, the block looks at every document in the Product Catalog Knowledge Base and removes the ones whose metadata has both source equal to nightly-import and importDate equal to 2026-06-14. A description tagged with a different importDate stays, and so does anything from a different source, because it fails the source match. The result tells you how many documents were removed, so a later step can confirm the batch was cleared before the new import begins.
 
+![The Knowledge Base: Delete by Filter block: a Knowledge Base selector and a Filter that selects which documents to remove.](../images/reference/knowledge-base-delete-by-filter-config.png)
+
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | Knowledge Base | Required. Required. The Knowledge Base to delete documents from. The dropdown lists your Knowledge Bases by name. |
 | Filter | Required. Required. The metadata labels a document has to match to be deleted, as key/value pairs. Matching is exact and combines with AND, so a document is removed only when it carries every label in the filter. You can enter the labels as separate Property/Value rows, or switch to passing a single object instead. Only flat key/value pairs are allowed - a value cannot be a nested object. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Behavior
 

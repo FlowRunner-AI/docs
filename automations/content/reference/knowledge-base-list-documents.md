@@ -35,6 +35,8 @@ The Filter matches on every pair you give and only on exact values, so this retu
 
 Each entry is one document, and the part you usually want is its fileId. To remove the first match, you feed that document's file id into a <span class="fr-block">Knowledge Base: Delete Document</span> block - the file id at files index 0 in this result. Pair this block with a [List Iterator](list-iterator.md){.fr-block} and you can walk the whole list, deleting every retired billing article in one pass.
 
+![The Knowledge Base: List Documents block: a Knowledge Base selector with Filter, Limit, and Offset to page through stored documents.](../images/reference/knowledge-base-list-documents-config.png)
+
 ## Configuration
 
 | Field | Description |
@@ -43,6 +45,16 @@ Each entry is one document, and the part you usually want is its fileId. To remo
 | Filter | Optional. Metadata values a document must match to be included. Each row is a property name and the value it must equal; give several rows and a document has to match all of them. Matching is exact, and only flat values are compared, so nested objects are not supported. Leave the Filter empty to return every document. |
 | Limit | How many documents to return at most. Use it with Offset to read a long list one page at a time. |
 | Offset | How far into the full list to start, counting from 0. With Limit, this is how you step through the documents a page at a time - for example, Offset 50 with Limit 50 returns the second page. |
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
 ## Things to watch for
 

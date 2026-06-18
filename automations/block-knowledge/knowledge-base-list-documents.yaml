@@ -65,6 +65,10 @@ docs:
         match, you feed that document's file id into a Knowledge Base: Delete Document block - the
         file id at files index 0 in this result. Pair this block with a List Iterator and you can walk
         the whole list, deleting every retired billing article in one pass.
+    - image: ../images/reference/knowledge-base-list-documents-config.png
+      alt: >
+        The Knowledge Base: List Documents block: a Knowledge Base selector with Filter, Limit, and Offset to page through stored documents.
+  common: [name, result_alias, assign_variable, logging, notes]
   config:
     - field: Knowledge Base
       type: dropdown

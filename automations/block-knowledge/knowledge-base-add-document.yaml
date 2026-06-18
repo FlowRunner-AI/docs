@@ -70,6 +70,10 @@ docs:
         From then on, a later Knowledge Base: List Documents step filtered to category equals account
         will return this article, and an AI Agent pointed at this Knowledge Base can draw on it when
         it answers.
+    - image: ../images/reference/knowledge-base-add-document-config.png
+      alt: >
+        The Knowledge Base: Add Document block: a Knowledge Base selector, the document content to index, and optional Metadata.
+  common: [name, result_alias, assign_variable, logging, notes]
   config:
     - field: Knowledge Base
       type: dropdown
