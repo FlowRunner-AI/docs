@@ -11,6 +11,21 @@ It is the loop's exit. You put it inside a [List Iterator](list-iterator.md){.fr
 
 Use it when you do not always need to finish the whole loop: stop as soon as you have found the item you were looking for, hit a situation where you should bail out, or reached a limit you set. Pair it with a <span class="fr-block">Condition</span> so the loop breaks only when you mean it to.
 
+## Example
+
+<span class="fr-block">Break</span> lives inside a <span class="fr-block">List Iterator</span> or <span class="fr-block">Repeat</span> loop, usually right after a <span class="fr-block">Condition</span>: when the flow reaches it, the loop stops. The block itself has almost nothing to configure - just a name and notes:
+
+![The Break block with its configuration panel. Break has only a Name and Notes - it ends the surrounding Repeat or List Iterator loop the moment the flow reaches it.](../images/reference/break-config.png)
+
+## Configuration
+
+**Common settings** (available on most blocks):
+
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
+
 ## Behavior
 
 - Reaching the <span class="fr-block">Break</span> ends the enclosing loop immediately; remaining items are not processed.

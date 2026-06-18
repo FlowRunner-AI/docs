@@ -29,6 +29,16 @@ docs:
     - "It is almost always placed after a Condition, so the loop stops only when your test is met rather than on the first item."
   cross_refs: [list-iterator, repeat, condition]
   terminology: [Break, Loop]
+  example:
+    - text: >
+        Break lives inside a List Iterator or Repeat loop, usually right after a Condition: when the
+        flow reaches it, the loop stops. The block itself has almost nothing to configure - just a
+        name and notes:
+    - image: ../images/reference/break-config.png
+      alt: >
+        The Break block with its configuration panel. Break has only a Name and Notes - it ends the
+        surrounding Repeat or List Iterator loop the moment the flow reaches it.
+  common: [name, notes]
 
 behavior:
   - "Reaching the Break ends the enclosing loop immediately; remaining items are not processed."
