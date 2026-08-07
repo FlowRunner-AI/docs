@@ -17,13 +17,28 @@ docs:
   purpose: >
     This block takes one value and sends the flow down a named path based on what that value is.
     You name the paths and tell each one which value or values it should match.
-  mental_model: >
-    You give the block a single value to look at - the Value to Evaluate. You then add a branch
+  mental_model: |
+    You give the block a single value to look at - the ((Value to Evaluate)). You then add a branch
     for each outcome you care about, give the branch a name, and tell it what the value has to be
     for that branch to win. Every branch name becomes its own output connector on the block, so
     you build different steps off each one. When the flow reaches the block, it checks your branches
     from top to bottom and leaves through the first one whose match succeeds. There is always one
-    extra branch, Everything Else, that catches any value none of your branches claimed.
+    extra branch, ((Everything Else)), that catches any value none of your branches claimed.
+
+    ![The Value Router block selected, with its branches defined in the properties panel: Value to Evaluate reads the ticket's category from Initial Data, and three branches - Billing, Technical, and Sales - each use Single Value mode to match one exact category (billing, technical, sales).](../images/reference/value-router-config.png)
+
+    How a branch decides it matches is its ((Value Mode)), and there are five to pick from:
+
+    - ((Single Value)) - the branch wins when the value equals one exact value you give it.
+    - ((Single List)) - you point the branch at a list (built by a transformer, carried on a trigger event, or returned by an earlier block), and it wins when the value equals any item in that list.
+    - ((Collection of Values)) - you type several values by hand, and the branch wins when the value equals any one of them.
+    - ((Range of Values)) - you set a low and a high bound, and the branch wins when the value falls between them, both bounds included.
+    - ((Quick Range)) - the same list-or-range idea written as a shorthand in square brackets: commas separate individual values and a dash marks a range, as in `[1,2,5,7]` or `[1-5]`; text values go in quotes, like `["January","March"]`.
+
+    You act on a Value Router by building different steps off each connector, not by reading a value
+    afterward - the routing is what the block does. It still stores the value it routed on under the
+    alias {{Value Router Result}}, which a later step can reference if it needs that value, but most
+    flows never read it back.
   when_to_use: >
     Reach for it when one known value decides which path the flow takes and there are several
     possible paths - dispatch on a product type, a status code, an order status, a category. A
@@ -35,37 +50,33 @@ docs:
     an AI Router is the block that can read natural language and decide.
   example:
     - text: >
-        Suppose a flow processes new account applications, and the trigger left the application in
-        Initial Data. Each application names the product the customer applied for in a
-        ira_product_type field, and you want to send each product to its own handling steps. Here is
-        a sample application the flow is starting with:
+        Suppose a flow handles incoming support tickets, and each run starts with one ticket in
+        Initial Data. Every ticket carries a category, and you want to send each ticket to the team
+        that handles it. Here is a sample ticket the flow is starting with:
     - lang: json
       code: |
         {
-          "applicationId": "APP-20517",
-          "customer": "Dana Whitfield",
-          "ira_product_type": "ira_cd"
+          "ticketId": "T-4821",
+          "subject": "I was charged twice this month",
+          "category": "billing"
         }
     - text: >
-        Point the Value to Evaluate at that field so the block looks at the product code on each
-        application. Then add one branch per product, each in Single Value mode, matching one exact
-        code: a branch named Performance MMA matching `performance_mma`, a branch named Plus MMA
-        matching `plus_mma`, and a branch named IRA CD matching `ira_cd`. Leave Everything Else for
-        anything unexpected. The block now has four output connectors - the three you named plus
-        Everything Else - and you build the steps for each product off its own connector.
+        Point the ((Value to Evaluate)) at that category so the block routes on it. Then add one branch
+        per team, each in ((Single Value)) mode matching one exact category: a branch named Billing
+        matching `billing`, a branch named Technical matching `technical`, and a branch named Sales
+        matching `sales`. Leave ((Everything Else)) for a ticket whose category is blank or unrecognized.
+        The block now has four output connectors - the three you named plus ((Everything Else)) - and you
+        build each team's steps off its own connector.
     - text: >
-        For the application above, the value is `"ira_cd"`. The block checks the branches from top
-        to bottom: Performance MMA does not match, Plus MMA does not match, IRA CD matches - so the
-        flow leaves through the IRA CD connector and runs the IRA CD steps. An application carrying a
-        code none of the three branches claim, say a discontinued `legacy_mma`, matches nothing and
-        leaves through Everything Else, where you might log the unknown product for someone to review.
+        For the ticket above, the category is `"billing"`. The block checks the branches from top to
+        bottom: Billing matches - so the flow leaves through the Billing connector and runs the billing
+        steps. A ticket whose category none of the three branches claim, say a blank value or a typo,
+        matches nothing and leaves through ((Everything Else)), where you might drop it into a general
+        triage queue for someone to sort.
     - text: >
-        If you later add a second money-market code that should be handled exactly like
-        `performance_mma`, you do not need a new branch. Switch that branch's Value Mode to
-        Collection and list both codes; the branch then wins when the value equals either one.
-    - image: ../images/reference/value-router-config.png
-      alt: >
-        The Value Router block: Value to Evaluate reads Initial Data plan, and each branch name (for example premium) becomes its own output connector on the block.
+        If refunds should later be handled by the same team as billing, you do not need a new branch.
+        Switch the Billing branch's ((Value Mode)) to ((Collection of Values)) and list both `billing`
+        and `refund`; the branch then wins when the category is either one.
   common: [name, result_alias, logging, notes]
   config:
     - field: Value to Evaluate
@@ -81,33 +92,37 @@ docs:
     - field: Value Mode
       type: dropdown
       description: >
-        How a branch matches the value. Single Value matches one exact value; Collection matches if
-        the value equals any value in a list you give the branch; Range matches when the value falls
-        between a low and a high bound, with both bounds included.
+        How a branch matches the value. Five modes: ((Single Value)) matches one exact value;
+        ((Single List)) matches if the value equals any item in a list the branch points at (a list from a
+        transformer, a trigger event, or an earlier result); ((Collection of Values)) matches if the value
+        equals any of several values you list by hand; ((Range of Values)) matches when the value falls
+        between a low and a high bound, both included; ((Quick Range)) is that list-or-range in a bracketed
+        shorthand, like `[1,2,5,7]` or `[1-5]`.
     - field: Branch value
       type: expression
       description: >
-        What the branch matches against the value - one value in Single Value mode, a list of values
-        in Collection mode, or a low and high bound in Range mode.
+        What the branch matches against the value - one value in ((Single Value)) mode, a reference to a list
+        in ((Single List)) mode, several values you enter in ((Collection of Values)) mode, a low and high
+        bound in ((Range of Values)) mode, or a bracketed shorthand in ((Quick Range)) mode.
     - field: Everything Else
       type: built-in branch
       description: >
         The built-in fallback branch, always present, taken when no other branch matches the value.
   produces_result: true
-  data_in: The Value to Evaluate.
+  data_in: The ((Value to Evaluate)).
   data_out: Routes to the matching named branch.
   gotchas:
     - "The block checks branches from top to bottom and takes the first one that matches, so if two branches could match the same value, the one higher in the list wins and the lower one is never reached. Order your branches with that in mind, and avoid overlapping matches unless you mean for the first to take priority."
-    - "A Collection branch matches when the value equals any one of the values you listed. A Range branch matches when the value falls between the low and high bounds you set, and both of those bounds count as a match."
-    - "Everything Else is always there and cannot be removed. Build something onto it even if you expect every value to match a named branch, so an unexpected value still has somewhere to go instead of stopping the flow."
+    - "A ((Collection of Values)) branch matches when the value equals any one of the values you listed. A ((Range of Values)) branch matches when the value falls between the low and high bounds you set, and both of those bounds count as a match."
+    - "((Everything Else)) is always there and cannot be removed. Build something onto it even if you expect every value to match a named branch, so an unexpected value still has somewhere to go instead of stopping the flow."
   cross_refs: [ai-router, condition]
   terminology: [Value Router, Value to Evaluate, Value Mode, Branch, Everything Else]
 
 assertions:
   - id: single-value-match
     when: run-instance
-    given: "value = 'ira_cd' and a branch 'IRA CD' = 'ira_cd' (Single Value)"
-    expect: "IRA CD branch executed"
+    given: "value = 'billing' and a branch 'Billing' = 'billing' (Single Value)"
+    expect: "Billing branch executed"
   - id: no-match-fallback
     when: run-instance
     given: "value matches no branch"
@@ -118,7 +133,7 @@ known_bugs: []
 training:
   learning_objectives:
     - "Dispatch on a value into named branches."
-    - "Use Single Value vs Collection vs Range matching."
+    - "Match with the five Value Modes: Single Value, Single List, Collection of Values, Range of Values, Quick Range."
     - "Distinguish Value Router (deterministic) from AI Router (LLM)."
   prerequisites: [condition, expression-editor]
   common_mistakes:
@@ -130,5 +145,5 @@ training:
 
 provenance:
   confidence: V-real
-  evidence: "FBB 'Application Processor' v4 — Value Router on Initial Data.ira_product_type -> Performance MMA/Plus MMA/IRA CD (Single Value) + Everything Else. Screenshot 48."
-  verified_on: 2026-06-14
+  evidence: "Synthetic example built in the Documentation Flows sandbox — Value Router on Initial Data.category -> Billing/Technical/Sales (Single Value) + Everything Else. No customer data. Screenshot value-router-config.png."
+  verified_on: 2026-07-27

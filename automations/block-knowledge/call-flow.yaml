@@ -17,24 +17,29 @@ testability:
 
 docs:
   purpose: >
-    This block runs another one of your flows as a step inside this one. You pick the flow to
-    run, hand it the values it needs to start, and you can either wait for it to finish and read
-    back what it produced, or let it run on its own while this flow keeps going.
+    This block reuses a whole flow as a single step. A routine you have already built - creating a
+    record, sending a notification, running a billing check - can be called from anywhere it is
+    needed, so it lives in one place instead of being copied into every flow that uses it. You hand
+    the called flow the values it needs to start, and choose whether to wait for its result or let
+    it run on its own.
   mental_model: >
-    Think of it as calling one flow from another, the way one task hands off part of its work to
-    a second task. When the flow reaches this block, it starts a fresh run of the flow you chose -
-    a separate Instance with its own data. The values you supply become that run's Initial Data,
-    so the called flow reads them the same way it would read the payload from its own trigger.
-    What happens next depends on **Wait for Execution**. With it on, this flow stops at the block
-    until the called flow finishes, and the value the called flow sends back with its Return Result
-    block becomes this block's result. With it off, this flow does not wait: it gets back only an
-    `executionId` - an identifier for the run it kicked off - and continues immediately, while the
-    called flow finishes on its own.
+    Call Flow lives in the Actions palette. Think of it as one flow handing part of its work to
+    another. When the flow reaches this block it starts a fresh run of the flow you chose - a separate
+    Instance with its own data - and the values you supply become that run's Initial Data, which the
+    called flow reads the same way it would the payload from its own trigger. The one real choice is
+    whether this flow waits for that run, set by ((Wait for completion)). If you need the called
+    flow's answer, leave it on: this flow pauses until the called flow finishes and takes back the
+    value from its Return Result block. That value becomes this block's result, read downstream
+    through the block's result alias - the ((Reference Result Data As)) name, {{Call Flow Result}} by
+    default - so a returned `{ "id": 88412 }` reads as {{Call Flow Result->id}} in the
+    Expression Editor. If you only need the work set in motion, turn it off: there is no result to
+    wait for, so instead the block hands back an `executionId`, an identifier for the run it started,
+    and this flow carries straight on while the called flow finishes on its own.
   when_to_use: >
     Reach for it when a piece of logic is worth keeping as its own flow and running from several
     places - creating a record, sending a notification, running a billing routine. Building that
     work once as a standalone flow and calling it keeps each flow shorter and means a fix lives in
-    one place instead of being copied around. Turn **Wait for Execution** on when you need what the
+    one place instead of being copied around. Turn ((Wait for completion)) on when you need what the
     called flow produces before this flow can carry on, and off when you only need to set the work
     in motion and do not care to wait for it - for example launching a long job you will check on
     later. If the reusable steps only ever run inside this one flow, a SubFlow keeps them inline
@@ -46,59 +51,69 @@ docs:
         record's id. You want to use it from a parent flow that is setting up an account, where an
         earlier block, Create IRA, has already produced the account it belongs to.
     - text: >
-        Add a Call Flow block, choose Create Beneficiary as the flow to run, and turn on **Wait for
-        Execution** so the parent flow waits and reads back the id. Then map the values the called
-        flow needs to start. Each row is a name paired with an expression: the name has to match a
-        value the called flow expects in its Initial Data, and the expression is where it comes from
-        here. Bind a row named deposit_id to the account id the earlier block produced:
+        Add a Call Flow block, set ((Flow)) to Create Beneficiary, and turn on ((Wait for
+        completion)) so the parent flow waits and reads back the id. Then map the values the called
+        flow needs to start under ((Initial Params)). Each row pairs a ((Property)) - the name the
+        called flow expects in its Initial Data - with a ((Value)), an expression that supplies it
+        from this flow. Bind a row named deposit_id to the account id the earlier block produced:
     - lang: text
       code: |
-        Flow to run:        Create Beneficiary
-        Wait for Execution: on
+        Flow:        Create Beneficiary
+        Wait for completion: on
 
-        Initial Data params:
-          deposit_id   <-  {{Create IRA Result:id->}}
+        Initial Params:
+          deposit_id   <-  {{Create IRA Result->id}}
           first_name   <-  {{Initial Data:beneficiary.firstName->}}
           last_name    <-  {{Initial Data:beneficiary.lastName->}}
     - text: >
         When the parent flow reaches this block, it starts a run of Create Beneficiary with those
         three values as its Initial Data, then pauses. Create Beneficiary writes its record and its
         Return Result block sends back the new id, say `{ "id": 88412 }`. That object becomes this
-        block's result, so the next block in the parent flow can read the id and go on to link the
-        beneficiary to the account. Had you turned **Wait for Execution** off instead, the block
-        would hand back an `executionId` right away and the parent flow would continue without
-        waiting for the beneficiary record to be written.
+        block's result under its alias - here the default {{Call Flow Result}}. The next block reads
+        the id straight from it: a Create Relationship block links the beneficiary to the account by
+        binding its owner field to {{Call Flow Result->id}} in the Expression Editor. Had
+        you turned ((Wait for completion)) off instead, the block would hand back an `executionId`
+        right away - there is no returned record to read yet - and the parent flow would continue
+        without waiting for the beneficiary record to be written.
     - image: ../images/reference/call-flow-config.png
       alt: >
         The Call Flow block configured to run the Email Sender flow, with Initial Params rows that pass values into the called flow.
   common: [name, result_alias, assign_variable, logging, notes]
   config:
-    - field: Flow to run
+    - field: Flow
       type: dropdown
       description: >
-        Required. The flow this block runs. Only flows that are LIVE - published and ready to run -
-        appear in the list and can be called.
-    - field: Initial Data params
+        Required. The flow this block runs, picked from a dropdown that lists all of your workspace
+        flows; the refresh icon beside it re-reads the list after you create a flow elsewhere. The
+        flow you call has to be LIVE (published) for the call to run - only a published flow can be
+        started, so a draft in the list cannot actually be invoked.
+    - field: Version
+      type: dropdown
+      description: >
+        Which version of the chosen flow to run. Once you pick a Flow, a Version selector appears
+        beside it listing that flow's versions (each marked with its state, e.g. READY); the call
+        runs the version you select.
+    - field: Initial Params
       type: repeatable name and expression
       description: >
-        The values handed to the called flow to start its run. Each row pairs a name, which has to
-        match a value the called flow expects in its Initial Data, with an expression that supplies
-        it from this flow.
-    - field: Wait for Execution
+        The values handed to the called flow to start its run. Each row pairs a Property - the name
+        the called flow expects in its Initial Data - with a Value, an expression that supplies it
+        from this flow.
+    - field: Wait for completion
       type: toggle
       description: >
         When on, this flow waits for the called flow to finish and this block's result is the value
         from the called flow's Return Result block. When off, this flow does not wait and the block
         returns an executionId for the run it started.
   produces_result: true
-  data_in: Initial Data params (each mapped from an expression).
+  data_in: ((Initial Params)) (each mapped from an expression).
   data_out: The called flow's Return Result when waiting, otherwise the executionId of the run it started.
   gotchas:
-    - "You can only call a flow that is LIVE. A flow still in draft does not appear in the list, so publish it before you try to call it."
-    - "What the block hands back depends on Wait for Execution. With it on, the result is the value from the called flow's Return Result block; with it off, the result is only an executionId - an identifier for the run, not the work it produced. If a later step expects the called flow's output, leave Wait for Execution on."
+    - "The dropdown lists every flow in your workspace, but the flow you call has to be LIVE (published) to run. If a call does nothing or errors, check that the target flow is published, not still in draft."
+    - "What the block hands back depends on ((Wait for completion)). With it on, the result is the value from the called flow's Return Result block, read downstream as {{Call Flow Result->}} (or {{Call Flow Result->field}} for one field). With it off, this flow does not pause for the run, so its result cannot be the called flow's output yet - it is only an executionId, an identifier for the run, not the work it produced. If a later step expects the called flow's output, leave ((Wait for completion)) on."
     - "If you are not waiting, the called flow runs on its own afterward, so this flow finishing does not mean the called flow has finished too."
-  cross_refs: [subflow, return-result, synchronize, initial-data-concept]
-  terminology: [Call Flow, Initial Data, Wait for Execution, executionId]
+  cross_refs: [subflow, return-result, synchronize]
+  terminology: [Call Flow, Initial Data, Wait for completion, executionId]
 
 assertions:
   - id: sync-returns-callee-result

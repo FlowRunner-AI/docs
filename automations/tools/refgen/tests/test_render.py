@@ -32,12 +32,12 @@ def test_related_links_resolve_known_ids(sample_record):
     assert "[Other Block](other-block.md)" in md
 
 
-def test_related_unknown_id_is_plain_text():
+def test_related_unknown_id_is_dropped():
     rec = {"id": "x", "name": "X", "category": "Utils",
-           "docs": {"purpose": "p", "cross_refs": ["nope-concept"]}}
-    md = render_page(rec, name_by_id={"x": "X"})
-    assert "nope-concept" in md
-    assert "[nope-concept]" not in md               # no dangling link
+           "docs": {"purpose": "p", "cross_refs": ["nope-concept", "y"]}}
+    md = render_page(rec, name_by_id={"x": "X", "y": "Y"})
+    assert "nope-concept" not in md                 # unresolved ref dropped, not a bare slug
+    assert "[Y](y.md)" in md                         # a resolvable ref still links
 
 
 def test_config_description_merges_help_tooltip(sample_record):
@@ -93,6 +93,62 @@ def test_self_name_never_linked_and_code_is_protected():
     assert '<span class="fr-block">Cool Block</span>' in md      # own name still styled
     assert "[HTTP Request](http-request.md){.fr-block}" in md    # prose mention linked + styled
     assert "// HTTP Request happens elsewhere" in md             # code mention untouched
+
+
+def test_config_field_name_not_linkified_but_description_is():
+    # A config field named like a block ("Condition") must NOT pill in the Field
+    # column, but a block name in the Description column still links.
+    rec = {"id": "x", "name": "X", "category": "Utils",
+           "docs": {"purpose": "p",
+                    "config": [{"field": "Condition",
+                                "description": "Mirrors the Condition block's test."}]}}
+    md = render_page(rec, name_by_id={"x": "X", "condition": "Condition"})
+    assert "| Condition |" in md                                 # field name stays plain
+    assert "[Condition](condition.md){.fr-block}" in md          # but the description links it
+    assert md.count("](condition.md)") == 1                      # only the description, not the field cell
+
+
+def test_concept_guide_links_plainly_never_as_a_block_pill():
+    # A concept guide is a page, not a canvas block: its mentions must link as
+    # ordinary prose (no green .fr-block pill), first mention only, plain text after.
+    rec = {"id": "x", "name": "X", "category": "Utils",
+           "docs": {"purpose": "See Error Handling for recovery; Error Handling covers strategy."}}
+    md = render_page(rec, name_by_id={"x": "X", "error-handling-concept": "Error Handling"},
+                     concept_ids={"error-handling-concept"})
+    assert "[Error Handling](error-handling-concept.md)" in md            # first mention: ordinary link
+    assert "(error-handling-concept.md){.fr-block}" not in md             # never a block pill
+    assert '<span class="fr-block">Error Handling</span>' not in md       # never a green span
+    assert md.count("](error-handling-concept.md)") == 1                  # only the first mention links
+
+
+def test_ui_component_markers_become_chips():
+    rec = {"id": "x", "name": "X", "category": "Utils",
+           "docs": {"purpose": "Open ((Manage Capabilities)), set the ((System Prompt)), then turn on ((Force Parsed Output)).",
+                    "gotchas": ["Leave ((Force Parsed Output)) off and the reply is plain text."]}}
+    md = render_page(rec, name_by_id={"x": "X"})
+    assert '<span class="fr-control">Manage Capabilities</span>' in md
+    assert '<span class="fr-control">System Prompt</span>' in md
+    # marked in both the lede and a gotcha (after the config block) - 2 chips
+    assert md.count('<span class="fr-control">Force Parsed Output</span>') == 2
+    assert "((" not in md and "))" not in md          # every marker consumed
+
+
+def test_marker_inside_code_is_left_literal():
+    rec = {"id": "x", "name": "X", "category": "Utils",
+           "docs": {"purpose": "p",
+                    "example": [{"lang": "text", "code": "result = ((not a chip))"}]}}
+    md = render_page(rec, name_by_id={"x": "X"})
+    assert "result = ((not a chip))" in md                          # code marker stays literal
+    assert '<span class="fr-control">not a chip</span>' not in md
+
+
+def test_marked_component_containing_a_block_name_not_split_by_linkify():
+    # "Wait for completion" contains the Wait block name; the chip must stay whole.
+    rec = {"id": "call-flow", "name": "Call Flow", "category": "Utils",
+           "docs": {"purpose": "Turn on ((Wait for completion)) to pause for the result."}}
+    md = render_page(rec, name_by_id={"call-flow": "Call Flow", "wait": "Wait"})
+    assert 'Turn on <span class="fr-control">Wait for completion</span> to pause' in md
+    assert '<span class="fr-block">Wait</span> for completion' not in md
 
 
 def test_behavior_item_with_example_renders_indented_fence():

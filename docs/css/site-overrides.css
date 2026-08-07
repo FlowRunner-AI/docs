@@ -240,10 +240,10 @@
 
 [data-md-color-scheme="slate"] .md-typeset .fr-block,
 [data-md-color-scheme="slate"] .md-typeset a.fr-block {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.13);
 }
 [data-md-color-scheme="slate"] .md-typeset a.fr-block:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 
@@ -296,4 +296,88 @@
   padding: 0.9rem 1rem;
   font-size: 0.78rem;
   line-height: 1.6;
+}
+
+
+/* ---------- CONTROL / BUTTON TOKENS (prototype) ----------
+
+   UI controls the reader clicks - buttons like Manage Capabilities or Delete -
+   carry `.fr-control` so they read as a pressable control. The cue is kept
+   deliberately distinct from the two cues already in use: block names are a
+   green `.fr-block` pill, product concepts (Initial Data) get a dotted glossary
+   underline, and plain field labels stay bold. A control is a neutral OUTLINED
+   chip - a border plus a faint surface fill, no new palette color - so it reads
+   as something you press without competing with the green block tokens. Both
+   tokens are scheme-aware, so light and dark render correctly.
+
+*/
+.md-typeset .fr-control {
+  font-weight: 400;
+  font-size: 0.9em;
+  color: var(--md-default-fg-color);
+  background: var(--fr-surface);
+  border: 1px solid var(--fr-border);
+  border-radius: 0.3em;
+  padding: 0.04em 0.42em;
+  white-space: nowrap;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+/* Dark scheme: the neutral chip has no accent color to lean on, so its faint
+   border/fill blend into body text. Lift the fill and brighten the outline so it
+   reads as a distinct pressable control against the dark page. */
+[data-md-color-scheme="slate"] .md-typeset .fr-control {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+
+/* ---------- EXPRESSION-EDITOR REFERENCE TOKENS ----------
+
+   A value that goes into a field through the Expression Editor is a token you
+   INSERT - never text you type or paste. It earns its own cue so a reader learns
+   that by sight: a rounded pill with a leading wand glyph, nodding to the wand
+   that opens the editor, deliberately unlike the monospace `code` used for typed
+   literals, the filled green .fr-block pill, and the square outlined .fr-control
+   chip. Authored as {{...}} in the source; refgen renders prose {{...}} as this
+   chip. Scheme-aware: the light pill leans on the brand green, the dark pill on
+   the dark-scheme gold accent, so it reads as its own token in both.
+
+*/
+:root {
+  --fr-wand: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72'/%3E%3Cpath d='m14 7 3 3'/%3E%3Cpath d='M5 6v4'/%3E%3Cpath d='M19 14v4'/%3E%3Cpath d='M10 2v2'/%3E%3Cpath d='M7 8H3'/%3E%3Cpath d='M21 16h-4'/%3E%3Cpath d='M11 3H9'/%3E%3C/svg%3E");
+}
+.md-typeset .fr-expr {
+  font-weight: 500;
+  font-size: 0.92em;
+  color: var(--fr-accent);
+  background: var(--fr-surface);
+  border: 1px solid rgba(31, 68, 56, 0.5);
+  border-radius: 1em;
+  padding: 0.03em 0.55em 0.03em 0.4em;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(31, 68, 56, 0.12);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.md-typeset .fr-expr::before {
+  /* The exact Lucide wand-sparkles icon FlowRunner puts on every expression-enabled
+     input, so the token wears the same wand that opens the editor. Drawn as a mask
+     tinted to the token's own color, so it tracks the accent in light and dark. */
+  content: "";
+  display: inline-block;
+  width: 0.82em;
+  height: 0.82em;
+  margin-right: 0.38em;
+  vertical-align: -0.09em;
+  background-color: currentColor;
+  opacity: 0.85;
+  -webkit-mask: var(--fr-wand) no-repeat center / contain;
+  mask: var(--fr-wand) no-repeat center / contain;
+}
+[data-md-color-scheme="slate"] .md-typeset .fr-expr {
+  color: var(--fr-accent);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(212, 167, 106, 0.55);
+  box-shadow: none;
 }

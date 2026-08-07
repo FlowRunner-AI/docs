@@ -24,9 +24,12 @@ docs:
     while the condition is true it runs the steps inside once more, then checks again. The moment
     the check comes back false, the loop stops and the flow moves on. Because the same steps run each
     pass, something inside the loop has to change a value the condition depends on - otherwise the
-    check would stay true forever. So the loop also carries a failsafe: a cap on how many passes it
-    will ever make, which stops it even if the condition never turns false. The pass count is
-    available inside the loop as `Current Iteration Number`, counting up from 0 on the first pass.
+    check would stay true forever. So the loop also carries a failsafe, the ((Maximum Iteration Count)): a
+    cap on how many passes it will ever make, which stops it even if the condition never turns false.
+    The loop also exposes its pass count, which you read through the Expression Editor as
+    {{Current Iteration Number}} - a Flow Context value you can use in the Repeat condition or in any
+    block inside the loop. It counts up from 0 on the first pass. (Do not confuse it with the block's
+    ((Current Iteration)) field, which only sets the number that count starts from, normally 0.)
   when_to_use: >
     Reach for it when you need to repeat work an unknown number of times until something becomes
     true - polling a status until it is finished, retrying a call until it succeeds, or building a
@@ -41,19 +44,24 @@ docs:
         The plan is to keep checking the order's status until it reads "shipped", pausing between
         checks so you are not hammering the service.
     - text: >
-        First, outside the loop, a Set Variables block reads the order's starting status into a
-        Data Bucket variable named Order Status, seeded with its initial value of "processing". The
-        Repeat block's Condition then checks that variable: keep looping while Order Status is not
-        "shipped".
+        First, drag in the Repeat block from the palette's Utils category. Outside the loop, a Set
+        Variables block reads the order's starting status into a Data Bucket variable named Order
+        Status, seeded with its initial value of "processing". The Repeat block's ((Condition)) then
+        checks that variable: keep looping while Order Status is not "shipped".
     - lang: text
       code: |
         Condition:  Order Status   not equals   "shipped"
-        Max Iterations (failsafe):  20
+        Maximum Iteration Count:  20
     - text: >
         Inside the loop you build a pause followed by a fetch-and-store. A Wait block pauses for 30
         seconds so the service has time to make progress, and then an HTTP Request block re-fetches
         the order and a Set Variables block writes the fresh status back into Order Status. Each pass
         the loop re-checks the condition against that updated value.
+    - image: ../images/reference/repeat-config.png
+      alt: >
+        The Repeat block stepped into (the canvas header reads Block "Repeat", with a RETURN button to
+        come back out), showing its loop body: a Start node followed by a Wait, an HTTP Request, and a
+        Set Variables block wired in sequence - the steps that run on each pass of the loop.
     - text: |
         Here is how it plays out for an order that ships on the third check:
 
@@ -65,9 +73,6 @@ docs:
         The flow carries on with Order Status holding "shipped". Had the service stalled and never
         shipped, the failsafe of 20 would have stopped the loop after 20 passes rather than letting
         it run forever, and the flow could then handle the timeout however you choose.
-    - image: ../images/reference/repeat-config.png
-      alt: >
-        The Repeat block configured: its loop condition checks that Initial Data status DOES NOT EQUAL completed, so the steps inside repeat while the status is not completed.
   common: [name, notes]
   config:
     - field: Condition
@@ -75,25 +80,32 @@ docs:
       description: >
         Required. The loop keeps running while this is true and stops the moment it is false. It is
         re-checked before every pass, so a step inside the loop must change something the condition
-        looks at, or the loop would never stop on its own. In the product this is called the
-        Repeat While condition.
-    - field: Max Iterations (failsafe)
+        looks at, or the loop would never stop on its own.
+    - field: Maximum Iteration Count
       type: number
       default: 10000
       description: >
         A hard cap on the number of passes, defaulting to 10000. The loop stops when it reaches this
         many passes even if the condition is still true - a safety net against a loop that never
         ends. Set it to a sensible number for your case while you are building the flow.
+    - field: Current Iteration
+      type: number
+      default: 0
+      description: >
+        The number the pass count starts from, normally 0. This is a starting value you set, not the
+        running count you read back - the running count is the Flow Context value
+        {{Current Iteration Number}}, which the loop updates each pass.
   produces_result: true
   data_in: The condition (+ whatever the body reads/writes).
   data_out: Aggregated loop result.
   gotchas:
-    - "The pass count, available inside the loop as `Current Iteration Number`, starts at 0 on the first pass, not 1."
+    - "The pass count you read as {{Current Iteration Number}} starts at 0 on the first pass, not 1."
+    - "Repeat does not hand back a useful result of its own - you do not read a Repeat result downstream. Its effect is whatever its body wrote: in the example the loop leaves Order Status holding \"shipped\", and the flow reads that variable, not the loop."
     - "A step inside the loop has to change something the condition checks. If nothing inside ever makes the condition false, the loop runs until it hits the failsafe."
     - "Always set the failsafe to a sensible number while you build the flow, so a mistake in the condition cannot leave the loop running far longer than you intended."
-    - "The loop needs steps inside it to do anything; step into it (hover the loop and choose Expand) to build the loop body, and use Return at the top-left to come back out."
+    - "The loop needs steps inside it to do anything; step into it (hover the loop and choose ((Expand))) to build the loop body, and use ((Return)) at the top-left to come back out."
   cross_refs: [list-iterator, condition, set-variables, wait, break]
-  terminology: [Repeat, Current Iteration Number, Failsafe Protection Count]
+  terminology: [Repeat, Current Iteration Number, Maximum Iteration Count]
 
 help_tooltips:   # verbatim from product UI (i.fa-circle-question on hover)
   Maximum Iteration Count: "Set the maximum iteration limit to interrupt the Repeat While loop. Useful for preventing endless loops if the logic does not exit as expected."

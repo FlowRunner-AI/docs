@@ -1,11 +1,24 @@
 <!-- GENERATED FILE - do not edit. Source: block-knowledge/condition.yaml. Regenerate: make refgen -->
+<!-- doclint: allow-unlinked: Condition -->
 # Condition
 
-This block tests a value and splits the flow into two paths based on the answer. The test either passes or fails, and the flow continues down the matching path.
+This block lets you gate, guard, or fork a flow on a yes-or-no test. Ask a question about a value - is this order over 1000 dollars, is this record valid, is the box checked - and only the runs that match go down one path while everything else branches the other way.
 
 ## How it works
 
-It is a yes-or-no fork in the flow. You give it a value to check, tell it what type that value is, and pick the comparison to run against it - for example whether a number is greater than another, or whether a checkbox is on. That comparison comes out true or false. A true result sends the flow down the block's **Yes** path; a false result sends it down the **No** path. Both paths leave the block, and you build different steps on each, so the flow does one thing when the test passes and another when it fails. You can also test several things at once: add more parts and join them with AND or OR, and use the brackets to control which parts are grouped together when they are weighed up.
+A <span class="fr-block">Condition</span> is a fork in the flow built around a single yes-or-no question. You frame the
+question - is this amount greater than 1000, is this status equal to cancelled, is this flag on -
+and when a run reaches the block, the question comes out either true or false. True sends that run
+down the block's Yes path; false sends it down the No path. The two paths leave the block
+separately, and you build different steps on each, so the flow handles a match one way and
+everything else another. That is the whole idea: one question, two ways out.
+
+The question does not have to be a single test. You can ask several things at once and weigh the
+answers together - is the amount over 1000 *or* is the order expedited, is the record valid *and*
+is the customer active. Each extra test joins the ones before it with AND or OR, and brackets let
+you group tests so you control which ones are weighed together before the rest. The run still comes
+out with one answer, true or false, and still leaves by Yes or No - the multi-part test
+lets a single fork stand in for a question too involved to phrase in one comparison.
 
 ## When to use it
 
@@ -24,22 +37,47 @@ Suppose a flow processes an order, and an earlier step left the order details in
 }
 ```
 
-Add a <span class="fr-block">Condition</span> and set its **Value to Check** to the order amount, read from Initial Data. Set **Value Data Type** to INT, since the amount is a whole number, then pick the **Operation** GREATER THAN and set the value to compare against to 1000. That is the whole test: is the amount greater than 1000?
+Add a <span class="fr-block">Condition</span> - it lives in the Utils group of the block palette - and set its <span class="fr-control">Value to Check</span> to the order amount, read from Initial Data. Set <span class="fr-control">Value Data Type</span> to INT, since the amount is a whole number, then pick the <span class="fr-control">Operation</span> GREATER THAN and set the value to compare against to 1000. That is the whole test: is the amount greater than 1000?
 
-For this order the amount is 1450, so the test is true and the flow takes the **Yes** path - where you place the manual approval step. An order with an amount of 600 would come out false and take the **No** path, where you place the steps that fulfill it straight away.
+![The Condition block selected on the canvas with its configuration panel: Value to Check is the expression for Initial Data amount, Value Data Type is INT, Operation is GREATER THAN, and Value is 1000. The block's Yes and No outputs each lead on to a Set Variables block.](../images/reference/condition-config.png)
 
-Now suppose approval should also kick in for any expedited order, whatever its size. Instead of a second <span class="fr-block">Condition</span>, add a second part to this one: keep the amount check as the first part, add a part that checks the expedited flag (**Value Data Type** BOOLEAN/CHECKBOX, **Operation** IS TRUE), and join the two parts with OR. The **Yes** path now runs whenever the amount is over 1000 or the order is expedited, and only orders that are both small and not expedited fall through to the **No** path.
+For this order the amount is 1450, so the test is true and the flow takes the Yes path - where you place the manual approval step. An order with an amount of 600 would come out false and take the No path, where you place the steps that fulfill it straight away.
 
-![The Condition block configured on the canvas: Value to Check reads Initial Data status, Value Data Type is STRING, Operation is EQUALS, and Value is cancelled.](../images/reference/condition-config.png)
+Now suppose approval should also kick in for any expedited order, whatever its size. Instead of a second <span class="fr-block">Condition</span>, add a second part to this one with the <span class="fr-control">+</span> control: keep the amount check as the first part, add a part that checks the expedited flag <span class="fr-control">Value Data Type</span> BOOLEAN / CHECKBOX, <span class="fr-control">Operation</span> IS TRUE, and join the two parts with OR. The Yes path now runs whenever the amount is over 1000 or the order is expedited, and only orders that are both small and not expedited fall through to the No path.
+
+A <span class="fr-block">Condition</span> routes the flow by its Yes and No paths, so most of the time the place each path leads to already tells you the answer and you never read the result by hand. The block still stores the outcome, though: it sets <span class="fr-control">Reference Result Data As</span> so the true-or-false result is available downstream under the alias <span class="fr-expr">Condition Result</span>. That is useful when a later step needs to record or react to which way the fork went without sitting on a single branch - a block further down the flow reads it in the Expression Editor as <span class="fr-expr">Condition Result</span>, which resolves to true or false.
+
+## Asking AI instead of comparing
+
+Every <span class="fr-control">Value Data Type</span> offers one more operation after its comparisons: AI QUESTION.
+Instead of testing the value against something fixed, you ask a model a yes-or-no question
+about it. Pick AI QUESTION as the <span class="fr-control">Operation</span> and three settings appear:
+
+- **Yes/No Question** - the question, in plain language: "Is the customer asking for a
+  refund?".
+- **AI Model** - the model that answers, picked from a provider-grouped list.
+- **AI API Key** - the key the call runs on; the field unlocks once a model is picked and
+  offers your saved key setups.
+
+The model reads the value in <span class="fr-control">Value to Check</span> and answers the question about it. True
+takes the Yes path and false takes the No path, exactly like a comparison. In a multi-part
+condition the <span class="fr-control">AI Model</span> and <span class="fr-control">AI API Key</span> are set once for the whole block - every
+AI QUESTION part uses the same model and key.
+
+An AI QUESTION costs a model call on every run, and the same question can occasionally
+come back with a different answer. Keep it for judgments a fixed comparison cannot make,
+and let the comparisons handle everything exact.
+
+![A Refund Question block (Condition) after a test run on a refund request: the block and the Flag For Refund Team block on its Yes exit carry success checkmarks, Mark As Routine on the No exit is marked skipped. The configuration panel shows Value to Check bound to the Initial Data message, Value Data Type STRING, Operation AI QUESTION, the question "Is the customer asking for a refund?", a Claude model, and a saved key setup.](../images/build/ai-question-refund-check.png)
 
 ## Configuration
 
 | Field | Description |
 | --- | --- |
 | Value to Check | Required. The value the test runs against - usually an expression that reads from a previous block's result, Initial Data, or a Data Bucket variable. |
-| Value Data Type | Required. The kind of value you are checking, such as STRING, INT, DOUBLE, BOOLEAN/CHECKBOX, DATETIME, IMAGE, or a JSON object or array. The available comparisons depend on this choice, so a number offers GREATER THAN while a checkbox offers IS TRUE. |
+| Value Data Type | Required. The kind of value you are checking, such as STRING, INT, DOUBLE, BOOLEAN / CHECKBOX, DATETIME, JSON OBJECT, or JSON ARRAY. The available comparisons depend on this choice, so a number offers GREATER THAN while a checkbox offers IS TRUE. |
 | Operation | Required. The comparison to run against the value, for example GREATER THAN, EQUALS, IS TRUE, or IS NOT EMPTY. Comparisons that take a second value - such as EQUALS - show a field where you supply the value to compare against. |
-| Parts | Additional sub-tests added with the plus control. Each part is its own value, type, and comparison. Parts are joined with AND or OR, and brackets group parts so you control which ones are weighed together. |
+| Parts | Additional sub-tests added with the <span class="fr-control">+</span> control. Each part is its own value, type, and comparison. Parts are joined with AND or OR, and brackets group parts so you control which ones are weighed together. |
 
 **Common settings** (available on most blocks):
 
@@ -52,11 +90,10 @@ Now suppose approval should also kick in for any expedited order, whatever its s
 ## Things to watch for
 
 - The Yes path runs when the test is true and the No path runs when it is false. Both paths leave the block; if you build steps on only one of them, the other case quietly leaves the flow with nothing to do.
-- The comparisons offered depend on the Value Data Type you choose, so set the type to match the value. Checking a number as a STRING, for example, compares it character by character rather than by size, which can give a surprising answer.
+- The comparisons offered depend on the <span class="fr-control">Value Data Type</span> you choose, so set the type to match the value. Checking a number as a STRING, for example, compares it character by character rather than by size, which can give a surprising answer.
 - With several parts, the AND or OR connector between them can be switched, and the brackets decide which parts are grouped. With a mix of AND and OR, the grouping changes the outcome, so set the brackets deliberately rather than leaving the default.
 
 ## Related
 
 - [Value Router](value-router.md)
 - [AI Router](ai-router.md)
-- expression-editor

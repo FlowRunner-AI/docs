@@ -16,10 +16,17 @@ docs:
   purpose: >
     Placed inside a loop, this block ends the loop early: when the flow reaches it, the loop
     stops and the flow carries on after it, leaving any not-yet-processed items untouched.
-  mental_model: >
-    It is the loop's exit. You put it inside a List Iterator or Repeat loop, usually right after
-    a Condition, so that when that condition is met and the flow reaches the Break, the loop
-    stops there instead of running through every remaining item.
+  mental_model: |
+    Think of it as the loop's early exit. You rarely want every iteration once you have found what
+    you came for, so you fire the Break the moment you have it - which is why it almost always sits
+    behind a Condition that decides when "done enough" is true. Reaching it drops you out of the
+    loop and on to whatever follows.
+
+    Break breaks the loop it sits inside - the nearest enclosing one. If you have nested loops, it
+    ends only the inner loop and the outer loop keeps going, because the block belongs to whichever
+    loop currently surrounds it. It hands nothing back either: there is no result to read after a
+    Break, so nothing downstream references it - its whole job is to change where the flow goes
+    next, not to produce a value. You will find Break in the palette's Utils group.
   when_to_use: >
     Use it when you do not always need to finish the whole loop: stop as soon as you have found
     the item you were looking for, hit a situation where you should bail out, or reached a limit
@@ -33,11 +40,14 @@ docs:
     - text: >
         Break lives inside a List Iterator or Repeat loop, usually right after a Condition: when the
         flow reaches it, the loop stops. The block itself has almost nothing to configure - just a
-        name and notes:
+        ((Name)) for the canvas and optional ((Notes)). It exposes no result, so unlike most blocks
+        there is no output alias to read afterwards; the screenshot below shows the whole panel:
     - image: ../images/reference/break-config.png
       alt: >
-        The Break block with its configuration panel. Break has only a Name and Notes - it ends the
-        surrounding Repeat or List Iterator loop the moment the flow reaches it.
+        The Break block selected inside a Repeat loop's body (the canvas header reads Block "Repeat"),
+        wired on the Yes path of a Condition that follows a Set Variables step, with its configuration
+        panel - which holds only a Name and Notes, since Break ends the surrounding loop the moment the
+        flow reaches it and exposes no result.
   common: [name, notes]
 
 behavior:

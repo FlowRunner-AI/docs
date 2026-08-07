@@ -1,123 +1,62 @@
 ---
 icon: material/flower-tulip
 ---
+# What is FlowRunner?
 
-# What is FlowRunner™?
+The world is moving to AI agents, and you can create one almost anywhere - in your own Claude or ChatGPT account, inside the tools you already run like Intuit's QuickBooks, in nearly every app racing to add them. Before long everyone will have their own agents, and a single team will run hundreds.
 
-FlowRunner™ is a visual workflow automation platform with native AI agent orchestration. Build workflows that run autonomously or incorporate human oversight at designated decision points.
+That is where it turns into chaos: agents spun up all over the place, each acting on its own, with no single place to run them, connect them, keep a person in the loop, or account for what they did.
 
-<iframe style="width: 100%; aspect-ratio: 16 / 9;" src="https://www.youtube.com/embed/v4T3lDDu-0A?si=zBpNWiMPHDFOi_Zq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+**FlowRunner is where you bring that under control.** It is a platform to configure, run, and orchestrate AI agents - your own and the ones your tools hand you - inside processes you can see end to end, wire to real services, pause for a person when a decision carries weight, and audit once they are done. The agents do the thinking; FlowRunner gives them somewhere to run, tools to reach for, and someone to answer to.
 
-## What FlowRunner™ Does
+You build that orchestration as **flows**. Here is one that runs on its own - it sorts incoming form submissions, using an [AI Router](reference/ai-router.md){.fr-block} to read each request and route it to the right team: Billing, Engineering, or a general inbox.
 
-FlowRunner™ orchestrates automated workflows that combine AI agents, human decision-making, and system integrations. Both technical and non-technical users can build workflows. Non-technical users work through the visual interface while technical users can leverage custom code and advanced integrations.
+![A flow on the FlowRunner canvas: a Form Submitted Trigger feeds a Submission Intent AI Router that branches three ways - Billing to a Submit Inquiry to Billing Dept step, Technical to Route to Engineering via Slack, and Everything Else to Send a General Inquiry Email through Gmail.](images/welcome/welcome-flow.png)
 
-<div class="grid cards" markdown>
+## What is a flow?
+<!-- doclint: no-shot: overview section; the hero above shows a real flow, and Blocks carries the detailed shots -->
 
--   :material-robot:{ .lg .middle } Automate with AI Agents
+A flow is a business process laid out as steps, and each step is a block with one job. An [HTTP Request](reference/http-request.md){.fr-block} calls a service; a [Transform Data](reference/transform-data.md){.fr-block} reshapes a value; a [Condition](reference/condition.md){.fr-block} asks a yes-or-no question and forks the flow two ways; a [List Iterator](reference/list-iterator.md){.fr-block} runs a set of steps over every item in a list. You add blocks from a wide palette and connect them, and the wiring is rarely a straight line: it branches, loops, runs steps in parallel, and rejoins.
 
-    ---
+Alongside the built-in blocks, a large library of connectors for outside services - Airtable, Stripe, Slack, and many more - is there with nothing to install. Your own flows appear as blocks too, so you build a piece once and call it from anywhere. [Blocks](learn/concepts/blocks.md) covers the block library and how one block's result feeds the next.
 
-    AI agents handle complex decision-making within your workflows, making intelligent choices based on workflow context and coordinating with other agents.
+## How a flow runs
 
-    [:octicons-arrow-right-24: Configure AI agents](reference/ai-agent.md)
+A flow starts when something sets it off, and the data it begins with is its **Initial Data** - the form submission, the API payload, the record that triggered the run. From there the blocks run in the order you wired them. Each block produces a **result**, and that result does not disappear when the block finishes: it joins a growing pool of values the run carries - every result so far, the Initial Data, and any shared memory - that any later block can read through the [Expression Editor](learn/concepts/expressions.md).
 
--   :material-draw:{ .lg .middle } Build Visually
+Every run is an **instance** of the flow: its own execution, with its own data, independent of every other run. If fifty tickets arrive at once, fifty instances run side by side, each handling its own ticket. You test a flow before it goes live, watch its instances as they run, and open any one to see the exact path it took and the data it carried. [Flows and Instances](learn/concepts/flows-and-instances.md) goes into this.
 
-    ---
+## Agents and people, inside the flow
+<!-- doclint: no-shot: conceptual; the agent-and-human shape is pictured in the hero above, with detail on the AI in Flows and callback pages -->
 
-    Create workflows through a drag-and-drop interface without writing code. Design multi-branched flows with parallel execution and reusable components.
+Say a flow handles an incoming support ticket. An [AI Agent](reference/ai-agent.md){.fr-block} reads the ticket and drafts a reply, drawing on a knowledge base of your own help articles to get the details right. Because the reply is going to a customer, the flow does not send it straight away - it pauses and waits for a support lead. If the lead approves, the flow sends the reply and closes the ticket; if it needs work, the agent revises and the lead takes another look.
 
-    [:octicons-arrow-right-24: Working with blocks](flow-editing/workingwithblocks.md)
+That flow leans on two capabilities worth understanding early:
 
--   :material-account-supervisor:{ .lg .middle } Add Human Oversight
+- An **AI agent** is a block you can give tools - your other flows, a knowledge base of your content, the blocks around it - and memory that carries from one run to the next, so it works with the full context of the flow. [AI in Flows](build/ai-in-flows.md) covers building with agents.
+- A flow can **wait for a person**. At a step that needs human judgment it pauses, reaches the right person, and picks up where it left off when they answer. [Waiting on an External System](build/flow-control/external-callbacks.md) covers how a flow pauses and resumes.
 
-    ---
+Everything either kind of block does is recorded, so a finished instance is a record you can review and audit.
 
-    Insert human decision points at any workflow step. Contact people through email, Slack, WhatsApp, or phone with full context for informed decisions.
+## The flexibility to model any process
+<!-- doclint: no-shot: differentiators overview; each capability is deep-linked to the block reference that shows it -->
 
--   :material-sitemap:{ .lg .middle } Coordinate Multiple Agents
+Real processes are not tidy, and a flow does not force them to be. A handful of capabilities let a flow match the shape of the work, however involved it gets.
 
-    ---
+- **Start with any block.** A flow does not have to begin with a trigger. Any block can be its first step - a plain action you run on demand, a scheduled job, a form, an incoming API call - and the data it starts with arrives as its Initial Data. You are never forced to model a process around one kind of starting event.
+- **Branch as wide as the decision.** A [Condition](reference/condition.md){.fr-block} forks the flow two ways; a [Value Router](reference/value-router.md){.fr-block} sends a value down one of many named paths; an [AI Router](reference/ai-router.md){.fr-block} reads a message in plain language and picks the path itself. Branches nest and loop, so the flow follows the real decision tree, however many ways it forks.
+- **Run in parallel, then regroup.** Fan a flow out into branches that run at the same time - three service calls that do not depend on each other, say - and bring them back together with a [Synchronize](reference/synchronize.md){.fr-block} block that waits for all of them before the flow moves on. A Max Waiting Time keeps one stuck branch from holding the flow forever.
+- **Pause for as long as it takes.** A flow can stop mid-run and wait on the outside world - a customer to approve a quote, a payment to clear, a document to finish - and resume the instant that answer arrives, exactly where it left off. The wait is long-lived: a run can hold for up to a year (30 days on the Growth plan), so "wait for a human" can mean minutes or months.
+- **Bring in any service through MCP.** Register a Model Context Protocol server once, and its whole catalog of tools becomes blocks you drop into flows and tools your agents can call on their own - no building, no hosting, no glue code.
 
-    Orchestrate teams of AI agents working together on complex tasks. Agents can invoke human oversight when needed and access tools through Model Context Protocol.
+## Build with no code, or with code
+<!-- doclint: no-shot: short conceptual section; the Custom Cloud Code shots live on its reference page -->
 
--   :material-shield-check:{ .lg .middle } Track Compliance
+Most of a flow you build without writing anything - add blocks, fill in their fields, wire the path. Where a step needs more than the blocks provide, a [Custom Cloud Code](reference/custom-cloud-code.md){.fr-block} block runs code you write, and you can package your own blocks as [custom actions](extend/custom-actions.md) that appear alongside the built-in ones. A single flow can mix both freely.
 
-    ---
+## Start here
 
-    Built-in audit trails, SLA monitoring, role-based access control, and compliance reporting ensure your workflows meet regulatory requirements.
-
-    [:octicons-arrow-right-24: Compliance monitoring](flow-execution/compliance.md)
-
--   :material-api:{ .lg .middle } Bring Your Own Keys
-
-    ---
-
-    Use your own API keys for AI services. FlowRunner™ supports multiple AI providers, giving you flexibility and control over your AI infrastructure.
-
-    [:octicons-arrow-right-24: Configure API keys](reference/ai-agent.md#configuring-the-ai-agent-block)
-
-</div>
-
-## Core Platform Capabilities
-
-<div class="grid cards" markdown>
-
--   :material-brain:{ .lg .middle } AI Agent Orchestration
-
-    ---
-
-    FlowRunner™ treats AI agents as first-class workflow components. Agents make decisions based on workflow context, coordinate with other agents, invoke human oversight when needed, and access tools through Model Context Protocol (MCP).
-
-    [:octicons-arrow-right-24: Giving agents tools](reference/ai-agent.md#giving-your-agent-tools)
-
--   :material-account-question:{ .lg .middle } Human-in-Loop Workflows
-
-    ---
-
-    Add human oversight anywhere in your workflow. AI agents can pause execution, contact humans through their preferred channel, and resume after receiving input. Humans receive full context for decision-making.
-
--   :material-view-grid-plus:{ .lg .middle } Visual Workflow Building
-
-    ---
-
-    Design workflows through a visual interface with multi-branched flows, parallel execution, workflow groups for organization, branch synchronization, reusable SubFlows, and workflows as callable actions.
-
-    [:octicons-arrow-right-24: Data flow in workflows](flow-editing/dataflow.md)
-
--   :material-file-document-check:{ .lg .middle } Compliance and Governance
-
-    ---
-
-    Automatic audit trail logging, SLA tracking and monitoring, role-based access control (RBAC), single sign-on (SSO) support, and built-in compliance reporting.
-
-    [:octicons-arrow-right-24: Compliance features](flow-execution/compliance.md)
-
--   :material-cloud-upload:{ .lg .middle } Deployment Options
-
-    ---
-
-    Deploy FlowRunner™ in the cloud or self-host on your infrastructure. Both deployment models provide full feature parity with no feature degradation.
-
-</div>
-
-## Who Uses FlowRunner™
-
-FlowRunner™ serves organizations that need automated workflows with AI decision-making, reliable human oversight of automated processes, compliance capabilities for regulated environments, multi-agent orchestration, and flexible workflow development approaches.
-
-Business users and citizen developers build workflows visually without coding knowledge. Technical users and developers leverage custom code, advanced integrations, and API access for complex workflows. Hybrid teams combine both approaches, with technical and non-technical users collaborating on automation projects within the same platform.
-
-## Development Approaches
-
-FlowRunner™ supports multiple development methods to fit your team's skills and requirements. Build entirely through the visual interface (no-code), combine visual building with custom code (low-code), or develop workflows programmatically when needed (code-first). Choose the approach that works best for your team.
-
-## What You'll Learn
-
-This guide covers setting up your first workflow, configuring AI agents, adding human oversight points, managing workflow state and errors, building custom integrations, and monitoring and compliance reporting. Navigate through the chapters using the sidebar. Each section includes practical examples and code samples where applicable.
-
-## Getting Started
-
-Start with the [Installation Guide](#) to set up FlowRunner™, then proceed to [Building Your First Workflow](#) to create your first automation.
-
-For technical implementation details, see the [Developer Reference](#). For visual workflow building, see [Workflow Builder Guide](#).
+- **New to FlowRunner** - the [Quick Start](learn/quickstart.md) builds your first flow end to end.
+- **The core ideas** - [Core Concepts](learn/concepts/flows-and-instances.md) covers flows and instances, blocks, triggers, variables, expressions, subflows, and shared memory.
+- **Building** - the [visual editor](build/flow-editor.md) is where you assemble a flow, and the Build guides go deep on data, control flow, AI, and integrations.
+- **Every block** - the [Block Reference](reference/ai-agent.md) documents each block you can place, one page each.

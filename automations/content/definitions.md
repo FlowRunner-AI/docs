@@ -7,36 +7,36 @@ This chapter defines the key terms used throughout the FlowRunner™ documentati
 
 ## Flow Concepts
 
-- **Flow** - A flow is an automated process that executes a series of actions based on defined logic. Flows can run autonomously or include human oversight at designated points.
+- **Flow** - An automated process that runs a series of blocks based on defined logic. A flow can run on its own or pause for human input at designated points. See [Flows and Instances](learn/concepts/flows-and-instances.md).
 
-- **Flow Version** - Each flow can have multiple versions. Only one version can be active at a time. To modify an active flow, clone the current version, make your changes, stop the old version, and start the new one. You cannot edit a running flow version.
+- **Flow Version** - A flow can have several versions, but only one is **LIVE** at a time. You do not edit a running version in place; you clone it, change the copy, and switch the LIVE version over.
 
-- **Flow Instance** - A flow instance is a single execution of a flow version. When a flow version is in `LIVE` state, it can be instantiated. Each instance maintains its own execution context and data. Instances are created by schedules (see [Scheduled Flows](./flow-management/scheduledflows.md)), events that activate triggers, or the [Call Flow API](./flow-execution/overview.md#callflow-commandapi).
+- **Flow Instance** - A single run of a flow version. A version creates instances only while it is **LIVE**; each instance carries its own data and its own Instance ID. Instances start on a [schedule](reference/flow-scheduling-concept.md), when a [trigger](learn/concepts/triggers.md) fires, or when something calls the flow with [Call Flow](reference/call-flow.md).
 
 ## Flow Components
 
-- **Block** - Blocks are the building components of flows. Block types include triggers, actions, transformers, and conditions.
+- **Block** - The building unit of a flow. Blocks are grouped by the kind of work they do - triggers, actions, AI steps, flow-control utilities, groups, and subflows. See [Blocks](learn/concepts/blocks.md).
 
-- **Trigger** - A trigger pauses flow execution until a specified event occurs. Examples include form submissions, API webhooks, or scheduled times. Triggers can be placed at any point in a flow.
+- **Trigger** - How a flow reacts to an event in the outside world - a form submission, an incoming webhook, a scheduled time. A trigger either starts a new run of the flow or resumes one that was waiting. See [Triggers](learn/concepts/triggers.md).
 
-- **Action** - An action performs a task within a flow. Actions can send emails, call APIs, generate reports, or execute custom code. Actions receive input data, process it, and pass results to subsequent blocks.
+- **Action** - A block that performs a task within a flow - calling a service, sending a message, running custom code. An action reads its input, does its work, and exposes a result that later blocks can read.
 
-- **Transformer** - A transformer modifies data as it moves through a flow. Use transformers to extract values, convert formats, or manipulate data structures.
+- **[Transform Data](reference/transform-data.md)** - A utility block that reshapes a value as it moves through a flow - extracting fields, converting formats, sorting or filtering a list.
 
-- **Condition** - A condition creates branching logic in a flow. The flow takes different paths based on whether the condition evaluates to true or false.
+- **[Condition](reference/condition.md)** - A utility block that creates branching logic: the flow takes one of two paths depending on whether its test evaluates to true or false.
 
-- **Groups** - Groups are container blocks that organize other blocks. FlowRunner™ supports two group types: Trigger Group (contains multiple triggers) and Action Group (contains multiple actions).
+- **Loops** - Container blocks that run a set of inner steps more than once. FlowRunner™ has two: a [List Iterator](reference/list-iterator.md), which runs its steps once for every item in a list, and a [Repeat](reference/repeat.md), which keeps running its steps for as long as a condition you set stays true.
+
+- **Groups** - Container blocks that hold and run other blocks. FlowRunner™ has two: an [Actions Group](reference/actions-group.md), which runs several actions together, and a [Triggers Group](reference/triggers-group.md), which holds several triggers.
 
 ## Flow Development
 
-- **Flow Editor** - The Flow Editor is the visual interface for building and editing flows. It provides a drag-and-drop workspace for designing automation logic.
+- **Flow Editor** - The visual, drag-and-drop workspace where you build and edit a flow by placing blocks and wiring them together.
 
-- **Test Mode** - Test Mode runs flows with test data before deployment. Use it to validate flow logic and identify issues before activating a flow version.
+- **Test Mode** - Testing built into FlowRunner's Flow Editor, not a separate mode you switch into. Right where you build a flow, you run the whole flow - or a single block - with test data, to check its logic and see what it produces before you set the version **LIVE**.
 
 ## Compliance and Monitoring
 
-- **SLA Condition** - An SLA condition defines performance benchmarks for workflows. FlowRunner™ monitors these conditions and tracks compliance.
+- **SLA Goal** - A service-level target a flow's runs are measured against, such as "done within four hours". You set a flow's goals on its SLA Goals tab, and FlowRunner™ tracks whether each run meets them. See [Compliance and Security](platform/compliance-and-security.md).
 
-- **Non-compliance Rules** - Non-compliance rules specify actions to take when a flow fails to meet SLA conditions. These rules automate response to performance issues.
-
-- **SLA Configurator** - The SLA Configurator is a tool in the Flow Editor for defining SLA conditions and non-compliance rules. Use it to configure monitoring and compliance requirements for your flows.
+- **SLA Calendar** - The business-hours calendar an SLA goal measures against, so "four hours" counts working hours rather than wall-clock time across nights and weekends. You manage calendars under SLA Calendars in the workspace navigation.

@@ -3,11 +3,12 @@ from collections import OrderedDict
 
 BEGIN = "    # BEGIN generated reference nav"
 END = "    # END generated reference nav"
-# Concept pages (records with `concept: true`) are not blocks, so they live in
-# their own top-level 'Concept Guides' nav section rather than masquerading as a
-# block category. This second marked region holds them.
-BEGIN_CONCEPTS = "    # BEGIN generated concept nav"
-END_CONCEPTS = "    # END generated concept nav"
+# Concept pages (records with `concept: true`) are not blocks, so they live in a
+# 'Concept Guides' sub-section under Platform rather than masquerading as a block
+# category. This second marked region holds them (nested one level deeper than the
+# Block Reference region, hence 6-space indent on the markers and items).
+BEGIN_CONCEPTS = "      # BEGIN generated concept nav"
+END_CONCEPTS = "      # END generated concept nav"
 
 
 def _is_concept(record: dict) -> bool:
@@ -40,8 +41,12 @@ def build_reference_nav(records: list[dict], indent: int = 4) -> str:
 def build_concept_nav(records: list[dict], indent: int = 4) -> str:
     """YAML nav lines for the CONCEPT pages - a flat list sorted by name, with no
     category sub-grouping (they are not blocks). The pages still live in
-    reference/, so links keep that prefix. Returns "" when there are none."""
-    concepts = sorted((r for r in records if _is_concept(r)),
+    reference/, so links keep that prefix. Returns "" when there are none.
+
+    A record with `manual_nav: true` is skipped here: its page is still generated
+    into reference/, but its nav entry is hand-placed elsewhere in mkdocs.yml
+    (e.g. Flow Scheduling lives under Run & Monitor, not Concept Guides)."""
+    concepts = sorted((r for r in records if _is_concept(r) and not r.get("manual_nav")),
                       key=lambda r: r.get("name", ""))
     pad = " " * indent
     lines = [f"{pad}- '{r['name']}': reference/{r['id']}.md" for r in concepts]
@@ -71,5 +76,5 @@ def update_mkdocs_nav(mkdocs_text: str, records: list[dict]) -> str:
     # without a 'Concept Guides' section (e.g. in unit tests) is left untouched.
     if BEGIN_CONCEPTS in text and END_CONCEPTS in text:
         text = replace_marked_block(text, BEGIN_CONCEPTS, END_CONCEPTS,
-                                    build_concept_nav(records, indent=4))
+                                    build_concept_nav(records, indent=6))
     return text

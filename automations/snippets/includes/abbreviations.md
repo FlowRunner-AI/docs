@@ -17,7 +17,7 @@
 *[Instances]:
     One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.
 *[Initial Data]:
-    The data a flow starts a run with - typically the payload from its trigger. It is available to expressions as Initial Data, so steps can read the values the run began with.
+    The data passed to a flow when a run is started - for example the payload of an API call that launches it. It is available to expressions as Initial Data. (When a trigger starts the flow instead, the trigger's data belongs to the trigger block, not to Initial Data.)
 *[Expression Editor]:
     The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.
 *[Knowledge Base]:
