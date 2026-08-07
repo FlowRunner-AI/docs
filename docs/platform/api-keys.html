@@ -27,7 +27,7 @@
     
     
       
-        <title>AI API Keys - FlowRunner™ User Guide</title>
+        <title>API Keys - FlowRunner™ User Guide</title>
       
     
     
@@ -73,7 +73,20 @@
 
     
     
-   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="API Keys - FlowRunner™ User Guide" />
+<meta property="og:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="og:image" content="https://docs.flowrunner.ai/assets/images/social/platform/api-keys.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://docs.flowrunner.ai/platform/api-keys.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="API Keys - FlowRunner™ User Guide" />
+<meta property="twitter:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="twitter:image" content="https://docs.flowrunner.ai/assets/images/social/platform/api-keys.png" />
+ <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
     .gslide-title { margin-top: 0px; user-select: text; }
     .gslide-desc { color: #666; user-select: text; }
@@ -101,7 +114,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ai-api-keys" class="md-skip">
+        <a href="#api-keys" class="md-skip">
           Skip to content
         </a>
       
@@ -165,7 +178,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              AI API Keys
+              API Keys
             
           </span>
         </div>
@@ -1243,7 +1256,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    AI API Keys
+    API Keys
   
 
     
@@ -1261,7 +1274,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    AI API Keys
+    API Keys
   
 
     
@@ -1287,10 +1300,21 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#saving-a-key" class="md-nav__link">
+  <a href="#saving-a-provider-key" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Saving a key
+        Saving a provider key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saving-a-key-for-any-other-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saving a key for any other service
       
     </span>
   </a>
@@ -4411,10 +4435,21 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#saving-a-key" class="md-nav__link">
+  <a href="#saving-a-provider-key" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Saving a key
+        Saving a provider key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saving-a-key-for-any-other-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saving a key for any other service
       
     </span>
   </a>
@@ -4471,37 +4506,83 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 
-<h1 id="ai-api-keys">AI API Keys<a class="headerlink" data-preview="" href="#ai-api-keys" title="Permanent link">&para;</a></h1>
-<p>Every AI block in FlowRunner™ - the <a class="fr-block" data-preview="" href="../reference/ai-agent.html">AI Agent</a>, the <a class="fr-block" data-preview="" href="../reference/ai-router.html">AI Router</a>, and the rest - calls a model hosted by an outside provider such as OpenAI, Anthropic, or Google, and each provider authenticates that call with an API key you hold with them. <strong>AI API Keys</strong> is the workspace store for those keys: save a key once, give it a label, and reuse it across every flow instead of pasting the same secret into block after block.</p>
-<h2 id="saving-a-key">Saving a key<a class="headerlink" data-preview="" href="#saving-a-key" title="Permanent link">&para;</a></h2>
-<p>The screen lists the AI providers FlowRunner supports, each with a one-line description and an <span class="fr-control">ADD KEY</span> button:</p>
-<p><a class="glightbox" href="../images/platform/api-keys-list.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The screen listing the AI providers FlowRunner supports, each with a one-line description and an Add Key button. The Anthropic row is expanded to its saved key, with Edit and Delete controls." src="../images/platform/api-keys-list.png" /></a></p>
-<p>Click <span class="fr-control">ADD KEY</span> on the provider you hold a key with. A setup dialog opens for that provider - <code>Create OpenAI Setup</code>, for example - and asks for two things:</p>
-<p><a class="glightbox" href="../images/platform/api-keys-add.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Create OpenAI Setup dialog: the provider is fixed to OpenAI, with a Label field and an API Key field below it." src="../images/platform/api-keys-add.png" /></a></p>
+<h1 id="api-keys">API Keys<a class="headerlink" data-preview="" href="#api-keys" title="Permanent link">&para;</a></h1>
+<!-- verified in-product 2026-08-06 (Documentation Flows workspace): sidebar Connections > API Keys;
+h1 "API Keys", subtitle "Manage your API keys for different AI providers and services."; THREE tabs
+My Keys / AI Providers / Custom + an ADD A CUSTOM KEY button. AI Providers rows: OpenAI, Anthropic,
+Google AI (Gemini), Cohere, Mistral AI, Groq, DeepSeek, Kimi, Voyage AI ("for embedding models") -
+each with ADD KEY; a provider holding a key shows "1 key added" and sorts onto My Keys. Create
+OpenAI Setup dialog: Provider banner, Label, API Key (eye reveal). My Keys: provider card expands
+to each setup (label, provider, Created date, EDIT/DELETE). Custom tab empty state: "Store an API
+key or secret for a provider or service that isn't in the built-in AI providers list."; Add Custom
+API Key dialog: Provider Name (e.g. LangSmith), Key Name, Secret Value. Block-side: AI API Key
+field disabled ("Select model first") until a model is picked, then offers saved setups
+("Saved API Key Setups" list) - and typing a raw key surfaces a "Save as Setup" affordance (re-driven
+today on the Refund Question block). All six screenshots captured fresh today and read back. -->
+
+<p>Every AI block and operation in FlowRunner™ - the <a class="fr-block" data-preview="" href="../reference/ai-agent.html">AI Agent</a>,
+the <a class="fr-block" data-preview="" href="../reference/ai-router.html">AI Router</a>, and the rest - calls a model hosted by an
+outside provider such as OpenAI, Anthropic, or Google, and each provider authenticates that call
+with an API key you hold with them. <strong>API Keys</strong> is the workspace store for those keys: save a key
+once, give it a label, and reuse it across every flow instead of pasting the same secret into
+block after block. The screen lives under <strong>Connections</strong> in the workspace sidebar, and it holds
+keys for other services too, not only the AI providers.</p>
+<p><a class="glightbox" href="../images/platform/api-keys-nav.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The workspace sidebar with API Keys selected under Connections, and the API Keys screen beside it: the My Keys, AI Providers, and Custom tabs, an ADD A CUSTOM KEY button, and the Anthropic provider showing &quot;1 key added&quot;." src="../images/platform/api-keys-nav.png" /></a></p>
+<p>The screen has three tabs:</p>
 <ul>
-<li><span class="fr-control">Label</span> - a name for this key, so you can tell it apart from other keys for the same provider. <code>Demo Key</code> and <code>Production</code> might both be OpenAI keys.</li>
+<li><strong>My Keys</strong> - the keys you have saved, grouped by provider, with the controls to edit or delete
+  each one.</li>
+<li><strong>AI Providers</strong> - the catalog of supported AI providers, each with an <span class="fr-control">ADD KEY</span> button.</li>
+<li><strong>Custom</strong> - keys and secrets for services outside that catalog.</li>
+</ul>
+<h2 id="saving-a-provider-key">Saving a provider key<a class="headerlink" data-preview="" href="#saving-a-provider-key" title="Permanent link">&para;</a></h2>
+<p>The <strong>AI Providers</strong> tab lists the providers FlowRunner supports - OpenAI, Anthropic,
+Google AI (Gemini), Cohere, Mistral AI, Groq, DeepSeek, Kimi, and Voyage AI (<abbr title="A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.">embedding</abbr> models) -
+each with a one-line description:</p>
+<p><a class="glightbox" href="../images/platform/api-keys-list.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The AI Providers tab: the Anthropic row shows &quot;1 key added&quot; while OpenAI, Google AI (Gemini), and Cohere each carry an Add Key button." src="../images/platform/api-keys-list.png" /></a></p>
+<p>Click <span class="fr-control">ADD KEY</span> on the provider you hold a key with. A setup dialog opens for that provider -
+<code>Create OpenAI Setup</code>, for example - and asks for two things:</p>
+<p><a class="glightbox" href="../images/platform/api-keys-add.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Create OpenAI Setup dialog: a banner fixes the provider to OpenAI, a Label field holds &quot;Demo Key&quot;, and the API Key field below it waits for the secret, with an eye control to reveal what you type." src="../images/platform/api-keys-add.png" /></a></p>
+<ul>
+<li><span class="fr-control">Label</span> - a name for this key, so you can tell it apart from other keys for the same provider.
+  <code>Demo Key</code> and <code>Production</code> might both be OpenAI keys.</li>
 <li><span class="fr-control">API Key</span> - the secret itself, copied from the provider's own console.</li>
 </ul>
-<p>A saved key is called a <em>setup</em>. One provider can hold several setups, so you can keep a test key and a production key side by side, or a separate key for each client.</p>
+<p>A saved key is called a <em>setup</em>. One provider can hold several setups, so you can keep a test key
+and a production key side by side, or a separate key for each client.</p>
+<h2 id="saving-a-key-for-any-other-service">Saving a key for any other service<a class="headerlink" data-preview="" href="#saving-a-key-for-any-other-service" title="Permanent link">&para;</a></h2>
+<p>The <strong>Custom</strong> tab stores an API key or secret for a provider or service that is not in the
+built-in list. <span class="fr-control">ADD A CUSTOM KEY</span> opens a dialog with three fields: <span class="fr-control">Provider Name</span> - the
+service the key belongs to, <span class="fr-control">Key Name</span> - the label for this key, and <span class="fr-control">Secret Value</span> - the
+secret itself.</p>
+<p><a class="glightbox" href="../images/platform/api-keys-custom.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Add Custom API Key dialog with Provider Name &quot;LangSmith&quot; and Key Name &quot;Tracing Key&quot; filled in, and the Secret Value field below them." src="../images/platform/api-keys-custom.png" /></a></p>
 <h2 id="using-a-key-in-a-flow">Using a key in a flow<a class="headerlink" data-preview="" href="#using-a-key-in-a-flow" title="Permanent link">&para;</a></h2>
-<p>Every AI block has an <span class="fr-control">AI API Key</span> field that reads <em>Select API Key Setup or enter new key</em>. Choose the block's model first; the field then lists the saved setups for that provider:</p>
-<p><a class="glightbox" href="../images/platform/api-keys-in-block.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The AI Agent block with its AI Model set to Claude Opus 4.8: the AI API Key field's dropdown lists Saved API Key Setups - here &quot;Production&quot;." src="../images/platform/api-keys-in-block.png" /></a></p>
-<p>Pick one of your saved setups by its label and the block authenticates with the provider using it - the secret value never appears in the block.</p>
-<p>If you instead type a new key straight into that field, the block's <span class="fr-control">Save as Setup</span> option writes it to this store under a label, so the next block, and the next flow, can select it. Both paths leave the secret in this one place.</p>
+<p>Every AI block and operation has an <span class="fr-control">AI API Key</span> field. Choose the model first - until you do,
+the field is disabled and reads "Select model first". Once the model is picked, the field offers
+your saved setups:</p>
+<p><a class="glightbox" href="../images/platform/api-keys-in-block.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="An AI step's configuration with AI Model set to Claude Haiku 4.5: the AI API Key field's Saved API Key Setups list is open, with the Demo Key setup checked." src="../images/platform/api-keys-in-block.png" /></a></p>
+<p>Pick a setup by its label and the block authenticates with the provider using it - the secret
+value never appears in the block. If you instead type a new key straight into that field, the
+<span class="fr-control">Save as Setup</span> option that appears writes it to this store under a label, so the next block,
+and the next flow, can select it. Both paths leave the secret in this one place.</p>
 <h2 id="managing-keys">Managing keys<a class="headerlink" data-preview="" href="#managing-keys" title="Permanent link">&para;</a></h2>
-<p>A saved setup lives in the workspace until you delete it, and it shows its label, its provider, and the date you created it, with two controls:</p>
-<p><a class="glightbox" href="../images/platform/api-keys-managing.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Anthropic provider expanded to its saved setup - labeled &quot;Production&quot;, created May 5, 2026 - with Edit and Delete buttons." src="../images/platform/api-keys-managing.png" /></a></p>
+<p>The <strong>My Keys</strong> tab shows each provider you hold keys with; expand a provider to its setups. A
+setup shows its label, its provider, and the date you created it, with two controls:</p>
+<p><a class="glightbox" href="../images/platform/api-keys-managing.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The My Keys tab with the Anthropic provider expanded to its saved setup - labeled &quot;Demo Key&quot;, created Aug 6, 2026 - with Edit and Delete buttons." src="../images/platform/api-keys-managing.png" /></a></p>
 <ul>
-<li><span class="fr-control">EDIT</span> - change the label, or replace the key value after you rotate it with the provider. The dialog also reveals the stored key, so treat access to this screen as access to the keys themselves.</li>
-<li><span class="fr-control">DELETE</span> - remove the setup from the workspace. Any block set to use it stops authenticating until you point it at another key.</li>
+<li><span class="fr-control">EDIT</span> - change the label, or replace the key value after you rotate it with the provider. The
+  dialog also reveals the stored key, so treat access to this screen as access to the keys
+  themselves.</li>
+<li><span class="fr-control">DELETE</span> - remove the setup from the workspace. Any block set to use it stops authenticating
+  until you point it at another key.</li>
 </ul>
-<!-- verified in-product 2026-07-10 (Tests workspace, API Keys screen): the screen lists AI providers (OpenAI / Anthropic / Google AI (Gemini) / Cohere / Mistral AI / Groq) each with a one-line description and an ADD KEY button; a provider holding a key shows a "1 key" badge, and expanding it reveals the saved setup with its label (Anthropic -> "Demo Key"), a created date ("Created Jan 30, 2026"), and Edit/Delete controls. Structure matches the page. The block-side AI API Key field listing saved setups (and Save as Setup) was seen on the AI Agent block. Existing screenshots depict the same layout - no recapture needed. -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a data-preview="" href="oauth-connections.html">OAuth Connections</a> - the workspace's other credential store, for services you sign in to</li>
-<li><a class="fr-block" data-preview="" href="../reference/ai-agent.html">AI Agent</a> - an AI block whose AI API Key field draws on these saved setups</li>
-<li><a class="fr-block" data-preview="" href="../reference/ai-router.html">AI Router</a> - another AI block that calls a model, keyed from this same store</li>
+<li><a data-preview="" href="oauth-connections.html">OAuth Connections</a> - the workspace's other credential store, for services
+  you sign in to</li>
+<li><a class="fr-block" data-preview="" href="../reference/ai-agent.html">AI Agent</a> - an AI block whose AI API Key field draws on
+  these saved setups</li>
+<li><a data-preview="" href="../build/ai-in-flows.html">AI in Flows</a> - every place a flow can put a model, and its key, to work</li>
 </ul>
 
 

@@ -73,7 +73,20 @@
 
     
     
-   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="AI in Flows - FlowRunner™ User Guide" />
+<meta property="og:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="og:image" content="https://docs.flowrunner.ai/assets/images/social/build/ai-in-flows.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://docs.flowrunner.ai/build/ai-in-flows.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="AI in Flows - FlowRunner™ User Guide" />
+<meta property="twitter:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="twitter:image" content="https://docs.flowrunner.ai/assets/images/social/build/ai-in-flows.png" />
+ <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
     .gslide-title { margin-top: 0px; user-select: text; }
     .gslide-desc { color: #666; user-select: text; }
@@ -1226,7 +1239,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    AI API Keys
+    API Keys
   
 
     
@@ -4562,10 +4575,11 @@ Refund Check, Ticket Router, Draft Reply - all kept in the workspace; ZZ AI Scra
   adds Yes/No Question (expression field); AI Model + AI API Key appear once per block, shared by
   all parts. Tooltips: AI Model "Choose the specific AI model grouped by provider (e.g., GPT-4,
   Claude, Gemini)"; AI API Key "Enter your API key for authentication with the selected AI provider".
-  RUNTIME BUG (Mark filing): every run fails with "AI Question operation requires 6 arguments
-  (content, question, providerId, model, apiKey, appId), but received 5" - reproduced clean flow,
-  fresh loads, setup AND raw key, Run Block AND instance launch; content resolved in Input pane.
-  Same key runs AI Transform / AI Router / AI Agent fine.
+  RUNTIME BUG FIXED (2026-08-07): the earlier "requires 6 arguments... received 5" failure is
+  gone. Both exits driven live in Refund Check: espresso-refund message -> Yes (Refund Question
+  succeeded, Flag For Refund Team ran, Mark As Routine skipped; Block Results Output
+  {"conditionResult": true}); K200-fit question -> No (Mark As Routine ran). Shot recaptured
+  showing the successful Yes run.
 - AI Router: panel AI Model, AI API Key, AI Decision Request (prompt) with helper text
   ('...recommended to start the prompt with the word "Determine..."'), Decision Data rows, Expected
   Decisions (+ adds rows with an x; Everything Else has NO x and silently reverts typed edits -
@@ -4595,9 +4609,9 @@ Refund Check, Ticket Router, Draft Reply - all kept in the workspace; ZZ AI Scra
   via CSS text-transform - title-case chip kept, consistent with the approved AI Agent reference.
 - Marketplace link verified live (WebFetch): resolves, heading "AI & LLMs", 150 integrations /
   2169 actions listed (Anthropic Claude, OpenAI, Google Gemini, Mistral, Groq, ...).
-- AI QUESTION section ships PENDING the runtime-bug fix per Mark's explicit decision
-  (2026-08-06, "Write it as designed + you file the bug") - prose teaches intended design; the
-  bug and decision are recorded in the ledger and the handoff.
+- AI QUESTION originally shipped pending a runtime bug per Mark's explicit decision (2026-08-06,
+  "Write it as designed + you file the bug"); the fix landed and both exits were verified live
+  2026-08-07 - no open caveat remains.
 - AI Assistants palette category exists but is going away per Mark - deliberately not mentioned. -->
 
 <p>A flow can already move data, branch on a value, and work through a list. Real work also brings
@@ -4612,7 +4626,7 @@ handed to an agent.</p>
 account. An AI API key is the credential your provider account (OpenAI, Anthropic, Google, and
 others) gives you.
 Save it once: under <strong>Connections</strong> in the workspace sidebar, open <strong>API Keys</strong> and add the key to
-its provider. A saved key is called a setup. See <a data-preview="" href="../platform/api-keys.html">AI API Keys</a> for the
+its provider. A saved key is called a setup. See <a data-preview="" href="../platform/api-keys.html">API Keys</a> for the
 walkthrough.</p>
 <p>On the AI blocks and operations below the order is fixed: pick the model first. Until a model is
 chosen, the key field is disabled and reads "Select model first", as on this not-yet-configured
@@ -4663,7 +4677,7 @@ model and key. The answer drives the same Yes and No exits as any comparison;
 (<a class="fr-block" data-preview="" href="../reference/condition.html">Condition</a>) checks the customer message the run
 received as <abbr title="The data passed to a flow when a run is started - for example the payload of an API call that launches it. It is available to expressions as Initial Data. (When a trigger starts the flow instead, the trigger's data belongs to the trigger block, not to Initial Data.)">Initial Data</abbr>. The question is "Is the customer asking for a refund?" - Yes leads to a
 Flag For Refund Team block, No to a Mark As Routine block.</p>
-<p><a class="glightbox" href="../images/build/ai-question-refund-check.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Refund Check flow: a Refund Question block (Condition) with its Yes exit wired to a Flag For Refund Team block and its No exit wired to a Mark As Routine block. The configuration panel shows Value to Check bound to the Initial Data message, Value Data Type STRING, Operation AI QUESTION, the question &quot;Is the customer asking for a refund?&quot;, Claude Haiku 4.5, and the Demo Key setup. The Test Monitor's Flow Data tab holds the sample customer message." src="../images/build/ai-question-refund-check.png" /></a></p>
+<p><a class="glightbox" href="../images/build/ai-question-refund-check.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Refund Check flow after a test run on a refund request: the Refund Question block (Condition) and the Flag For Refund Team block on its Yes exit carry success checkmarks, while Mark As Routine on the No exit is marked skipped. The configuration panel shows Value to Check bound to the Initial Data message, Value Data Type STRING, Operation AI QUESTION, the question &quot;Is the customer asking for a refund?&quot;, Claude Haiku 4.5, and the Demo Key setup. The Test Monitor's Block Results tab shows the block's Success output, conditionResult true." src="../images/build/ai-question-refund-check.png" /></a></p>
 <p>The <a class="fr-block" data-preview="" href="../reference/condition.html">Condition</a> reference covers the operation's fields.</p>
 <h2 id="send-the-run-down-the-branch-an-ai-picks">Send the run down the branch an AI picks<a class="headerlink" data-preview="" href="#send-the-run-down-the-branch-an-ai-picks" title="Permanent link">&para;</a></h2>
 <p>When a message can go more than two ways, the

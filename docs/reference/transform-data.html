@@ -73,7 +73,20 @@
 
     
     
-   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Transform Data - FlowRunner™ User Guide" />
+<meta property="og:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="og:image" content="https://docs.flowrunner.ai/assets/images/social/reference/transform-data.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://docs.flowrunner.ai/reference/transform-data.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Transform Data - FlowRunner™ User Guide" />
+<meta property="twitter:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="twitter:image" content="https://docs.flowrunner.ai/assets/images/social/reference/transform-data.png" />
+ <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
     .gslide-title { margin-top: 0px; user-select: text; }
     .gslide-desc { color: #666; user-select: text; }
@@ -1228,7 +1241,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    AI API Keys
+    API Keys
   
 
     
@@ -4191,10 +4204,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
         
           <li class="md-nav__item">
-  <a href="#if-empty" class="md-nav__link">
+  <a href="#has-value" class="md-nav__link">
     <span class="md-ellipsis">
       
-        If Empty
+        Has Value
       
     </span>
   </a>
@@ -5201,10 +5214,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
         
           <li class="md-nav__item">
-  <a href="#if-empty" class="md-nav__link">
+  <a href="#has-value" class="md-nav__link">
     <span class="md-ellipsis">
       
-        If Empty
+        Has Value
       
     </span>
   </a>
@@ -5885,7 +5898,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <p>This block reshapes a value without writing code. You pick one operation from a built-in library, give it the inputs it asks for, and its result becomes this block's output, ready for the next block to read.</p>
 <h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>
 <p>Think of it as a library of ready-made data functions, one per block. Each block runs exactly one operation - reading a field off an object, sorting a list, merging two objects, formatting a date, running a calculation - over the inputs you give it, and hands back the result. Because each does a single job, you chain them: one block's result feeds the next.</p>
-<p><a class="glightbox" href="../images/reference/transform-data-operations.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Transform Data Operation picker open, with a search box and operations grouped under category headings: Logic (If, Equal, Switch, If Empty, AI Transform), Object (Create Object, Get Property Value, Set Property Value, and more), and further categories below." src="../images/reference/transform-data-operations.png" /></a></p>
+<p><a class="glightbox" href="../images/reference/transform-data-operations.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Transform Data Operation picker open, with a search box and operations grouped under category headings: Logic (If, Equal, Switch, Has Value, AI Transform), Object (Create Object, Get Property Value, Set Property Value, and more), and further categories below." src="../images/reference/transform-data-operations.png" /></a></p>
 <h2 id="when-to-use-it">When to use it<a class="headerlink" data-preview="" href="#when-to-use-it" title="Permanent link">&para;</a></h2>
 <p>Reach for it whenever you need to read, restructure, or compute a value between blocks and a built-in operation already covers it - pulling one field out of a response, trimming an object down to the keys you care about, building or sorting a list, comparing two values. It keeps the work visible on the canvas and spares you a code block. When the change is awkward to express as a chain of these blocks, or no operation fits, a single <a class="fr-block" data-preview="" href="custom-cloud-code.html">Custom Cloud Code</a> block is the cleaner choice instead.</p>
 <h2 id="example">Example<a class="headerlink" data-preview="" href="#example" title="Permanent link">&para;</a></h2>
@@ -5971,14 +5984,19 @@ unlisted.</p>
 </table>
 <p>Hand it <code>shipped</code> and it returns <code>On its way</code>, ready for the notification block.</p>
 <hr />
-<h3 id="if-empty">If Empty<a class="headerlink" data-preview="" href="#if-empty" title="Permanent link">&para;</a></h3>
-<p>Supplies a fallback when a value is missing - the guard you put in front of an optional field
-so the rest of the flow always has something to work with. Read a customer's preferred name
-and fall back to their full name when it's blank; take an API's <code>discount</code> field and default
-it to <code>0</code> before the math step.</p>
-<p>The catch is what "empty" means here: <strong>only <code>null</code></strong> triggers the fallback. An empty string
-<code>""</code>, a <code>0</code>, a <code>false</code>, an empty list <code>[]</code>, and an empty object <code>{}</code> all count as real values
-and pass straight through. To catch a blank string too, test for it with a <span class="fr-block">Condition</span> instead.</p>
+<h3 id="has-value">Has Value<a class="headerlink" data-preview="" href="#has-value" title="Permanent link">&para;</a></h3>
+<p>Answers one question about a value: is anything actually there? Point
+<strong>Value or Expression to Check</strong> at the value and the operation returns true or
+false - the check you run on an optional field before building on it, with the answer
+stored under the block's alias for a <span class="fr-block">Condition</span> or a later step to read.</p>
+<!-- verified in-product 2026-08-06 (throwaway flow, Run Block x3): "hello" -> true;
+an unresolved reference (null) -> false; the Empty Text common value ("") -> false.
+This operation replaced the old "If Empty" (which returned a fallback value and
+treated only null as empty) - the picker no longer offers If Empty. -->
+
+<p>What counts as no value: <code>null</code> and an empty string <code>""</code> both come back false; a value
+that is actually there comes back true. The operation does not substitute a default -
+it only reports; pair it with a <span class="fr-block">Condition</span> when the two cases need different handling.</p>
 <hr />
 <h3 id="ai-transform">AI Transform<a class="headerlink" data-preview="" href="#ai-transform" title="Permanent link">&para;</a></h3>
 <p>The operation you <em>describe</em> instead of configure. Rather than pick a fixed transformation,

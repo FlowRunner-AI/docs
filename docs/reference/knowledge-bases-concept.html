@@ -73,7 +73,20 @@
 
     
     
-   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Knowledge Bases (RAG stores) - FlowRunner™ User Guide" />
+<meta property="og:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="og:image" content="https://docs.flowrunner.ai/assets/images/social/reference/knowledge-bases-concept.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://docs.flowrunner.ai/reference/knowledge-bases-concept.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Knowledge Bases (RAG stores) - FlowRunner™ User Guide" />
+<meta property="twitter:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="twitter:image" content="https://docs.flowrunner.ai/assets/images/social/reference/knowledge-bases-concept.png" />
+ <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
     .gslide-title { margin-top: 0px; user-select: text; }
     .gslide-desc { color: #666; user-select: text; }
@@ -1234,7 +1247,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    AI API Keys
+    API Keys
   
 
     
@@ -4612,9 +4625,11 @@ you need to keep, pick a <abbr title="The database that holds embeddings and fin
 <p><a class="glightbox" href="../images/reference/knowledge-bases-setup.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Create AI Agents Knowledge Base dialog: a Title of Product Docs, a Description, an Embedding Model set to Text Embedding 3 Small, an AI API Key entered, a Vector Store set to In Memory (flagged as non-persistent), and Chunk Size and Chunk Overlap fields with explanatory help text." src="../images/reference/knowledge-bases-setup.png" /></a></p>
 <h2 id="giving-a-knowledge-base-to-an-agent">Giving a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> to an agent<a class="headerlink" data-preview="" href="#giving-a-knowledge-base-to-an-agent" title="Permanent link">&para;</a></h2>
 <p>Creating a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> does nothing on its own - an agent has to be pointed at it. You do that
-on the <span class="fr-block">AI Agent</span> block: open <span class="fr-control">Manage Capabilities</span>, go to <span class="fr-control">Knowledge</span>, and under <span class="fr-control">Search</span> add
-the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>. From then on the agent can search it and answer from its documents.</p>
-<!-- verified in-product 2026-07-10 (Tests workspace, "Agent With Knowledge" flow): the AI Agent's Manage Capabilities -> Knowledge category has two groups - "Document Management" (the Add/Delete/List action tools) and "Search", which lists the workspace's knowledge bases (here "Test KB") each with a + to attach. With 0 knowledge bases in a workspace the Search group is empty, so only Document Management shows. -->
+on the <span class="fr-block">AI Agent</span> block: open <span class="fr-control">Manage Capabilities</span>, go to <span class="fr-control">Knowledge</span>, and add the Knowledge
+Base from the list of the workspace's knowledge bases. From then on the agent can search it and
+answer from its documents.</p>
+<!-- verified in-product 2026-07-10 (Tests workspace, "Agent With Knowledge" flow): the AI Agent's Manage Capabilities -> Knowledge category has two groups - "Document Management" (the Add/Delete/List action tools) and "Search", which lists the workspace's knowledge bases (here "Test KB") each with a + to attach. -->
+<!-- LABEL DRIFT observed 2026-08-06 (Documentation Flows, zero KBs): the groups render as "DOCUMENT MANAGEMENT ACTIONS" and "KNOWLEDGE BASES" (empty state: "There are no registered knowledge bases in the workspace. Create a new knowledge base."). Prose above deliberately describes rather than quotes the group label until this is reconciled; the with-KB state could not be re-driven (KB creation needs an embedding-capable key; only an Anthropic key is saved). RECAPTURE kb-attach-to-agent.png + reconcile labels once a KB exists here. -->
 
 <p><a class="glightbox" href="../images/reference/kb-attach-to-agent.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Manage AI Agent Capabilities window with the Knowledge category selected. The right panel has two groups: Document Management (the Add Document, Delete Document, Delete by Filter, and List Documents action tools) and Search, which lists the workspace's knowledge bases - here &quot;Test KB&quot; - each with a plus button to add it to the agent." src="../images/reference/kb-attach-to-agent.png" /></a></p>
 <h2 id="keeping-a-knowledge-base-up-to-date">Keeping a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> up to date<a class="headerlink" data-preview="" href="#keeping-a-knowledge-base-up-to-date" title="Permanent link">&para;</a></h2>

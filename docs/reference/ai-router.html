@@ -73,7 +73,20 @@
 
     
     
-   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="AI Router - FlowRunner™ User Guide" />
+<meta property="og:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="og:image" content="https://docs.flowrunner.ai/assets/images/social/reference/ai-router.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://docs.flowrunner.ai/reference/ai-router.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="AI Router - FlowRunner™ User Guide" />
+<meta property="twitter:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="twitter:image" content="https://docs.flowrunner.ai/assets/images/social/reference/ai-router.png" />
+ <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
     html.glightbox-open { overflow: initial; height: 100%; }
     .gslide-title { margin-top: 0px; user-select: text; }
     .gslide-desc { color: #666; user-select: text; }
@@ -1228,7 +1241,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    AI API Keys
+    API Keys
   
 
     
@@ -4561,7 +4574,7 @@ the model knows which dataset to use for the decision.</p>
 <p>Add an <span class="fr-block">AI Router</span> - it lives in the AI group of the block palette. In <span class="fr-control">AI Decision Request</span>, write the instruction for the AI: "Determine the sentiment of the message." In <span class="fr-control">Decision Data</span>, add one named input - call it message - and point it at the trigger's message field. In <span class="fr-control">Expected Decisions</span>, list the three labels you want to handle: positive, negative, and neutral. The block keeps a fourth label, <span class="fr-control">Everything Else</span>, as the fallback. Each of these four labels now shows up as a named <abbr title="A wiring point on a block's edge that starts one of its outgoing paths; you draw from it to the next block. Blocks that branch (Condition, Value Router, AI Router) expose one per branch, plus a fallback.">output connector</abbr> on the block.</p>
 <p><a class="glightbox" href="../images/reference/ai-router-config.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The AI Router block selected on the canvas with its configuration panel: the AI Decision Request reads &quot;Determine the sentiment of the message&quot;, Decision Data has one input named message bound to the Initial Data message, and the Expected Decisions are positive, negative, neutral, and Everything Else. On the canvas the block's positive connector runs on to a Set Variables block." src="../images/reference/ai-router-config.png" /></a></p>
 <p>On the negative <abbr title="A wiring point on a block's edge where you draw the line to the next block. A block can expose several - for example a Condition's Yes and No, or one per branch on a router.">connector</abbr>, place a <a class="fr-block" data-preview="" href="set-variables.html">Set Variables</a> block that stores a Sentiment variable set to "negative" (and the matching value on the other two branches). When the flow runs against the message above, the AI reads it, judges the tone as angry, and chooses negative - so the flow leaves through the negative <abbr title="A wiring point on a block's edge where you draw the line to the next block. A block can expose several - for example a Condition's Yes and No, or one per branch on a router.">connector</abbr> and runs the block that marks the message negative. A calm "Thanks, that fixed it!" would instead leave through the positive <abbr title="A wiring point on a block's edge where you draw the line to the next block. A block can expose several - for example a Condition's Yes and No, or one per branch on a router.">connector</abbr>. Anything the AI cannot place in positive, negative, or neutral leaves through <span class="fr-control">Everything Else</span>, so the message is never stuck with nowhere to go.</p>
-<p>The routing is the point here - you act on the decision by building different steps off each <abbr title="A wiring point on a block's edge where you draw the line to the next block. A block can expose several - for example a Condition's Yes and No, or one per branch on a router.">connector</abbr>, not by reading a value afterward. The block does still store the label it chose under its result alias, though, so a step on any branch can reuse it: with the default alias, a <span class="fr-block">Set Variables</span> block reads it as <span class="fr-expr">AI Router Result</span>, which on this run resolves to the string "negative". That saves you re-typing the branch's label by hand when several branches need to record the same value.</p>
+<p>The routing is the point here - you act on the decision by building different steps off each <abbr title="A wiring point on a block's edge where you draw the line to the next block. A block can expose several - for example a Condition's Yes and No, or one per branch on a router.">connector</abbr>, not by reading a value afterward. The block does still store the label it chose under its result alias, though, so a step on any branch can reuse it. The stored result is an object with one decision property, so with the default alias a <span class="fr-block">Set Variables</span> block reads <span class="fr-expr">AI Router Result → decision</span>, which on this run resolves to "negative". That saves you re-typing the branch's label by hand when several branches need to record the same value.</p>
 <h2 id="configuration">Configuration<a class="headerlink" data-preview="" href="#configuration" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
