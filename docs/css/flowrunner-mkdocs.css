@@ -1,0 +1,627 @@
+/* ============================================================
+   FlowRunner Theme for Material for MkDocs
+   ============================================================
+
+   Drop this file in:  docs/stylesheets/flowrunner-mkdocs.css
+   Reference it from:  mkdocs.yml under extra_css
+
+   This file:
+     - Overrides Material's CSS variables to match FlowRunner tokens
+     - Loads Fraunces (third typeface) via Google Fonts @import
+     - Reskins admonitions, tabs, code blocks, kbd, blockquotes
+     - Adds the optional grain overlay to body
+
+   Material's font.text and font.code should be set in mkdocs.yml
+   to load Inter Tight and JetBrains Mono. See MKDOCS_GUIDE.md.
+
+   ============================================================ */
+
+/* Load Fraunces (Material's font config covers the other two) */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap');
+
+
+/* ---------- 1. LIGHT SCHEME (Material's default) ---------- */
+[data-md-color-scheme="default"] {
+  /* Surfaces */
+  --md-default-bg-color:                 #FAF7F0;
+  --md-default-bg-color--light:          rgba(250, 247, 240, 0.7);
+  --md-default-bg-color--lighter:        rgba(250, 247, 240, 0.3);
+  --md-default-bg-color--lightest:       rgba(250, 247, 240, 0.12);
+
+  /* Text */
+  --md-default-fg-color:                 #1A1714;
+  --md-default-fg-color--light:          #4A453E;
+  --md-default-fg-color--lighter:        #8B847A;
+  --md-default-fg-color--lightest:       #C9C0A8;
+
+  /* Brand */
+  --md-primary-fg-color:                 #1F4438;
+  --md-primary-fg-color--light:          #2A5749;
+  --md-primary-fg-color--dark:           #143028;
+  --md-primary-bg-color:                 #FAF7F0;
+  --md-primary-bg-color--light:          rgba(250, 247, 240, 0.7);
+
+  /* Accent (links, in-page emphasis) */
+  --md-accent-fg-color:                  #2A5749;
+  --md-accent-fg-color--transparent:     rgba(31, 68, 56, 0.1);
+  --md-accent-bg-color:                  #FAF7F0;
+  --md-accent-bg-color--light:           rgba(250, 247, 240, 0.7);
+
+  /* Code blocks */
+  --md-code-fg-color:                    #1A1714;
+  --md-code-bg-color:                    #F2EEE2;
+  --md-code-hl-color:                    rgba(31, 68, 56, 0.1);
+  --md-code-hl-color--light:             rgba(31, 68, 56, 0.05);
+
+  /* Typeset (prose) */
+  --md-typeset-color:                    #1A1714;
+  --md-typeset-a-color:                  #1F4438;
+  --md-typeset-mark-color:               rgba(31, 68, 56, 0.15);
+  --md-typeset-del-color:                rgba(122, 62, 44, 0.1);
+  --md-typeset-ins-color:                rgba(46, 107, 61, 0.1);
+  --md-typeset-kbd-color:                #F2EEE2;
+  --md-typeset-kbd-accent-color:         #FFFFFF;
+  --md-typeset-kbd-border-color:         #C9C0A8;
+  --md-typeset-table-color:              rgba(26, 23, 20, 0.12);
+
+  /* Admonitions inherit from typeset, restyled below */
+
+  /* Footer (light scheme uses primary-fg-color background) */
+  --md-footer-bg-color:                  #1A1714;
+  --md-footer-bg-color--dark:            #0F0D0B;
+  --md-footer-fg-color:                  #FAF7F0;
+  --md-footer-fg-color--light:           #C9C0A8;
+  --md-footer-fg-color--lighter:         #8B847A;
+
+  /* FlowRunner-specific (re-exposed for any custom CSS we add) */
+  --fr-bg:                #FAF7F0;
+  --fr-surface:           #FFFFFF;
+  --fr-surface-2:         #F2EEE2;
+  --fr-surface-3:         #ECE6D5;
+  --fr-border:            #E5DFCE;
+  --fr-border-strong:     #C9C0A8;
+  --fr-text:              #1A1714;
+  --fr-text-muted:        #4A453E;
+  --fr-text-dim:          #8B847A;
+  --fr-accent:            #1F4438;
+  --fr-accent-strong:     #2A5749;
+  --fr-accent-on-accent:  #FAF7F0;
+  --fr-accent-dim:        rgba(31, 68, 56, 0.1);
+  --fr-flag:              #7A3E2C;
+  --fr-flag-dim:          rgba(122, 62, 44, 0.1);
+  --fr-green:             #2E6B3D;
+  --fr-green-dim:         rgba(46, 107, 61, 0.1);
+  --fr-grain-opacity:     0.025;
+  --fr-grain-blend:       multiply;
+}
+
+
+/* ---------- 2. DARK SCHEME (Material's "slate") ---------- */
+[data-md-color-scheme="slate"] {
+  /* Surfaces */
+  --md-default-bg-color:                 #0a0a0a;
+  --md-default-bg-color--light:          rgba(10, 10, 10, 0.7);
+  --md-default-bg-color--lighter:        rgba(10, 10, 10, 0.3);
+  --md-default-bg-color--lightest:       rgba(10, 10, 10, 0.12);
+
+  /* Text */
+  --md-default-fg-color:                 #f5f1e8;
+  --md-default-fg-color--light:          #8a8580;
+  --md-default-fg-color--lighter:        #5a5550;
+  --md-default-fg-color--lightest:       #3a3a3a;
+
+  /* Brand */
+  --md-primary-fg-color:                 #d4a76a;
+  --md-primary-fg-color--light:          #e8b974;
+  --md-primary-fg-color--dark:           #b8895a;
+  --md-primary-bg-color:                 #0a0a0a;
+  --md-primary-bg-color--light:          rgba(10, 10, 10, 0.7);
+
+  /* Accent (links, in-page emphasis) */
+  --md-accent-fg-color:                  #e8b974;
+  --md-accent-fg-color--transparent:     rgba(212, 167, 106, 0.15);
+  --md-accent-bg-color:                  #0a0a0a;
+  --md-accent-bg-color--light:           rgba(10, 10, 10, 0.7);
+
+  /* Code blocks */
+  --md-code-fg-color:                    #f5f1e8;
+  --md-code-bg-color:                    #1c1c1c;
+  --md-code-hl-color:                    rgba(212, 167, 106, 0.15);
+  --md-code-hl-color--light:             rgba(212, 167, 106, 0.07);
+
+  /* Typeset (prose) */
+  --md-typeset-color:                    #f5f1e8;
+  --md-typeset-a-color:                  #d4a76a;
+  --md-typeset-mark-color:               rgba(212, 167, 106, 0.2);
+  --md-typeset-del-color:                rgba(201, 122, 90, 0.12);
+  --md-typeset-ins-color:                rgba(122, 150, 112, 0.15);
+  --md-typeset-kbd-color:                #1c1c1c;
+  --md-typeset-kbd-accent-color:         #232323;
+  --md-typeset-kbd-border-color:         #3a3a3a;
+  --md-typeset-table-color:              rgba(245, 241, 232, 0.12);
+
+  /* Footer */
+  --md-footer-bg-color:                  #050505;
+  --md-footer-bg-color--dark:            #000000;
+  --md-footer-fg-color:                  #f5f1e8;
+  --md-footer-fg-color--light:           #8a8580;
+  --md-footer-fg-color--lighter:         #5a5550;
+
+  /* FlowRunner-specific (re-exposed for custom CSS) */
+  --fr-bg:                #0a0a0a;
+  --fr-surface:           #141414;
+  --fr-surface-2:         #1c1c1c;
+  --fr-surface-3:         #232323;
+  --fr-border:            #2a2a2a;
+  --fr-border-strong:     #3a3a3a;
+  --fr-text:              #f5f1e8;
+  --fr-text-muted:        #8a8580;
+  --fr-text-dim:          #5a5550;
+  --fr-accent:            #d4a76a;
+  --fr-accent-strong:     #e8b974;
+  --fr-accent-on-accent:  #0a0a0a;
+  --fr-accent-dim:        rgba(212, 167, 106, 0.15);
+  --fr-flag:              #c97a5a;
+  --fr-flag-dim:          rgba(201, 122, 90, 0.12);
+  --fr-green:             #7a9670;
+  --fr-green-dim:         rgba(122, 150, 112, 0.15);
+  --fr-grain-opacity:     0.03;
+  --fr-grain-blend:       overlay;
+}
+
+
+/* ---------- 3. SHARED TYPOGRAPHY ---------- */
+
+/* Use Fraunces for h1/h2/h3 — Material's font.text (Inter Tight) handles h4-h6 and body */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset h1 {
+  font-size: 2.4em;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6em;
+}
+.md-typeset h2 {
+  font-size: 1.65em;
+  line-height: 1.2;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+.md-typeset h3 {
+  font-size: 1.25em;
+  line-height: 1.3;
+  margin-top: 1.6em;
+}
+
+/* h4-h6 stay sans (Inter Tight from Material font config) but use uppercase mono treatment */
+.md-typeset h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fr-text-muted);
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+/* Body prose */
+.md-typeset {
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+/* Header brand text */
+.md-header__title {
+  font-weight: 500;
+}
+
+/* Site title in header — use mono uppercase for editorial feel */
+.md-header__topic > .md-ellipsis {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+
+/* ---------- 4. GRAIN OVERLAY (subtle, on body) ---------- */
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--fr-grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: var(--fr-grain-blend);
+  z-index: 0;
+}
+
+
+/* ---------- 5. ADMONITIONS (note, warning, tip, info, etc.) ---------- */
+
+/* Common: thin left border, no rounded corners (preserve editorial feel) */
+.md-typeset .admonition,
+.md-typeset details {
+  border: 1px solid var(--fr-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  background: var(--fr-surface);
+  box-shadow: none;
+  font-size: 0.78rem;
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  background: transparent;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding-left: 2.2rem;
+}
+
+/* Color overrides per admonition type */
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border-left-color: var(--fr-accent);
+}
+.md-typeset .note > .admonition-title,
+.md-typeset .note > summary { color: var(--fr-accent); }
+.md-typeset .note > .admonition-title::before,
+.md-typeset .note > summary::before {
+  background-color: var(--fr-accent);
+  -webkit-mask-image: var(--md-admonition-icon--note);
+  mask-image: var(--md-admonition-icon--note);
+}
+
+.md-typeset .admonition.tip,
+.md-typeset details.tip,
+.md-typeset .admonition.hint,
+.md-typeset details.hint {
+  border-left-color: var(--fr-green);
+}
+.md-typeset .tip > .admonition-title, .md-typeset .tip > summary,
+.md-typeset .hint > .admonition-title, .md-typeset .hint > summary { color: var(--fr-green); }
+.md-typeset .tip > .admonition-title::before, .md-typeset .tip > summary::before,
+.md-typeset .hint > .admonition-title::before, .md-typeset .hint > summary::before {
+  background-color: var(--fr-green);
+}
+
+.md-typeset .admonition.warning,
+.md-typeset details.warning,
+.md-typeset .admonition.caution,
+.md-typeset details.caution,
+.md-typeset .admonition.danger,
+.md-typeset details.danger,
+.md-typeset .admonition.failure,
+.md-typeset details.failure {
+  border-left-color: var(--fr-flag);
+}
+.md-typeset .warning > .admonition-title, .md-typeset .warning > summary,
+.md-typeset .caution > .admonition-title, .md-typeset .caution > summary,
+.md-typeset .danger > .admonition-title, .md-typeset .danger > summary,
+.md-typeset .failure > .admonition-title, .md-typeset .failure > summary {
+  color: var(--fr-flag);
+}
+.md-typeset .warning > .admonition-title::before, .md-typeset .warning > summary::before,
+.md-typeset .caution > .admonition-title::before, .md-typeset .caution > summary::before,
+.md-typeset .danger > .admonition-title::before, .md-typeset .danger > summary::before,
+.md-typeset .failure > .admonition-title::before, .md-typeset .failure > summary::before {
+  background-color: var(--fr-flag);
+}
+
+.md-typeset .admonition.info,
+.md-typeset details.info,
+.md-typeset .admonition.abstract,
+.md-typeset details.abstract,
+.md-typeset .admonition.summary,
+.md-typeset details.summary,
+.md-typeset .admonition.example,
+.md-typeset details.example {
+  border-left-color: var(--fr-text-muted);
+}
+.md-typeset .info > .admonition-title, .md-typeset .info > summary,
+.md-typeset .abstract > .admonition-title, .md-typeset .abstract > summary,
+.md-typeset .summary > .admonition-title, .md-typeset .summary > summary,
+.md-typeset .example > .admonition-title, .md-typeset .example > summary {
+  color: var(--fr-text-muted);
+}
+.md-typeset .info > .admonition-title::before, .md-typeset .info > summary::before,
+.md-typeset .abstract > .admonition-title::before, .md-typeset .abstract > summary::before,
+.md-typeset .summary > .admonition-title::before, .md-typeset .summary > summary::before,
+.md-typeset .example > .admonition-title::before, .md-typeset .example > summary::before {
+  background-color: var(--fr-text-muted);
+}
+
+
+/* ---------- 6. CODE BLOCKS ---------- */
+
+.md-typeset code,
+.md-typeset pre {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78em;
+}
+
+.md-typeset code {
+  background: var(--fr-surface-2);
+  border: 1px solid var(--fr-border);
+  border-radius: 2px;
+  padding: 1px 6px;
+  color: var(--fr-text);
+}
+
+.md-typeset pre > code {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.md-typeset .highlight,
+.md-typeset pre {
+  background: var(--fr-surface-2);
+  border: 1px solid var(--fr-border);
+  border-radius: 4px;
+}
+
+/* Code block filename label (pymdownx feature: ```python title="example.py") */
+.md-typeset .highlight > .filename {
+  background: var(--fr-surface-3);
+  color: var(--fr-text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--fr-border);
+  font-weight: 400;
+}
+
+/* Line numbers */
+.highlighttable .linenos {
+  background: var(--fr-surface-3);
+  color: var(--fr-text-dim);
+  border-right: 1px solid var(--fr-border);
+}
+
+
+/* ---------- 7. PYGMENTS SYNTAX HIGHLIGHTING ---------- */
+/* Custom Pygments tokens for both themes — calibrated to FlowRunner palette */
+
+/* Light scheme tokens */
+[data-md-color-scheme="default"] .highlight {
+  /* Keywords, operators */
+  .k, .kc, .kd, .kn, .kp, .kr, .kt { color: #1F4438; font-weight: 500; }
+  /* Strings */
+  .s, .s1, .s2, .sb, .sc, .sd, .se, .sh, .si, .sx, .sr, .ss { color: #7A3E2C; }
+  /* Comments */
+  .c, .ch, .cm, .cp, .cpf, .c1, .cs { color: #8B847A; font-style: italic; }
+  /* Numbers */
+  .m, .mb, .mf, .mh, .mi, .il, .mo { color: #2E6B3D; }
+  /* Function/class names */
+  .nf, .fm, .nc { color: #1F4438; }
+  /* Built-ins */
+  .nb, .bp { color: #2A5749; }
+  /* Variable names */
+  .n, .nv, .vc, .vg, .vi, .vm { color: #1A1714; }
+  /* Tags (HTML/XML) */
+  .nt { color: #1F4438; }
+  /* Attributes */
+  .na { color: #7A3E2C; }
+  /* Punctuation */
+  .p, .o { color: #4A453E; }
+}
+
+/* Dark scheme tokens */
+[data-md-color-scheme="slate"] .highlight {
+  .k, .kc, .kd, .kn, .kp, .kr, .kt { color: #d4a76a; font-weight: 500; }
+  .s, .s1, .s2, .sb, .sc, .sd, .se, .sh, .si, .sx, .sr, .ss { color: #c97a5a; }
+  .c, .ch, .cm, .cp, .cpf, .c1, .cs { color: #5a5550; font-style: italic; }
+  .m, .mb, .mf, .mh, .mi, .il, .mo { color: #7a9670; }
+  .nf, .fm, .nc { color: #e8b974; }
+  .nb, .bp { color: #e8b974; }
+  .n, .nv, .vc, .vg, .vi, .vm { color: #f5f1e8; }
+  .nt { color: #d4a76a; }
+  .na { color: #c97a5a; }
+  .p, .o { color: #8a8580; }
+}
+
+/* Inline highlighted code (pymdownx.inlinehilite) */
+.md-typeset .highlight code {
+  background: var(--fr-surface-2);
+  border: 1px solid var(--fr-border);
+  padding: 1px 6px;
+}
+
+
+/* ---------- 8. CONTENT TABS (pymdownx.tabbed) ---------- */
+
+.md-typeset .tabbed-set {
+  border: none;
+}
+
+.md-typeset .tabbed-labels {
+  border-bottom: 1px solid var(--fr-border);
+  gap: 0;
+}
+
+.md-typeset .tabbed-labels > label {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--fr-text);
+  padding: 12px 20px 10px;
+  letter-spacing: -0.01em;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s ease;
+}
+
+.md-typeset .tabbed-labels > label:hover {
+  color: var(--fr-accent);
+  background: var(--fr-surface-2);
+}
+
+.md-typeset .tabbed-set > input:checked + label {
+  color: var(--fr-accent);
+  border-bottom-color: var(--fr-accent);
+}
+
+.md-typeset .tabbed-content {
+  padding-top: 1em;
+}
+
+
+/* ---------- 9. KEYBOARD SHORTCUTS (pymdownx.keys) ---------- */
+
+.md-typeset kbd,
+.md-typeset .keys kbd {
+  background: var(--fr-surface);
+  color: var(--fr-text);
+  border: 1px solid var(--fr-border-strong);
+  border-radius: 3px;
+  box-shadow: 0 1px 0 var(--fr-border-strong);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75em;
+  padding: 2px 6px;
+}
+
+
+/* ---------- 10. BLOCKQUOTES ---------- */
+
+.md-typeset blockquote {
+  border-left: 3px solid var(--fr-accent);
+  background: var(--fr-surface);
+  color: var(--fr-text-muted);
+  padding: 16px 20px;
+  margin: 1.5em 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-size: 1.05em;
+  line-height: 1.5;
+}
+
+.md-typeset blockquote em {
+  color: var(--fr-accent);
+}
+
+
+/* ---------- 11. TABLES ---------- */
+
+.md-typeset table:not([class]) {
+  background: var(--fr-surface);
+  border: 1px solid var(--fr-border);
+  border-radius: 4px;
+  font-size: 0.78rem;
+  box-shadow: none;
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--fr-surface-2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--fr-text-dim);
+  border-bottom: 1px solid var(--fr-border);
+}
+
+.md-typeset table:not([class]) td {
+  border-bottom: 1px solid var(--fr-border);
+}
+
+
+/* ---------- 12. LINKS ---------- */
+
+.md-typeset a {
+  color: var(--md-typeset-a-color);
+  border-bottom: 1px dotted transparent;
+  transition: border-color 0.2s ease;
+}
+
+.md-typeset a:hover {
+  color: var(--md-accent-fg-color);
+  border-bottom-color: currentColor;
+}
+
+
+/* ---------- 13. NAVIGATION TWEAKS ---------- */
+
+/* Active nav link gets the accent treatment */
+.md-nav__item .md-nav__link--active {
+  color: var(--fr-accent);
+  font-weight: 500;
+}
+
+/* Section labels in nav use mono uppercase */
+.md-nav__title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fr-text-dim);
+  font-weight: 400;
+}
+
+/* Tabs (top-level nav) */
+.md-tabs__link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
+  opacity: 0.85;
+}
+.md-tabs__link--active {
+  opacity: 1;
+  font-weight: 500;
+}
+
+
+/* ---------- 14. FOOTER ---------- */
+
+.md-footer-meta {
+  background: var(--md-footer-bg-color--dark);
+}
+
+.md-footer__title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+}
+
+.md-footer__direction {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+
+/* ---------- 15. SEARCH ---------- */
+
+.md-search__input {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.md-search-result__meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   END FlowRunner Theme for Material for MkDocs
+   ============================================================ */

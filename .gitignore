@@ -2,3 +2,5 @@ automations/.cache/
 backendless-pro-manager/
 prod/backendless-pro-manager/
 prod/
+.mcp.json
+automations/playwrite/

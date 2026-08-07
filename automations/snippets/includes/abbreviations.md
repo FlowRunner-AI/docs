@@ -6,3 +6,47 @@
     A key/value pairs structure, also known as an object, is a method of organizing<br> and storing data. Imagine it as a labeled filing cabinet where drawer has a<br> specific label, and inside each drawer is a piece of information. The label on the<br> drawer is the key, and the information inside is the value.<br><br> For instance, if you have an object to store information about a person, you might<br> have a key called "name" with the value "Alice". Another key could be "age" with the<br> value "30". This way, if you want to find out the person's age, you look for the<br> "age" key and find the value "30" associated with it.<br>
 *[data bucket]:
     A data bucket is a way to organize and store related pieces of information together. <br>Think of it as a labeled box where you can keep various items that belong to a <br>specific category. Each piece of information, or variable, in the box has its own label,<br>making it easy to find and use. For example, if you have settings that apply to<br>an entire project, you might put all those settings in a data bucket called "Project Settings". This helps keep your information organized and easy to manage.    
+*[Shared Memory]:
+    A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.
+*[Data Bucket]:
+    A named container for a flow's variables during a single run. Each value has its own label, so a step can store something under a name and a later step can read it back. A Data Bucket resets when the run ends - for state that has to survive between runs, use Shared Memory instead.
+*[Data Buckets]:
+    A named container for a flow's variables during a single run. Each value has its own label, so a step can store something under a name and a later step can read it back. A Data Bucket resets when the run ends - for state that has to survive between runs, use Shared Memory instead.
+*[Instance]:
+    One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.
+*[Instances]:
+    One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.
+*[Initial Data]:
+    The data passed to a flow when a run is started - for example the payload of an API call that launches it. It is available to expressions as Initial Data. (When a trigger starts the flow instead, the trigger's data belongs to the trigger block, not to Initial Data.)
+*[Expression Editor]:
+    The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.
+*[Knowledge Base]:
+    A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.
+*[Knowledge Bases]:
+    A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.
+*[RAG]:
+    Retrieval-Augmented Generation - giving an AI model relevant snippets from your own documents at question time, so its answer is grounded in your content rather than only what the model was trained on.
+*[embedding]:
+    A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.
+*[embeddings]:
+    A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.
+*[vector store]:
+    The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.
+*[Cron]:
+    A compact schedule expression (for example "0 9 * * 1-5") that says when something repeats - here, when a flow runs on a schedule.
+*[webhook]:
+    A URL you hand to an outside service so it can call your flow when something happens, passing data along in the request.
+*[MCP server]:
+    A Model Context Protocol server that exposes tools an AI Agent can call. Register one to give your agent extra capabilities beyond the built-in blocks.
+*[Scheduled Runs]:
+    Flow runs that fire automatically on a schedule you set, rather than from a trigger or a manual launch.
+*[connector]:
+    A wiring point on a block's edge where you draw the line to the next block. A block can expose several - for example a Condition's Yes and No, or one per branch on a router.
+*[output connector]:
+    A wiring point on a block's edge that starts one of its outgoing paths; you draw from it to the next block. Blocks that branch (Condition, Value Router, AI Router) expose one per branch, plus a fallback.
+*[while loop]:
+    A programming pattern that repeats a set of steps over and over for as long as a condition stays true, then stops once it becomes false.
+*[expression]:
+    A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.
+*[expressions]:
+    A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.

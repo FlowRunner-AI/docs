@@ -1,0 +1,119 @@
+id: set-variables
+name: Set Variables
+category: Utils
+kind: native
+
+api:
+  element_type: DATA_BUCKET
+  config_keys: [dataBucket, changes, onFailElemId, logging, skipBlock]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    This block stores values now under names you choose, so later steps can read them back - the
+    flow's per-run scratch space. You give it a name and a value for each variable, and it writes
+    them for the rest of the run to use.
+  mental_model: >
+    Each variable you set lives in a Data Bucket.
+    You pick the bucket and list the variables to write, each as a name and a value, and the block
+    writes them all when the flow reaches it. A value can be a fixed literal you type, or an
+    expression worked out at run time, including one that reads the variable's own current value -
+    so a counter can set itself to its current value plus one. Later steps read what you wrote by
+    referencing the variable from its bucket. A bucket's variables belong to the current run, so a
+    fresh run starts with the bucket empty.
+  when_to_use: >
+    Reach for it - it lives in the palette's Utils category - whenever a value you compute or
+    receive in one step is needed by a later step: a flag that records a decision, a counter you
+    raise as you go, or a derived value you work out once and reuse. Holding it in a named variable is cleaner than recomputing it everywhere it is
+    needed, and it gives the value a clear label the rest of the flow can read. If the value has to
+    survive past the current run - a total that carries from one run to the next - a Data Bucket
+    will not keep it; use Shared Memory for that instead.
+  example:
+    - text: >
+        Suppose a flow processes support tickets, and you want to greet the requester by name and
+        keep a running count of how many tickets this run has handled. When a run starts, the flow
+        receives a ticket as Initial Data:
+    - lang: json
+      code: |
+        {
+          "ticketId": 4821,
+          "requester": "Dana Okafor",
+          "priority": "high"
+        }
+    - text: >
+        Add a Set Variables block at the start and write two variables into a bucket named Ticket.
+        The first, greeting, takes an expression that builds a sentence from the requester's name.
+        The second, processedCount, sets the counter to its own current value plus one - on the
+        first ticket it reads as nothing yet, which counts as zero, so processedCount becomes 1:
+    - lang: text
+      code: |
+        Bucket: Ticket
+          greeting        = "Hi " + Initial Data->requester + ", we are on it."
+          processedCount  = Ticket - processedCount + 1
+    - image: ../images/reference/set-variables-config.png
+      alt: >
+        The Set Variables block selected on the canvas with its configuration panel: the Data Bucket
+        is Ticket, and two Perform Changes rows write greeting (the expression "Hi " plus the Initial
+        Data requester plus ", we are on it.") and processedCount (the Ticket processedCount value
+        plus 1).
+    - text: >
+        When the flow reaches the block, both variables are written into the Ticket bucket. A later
+        step reads them back from there. In its own Expression Editor, a downstream block picks the
+        greeting variable out of the Ticket bucket, which renders as the `Ticket - greeting` pill -
+        the read-back reference that pairs with the greeting you wrote here. A message block built on
+        that pill sends "Hi Dana Okafor, we are on it.", and a logging step reading the
+        `Ticket - processedCount` pill records that processedCount is now 1. Each new run starts with
+        the Ticket bucket empty, so processedCount begins counting from one again.
+  config:
+    - field: Data Bucket
+      type: editable dropdown
+      description: >
+        The named container the variables are written into. Pick an existing bucket, or type a new
+        name to create one. Defaults to a bucket named Default.
+    - field: Perform Changes
+      type: repeatable name and value rows
+      description: >
+        The variables to write, one row each. Every row has a name and a value, where the value is
+        either a fixed literal you type or an expression worked out at run time.
+  common: [name, notes]
+  produces_result: false
+  data_in: The name and value for each variable to write.
+  data_out: The named variables, written into the chosen Data Bucket for the current run.
+  gotchas:
+    - "This block does not produce a block result, so there is no ((Reference Result Data As)) alias for it. What it leaves behind is the variables themselves, which later steps read by name from the bucket."
+    - "A Data Bucket's variables belong to the current run and are gone when the run ends. If a value has to carry over to a future run - a running total, for example - Set Variables will not hold it; use Shared Memory, which keeps its values between runs."
+    - "Variables are referenced by their bucket and name together, shown as a 'Bucket - name' pill when you pick one in the Expression Editor."
+  cross_refs: [shared-memory-read, transform-data]
+  terminology: [Set Variables, Data Bucket, Variable]
+
+assertions:
+  - id: writes-variable
+    when: run-instance
+    given: "Set name=Joe in Default bucket"
+    expect: "downstream 'Default - name' resolves to 'Joe'"
+  - id: increment-self
+    when: run-instance
+    given: "timesRan = timesRan + 1 (timesRan starts 0)"
+    expect: "timesRan == 1"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Store/compute variables and reference them later."
+    - "Understand Data Buckets as variable namespaces."
+    - "Know variables are per-instance (vs Shared Memory cross-instance)."
+  prerequisites: [expression-editor]
+  common_mistakes:
+    - "Expecting variables to persist across instances (use Shared Memory)."
+  exercise: >
+    Set a 'Default - greeting' variable from an incoming name and use it in a later block.
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'Flow Memory' / 'This is my new flow' — Set Variables writing to Default bucket; '<Bucket> - <name>' pills; instance I/O. notes.md + screenshots 30,37."
+  verified_on: 2026-06-13

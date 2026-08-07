@@ -1,162 +1,66 @@
-# Synchronize Block
+<!-- GENERATED FILE - do not edit. Source: block-knowledge/synchronize.yaml. Regenerate: make refgen -->
+<!-- doclint: allow-unlinked: Synchronize -->
+# Synchronize
 
-The Synchronize block is an advanced FlowRunner™ component that merges parallel execution branches back into a single execution path. This block is essential for complex workflows where you need to split processing into parallel branches and then consolidate the results or continue with unified execution after parallel operations complete.
+This block waits for several parallel branches of your flow to finish, then continues down a single path once they have all arrived.
 
-Understanding the Synchronize block requires knowledge of how FlowRunner™ handles branched execution. When a single block connects to multiple successor blocks, FlowRunner™ automatically creates separate execution branches that run independently and in parallel. The Synchronize block provides a controlled way to merge these parallel branches back together.
+## How it works
 
-Common use cases include consolidating results from parallel data processing operations, ensuring all validation checks complete before proceeding, coordinating multiple API calls that must all finish before continuing, merging parallel approval workflows, and implementing join patterns in complex business process flows.
+Think of it as a meeting point. When a flow splits into branches that run side by side, each branch runs at its own pace and finishes whenever its work is done. You wire every one of those branches into this block, and it holds the flow there until the last branch shows up. Only then does it release the single path that leads onward, so anything downstream can count on all of that parallel work being complete. You also set a <span class="fr-control">Max Waiting Time</span>, a cap on how long it will hold for the stragglers; if that time runs out first, it stops waiting and continues anyway.
 
-## Understanding Parallel Execution in FlowRunner
+## When to use it
 
-FlowRunner™ automatically creates parallel execution branches whenever a block has multiple successors. Each branch runs independently, which can lead to downstream blocks being executed multiple times if they receive input from multiple parallel branches.
+Reach for it whenever you fan out into branches that run at the same time and a later step needs all of their results together. A common shape is calling two or three sub-flows in parallel - so their work overlaps instead of running one after another - and then needing every one of them done before you move on. Without this block, the path that finishes first would race ahead on its own; with it, the flow waits for the whole group as a unit. The trade-off is the wait itself: the flow moves at the speed of the slowest branch, and the <span class="fr-control">Max Waiting Time</span> is your safeguard against a branch that hangs.
 
-### Basic Parallel Execution Example
+## Example
 
-Consider this flow structure:
+Suppose a flow registers a new customer account, and three pieces of setup can happen at the same time because none of them depends on the others. You fan the flow out into three parallel branches, each a [Call Flow](call-flow.md){.fr-block} block that runs a sub-flow: one creates the funding method, one creates ancillary products, and one records the entity involvement. They start together and each finishes when its own work is done.
 
-```mermaid
-flowchart TD
-    A[Trigger A] --> B[Action B]
-    A[Trigger A] --> C[Action C]
-    B --> D[Action D]
-    C --> D[Action D]
+The next step builds a welcome summary that needs all three results, so it must not run until every branch is finished. Drag in a <span class="fr-block">Synchronize</span> block from the Utils category of the block palette, wire all three <span class="fr-block">Call Flow</span> branches into it, and set its <span class="fr-control">Max Waiting Time</span> to 60 seconds - long enough for the slowest sub-flow on a normal run, short enough that a stuck branch will not hold the flow forever:
+
+```text
+Branch A: Call "Create Funding Method" Flow      finishes at ~8s
+Branch B: Call "Create Ancillary Products" Flow  finishes at ~22s
+Branch C: Call "Create Entity Involvement" Flow  finishes at ~14s
 ```
 
-In this scenario:
+The <span class="fr-block">Synchronize</span> block holds the flow until the last branch arrives. Branch A finishes first at about 8 seconds and waits; Branch C arrives at about 14 seconds and also waits; Branch B is the slowest at about 22 seconds. The moment Branch B lands, all three have arrived, the 60-second cap was never reached, and the flow releases onto its single downstream path to build the welcome summary - now safe to read all three results.
 
-- **Trigger A** creates two parallel branches leading to **Action B** and **Action C**
-- Both **Action B** and **Action C** execute simultaneously in separate branches
-- **Action D** executes **twice** - once for each incoming branch
-- Each execution of **Action D** operates independently with its own context and data
+<span class="fr-block">Synchronize</span> itself does not bundle the branches into one combined result; each branch's result stays under its own <span class="fr-block">Call Flow</span> block. So the welcome-summary step reads them individually in the Expression Editor, building one reference per branch off that branch's <span class="fr-block">Call Flow</span> result:
 
-This parallel execution model provides powerful capabilities for concurrent processing, but sometimes you need to merge branches back into a single execution path.
-
-### Synchronized Execution with Synchronize Block
-
-The Synchronize block solves the multiple execution challenge by waiting for all incoming branches to arrive before allowing a single consolidated execution to continue:
-
-```mermaid
-flowchart TD
-    A[Trigger A] --> B[Action B]
-    A[Trigger A] --> C[Action C]
-    B --> S[Synchronize]
-    C --> S[Synchronize]
-    S --> D[Action D]
-    
-    style S fill:#f9f,stroke:#333,stroke-width:2px
+```text
+{{Call "Create Funding Method" Flow Result->accountId}}
+{{Call "Create Ancillary Products" Flow Result->products}}
+{{Call "Create Entity Involvement" Flow Result->entityId}}
 ```
 
-With the Synchronize block:
+Because <span class="fr-block">Synchronize</span> held the path until every branch arrived, all three of those references resolve - the funding method, the ancillary products, and the entity involvement are all in hand when the welcome-summary step runs.
 
-- **Action B** and **Action C** still execute in parallel
-- The **Synchronize block** waits for both branches to complete
-- **Action D** executes only **once** after synchronization completes
-- The flow continues with a single execution branch containing consolidated context
+Had Branch B instead hung past 60 seconds, the <span class="fr-control">Max Waiting Time</span> would have fired: the flow would have continued at the 60-second mark without that branch, and its result would not be available downstream. That is the behavior the cap is there to give you - a guarantee the flow eventually moves on rather than waiting forever.
 
-## Block Configuration
+![The Synchronize block with its configuration panel: a Max Waiting Time, set in Days/Hours/Minutes/Seconds, capping how long the block waits for the parallel branches before continuing.](../images/reference/synchronize-config.png)
 
-The Synchronize block provides flexible timing control to accommodate different synchronization scenarios.
+## Configuration
 
-![synchronize block](../images/synchronize-block.png)
+| Field | Description |
+| --- | --- |
+| Max Waiting Time | How long to wait for all branches to arrive before giving up and continuing anyway. With <span class="fr-control">Expression Mode</span> off you fill in plain Days, Hours, Minutes, and Seconds fields; with it on you supply an expression that works out to a number of seconds, so the cap can be computed at run time. |
 
-### Max Waiting Time Configuration
+**Common settings** (available on most blocks):
 
-The Max Waiting Time parameter determines how long the Synchronize block will wait for all incoming branches to arrive. This parameter has two configuration modes to accommodate different timing needs.
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
-#### Static Time Configuration
+## Things to watch for
 
-In static mode, you specify a fixed duration using individual time units (see the screenshot above).
+- This block only does something when more than one branch feeds into it. If a single path reaches it, there is nothing to wait for and the flow passes straight through.
+- If the <span class="fr-control">Max Waiting Time</span> runs out before every branch arrives, the flow continues without the missing branches, and any result they would have produced is not available to later steps. Set the cap high enough to cover the slowest branch on a normal run.
 
-Time Unit Options:
+## Related
 
-- **Days**: For long-running processes or batch operations
-- **Hours**: For extended processing workflows
-- **Minutes**: For standard synchronization scenarios
-- **Seconds**: For quick parallel operations
-
-#### Dynamic Time Configuration (Expression Editor)
-
-In dynamic mode, you can specify the wait time in seconds using the Expression Editor, allowing for variable timing based on workflow context:
-
-![synchronize block exp editor](../images/synchronize-block-exp-editor.png)
-
-!!! example "Dynamic Timing Examples"
-
-    - `${ProcessingTime.estimated}`: Use calculated processing time estimates
-    - `${Configuration.timeoutSeconds}`: Reference configuration variables
-    - `${APIResponse.expectedDuration}`: Base timing on external service estimates
-    - `300`: Static 5-minute timeout using expression syntax
-
-### Timeout Behavior
-
-When the Max Waiting Time expires before all branches arrive:
-
-!!! warning "Timeout Handling"
-
-    - The Synchronize block stops waiting and continues execution
-    - Only branches that arrived before timeout are included in the synchronized context
-    - Late-arriving branches are effectively dropped from the execution flow
-    - Consider error handling downstream to detect incomplete synchronization
-
-## Implementation Patterns
-
-### Parallel Data Processing
-
-Use the Synchronize block to merge results from parallel data processing operations:
-
-```mermaid
-flowchart TD
-    A[Data Source] --> B[Process Batch 1]
-    A --> C[Process Batch 2]
-    A --> D[Process Batch 3]
-    B --> E[Synchronize Results]
-    C --> E
-    D --> E
-    E --> F[Consolidate Final Results]
-```
-
-!!! note "Alternative Approach: Actions Group"
-
-    For simpler parallel execution scenarios, consider using an [**Actions Group**](./actions-group.md) block with transition mode set to **"On Completion"**. This ensures the outgoing transition happens only when all enclosed actions complete their execution, providing a more streamlined alternative to explicit Synchronize blocks.
-
-### Multiple API Validation
-
-Coordinate multiple validation API calls before proceeding:
-
-```mermaid
-flowchart TD
-    A[User Input] --> B[Validate Email]
-    A --> C[Check User Permissions]
-    A --> D[Verify Account Status]
-    B --> E[Synchronize Validations]
-    C --> E
-    D --> E
-    E --> F[Process Valid User]
-```
-
-!!! note "Alternative Approach: Action Group"
-
-    Multiple validation calls can also be handled using an **Action Group** with "On Completion" transition mode, which automatically waits for all validations to finish before proceeding.
-
-## Best Practices
-
-!!! tip "Synchronization Design Strategy"
-
-    - **Plan Branch Timing**: Consider the expected duration of each parallel branch
-    - **Set Appropriate Timeouts**: Balance between waiting for slow branches and maintaining flow responsiveness
-    - **Handle Incomplete Synchronization**: Design downstream logic to handle cases where not all branches complete
-    - **Monitor Performance**: Track synchronization patterns to optimize timing parameters
-
-!!! warning "Common Pitfalls"
-
-    - **Overly Short Timeouts**: May cause premature synchronization with missing data
-    - **No Timeout Strategy**: Indefinite waiting can hang workflows
-    - **Complex Branch Dependencies**: Avoid circular dependencies in parallel branches
-    - **Resource Contention**: Be mindful of parallel branches competing for limited resources
-
-!!! note "Performance Considerations"
-
-    - **Memory Usage**: Synchronize blocks hold branch data until synchronization completes
-    - **Execution Time**: Total flow time includes the longest parallel branch plus synchronization time
-    - **Resource Planning**: Account for peak resource usage during parallel execution phases
-    - **Error Propagation**: Design error handling for both individual branches and synchronization failures
+- [Actions Group](actions-group.md)
+- [Call Flow](call-flow.md)
+- [Wait](wait.md)

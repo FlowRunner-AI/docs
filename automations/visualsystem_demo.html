@@ -1,0 +1,2387 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowRunner / Tropical Watch LLC / Q1 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* === THEMES === */
+  :root, [data-theme="dark"] {
+    --bg: #0a0a0a; --surface: #141414; --surface-2: #1c1c1c; --surface-3: #232323;
+    --border: #2a2a2a; --border-strong: #3a3a3a;
+    --text: #f5f1e8; --text-muted: #8a8580; --text-dim: #5a5550;
+    --accent: #d4a76a; --accent-strong: #e8b974; --accent-on-accent: #0a0a0a;
+    --accent-dim: rgba(212, 167, 106, 0.15);
+    --flag: #c97a5a; --flag-dim: rgba(201, 122, 90, 0.12);
+    --green: #7a9670; --green-dim: rgba(122, 150, 112, 0.15);
+    --grain-opacity: 0.03;
+    --controls-bg: rgba(20, 20, 20, 0.95);
+  }
+  [data-theme="light"] {
+    --bg: #FAF7F0; --surface: #FFFFFF; --surface-2: #F2EEE2; --surface-3: #ECE6D5;
+    --border: #E5DFCE; --border-strong: #C9C0A8;
+    --text: #1A1714; --text-muted: #4A453E; --text-dim: #8B847A;
+    --accent: #1F4438; --accent-strong: #2A5749; --accent-on-accent: #FAF7F0;
+    --accent-dim: rgba(31, 68, 56, 0.1);
+    --flag: #7A3E2C; --flag-dim: rgba(122, 62, 44, 0.1);
+    --green: #2E6B3D; --green-dim: rgba(46, 107, 61, 0.1);
+    --grain-opacity: 0.025;
+    --controls-bg: rgba(255, 255, 255, 0.95);
+  }
+  :root {
+    --slack-bg: #1a1d21;
+    --slack-border: #2c2f33;
+    --slack-text: #d1d2d3;
+    --slack-muted: #abadb1;
+    --sans: 'Inter Tight', system-ui, sans-serif;
+    --serif: 'Fraunces', Georgia, serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: var(--sans); font-weight: 400;
+    min-height: 100vh; overflow-x: hidden; padding-bottom: 80px;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    z-index: 1; mix-blend-mode: overlay;
+  }
+  [data-theme="light"] body::before { mix-blend-mode: multiply; }
+
+  /* === SPLASH === */
+  .splash {
+    position: fixed; inset: 0; background: var(--bg); z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  .splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .splash-inner { text-align: center; max-width: 640px; padding: 40px; }
+  .splash-brand {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.3em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 60px;
+    opacity: 0; animation: fadeIn 0.8s 0.2s forwards;
+  }
+  .splash-company {
+    font-family: var(--serif); font-weight: 400; font-size: 56px;
+    letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 1s 0.6s forwards;
+  }
+  .splash-context {
+    font-family: var(--mono); font-size: 13px; color: var(--text-muted);
+    letter-spacing: 0.05em; margin-bottom: 80px;
+    opacity: 0; animation: fadeUp 1s 1.1s forwards;
+  }
+  .splash-context span { color: var(--text); padding: 0 8px; }
+  .splash-cta { opacity: 0; animation: fadeUp 1s 1.7s forwards; }
+  .start-btn {
+    background: transparent; border: 1px solid var(--accent); color: var(--accent);
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.2em;
+    text-transform: uppercase; padding: 16px 36px; cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .start-btn:hover { background: var(--accent); color: var(--accent-on-accent); }
+
+  @keyframes fadeIn { to { opacity: 1; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* === MAIN LAYOUT === */
+  .app {
+    position: relative; z-index: 2;
+    max-width: 1180px; margin: 0 auto;
+    padding: 28px 40px 40px;
+    opacity: 0; transition: opacity 0.6s ease;
+  }
+  .app.visible { opacity: 1; }
+
+  .header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-right { display: flex; align-items: center; gap: 20px; }
+  .brand {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.3em;
+    color: var(--accent); text-transform: uppercase;
+  }
+  .breadcrumb {
+    font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+  .breadcrumb .crumb-active { color: var(--text-muted); }
+  .breadcrumb .sep { color: var(--text-dim); padding: 0 8px; }
+
+  .theme-toggle {
+    display: flex; align-items: center;
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 99px; padding: 3px; cursor: pointer;
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .theme-toggle-opt {
+    padding: 5px 12px; border-radius: 99px;
+    color: var(--text-dim); transition: all 0.2s ease;
+  }
+  .theme-toggle-opt.active {
+    background: var(--accent); color: var(--accent-on-accent);
+  }
+
+  /* === TAB BAR === */
+  .tab-bar {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 36px;
+    gap: 0;
+  }
+  .tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 18px 28px 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    text-align: left;
+    margin-bottom: -1px;
+  }
+  .tab:hover:not(.locked):not(.active) {
+    background: var(--surface-2);
+  }
+  .tab.active {
+    border-bottom-color: var(--accent);
+  }
+  .tab.hidden {
+    display: none;
+  }
+  .tab.locked {
+    cursor: not-allowed;
+    opacity: 0.35;
+  }
+  .tab.unlocked-animate {
+    animation: tabAppear 0.6s ease forwards;
+  }
+  @keyframes tabAppear {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .tab-label {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .tab.active .tab-label {
+    color: var(--accent);
+  }
+  .tab-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .tab.active .tab-meta {
+    color: var(--text-muted);
+  }
+  .tab-new-badge {
+    display: inline-block;
+    margin-left: 10px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    background: var(--accent);
+    color: var(--accent-on-accent);
+    padding: 2px 6px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    animation: badgePulse 2s ease-in-out infinite;
+  }
+  @keyframes badgePulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
+  /* === SCREEN === */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .screen { display: none; }
+  .screen.visible { display: block; animation: screenIn 0.5s ease forwards; }
+  @keyframes screenIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .screen-title {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 32px; letter-spacing: -0.015em; line-height: 1.15;
+    margin-bottom: 12px; max-width: 800px;
+  }
+  .screen-sub {
+    font-size: 15px; color: var(--text-muted); line-height: 1.55;
+    max-width: 720px; margin-bottom: 32px;
+  }
+
+  /* === RUN BAR === */
+  .run-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 20px 28px; margin-bottom: 24px;
+  }
+  .run-bar-info { display: flex; flex-direction: column; gap: 6px; }
+  .run-bar-label {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.2em; color: var(--text-dim); text-transform: uppercase;
+  }
+  .run-bar-source { font-size: 14px; color: var(--text); }
+  .run-bar-source code {
+    font-family: var(--mono); font-size: 12px;
+    background: var(--surface-2); padding: 3px 8px; border-radius: 2px;
+    margin-left: 8px; color: var(--accent);
+  }
+  .run-btn {
+    background: var(--accent); color: var(--accent-on-accent);
+    border: 1px solid var(--accent);
+    font-family: var(--mono); font-size: 12px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 14px 28px; cursor: pointer; font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  .run-btn:hover:not(:disabled) {
+    background: var(--accent-strong); border-color: var(--accent-strong);
+  }
+  .run-btn:disabled {
+    background: var(--surface-3); color: var(--text-dim);
+    border-color: var(--border-strong); cursor: not-allowed;
+  }
+  .run-btn .play { display: inline-block; margin-right: 10px; font-size: 10px; }
+
+  /* === STATS STRIP === */
+  .stats-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .strip-stat { background: var(--surface); padding: 18px 22px; }
+  .strip-label {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em;
+    color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .strip-value {
+    font-family: var(--serif); font-weight: 500; font-size: 30px;
+    line-height: 1; color: var(--text); transition: color 0.4s ease;
+  }
+  .strip-value.accent { color: var(--accent); }
+  .strip-value.flag { color: var(--flag); }
+  .strip-value.green { color: var(--green); }
+  .strip-meta {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-muted); margin-top: 6px; letter-spacing: 0.02em;
+  }
+
+  /* === WAVE TABLE === */
+  .wave-frame {
+    background: var(--surface); border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .wave-head {
+    padding: 14px 20px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface-2);
+  }
+  .wave-head-title {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.2em; color: var(--text); text-transform: uppercase;
+  }
+  .wave-head-meta {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text-muted); letter-spacing: 0.05em;
+  }
+  .wave-head-meta strong { color: var(--accent); font-weight: 500; }
+  .wave-cols {
+    display: grid;
+    grid-template-columns: 28px 90px 1fr 110px 120px 100px 90px;
+    gap: 14px; padding: 10px 20px;
+    background: var(--surface-2); border-bottom: 1px solid var(--border);
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+    color: var(--text-dim); text-transform: uppercase;
+  }
+  .wave-cols .col-amt { text-align: right; }
+  .wave-cols .col-conf { text-align: right; }
+  .wave-list { max-height: 460px; overflow-y: auto; min-height: 60px; }
+  .wave-list::-webkit-scrollbar { width: 6px; }
+  .wave-list::-webkit-scrollbar-track { background: var(--surface); }
+  .wave-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+  .wave-empty {
+    padding: 32px 20px; text-align: center;
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text-dim); letter-spacing: 0.05em;
+  }
+  .wave-empty strong { color: var(--accent); }
+
+  .wave-row {
+    display: grid;
+    grid-template-columns: 28px 90px 1fr 110px 120px 100px 90px;
+    gap: 14px; padding: 11px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--text); align-items: center;
+    opacity: 0; transform: translateX(-6px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .wave-row.visible { opacity: 1; transform: translateX(0); }
+  .wave-row:last-child { border-bottom: none; }
+  .wave-check { color: var(--green); font-size: 14px; }
+  .wave-date { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+  .wave-vendor {
+    font-size: 13px; color: var(--text);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .wave-amt {
+    font-family: var(--mono); font-size: 13px;
+    color: var(--text); text-align: right;
+  }
+  .wave-class, .wave-gl {
+    font-family: var(--mono); font-size: 11px;
+    background: var(--surface-3); color: var(--text);
+    padding: 4px 8px; border-radius: 2px; text-align: center;
+    letter-spacing: 0.04em; border: 1px solid var(--border-strong);
+  }
+  .wave-class.cogs { color: var(--accent); border-color: var(--accent-dim); }
+  .wave-class.ga { color: var(--text); }
+  .wave-class.owner { color: var(--flag); border-color: var(--flag-dim); }
+  .wave-conf {
+    font-family: var(--mono); font-size: 10px;
+    text-align: right; color: var(--green); letter-spacing: 0.05em;
+  }
+  .wave-conf.med { color: var(--accent); }
+  .wave-conf.low { color: var(--flag); }
+
+  /* === CHARGE CARD === */
+  .charge-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 24px 28px; margin-bottom: 24px;
+  }
+  .charge-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 16px;
+  }
+  .charge-head-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    color: var(--accent); text-transform: uppercase;
+  }
+  .charge-source { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+  .charge-body {
+    display: grid; grid-template-columns: 60px 1fr auto;
+    gap: 20px; align-items: center;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .charge-date-block {
+    text-align: center; border-right: 1px solid var(--border);
+    padding-right: 16px;
+  }
+  .charge-date-mon {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    color: var(--text-muted); text-transform: uppercase;
+  }
+  .charge-date-day {
+    font-family: var(--serif); font-size: 26px;
+    color: var(--text); margin-top: 2px;
+  }
+  .charge-vendor-name { font-size: 18px; color: var(--text); font-weight: 500; }
+  .charge-vendor-meta {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text-muted); margin-top: 4px; letter-spacing: 0.02em;
+  }
+  .charge-amount {
+    font-family: var(--serif); font-size: 30px; color: var(--text);
+  }
+  .charge-fields {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    margin-top: 16px;
+  }
+  .charge-field {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px; background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 3px;
+  }
+  .charge-field-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    color: var(--text-dim); text-transform: uppercase;
+  }
+  .charge-field-value { font-family: var(--mono); font-size: 12px; color: var(--text); }
+  .charge-field-value.empty { color: var(--flag); }
+
+  /* === AGENT PANEL === */
+  .agent-panel {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 24px 28px; margin-bottom: 24px;
+  }
+  .agent-head {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .agent-avatar {
+    width: 28px; height: 28px; border-radius: 4px;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-on-accent); font-family: var(--mono);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+  }
+  .agent-name { font-size: 14px; color: var(--text); font-weight: 500; }
+  .agent-status {
+    margin-left: auto; font-family: var(--mono);
+    font-size: 10px; color: var(--accent);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .agent-status.idle { color: var(--green); }
+  .agent-status-dot {
+    width: 6px; height: 6px; background: currentColor;
+    border-radius: 50%; animation: pulse 1.4s ease-in-out infinite;
+  }
+  .agent-status.idle .agent-status-dot { animation: none; }
+  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  .agent-beats { display: flex; flex-direction: column; gap: 12px; }
+  .beat-row {
+    display: grid; grid-template-columns: 32px 1fr;
+    gap: 14px; align-items: flex-start;
+    opacity: 0; transform: translateY(4px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .beat-row.visible { opacity: 1; transform: translateY(0); }
+  .beat-num { font-family: var(--mono); font-size: 11px; color: var(--text-dim); padding-top: 1px; }
+  .beat-action { font-size: 13px; color: var(--text); margin-bottom: 3px; }
+  .beat-result { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .beat-result code {
+    font-family: var(--mono); font-size: 11px;
+    background: var(--surface-2); padding: 1px 6px;
+    border-radius: 2px; color: var(--text);
+  }
+  .beat-result strong { color: var(--text); }
+  .conf-tag {
+    display: inline-block; font-family: var(--mono);
+    font-size: 9px; padding: 2px 6px; border-radius: 2px;
+    margin-left: 6px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .conf-tag.high { background: var(--green-dim); color: var(--green); }
+  .conf-tag.med { background: var(--accent-dim); color: var(--accent); }
+  .conf-tag.low { background: var(--flag-dim); color: var(--flag); }
+
+  /* === SLACK MESSAGE === */
+  .slack-frame {
+    background: var(--slack-bg);
+    border: 1px solid var(--slack-border);
+    border-radius: 8px;
+    padding: 18px 22px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    color: var(--slack-text);
+    margin-bottom: 20px;
+  }
+  .slack-h { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .slack-av {
+    width: 36px; height: 36px; border-radius: 6px;
+    background: linear-gradient(135deg, #d4a76a, #b8895a);
+    color: #1a1d21; font-weight: 700; font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .slack-av.ji {
+    background: linear-gradient(135deg, #5a7a9e, #4a6c8e);
+    color: #fff;
+  }
+  .slack-name { font-weight: 700; font-size: 14px; }
+  .slack-tag {
+    background: #2c2f33; color: var(--slack-muted);
+    font-size: 9px; padding: 1px 5px; border-radius: 3px;
+    font-weight: 700; letter-spacing: 0.04em; margin-left: 6px;
+  }
+  .slack-time { color: var(--slack-muted); font-size: 11px; margin-left: 6px; }
+  .slack-body { font-size: 14px; line-height: 1.5; }
+  .slack-body p { margin-bottom: 6px; }
+  .slack-body strong { color: #fff; }
+  .slack-divider { height: 1px; background: var(--slack-border); margin: 12px 0; }
+  .slack-context {
+    display: grid; grid-template-columns: max-content 1fr;
+    gap: 5px 16px; font-size: 12px; margin: 8px 0;
+  }
+  .slack-context-label { color: var(--slack-muted); }
+  .slack-context-value { color: var(--slack-text); }
+  .slack-context-value.mono { font-family: var(--mono); font-size: 11px; }
+  .slack-why {
+    font-size: 12px; color: var(--slack-muted);
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px solid var(--slack-border);
+  }
+  .slack-why strong { color: #fff; }
+  .slack-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .slack-btn {
+    background: #fff; color: #1d1c1d;
+    border: 1px solid #c1c7cd;
+    padding: 6px 12px; border-radius: 4px;
+    font-size: 12px; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: all 0.2s ease;
+  }
+  .slack-btn:hover { background: #f4f4f4; }
+  .slack-btn.primary {
+    background: #007a5a; color: #fff; border-color: #007a5a;
+  }
+  .slack-btn.primary:hover { background: #006e51; }
+  .slack-btn.selected {
+    background: #007a5a; color: #fff; border-color: #007a5a;
+    box-shadow: 0 0 0 2px rgba(0, 122, 90, 0.3);
+  }
+  .slack-btn.selected::before { content: '✓ '; margin-right: 4px; }
+  .slack-btn.faded { opacity: 0.4; }
+
+  /* === RESPONSE BANNER === */
+  .response-banner {
+    background: var(--green-dim);
+    border: 1px solid var(--green);
+    border-left: 3px solid var(--green);
+    padding: 14px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 16px; margin-bottom: 24px;
+    opacity: 0; transform: translateY(-6px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .response-banner.visible { opacity: 1; transform: translateY(0); }
+  .response-banner-left { display: flex; align-items: center; gap: 12px; }
+  .response-banner-tag {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.2em; color: var(--green); text-transform: uppercase;
+  }
+  .response-banner-text { font-size: 13px; color: var(--text); }
+  .response-banner-text strong { color: var(--text); font-weight: 500; }
+  .response-banner-time {
+    font-family: var(--mono); font-size: 11px; color: var(--text-muted);
+  }
+
+  .reveal-hint {
+    text-align: center;
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 14px; margin-bottom: 20px;
+    background: var(--surface-2);
+    border: 1px dashed var(--border-strong); border-radius: 4px;
+  }
+  .reveal-hint strong { color: var(--accent); font-weight: 600; }
+  .reveal-hint.hidden { display: none; }
+
+  /* === MEMORY CARD === */
+  .memory-card {
+    background: var(--surface); border: 1px solid var(--green);
+    border-left: 3px solid var(--green);
+    padding: 20px 24px; margin-top: 16px;
+  }
+  .memory-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .memory-tag {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    color: var(--green); text-transform: uppercase;
+  }
+  .memory-time { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+  .memory-body {
+    display: grid; grid-template-columns: 60px 1fr auto;
+    gap: 20px; align-items: center;
+    padding: 10px 0; margin-bottom: 14px;
+  }
+  .memory-body .charge-date-block {
+    border-right: 1px solid var(--border); padding-right: 16px;
+  }
+  .memory-applied {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+    padding-top: 14px; border-top: 1px solid var(--border);
+  }
+  .memory-applied .charge-field {
+    background: var(--green-dim); border-color: var(--green);
+  }
+  .memory-applied .charge-field-value { color: var(--green); }
+  .memory-applied .charge-field-label { color: var(--text-muted); }
+
+  /* === OBSERVATION === */
+  .obs-frame {
+    background: var(--surface); border: 1px solid var(--border);
+    border-top: 3px solid var(--flag);
+    padding: 28px 32px; margin-bottom: 24px;
+  }
+  .obs-tag {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.25em;
+    color: var(--flag); text-transform: uppercase; margin-bottom: 14px;
+  }
+  .obs-headline {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 22px; line-height: 1.3;
+    margin-bottom: 20px; letter-spacing: -0.01em;
+  }
+  .obs-headline em { font-style: italic; color: var(--accent); }
+  .obs-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  .obs-table th {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+    color: var(--text-dim); text-transform: uppercase;
+    text-align: left; padding: 10px 12px;
+    border-bottom: 1px solid var(--border); font-weight: 400;
+  }
+  .obs-table th:last-child { text-align: right; }
+  .obs-table td {
+    padding: 12px 12px; border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--text);
+  }
+  .obs-table td:last-child {
+    text-align: right; font-family: var(--mono); color: var(--text-muted);
+  }
+  .obs-table tr:last-child td { border-bottom: none; }
+  .obs-vendor-note {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-dim); margin-top: 3px; display: block;
+  }
+  .obs-conclusion {
+    font-size: 13px; color: var(--text-muted); line-height: 1.6;
+  }
+  .obs-conclusion strong { color: var(--text); }
+
+  /* === AUDIT LOG === */
+  .audit-frame {
+    background: var(--surface-2); border: 1px solid var(--border);
+    padding: 16px 20px; margin-bottom: 24px;
+  }
+  .audit-head {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .audit-list {
+    display: flex; flex-direction: column; gap: 4px;
+    max-height: 110px; overflow-y: auto;
+    font-family: var(--mono); font-size: 11px; color: var(--text-muted);
+  }
+  .audit-list::-webkit-scrollbar { width: 4px; }
+  .audit-list::-webkit-scrollbar-thumb { background: var(--border-strong); }
+  .audit-item { padding: 3px 0; opacity: 0; animation: fadeIn 0.3s forwards; }
+  .audit-item .at-time { color: var(--text-dim); margin-right: 10px; }
+  .audit-item .at-tag { color: var(--accent); margin-right: 8px; text-transform: uppercase; font-size: 9px; letter-spacing: 0.1em; }
+  .audit-item .at-tag.q { color: var(--flag); }
+  .audit-item .at-tag.r { color: var(--green); }
+
+  /* === SUMMARY === */
+  .summary {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 40px 44px; position: relative;
+  }
+  .summary::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent 60%);
+  }
+  .summary-title {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 30px; line-height: 1.2; letter-spacing: -0.015em;
+    margin-bottom: 24px; max-width: 760px;
+  }
+  .summary-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+    padding: 20px 0; margin-bottom: 20px;
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .sum-stat-num {
+    font-family: var(--serif); font-weight: 400; font-size: 32px;
+    color: var(--accent); line-height: 1; margin-bottom: 6px;
+  }
+  .sum-stat-label {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-muted); letter-spacing: 0.05em; line-height: 1.4;
+  }
+  .summary-tease {
+    font-family: var(--serif); font-style: italic; font-size: 18px;
+    color: var(--text-muted); line-height: 1.5;
+    padding-top: 22px; max-width: 660px;
+  }
+  .summary-tease em { color: var(--accent); font-style: italic; }
+  .summary-tease.bright { color: var(--text); }
+
+  /* === FILE GRID (Reconciliation tab) === */
+  .file-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .file-tile {
+    background: var(--surface); padding: 20px 18px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .file-name {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-dim); letter-spacing: 0.1em; line-height: 1.4;
+  }
+  .file-value {
+    font-family: var(--serif); font-weight: 500; font-size: 26px;
+    color: var(--text); line-height: 1;
+  }
+  .file-meta {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--accent); letter-spacing: 0.04em; margin-top: auto;
+  }
+
+  /* === MATCH ROWS === */
+  .match-frame {
+    background: var(--surface); border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .match-head {
+    padding: 14px 20px; border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .match-head-title {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.2em; color: var(--text); text-transform: uppercase;
+  }
+  .match-head-meta {
+    font-family: var(--mono); font-size: 11px; color: var(--text-muted);
+  }
+  .match-head-meta strong { color: var(--accent); }
+  .match-rows { display: flex; flex-direction: column; }
+  .match-row {
+    display: grid;
+    grid-template-columns: 1fr 140px 1fr;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .match-row:last-child { border-bottom: none; }
+  .match-side { display: flex; flex-direction: column; gap: 4px; }
+  .match-side-label {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.15em; color: var(--text-dim);
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .match-side-row1 { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+  .match-side-row2 {
+    font-size: 14px; color: var(--text);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .match-side-row3 { font-family: var(--mono); font-size: 13px; color: var(--text); }
+  .match-side.empty {
+    opacity: 0.5;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .empty-text {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--flag); letter-spacing: 0.05em;
+  }
+  .match-center {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    padding: 0 16px;
+    height: 100%;
+    justify-content: center;
+  }
+  .match-status-pill {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 99px; font-weight: 600;
+  }
+  .match-status-pill.matched {
+    background: var(--green-dim); color: var(--green); border: 1px solid var(--green);
+  }
+  .match-status-pill.fuzzy {
+    background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent);
+  }
+  .match-status-pill.unmatched {
+    background: var(--flag-dim); color: var(--flag); border: 1px solid var(--flag);
+  }
+  .match-conf {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-muted); letter-spacing: 0.05em;
+  }
+
+  .reconcile-note {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    padding-top: 4px;
+    margin-bottom: 24px;
+    max-width: 720px;
+  }
+
+  /* === FLAG CARD === */
+  .flag-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--flag);
+    padding: 28px 32px; margin-bottom: 20px;
+  }
+  .flag-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 16px;
+  }
+  .flag-tag {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.25em; color: var(--flag); text-transform: uppercase;
+  }
+  .flag-impact {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text-muted); letter-spacing: 0.05em;
+  }
+  .flag-impact strong { color: var(--flag); }
+  .flag-headline {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 22px; line-height: 1.3;
+    margin-bottom: 20px; letter-spacing: -0.01em;
+  }
+  .flag-txns {
+    background: var(--surface-2); border: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .flag-txn {
+    display: grid; grid-template-columns: 90px 1fr 130px;
+    gap: 14px; padding: 12px 18px;
+    border-bottom: 1px solid var(--border); align-items: center;
+  }
+  .flag-txn:last-child { border-bottom: none; }
+  .flag-txn-date { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+  .flag-txn-desc { font-family: var(--mono); font-size: 12px; color: var(--text); }
+  .flag-txn-amt {
+    font-family: var(--mono); font-size: 13px;
+    color: var(--text); text-align: right;
+  }
+  .flag-txn-total {
+    background: var(--surface-3); padding: 12px 18px;
+    display: grid; grid-template-columns: 1fr 130px; gap: 14px;
+    font-family: var(--mono); font-size: 12px;
+    color: var(--accent); letter-spacing: 0.05em;
+    text-transform: uppercase; border-top: 1px solid var(--border);
+  }
+  .flag-txn-total .total-amt {
+    font-family: var(--mono); font-size: 14px;
+    color: var(--accent); text-align: right;
+    text-transform: none; letter-spacing: 0; font-weight: 600;
+  }
+  .flag-coding {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin-bottom: 20px;
+  }
+  .flag-coding-side {
+    padding: 16px 20px; border: 1px solid var(--border);
+    border-radius: 4px; background: var(--surface-2);
+  }
+  .flag-coding-side.wrong {
+    border-color: var(--flag-dim);
+    background: rgba(201, 122, 90, 0.04);
+  }
+  .flag-coding-side.right {
+    border-color: var(--green); background: var(--green-dim);
+  }
+  .flag-coding-label {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 6px;
+  }
+  .flag-coding-side.wrong .flag-coding-label { color: var(--flag); }
+  .flag-coding-side.right .flag-coding-label { color: var(--green); }
+  .flag-coding-value {
+    font-family: var(--mono); font-size: 14px;
+    color: var(--text); margin-bottom: 4px;
+  }
+  .flag-coding-side.wrong .flag-coding-value { text-decoration: line-through; opacity: 0.7; }
+  .flag-coding-side.right .flag-coding-value { color: var(--green); font-weight: 600; }
+  .flag-coding-note { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+  .flag-conclusion {
+    font-size: 14px; color: var(--text-muted); line-height: 1.6;
+    padding-top: 16px; border-top: 1px solid var(--border);
+  }
+  .flag-conclusion strong { color: var(--text); font-weight: 500; }
+
+  /* === STICKY CONTROLS === */
+  .controls {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--controls-bg); border-top: 1px solid var(--border);
+    padding: 14px 40px; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(8px);
+  }
+  .ctrl-left, .ctrl-right { display: flex; align-items: center; gap: 14px; }
+  .ctrl-btn {
+    background: transparent; border: 1px solid var(--border-strong);
+    color: var(--text); font-family: var(--mono);
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 11px 22px; cursor: pointer; transition: all 0.2s ease;
+  }
+  .ctrl-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .ctrl-btn.primary {
+    background: var(--accent); color: var(--accent-on-accent); border-color: var(--accent);
+  }
+  .ctrl-btn.primary:hover:not(:disabled) {
+    background: var(--accent-strong); border-color: var(--accent-strong);
+    color: var(--accent-on-accent);
+  }
+  .ctrl-btn.primary.pulse {
+    animation: btnPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes btnPulse {
+    0%, 100% { box-shadow: 0 0 0 0 var(--accent-dim); }
+    50% { box-shadow: 0 0 0 6px var(--accent-dim); }
+  }
+  .ctrl-center {
+    flex: 1; display: flex; align-items: center;
+    justify-content: center; gap: 16px; max-width: 460px;
+  }
+  .step-counter {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text-muted); letter-spacing: 0.1em; white-space: nowrap;
+  }
+  .step-counter strong { color: var(--text); }
+  .progress-track {
+    flex: 1; height: 3px; background: var(--surface-3);
+    border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: var(--accent); width: 0%;
+    transition: width 0.5s ease;
+  }
+
+  @media (max-width: 800px) {
+    .app { padding: 20px 20px 40px; }
+    .splash-company { font-size: 36px; }
+    .screen-title { font-size: 24px; }
+    .stats-strip { grid-template-columns: 1fr 1fr; }
+    .file-grid { grid-template-columns: 1fr 1fr; }
+    .summary-stats { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .wave-cols, .wave-row { grid-template-columns: 20px 60px 1fr 80px 70px; gap: 8px; padding: 8px 12px; font-size: 11px; }
+    .wave-cols .col-class, .wave-cols .col-conf, .wave-row .wave-class, .wave-row .wave-gl, .wave-row .wave-conf { display: none; }
+    .match-row { grid-template-columns: 1fr; gap: 8px; }
+    .match-center { border: none; padding: 8px 0; flex-direction: row; }
+    .flag-coding { grid-template-columns: 1fr; }
+    .controls { padding: 12px 16px; }
+    .ctrl-center { display: none; }
+    .obs-table th, .obs-table td { padding: 8px 6px; font-size: 11px; }
+    .run-bar { flex-direction: column; gap: 16px; align-items: flex-start; }
+    .header-right { gap: 10px; }
+    .breadcrumb { display: none; }
+    .tab { padding: 14px 16px; }
+    .tab-label { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== SPLASH ====== -->
+<div class="splash" id="splash">
+  <div class="splash-inner">
+    <div class="splash-brand">FlowRunner&nbsp;&nbsp;·&nbsp;&nbsp;Demonstration</div>
+    <h1 class="splash-company">Tropical Watch LLC</h1>
+    <div class="splash-context">
+      Q1 2026<span>·</span>5 files<span>·</span>2,343 records
+    </div>
+    <div class="splash-cta">
+      <button class="start-btn" onclick="startDemo()">Begin</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== APP ====== -->
+<div class="app" id="app">
+
+  <div class="header">
+    <div class="brand">FlowRunner</div>
+    <div class="header-right">
+      <div class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+        <div class="theme-toggle-opt active" data-mode="dark">Dark</div>
+        <div class="theme-toggle-opt" data-mode="light">Light</div>
+      </div>
+      <div class="breadcrumb">
+        <span>Tropical Watch LLC</span><span class="sep">/</span><span>Q1 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab active" id="tab-cat" onclick="switchTab('cat')">
+      <span class="tab-label">Categorization</span>
+      <span class="tab-meta">Amex Business · 7 steps</span>
+    </button>
+    <button class="tab hidden locked" id="tab-rec" onclick="switchTab('rec')">
+      <span class="tab-label">Reconciliation</span>
+      <span class="tab-meta">Cross-source · 6 steps</span>
+    </button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- =================== CATEGORIZATION TAB ===================== -->
+  <!-- ============================================================ -->
+  <div class="tab-content active" id="content-cat">
+
+    <!-- SCREEN 1: WAVE -->
+    <div class="screen" id="cat-screen-1">
+      <h2 class="screen-title">Process the Q1 2026 Amex Business Platinum statement.</h2>
+      <p class="screen-sub">FlowRunner will read each charge, match against vendor history and Tropical Watch's chart of accounts, assign Class and GL code, and flag anything ambiguous for Ji's review.</p>
+
+      <div class="run-bar">
+        <div class="run-bar-info">
+          <div class="run-bar-label">Statement file</div>
+          <div class="run-bar-source">Q1_2026_Amex_activity_81007.xlsx <code>517 transactions</code></div>
+        </div>
+        <button class="run-btn" id="run-btn" onclick="runWaveProcessing()">
+          <span class="play">▶</span>Process Statement
+        </button>
+      </div>
+
+      <div class="stats-strip">
+        <div class="strip-stat">
+          <div class="strip-label">Auto-coded</div>
+          <div class="strip-value accent" id="stat-auto">—</div>
+          <div class="strip-meta">confidence ≥ 0.85</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">For review</div>
+          <div class="strip-value flag" id="stat-flag">—</div>
+          <div class="strip-meta">new vendor / ambiguous</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">Pending</div>
+          <div class="strip-value" id="stat-pending">—</div>
+          <div class="strip-meta">in queue</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">Runtime</div>
+          <div class="strip-value" id="stat-time">—</div>
+          <div class="strip-meta">elapsed</div>
+        </div>
+      </div>
+
+      <div class="wave-frame">
+        <div class="wave-head">
+          <div class="wave-head-title">Transaction Stream</div>
+          <div class="wave-head-meta"><span id="wave-count">0</span> / 22 processed&nbsp;&nbsp;·&nbsp;&nbsp;showing sample</div>
+        </div>
+        <div class="wave-cols">
+          <div></div>
+          <div>Date</div>
+          <div>Vendor</div>
+          <div class="col-amt">Amount</div>
+          <div>Class</div>
+          <div>GL Code</div>
+          <div class="col-conf">Confidence</div>
+        </div>
+        <div class="wave-list" id="wave-list">
+          <div class="wave-empty" id="wave-empty">Click <strong>Process Statement</strong> to begin</div>
+        </div>
+      </div>
+
+      <div class="audit-frame">
+        <div class="audit-head">Audit Trail</div>
+        <div class="audit-list" id="audit-1"></div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: ANDERSON ANALYSIS -->
+    <div class="screen" id="cat-screen-2">
+      <h2 class="screen-title">One charge needs Ji's judgment before coding.</h2>
+      <p class="screen-sub">$11,906.13 at Anderson Brothers Diesel on January 5. The descriptor looks like a name. The vendor lookup says auto repair. The amount is too large to silently bucket.</p>
+
+      <div class="charge-card">
+        <div class="charge-head">
+          <span class="charge-head-label">Charge held for review</span>
+          <span class="charge-source">Amex Business 81007 · row 489</span>
+        </div>
+        <div class="charge-body">
+          <div class="charge-date-block">
+            <div class="charge-date-mon">Jan</div>
+            <div class="charge-date-day">05</div>
+          </div>
+          <div>
+            <div class="charge-vendor-name">ANDERSON BROTHERS DIESEL</div>
+            <div class="charge-vendor-meta">Seal Beach, CA · Cardholder Jacek Kozubek</div>
+          </div>
+          <div class="charge-amount">$11,906.13</div>
+        </div>
+        <div class="charge-fields">
+          <div class="charge-field">
+            <span class="charge-field-label">Class</span>
+            <span class="charge-field-value empty">— required</span>
+          </div>
+          <div class="charge-field">
+            <span class="charge-field-label">GL code</span>
+            <span class="charge-field-value empty">— required</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agent-panel">
+        <div class="agent-head">
+          <div class="agent-avatar">FR</div>
+          <div class="agent-name">FlowRunner Agent</div>
+          <div class="agent-status" id="agent-status-2"><span class="agent-status-dot"></span>analyzing</div>
+        </div>
+        <div class="agent-beats" id="beats-2">
+          <div class="beat-row" data-beat="0">
+            <div class="beat-num">01</div>
+            <div>
+              <div class="beat-action">Vendor lookup</div>
+              <div class="beat-result">Anderson Brothers Diesel: heavy-duty auto repair shop, Seal Beach CA. <strong>Not</strong> a clothing store (Amex MCC tag is mis-categorized). <span class="conf-tag high">high</span></div>
+            </div>
+          </div>
+          <div class="beat-row" data-beat="1">
+            <div class="beat-num">02</div>
+            <div>
+              <div class="beat-action">Amount sanity check</div>
+              <div class="beat-result"><code>$11,906.13</code> — well above typical auto-service. Pattern suggests major service, parts, or vehicle-related capital expense. <span class="conf-tag med">medium</span></div>
+            </div>
+          </div>
+          <div class="beat-row" data-beat="2">
+            <div class="beat-num">03</div>
+            <div>
+              <div class="beat-action">Vendor history</div>
+              <div class="beat-result">No prior Anderson Brothers entry in Tropical Watch books. New vendor decision needed. <span class="conf-tag low">low</span></div>
+            </div>
+          </div>
+          <div class="beat-row" data-beat="3">
+            <div class="beat-num">04</div>
+            <div>
+              <div class="beat-action">Decision</div>
+              <div class="beat-result">Material amount, ambiguous business purpose, new vendor. Composing Slack DM to Ji with full context.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="audit-frame">
+        <div class="audit-head">Audit Trail</div>
+        <div class="audit-list" id="audit-2"></div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: SLACK ANDERSON -->
+    <div class="screen" id="cat-screen-3">
+      <h2 class="screen-title">FlowRunner reaches out to Ji on Slack.</h2>
+      <p class="screen-sub">The agent packages everything it knows — vendor, location, amount, card, the reason for asking — and surfaces clear options. Ji can decide in seconds from her phone or laptop.</p>
+
+      <div class="slack-frame">
+        <div class="slack-h">
+          <div class="slack-av">FR</div>
+          <div style="flex:1;">
+            <div>
+              <span class="slack-name">FlowRunner</span>
+              <span class="slack-tag">APP</span>
+              <span class="slack-time">10:14 AM</span>
+            </div>
+            <div class="slack-body">
+              <p>Hi Ji — one charge from the Q1 Amex needs your judgment before I code it.</p>
+            </div>
+          </div>
+        </div>
+        <div class="slack-body">
+          <div class="slack-divider"></div>
+          <div class="slack-context">
+            <div class="slack-context-label">Vendor</div><div class="slack-context-value"><strong>ANDERSON BROTHERS DIESEL</strong></div>
+            <div class="slack-context-label">Location</div><div class="slack-context-value">Seal Beach, CA</div>
+            <div class="slack-context-label">Lookup</div><div class="slack-context-value">Heavy-duty auto repair shop</div>
+            <div class="slack-context-label">Amount</div><div class="slack-context-value mono">$11,906.13</div>
+            <div class="slack-context-label">Date</div><div class="slack-context-value mono">01/05/2026</div>
+            <div class="slack-context-label">Card</div><div class="slack-context-value">Amex Business · Jacek Kozubek</div>
+          </div>
+          <div class="slack-why">
+            <strong>Why I'm asking:</strong> Amount is too large for routine auto service and no prior Anderson Brothers entry in the books. Need to know whether this card is being used for a company vehicle before I code it.
+          </div>
+          <div class="slack-actions" id="slack-actions-3">
+            <button class="slack-btn primary">Vehicle Expense (Business)</button>
+            <button class="slack-btn">Repairs &amp; Maintenance</button>
+            <button class="slack-btn">Owner Personal (reimburse)</button>
+            <button class="slack-btn">Ask Jacek directly</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-hint" id="reveal-hint-3">Click <strong>Reveal Ji's Response →</strong> to continue</div>
+
+      <div class="response-banner" id="response-banner-3">
+        <div class="response-banner-left">
+          <div class="slack-av ji" style="width:28px; height:28px; font-size:11px;">JK</div>
+          <div>
+            <div class="response-banner-tag">Ji responded</div>
+            <div class="response-banner-text"><strong>Vehicle Expense (Business)</strong> · vendor rule created for future Anderson Brothers charges</div>
+          </div>
+        </div>
+        <div class="response-banner-time">10:16 AM · 2 min later</div>
+      </div>
+
+      <div class="audit-frame">
+        <div class="audit-head">Audit Trail</div>
+        <div class="audit-list" id="audit-3"></div>
+      </div>
+    </div>
+
+    <!-- SCREEN 4: MEMORY -->
+    <div class="screen" id="cat-screen-4">
+      <h2 class="screen-title">Ji answered once. FlowRunner remembers.</h2>
+      <p class="screen-sub">Two months later, on March 5, Anderson Brothers Diesel charged Tropical Watch's card again. Same vendor, similar amount. FlowRunner applied Ji's prior decision automatically. No question raised. No interruption.</p>
+
+      <div class="memory-card">
+        <div class="memory-head">
+          <span class="memory-tag">Memory · auto-coded</span>
+          <span class="memory-time">+59 days after first decision</span>
+        </div>
+        <div class="memory-body">
+          <div class="charge-date-block">
+            <div class="charge-date-mon">Mar</div>
+            <div class="charge-date-day">05</div>
+          </div>
+          <div>
+            <div class="charge-vendor-name">ANDERSON BROTHERS DIESEL</div>
+            <div class="charge-vendor-meta">Seal Beach, CA · Cardholder Jacek Kozubek</div>
+          </div>
+          <div class="charge-amount">$12,024.16</div>
+        </div>
+        <div class="memory-applied">
+          <div class="charge-field">
+            <span class="charge-field-label">Class</span>
+            <span class="charge-field-value">G&amp;A (Operations)</span>
+          </div>
+          <div class="charge-field">
+            <span class="charge-field-label">GL code</span>
+            <span class="charge-field-value">6400 · Vehicle Expense</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agent-panel">
+        <div class="agent-head">
+          <div class="agent-avatar">FR</div>
+          <div class="agent-name">FlowRunner Agent</div>
+          <div class="agent-status idle"><span class="agent-status-dot"></span>idle</div>
+        </div>
+        <div class="agent-beats">
+          <div class="beat-row visible">
+            <div class="beat-num">01</div>
+            <div>
+              <div class="beat-action">Vendor match</div>
+              <div class="beat-result">Anderson Brothers Diesel — vendor record exists from prior decision on 01/05/2026. <span class="conf-tag high">high</span></div>
+            </div>
+          </div>
+          <div class="beat-row visible">
+            <div class="beat-num">02</div>
+            <div>
+              <div class="beat-action">Decision recall</div>
+              <div class="beat-result">Prior coding: <code>Class: G&amp;A · GL: 6400 Vehicle Expense</code>. Recorded by Ji on 01/05/2026.</div>
+            </div>
+          </div>
+          <div class="beat-row visible">
+            <div class="beat-num">03</div>
+            <div>
+              <div class="beat-action">Apply &amp; commit</div>
+              <div class="beat-result">Applied to <code>$12,024.16</code> charge. No question raised. Audit trail updated with reference to original decision. <span class="conf-tag high">high · 0.94</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="audit-frame">
+        <div class="audit-head">Audit Trail</div>
+        <div class="audit-list" id="audit-4">
+          <div class="audit-item" style="opacity:1;"><span class="at-time">[10:14:02]</span><span class="at-tag q">QUESTION</span>Anderson Brothers $11,906.13 escalated to Ji via Slack</div>
+          <div class="audit-item" style="opacity:1;"><span class="at-time">[10:16:38]</span><span class="at-tag r">RESPONSE</span>Ji selected: Vehicle Expense (Business) — recorded as vendor rule</div>
+          <div class="audit-item" style="opacity:1;"><span class="at-time">[10:16:39]</span><span class="at-tag">AUTO</span>Anderson Brothers $11,906.13 coded G&amp;A · 6400 Vehicle Expense</div>
+          <div class="audit-item" style="opacity:1;"><span class="at-time">[Mar 05]</span><span class="at-tag">AUTO</span>Anderson Brothers $12,024.16 coded G&amp;A · 6400 Vehicle Expense (rule applied)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 5: CROSS-CARD OBSERVATION -->
+    <div class="screen" id="cat-screen-5">
+      <h2 class="screen-title">Three subscriptions on the personal card look like business tools.</h2>
+      <p class="screen-sub">While processing the Marriott Bonvoy card (ending 51007) in Jacek's personal name, FlowRunner noticed three monthly subscriptions that don't fit the rest of that card's profile.</p>
+
+      <div class="obs-frame">
+        <div class="obs-tag">Observation · not blocking · surfaced for Ji's judgment</div>
+        <div class="obs-headline">All three are recurring on consistent dates and are tools a watch dealer would use to photograph and ship inventory.</div>
+
+        <table class="obs-table">
+          <thead>
+            <tr>
+              <th>Vendor</th>
+              <th>Likely use</th>
+              <th>Monthly · Q1 total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Capture One<span class="obs-vendor-note">Charged 01/13, 02/13, 03/13</span></td>
+              <td>Professional photo editing — used for watch inventory listings</td>
+              <td>$21.20 · $63.60</td>
+            </tr>
+            <tr>
+              <td>Adobe Creative Cloud<span class="obs-vendor-note">Charged 01/20, 02/20, 03/20</span></td>
+              <td>Companion photo/design suite</td>
+              <td>$69.99 · $209.97</td>
+            </tr>
+            <tr>
+              <td>WeTransfer<span class="obs-vendor-note">Charged 01/08, 02/08, 03/08</span></td>
+              <td>Large-file transfer — high-res watch images to buyers and authenticators</td>
+              <td>$25.00 · $75.00</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="obs-conclusion">
+          Pattern strength: <strong>high</strong>. Q1 reimbursement opportunity: <strong>$348.57</strong>. Small dollars, but recoding the rule means Jacek gets reimbursed and these stop hitting his personal P&amp;L going forward. The pattern catches the principle, not the amount.
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 6: SLACK SUBSCRIPTIONS -->
+    <div class="screen" id="cat-screen-6">
+      <h2 class="screen-title">FlowRunner asks Ji how to handle the pattern.</h2>
+      <p class="screen-sub">For observations like this — where the agent is confident in the pattern but the action isn't clear-cut — it surfaces the choice rather than acting unilaterally.</p>
+
+      <div class="slack-frame">
+        <div class="slack-h">
+          <div class="slack-av">FR</div>
+          <div style="flex:1;">
+            <div>
+              <span class="slack-name">FlowRunner</span>
+              <span class="slack-tag">APP</span>
+              <span class="slack-time">10:18 AM</span>
+            </div>
+            <div class="slack-body">
+              <p>Hi Ji — pattern observation on the personal Amex (ending 51007). Not blocking your Q1 close.</p>
+            </div>
+          </div>
+        </div>
+        <div class="slack-body">
+          <div class="slack-divider"></div>
+          <p style="font-size:13px; line-height:1.5; margin-bottom:8px;">Three recurring software subscriptions ($348.57 Q1 total) appear to be photography tools Jacek uses for the watch business:</p>
+          <div class="slack-context">
+            <div class="slack-context-label">Capture One</div><div class="slack-context-value mono">$21.20/mo · 3 occurrences</div>
+            <div class="slack-context-label">Adobe Creative Cloud</div><div class="slack-context-value mono">$69.99/mo · 3 occurrences</div>
+            <div class="slack-context-label">WeTransfer</div><div class="slack-context-value mono">$25.00/mo · 3 occurrences</div>
+          </div>
+          <div class="slack-why">
+            <strong>Why I'm asking:</strong> All three are tools a watch dealer would use to photograph and send inventory. Pattern is high-confidence but the call on whether to reimburse Jacek or leave on personal is yours.
+          </div>
+          <div class="slack-actions" id="slack-actions-6">
+            <button class="slack-btn primary">Recode to Business · reimburse Q1</button>
+            <button class="slack-btn">Leave as personal</button>
+            <button class="slack-btn">Ask Jacek which he prefers</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-hint" id="reveal-hint-6">Click <strong>Reveal Ji's Response →</strong> to continue</div>
+
+      <div class="response-banner" id="response-banner-6">
+        <div class="response-banner-left">
+          <div class="slack-av ji" style="width:28px; height:28px; font-size:11px;">JK</div>
+          <div>
+            <div class="response-banner-tag">Ji responded</div>
+            <div class="response-banner-text"><strong>Recode to Business · reimburse Q1</strong> · $348.57 reimbursement scheduled, vendor rules created</div>
+          </div>
+        </div>
+        <div class="response-banner-time">10:19 AM · 1 min later</div>
+      </div>
+    </div>
+
+    <!-- SCREEN 7: SUMMARY (bridge to Reconciliation tab) -->
+    <div class="screen" id="cat-screen-7">
+      <div class="summary">
+        <h2 class="summary-title">517 transactions processed. 1 question for Ji. 1 observation worth surfacing.</h2>
+
+        <div class="summary-stats">
+          <div>
+            <div class="sum-stat-num">5s</div>
+            <div class="sum-stat-label">Runtime</div>
+          </div>
+          <div>
+            <div class="sum-stat-num">93%</div>
+            <div class="sum-stat-label">Auto-coded ≥ 0.85 confidence</div>
+          </div>
+          <div>
+            <div class="sum-stat-num">~6 min</div>
+            <div class="sum-stat-label">Estimated review time / quarter</div>
+          </div>
+          <div>
+            <div class="sum-stat-num">$348</div>
+            <div class="sum-stat-label">Reimbursement caught</div>
+          </div>
+        </div>
+
+        <p class="summary-tease">
+          That's the categorization layer. While the agent was working, the other files were sitting there. The numbers started telling a different story.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- =================== RECONCILIATION TAB ===================== -->
+  <!-- ============================================================ -->
+  <div class="tab-content" id="content-rec">
+
+    <!-- SCREEN 1: INTRO + RUN -->
+    <div class="screen" id="rec-screen-1">
+      <h2 class="screen-title">While the Amex was processing, FlowRunner kept reading.</h2>
+      <p class="screen-sub">Five files arrived together. The agent doesn't process them one at a time and stop. It reads everything, then looks across the sources for patterns no single file can show.</p>
+
+      <div class="run-bar">
+        <div class="run-bar-info">
+          <div class="run-bar-label">Sources ingested</div>
+          <div class="run-bar-source">5 files · 2,343 records · Q1 2026</div>
+        </div>
+        <button class="run-btn" id="rec-run-btn" onclick="runCrossSource()">
+          <span class="play">▶</span>Show findings
+        </button>
+      </div>
+
+      <div class="file-grid" id="file-grid">
+        <div class="file-tile">
+          <div class="file-name">Q1_2026_WF_Checking.csv</div>
+          <div class="file-value" data-target="685">—</div>
+          <div class="file-meta">bank transactions</div>
+        </div>
+        <div class="file-tile">
+          <div class="file-name">Amex Business 81007</div>
+          <div class="file-value" data-target="517">—</div>
+          <div class="file-meta">business card</div>
+        </div>
+        <div class="file-tile">
+          <div class="file-name">Amex Personal 51007</div>
+          <div class="file-value" data-target="28">—</div>
+          <div class="file-meta">personal card</div>
+        </div>
+        <div class="file-tile">
+          <div class="file-name">Inventory Q1 2026</div>
+          <div class="file-value" data-target="491">—</div>
+          <div class="file-meta">watches purchased</div>
+        </div>
+        <div class="file-tile">
+          <div class="file-name">Sales Report Q1</div>
+          <div class="file-value" data-target="622">—</div>
+          <div class="file-meta">watches sold</div>
+        </div>
+      </div>
+
+      <div class="stats-strip" id="findings-strip" style="opacity:0; transition:opacity 0.6s ease;">
+        <div class="strip-stat">
+          <div class="strip-label">Cross-source matches</div>
+          <div class="strip-value accent">480</div>
+          <div class="strip-meta">wires reconciled to records</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">Unmatched</div>
+          <div class="strip-value flag">39</div>
+          <div class="strip-meta">surfaced for review</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">Compliance flags</div>
+          <div class="strip-value flag">3</div>
+          <div class="strip-meta">material findings</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">P&amp;L impact</div>
+          <div class="strip-value">$130K</div>
+          <div class="strip-meta">if mis-coded</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: INFLOW RECONCILIATION -->
+    <div class="screen" id="rec-screen-2">
+      <h2 class="screen-title">Incoming wires, reconciled to sales records.</h2>
+      <p class="screen-sub">302 incoming wires totaling $6.4M in Q1. The bank statement doesn't know what was sold. The sales report doesn't know when the money arrived. FlowRunner ties them together, surfaces the ones that don't reconcile, and turns month-end close from investigation into verification.</p>
+
+      <div class="stats-strip">
+        <div class="strip-stat">
+          <div class="strip-label">Incoming wires Q1</div>
+          <div class="strip-value">302</div>
+          <div class="strip-meta">$6,394,320 total</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">Sales records Q1</div>
+          <div class="strip-value">622</div>
+          <div class="strip-meta">$11,802,027 total</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">Auto-matched</div>
+          <div class="strip-value green">282</div>
+          <div class="strip-meta">93% of wires</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">For review</div>
+          <div class="strip-value flag">20</div>
+          <div class="strip-meta">name variance / no match</div>
+        </div>
+      </div>
+
+      <div class="match-frame">
+        <div class="match-head">
+          <div class="match-head-title">Sample matches · wire ↔ sale</div>
+          <div class="match-head-meta"><strong>5</strong> of 302</div>
+        </div>
+        <div class="match-rows">
+          <div class="match-row">
+            <div class="match-side">
+              <div class="match-side-label">Bank Wire (inflow)</div>
+              <div class="match-side-row1">03/31/2026 · WF Checking</div>
+              <div class="match-side-row2">WT STEWART ANDREW SMITH</div>
+              <div class="match-side-row3">+$11,000.00</div>
+            </div>
+            <div class="match-center">
+              <div class="match-status-pill matched">Match</div>
+              <div class="match-conf">0.97</div>
+            </div>
+            <div class="match-side">
+              <div class="match-side-label">Sales Record</div>
+              <div class="match-side-row1">03/31 · INVOICE# 10900 · Rolex 5512</div>
+              <div class="match-side-row2">Customer: Stewart Smith</div>
+              <div class="match-side-row3">$11,000.00 · Sold</div>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-side">
+              <div class="match-side-label">Bank Wire (inflow)</div>
+              <div class="match-side-row1">01/05/2026 · WF Checking</div>
+              <div class="match-side-row2">WT SEQ#36303 ROBERT D REFSNYDER</div>
+              <div class="match-side-row3">+$53,500.00</div>
+            </div>
+            <div class="match-center">
+              <div class="match-status-pill fuzzy">Fuzzy match</div>
+              <div class="match-conf">0.84</div>
+            </div>
+            <div class="match-side">
+              <div class="match-side-label">Sales Record</div>
+              <div class="match-side-row1">01/04 · Rolex 228238</div>
+              <div class="match-side-row2">Customer: Rob Refsnyder</div>
+              <div class="match-side-row3">$53,500.00 · Sold</div>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-side">
+              <div class="match-side-label">Bank Wire (inflow)</div>
+              <div class="match-side-row1">03/31/2026 · WF Checking</div>
+              <div class="match-side-row2">WT FED#02N09 KENNETH G HARVEY OR MELODY F</div>
+              <div class="match-side-row3">+$18,000.00</div>
+            </div>
+            <div class="match-center">
+              <div class="match-status-pill matched">Match</div>
+              <div class="match-conf">0.92</div>
+            </div>
+            <div class="match-side">
+              <div class="match-side-label">Sales Record</div>
+              <div class="match-side-row1">03/31 · POH OF 26/03/31</div>
+              <div class="match-side-row2">Customer: Kenneth Harvey</div>
+              <div class="match-side-row3">$18,000.00 · Sold</div>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-side">
+              <div class="match-side-label">Bank Wire (inflow)</div>
+              <div class="match-side-row1">01/02/2026 · WF Checking</div>
+              <div class="match-side-row2">WT FED#02L04 JANE Y KIM</div>
+              <div class="match-side-row3">+$9,500.00</div>
+            </div>
+            <div class="match-center">
+              <div class="match-status-pill matched">Match</div>
+              <div class="match-conf">0.96</div>
+            </div>
+            <div class="match-side">
+              <div class="match-side-label">Sales Record</div>
+              <div class="match-side-row1">01/02 · Rolex 116610</div>
+              <div class="match-side-row2">Customer: Jane Kim</div>
+              <div class="match-side-row3">$9,500.00 · Sold</div>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-side">
+              <div class="match-side-label">Bank Wire (inflow)</div>
+              <div class="match-side-row1">03/06/2026 · WF Checking</div>
+              <div class="match-side-row2">PAYPAL TRANSFER 1048729760492</div>
+              <div class="match-side-row3">+$18,435.69</div>
+            </div>
+            <div class="match-center">
+              <div class="match-status-pill unmatched">No match</div>
+              <div class="match-conf">flagged</div>
+            </div>
+            <div class="match-side empty">
+              <div class="empty-text">No sales record at this amount on or near this date</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="reconcile-note">Unmatched items go to a review queue. Ji or Jacek looks them up once and tells FlowRunner what they were. The next similar wire codes automatically.</p>
+    </div>
+
+    <!-- SCREEN 3: OUTFLOW RECONCILIATION -->
+    <div class="screen" id="rec-screen-3">
+      <h2 class="screen-title">Outgoing wires, reconciled to inventory purchases.</h2>
+      <p class="screen-sub">217 outgoing wires totaling $6.76M in Q1. Each one should match a watch added to inventory. Most do. The ones that don't are exactly what a CFO needs to know about.</p>
+
+      <div class="stats-strip">
+        <div class="strip-stat">
+          <div class="strip-label">Outgoing wires Q1</div>
+          <div class="strip-value">217</div>
+          <div class="strip-meta">$6,756,787 total</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">Inventory purchases</div>
+          <div class="strip-value">491</div>
+          <div class="strip-meta">watches added</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">Auto-matched</div>
+          <div class="strip-value green">198</div>
+          <div class="strip-meta">91% of wires</div>
+        </div>
+        <div class="strip-stat">
+          <div class="strip-label">For review</div>
+          <div class="strip-value flag">19</div>
+          <div class="strip-meta">no inventory match</div>
+        </div>
+      </div>
+
+      <div class="match-frame">
+        <div class="match-head">
+          <div class="match-head-title">Sample matches · wire ↔ inventory purchase</div>
+          <div class="match-head-meta"><strong>5</strong> of 217</div>
+        </div>
+        <div class="match-rows">
+          <div class="match-row">
+            <div class="match-side">
+              <div class="match-side-label">Bank Wire (outflow)</div>
+              <div class="match-side-row1">03/31/2026 · WF Checking</div>
+              <div class="match-side-row2">WT /BNF=Eric Cheng</div>
+              <div class="match-side-row3">−$10,000.00</div>
+            </div>
+            <div class="match-center">
+              <div class="match-status-pill matched">Match</div>
+              <div class="match-conf">0.95</div>
+            </div>
+            <div class="match-side">
+              <div class="match-side-label">Inventory Purchase</div>
+              <div class="match-side-row1">03/31 · Rolex 1675 · GMT</div>
+              <div class="match-side-row2">Seller: Eric Cheng</div>
+              <div class="match-side-row3">$10,000.00 · Cost</div>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-side">
+              <div class="match-side-label">Bank Wire (outflow)</div>
+              <div class="match-side-row1">03/31/2026 · WF Checking</div>
+              <div class="match-side-row2">WT /BNF=McKing Product LLC</div>
+              <div class="match-side-row3">−$18,800.00</div>
+            </div>
+            <div class="match-center">
+              <div class="match-status-pill matched">Match</div>
+              <div class="match-conf">0.98</div>
+            </div>
+            <div class="match-side">
+              <div class="match-side-label">Inventory Purchase</div>
+              <div class="match-side-row1">03/30 · Rolex 116508</div>
+              <div class="match-side-row2">Seller: McKing Product LLC</div>
+              <div class="match-side-row3">$18,800.00 · Cost</div>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-side">
+              <div class="match-side-label">Bank Wire (outflow)</div>
+              <div class="match-side-row1">01/05/2026 · WF Checking</div>
+              <div class="match-side-row2">WT /BNF=EUROPEAN WATCH COMPANY 6082</div>
+              <div class="match-side-row3">−$40,000.00</div>
+            </div>
+            <div class="match-center">
+              <div class="match-status-pill matched">Match</div>
+              <div class="match-conf">0.96</div>
+            </div>
+            <div class="match-side">
+              <div class="match-side-label">Inventory Purchase</div>
+              <div class="match-side-row1">01/05 · Patek Philippe 5712R</div>
+              <div class="match-side-row2">Seller: European Watch Company</div>
+              <div class="match-side-row3">$40,000.00 · Cost</div>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-side">
+              <div class="match-side-label">Bank Wire (outflow)</div>
+              <div class="match-side-row1">01/05/2026 · WF Checking</div>
+              <div class="match-side-row2">WT 2026010500523634 ZHOU YUDA</div>
+              <div class="match-side-row3">−$41,500.00</div>
+            </div>
+            <div class="match-center">
+              <div class="match-status-pill fuzzy">Fuzzy match</div>
+              <div class="match-conf">0.79</div>
+            </div>
+            <div class="match-side">
+              <div class="match-side-label">Inventory Purchase</div>
+              <div class="match-side-row1">01/06 · Rolex 116610LV</div>
+              <div class="match-side-row2">Seller: Yuda Zhou (China Merchants)</div>
+              <div class="match-side-row3">$41,500.00 · Cost</div>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-side">
+              <div class="match-side-label">Bank Wire (outflow)</div>
+              <div class="match-side-row1">02/27/2026 · WF Checking</div>
+              <div class="match-side-row2">PAYPAL INST XFER STANTAKUL</div>
+              <div class="match-side-row3">−$8,000.00</div>
+            </div>
+            <div class="match-center">
+              <div class="match-status-pill unmatched">No match</div>
+              <div class="match-conf">flagged</div>
+            </div>
+            <div class="match-side empty">
+              <div class="empty-text">PayPal screen-name only · no inventory record at this amount</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="reconcile-note">Unmatched items go to a review queue. Ji or Jacek looks them up once and tells FlowRunner what they were. The next similar wire codes automatically.</p>
+    </div>
+
+    <!-- SCREEN 4: OWNER DRAWS -->
+    <div class="screen" id="rec-screen-4">
+      <h2 class="screen-title">$130,000 moved from the business to Jacek's personal account.</h2>
+      <p class="screen-sub">If these are coded as operating expenses, Q1 P&amp;L is overstated by $130K. They aren't expenses. They're distributions to the owner — an equity transaction. FlowRunner flagged both before they hit the books.</p>
+
+      <div class="flag-card">
+        <div class="flag-head">
+          <div class="flag-tag">Material flag · P&amp;L</div>
+          <div class="flag-impact"><strong>$130,000</strong> · misclassification risk</div>
+        </div>
+        <div class="flag-headline">Two large transfers to a personal Wells Fargo account in Jacek Kozubek's name.</div>
+
+        <div class="flag-txns">
+          <div class="flag-txn">
+            <div class="flag-txn-date">01/05/2026</div>
+            <div class="flag-txn-desc">ONLINE TRANSFER TO KOZUBEK J EVERYDAY CHECKING XXXXXX2332</div>
+            <div class="flag-txn-amt">−$80,000.00</div>
+          </div>
+          <div class="flag-txn">
+            <div class="flag-txn-date">02/25/2026</div>
+            <div class="flag-txn-desc">ONLINE TRANSFER TO KOZUBEK J EVERYDAY CHECKING XXXXXX2332</div>
+            <div class="flag-txn-amt">−$50,000.00</div>
+          </div>
+          <div class="flag-txn-total">
+            <div>Q1 total moved to owner</div>
+            <div class="total-amt">$130,000.00</div>
+          </div>
+        </div>
+
+        <div class="flag-coding">
+          <div class="flag-coding-side wrong">
+            <div class="flag-coding-label">If coded as expense (typical bookkeeper error)</div>
+            <div class="flag-coding-value">GL 6900 · Operating Expense</div>
+            <div class="flag-coding-note">Q1 P&amp;L would overstate expenses by $130K. Owner's equity stays unchanged. Books look wrong but reconcile to themselves.</div>
+          </div>
+          <div class="flag-coding-side right">
+            <div class="flag-coding-label">FlowRunner suggests</div>
+            <div class="flag-coding-value">GL 3500 · Owner's Draw (Equity)</div>
+            <div class="flag-coding-note">Distribution from the business to Jacek personally. Reduces owner's equity, does not hit P&amp;L. Correct treatment for a single-member LLC.</div>
+          </div>
+        </div>
+
+        <div class="flag-conclusion">
+          <strong>Why FlowRunner caught this and the bookkeeper would miss it:</strong> The descriptor is straightforward but the coding decision requires understanding LLC equity treatment, not just transaction categorization. The receiving account is named KOZUBEK J EVERYDAY CHECKING — clearly personal. FlowRunner cross-referenced the account designation, the amount pattern, and the recipient name against Jacek's role as owner.
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 5: PERSONAL ON BUSINESS -->
+    <div class="screen" id="rec-screen-5">
+      <h2 class="screen-title">Two more flags worth Ji's review.</h2>
+      <p class="screen-sub">A personal joint tax payment paid from the business, and a cluster of vehicle expenses on the business Amex with no company vehicle on the books. Both need owner confirmation.</p>
+
+      <div class="flag-card">
+        <div class="flag-head">
+          <div class="flag-tag">Compliance flag · Personal tax from business</div>
+          <div class="flag-impact"><strong>$4,183</strong> · owner reimbursement</div>
+        </div>
+        <div class="flag-headline">Joint personal tax payment paid from the business operating account.</div>
+        <div class="flag-txns">
+          <div class="flag-txn">
+            <div class="flag-txn-date">01/14/2026</div>
+            <div class="flag-txn-desc">IRS USATAXPYMT 011426 222641453718586 JACEK KOZUBEK &amp; CHRIST...</div>
+            <div class="flag-txn-amt">−$4,183.00</div>
+          </div>
+        </div>
+        <div class="flag-conclusion">
+          <strong>Pattern:</strong> The IRS payment descriptor includes a joint filer name (clearly personal, not business). Paid out of the business operating account. <strong>Recommended action:</strong> reclassify as Owner Personal and process owner reimbursement back to the business. If left in books, it would appear as a deductible business tax expense — that's an IRS audit risk.
+        </div>
+      </div>
+
+      <div class="flag-card">
+        <div class="flag-head">
+          <div class="flag-tag">Compliance flag · Vehicle cluster on business card</div>
+          <div class="flag-impact"><strong>$43,744</strong> · needs owner confirmation</div>
+        </div>
+        <div class="flag-headline">Six vehicle-related charges on the business Amex with no company vehicle on the books.</div>
+        <div class="flag-txns">
+          <div class="flag-txn">
+            <div class="flag-txn-date">01/05/2026</div>
+            <div class="flag-txn-desc">ANDERSON BROTHERS DIESEL · Seal Beach CA</div>
+            <div class="flag-txn-amt">$11,906.13</div>
+          </div>
+          <div class="flag-txn">
+            <div class="flag-txn-date">02/25/2026</div>
+            <div class="flag-txn-desc">PORSCHE CARLSBAD · Carlsbad CA</div>
+            <div class="flag-txn-amt">$5,000.00</div>
+          </div>
+          <div class="flag-txn">
+            <div class="flag-txn-date">02/26/2026</div>
+            <div class="flag-txn-desc">FRISBY AUTO ELEC · Park City IL</div>
+            <div class="flag-txn-amt">$5,613.46</div>
+          </div>
+          <div class="flag-txn">
+            <div class="flag-txn-date">03/05/2026</div>
+            <div class="flag-txn-desc">ANDERSON BROTHERS DIESEL · Seal Beach CA</div>
+            <div class="flag-txn-amt">$12,024.16</div>
+          </div>
+          <div class="flag-txn">
+            <div class="flag-txn-date">03/11/2026</div>
+            <div class="flag-txn-desc">IFS INFORSURE INC. · Pasadena CA</div>
+            <div class="flag-txn-amt">$4,616.34</div>
+          </div>
+          <div class="flag-txn">
+            <div class="flag-txn-date">03/18/2026</div>
+            <div class="flag-txn-desc">IFS INFORSURE INC. · Pasadena CA</div>
+            <div class="flag-txn-amt">$4,584.81</div>
+          </div>
+          <div class="flag-txn-total">
+            <div>Q1 vehicle-related total</div>
+            <div class="total-amt">$43,744.90</div>
+          </div>
+        </div>
+        <div class="flag-conclusion">
+          <strong>The question:</strong> Tropical Watch's books show no company vehicle asset, no auto insurance line item, no prior auto-related history. <strong>If there is a company vehicle:</strong> all six charges code cleanly to Vehicle Expense (Ji answered this for Anderson Brothers earlier). <strong>If there isn't:</strong> $43K of personal auto expense ran through the business card and needs reimbursement. Either way, the answer changes the books materially.
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 6: SUMMARY + BRIDGE -->
+    <div class="screen" id="rec-screen-6">
+      <div class="summary">
+        <h2 class="summary-title">5 files. 2,343 records. 3 material findings the bookkeeper would never catch.</h2>
+
+        <div class="summary-stats">
+          <div>
+            <div class="sum-stat-num">480</div>
+            <div class="sum-stat-label">Cross-source matches</div>
+          </div>
+          <div>
+            <div class="sum-stat-num">$130K</div>
+            <div class="sum-stat-label">Owner draw correctly classified</div>
+          </div>
+          <div>
+            <div class="sum-stat-num">$47K</div>
+            <div class="sum-stat-label">Personal expenses flagged for reimbursement</div>
+          </div>
+          <div>
+            <div class="sum-stat-num">~15 min</div>
+            <div class="sum-stat-label">Ji's monthly oversight time</div>
+          </div>
+        </div>
+
+        <p class="summary-tease bright">
+          <em>AI intelligence with automation discipline.</em> The intelligence reads context. The discipline remembers the answer.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ====== STICKY CONTROLS ====== -->
+<div class="controls" id="controls" style="display:none;">
+  <div class="ctrl-left">
+    <button class="ctrl-btn" id="btn-back" onclick="goBack()">← Back</button>
+  </div>
+  <div class="ctrl-center">
+    <div class="step-counter">Step <strong id="step-num">01</strong> of <strong id="step-total">07</strong></div>
+    <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+  </div>
+  <div class="ctrl-right">
+    <button class="ctrl-btn primary" id="btn-next" onclick="goNext()">Next →</button>
+  </div>
+</div>
+
+<script>
+  // ============ DATA ============
+  const WAVE_TXNS = [
+    { d: '03/31', v: 'AMAZON MARKETPLACE NA PA', a: '10.06', cls: 'G&A', gl: '6300', conf: 0.92, c: 'high' },
+    { d: '03/31', v: 'PAYPAL *EBAY 800-456', a: '86.31', cls: 'COGS', gl: '5000', conf: 0.89, c: 'high' },
+    { d: '03/31', v: 'SHAKE SHACK Carlsbad CA', a: '87.02', cls: 'G&A', gl: '6200', conf: 0.97, c: 'high' },
+    { d: '03/26', v: 'AG1 USA Carson City NV', a: '94.13', cls: 'G&A', gl: '6300', conf: 0.88, c: 'high' },
+    { d: '03/20', v: 'ADOBE Adobe Systems', a: '69.99', cls: 'G&A', gl: '6100', conf: 0.96, c: 'high' },
+    { d: '03/18', v: 'IFS INFORSURE INC.', a: '4,584.81', cls: 'G&A', gl: '6800', conf: 0.91, c: 'high' },
+    { d: '03/15', v: 'GOOGLE *YOUTUBEPREMI', a: '13.99', cls: 'G&A', gl: '6100', conf: 0.98, c: 'high' },
+    { d: '03/11', v: 'IFS INFORSURE INC.', a: '4,616.34', cls: 'G&A', gl: '6800', conf: 0.91, c: 'high' },
+    { d: '03/10', v: 'LOUPETHIS.COM West Hollywood', a: '19,787.85', cls: 'COGS', gl: '5000', conf: 0.94, c: 'high' },
+    { d: '02/26', v: 'WSJ Wall Street Journal', a: '38.99', cls: 'G&A', gl: '6100', conf: 0.87, c: 'high' },
+    { d: '02/18', v: 'LOUPETHIS.COM West Hollywood', a: '8,030.70', cls: 'COGS', gl: '5000', conf: 0.94, c: 'high' },
+    { d: '02/12', v: 'LOUPETHIS.COM West Hollywood', a: '26,059.00', cls: 'COGS', gl: '5000', conf: 0.94, c: 'high' },
+    { d: '02/06', v: 'LOUPETHIS.COM West Hollywood', a: '95,738.50', cls: 'COGS', gl: '5000', conf: 0.93, c: 'high' },
+    { d: '02/03', v: 'LOUPETHIS.COM West Hollywood', a: '11,330.00', cls: 'COGS', gl: '5000', conf: 0.94, c: 'high' },
+    { d: '01/30', v: 'LOUPETHIS.COM West Hollywood', a: '103,103.00', cls: 'COGS', gl: '5000', conf: 0.93, c: 'high' },
+    { d: '01/25', v: 'AMAZON MARKETPLACE', a: '184.22', cls: 'G&A', gl: '6300', conf: 0.91, c: 'high' },
+    { d: '01/20', v: 'LOUPETHIS.COM West Hollywood', a: '4,192.10', cls: 'COGS', gl: '5000', conf: 0.94, c: 'high' },
+    { d: '01/13', v: 'AMERICAN AIRLINES', a: '847.40', cls: 'G&A', gl: '6700', conf: 0.86, c: 'high' },
+    { d: '01/09', v: 'STAPLES.COM 800-3333330', a: '128.45', cls: 'G&A', gl: '6300', conf: 0.95, c: 'high' },
+    { d: '01/08', v: 'GOOGLE Workspace', a: '36.00', cls: 'G&A', gl: '6100', conf: 0.98, c: 'high' },
+    { d: '01/07', v: 'DHL EXPRESS US', a: '142.50', cls: 'G&A', gl: '6700', conf: 0.93, c: 'high' },
+    { d: '01/05', v: 'ANDERSON BROTHERS DIESEL', a: '11,906.13', cls: '?', gl: '?', conf: 0.42, c: 'low' }
+  ];
+
+  // ============ STATE ============
+  const TABS = {
+    cat: { totalSteps: 7, currentStep: 1, prefix: 'cat-screen-' },
+    rec: { totalSteps: 6, currentStep: 1, prefix: 'rec-screen-' }
+  };
+  let activeTab = 'cat';
+  let reconciliationUnlocked = false;
+  let waveStarted = false;
+  let findingsRevealed = false;
+  const screenInitialized = {};
+  const responseRevealed = { 'cat-3': false, 'cat-6': false };
+
+  // ============ THEME ============
+  function toggleTheme() {
+    const root = document.documentElement;
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    document.querySelectorAll('.theme-toggle-opt').forEach(opt => {
+      opt.classList.toggle('active', opt.dataset.mode === next);
+    });
+  }
+
+  // ============ START ============
+  function startDemo() {
+    document.getElementById('splash').classList.add('hidden');
+    setTimeout(() => {
+      document.getElementById('app').classList.add('visible');
+      document.getElementById('controls').style.display = 'flex';
+      showCurrentStep();
+    }, 300);
+  }
+
+  // ============ TAB SWITCHING ============
+  function switchTab(tab) {
+    if (tab === 'rec' && !reconciliationUnlocked) return;
+    if (tab === activeTab) return;
+
+    activeTab = tab;
+    // Update tab UI
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    // Update tab content
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('content-' + tab).classList.add('active');
+
+    // Remove "NEW" badge once Reconciliation is opened
+    const recTab = document.getElementById('tab-rec');
+    const badge = recTab.querySelector('.tab-new-badge');
+    if (badge) badge.remove();
+
+    showCurrentStep();
+  }
+
+  // ============ NAVIGATION ============
+  function showCurrentStep() {
+    const tabState = TABS[activeTab];
+    const n = tabState.currentStep;
+
+    // Hide all screens in active tab content
+    const activeContent = document.getElementById('content-' + activeTab);
+    activeContent.querySelectorAll('.screen').forEach(s => s.classList.remove('visible'));
+
+    // Show target screen
+    const targetId = tabState.prefix + n;
+    const target = document.getElementById(targetId);
+    if (target) target.classList.add('visible');
+
+    // Update controls
+    document.getElementById('step-num').textContent = String(n).padStart(2, '0');
+    document.getElementById('step-total').textContent = String(tabState.totalSteps).padStart(2, '0');
+    document.getElementById('progress').style.width = (n / tabState.totalSteps * 100) + '%';
+
+    // Back button — disabled only on first step of Categorization
+    document.getElementById('btn-back').disabled = (activeTab === 'cat' && n === 1);
+
+    updateNextButtonLabel();
+
+    // Lazy init for screens with animations
+    const initKey = activeTab + '-' + n;
+    if (!screenInitialized[initKey]) {
+      screenInitialized[initKey] = true;
+      if (activeTab === 'cat' && n === 2) animateAnderson();
+      if (activeTab === 'cat' && n === 3) initSlackAnderson();
+      if (activeTab === 'cat' && n === 7) unlockReconciliation();
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateNextButtonLabel() {
+    const btnNext = document.getElementById('btn-next');
+    btnNext.classList.remove('pulse');
+
+    const tabState = TABS[activeTab];
+    const n = tabState.currentStep;
+
+    // End of Reconciliation = Restart
+    if (activeTab === 'rec' && n === tabState.totalSteps) {
+      btnNext.textContent = 'Restart';
+      return;
+    }
+    // End of Categorization = jump to Reconciliation
+    if (activeTab === 'cat' && n === tabState.totalSteps) {
+      btnNext.innerHTML = 'Show Reconciliation →';
+      btnNext.classList.add('pulse');
+      return;
+    }
+    // Slack reveal moments
+    const revealKey = activeTab + '-' + n;
+    if ((revealKey === 'cat-3' || revealKey === 'cat-6') && !responseRevealed[revealKey]) {
+      btnNext.textContent = "Reveal Ji's Response →";
+      btnNext.classList.add('pulse');
+      return;
+    }
+    btnNext.innerHTML = 'Next →';
+  }
+
+  function goNext() {
+    const tabState = TABS[activeTab];
+    const n = tabState.currentStep;
+
+    // End of Reconciliation = Restart whole demo
+    if (activeTab === 'rec' && n === tabState.totalSteps) {
+      resetDemo();
+      return;
+    }
+    // End of Categorization = switch to Reconciliation
+    if (activeTab === 'cat' && n === tabState.totalSteps) {
+      switchTab('rec');
+      return;
+    }
+    // Slack reveal on Categorization screens 3 and 6
+    const revealKey = activeTab + '-' + n;
+    if ((revealKey === 'cat-3' || revealKey === 'cat-6') && !responseRevealed[revealKey]) {
+      revealResponse(revealKey);
+      responseRevealed[revealKey] = true;
+      updateNextButtonLabel();
+      return;
+    }
+    // Normal advance
+    if (n < tabState.totalSteps) {
+      tabState.currentStep = n + 1;
+      showCurrentStep();
+    }
+  }
+
+  function goBack() {
+    const tabState = TABS[activeTab];
+    const n = tabState.currentStep;
+    // From first step of Reconciliation, back to last step of Categorization
+    if (activeTab === 'rec' && n === 1) {
+      switchTab('cat');
+      return;
+    }
+    if (n > 1) {
+      tabState.currentStep = n - 1;
+      showCurrentStep();
+    }
+  }
+
+  // ============ UNLOCK RECONCILIATION ============
+  function unlockReconciliation() {
+    if (reconciliationUnlocked) return;
+    reconciliationUnlocked = true;
+
+    const recTab = document.getElementById('tab-rec');
+    recTab.classList.remove('hidden', 'locked');
+    recTab.classList.add('unlocked-animate');
+
+    // Add "NEW" badge to the tab label
+    const tabLabel = recTab.querySelector('.tab-label');
+    if (!tabLabel.querySelector('.tab-new-badge')) {
+      const badge = document.createElement('span');
+      badge.className = 'tab-new-badge';
+      badge.textContent = 'New';
+      tabLabel.appendChild(badge);
+    }
+  }
+
+  // ============ RESET ============
+  function resetDemo() {
+    // Reset all state
+    TABS.cat.currentStep = 1;
+    TABS.rec.currentStep = 1;
+    activeTab = 'cat';
+    reconciliationUnlocked = false;
+    waveStarted = false;
+    findingsRevealed = false;
+    Object.keys(screenInitialized).forEach(k => delete screenInitialized[k]);
+    responseRevealed['cat-3'] = false;
+    responseRevealed['cat-6'] = false;
+
+    // Reset tab UI
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active', 'unlocked-animate'));
+    document.getElementById('tab-cat').classList.add('active');
+    const recTab = document.getElementById('tab-rec');
+    recTab.classList.add('hidden', 'locked');
+    const badge = recTab.querySelector('.tab-new-badge');
+    if (badge) badge.remove();
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('content-cat').classList.add('active');
+
+    // Reset Cat screen 1
+    const list = document.getElementById('wave-list');
+    list.innerHTML = '<div class="wave-empty">Click <strong>Process Statement</strong> to begin</div>';
+    document.getElementById('stat-auto').textContent = '—';
+    document.getElementById('stat-flag').textContent = '—';
+    document.getElementById('stat-pending').textContent = '—';
+    document.getElementById('stat-time').textContent = '—';
+    document.getElementById('wave-count').textContent = '0';
+    document.getElementById('audit-1').innerHTML = '';
+    const runBtn = document.getElementById('run-btn');
+    runBtn.disabled = false;
+    runBtn.innerHTML = '<span class="play">▶</span>Process Statement';
+
+    // Reset Cat screen 2
+    document.getElementById('audit-2').innerHTML = '';
+    document.querySelectorAll('#beats-2 .beat-row').forEach(b => b.classList.remove('visible'));
+    const status2 = document.getElementById('agent-status-2');
+    status2.classList.remove('idle');
+    status2.innerHTML = '<span class="agent-status-dot"></span>analyzing';
+
+    // Reset Cat screen 3
+    document.getElementById('audit-3').innerHTML = '';
+    document.getElementById('response-banner-3').classList.remove('visible');
+    document.getElementById('reveal-hint-3').classList.remove('hidden');
+    document.querySelectorAll('#slack-actions-3 .slack-btn').forEach(b => {
+      b.classList.remove('selected', 'faded');
+      if (b.textContent.includes('Vehicle Expense')) b.classList.add('primary');
+    });
+
+    // Reset Cat screen 6
+    document.getElementById('response-banner-6').classList.remove('visible');
+    document.getElementById('reveal-hint-6').classList.remove('hidden');
+    document.querySelectorAll('#slack-actions-6 .slack-btn').forEach(b => {
+      b.classList.remove('selected', 'faded');
+      if (b.textContent.includes('Recode to Business')) b.classList.add('primary');
+    });
+
+    // Reset Rec screen 1
+    document.querySelectorAll('.file-tile .file-value').forEach(el => {
+      el.textContent = '—';
+    });
+    document.getElementById('findings-strip').style.opacity = '0';
+    const recRunBtn = document.getElementById('rec-run-btn');
+    recRunBtn.disabled = false;
+    recRunBtn.innerHTML = '<span class="play">▶</span>Show findings';
+
+    showCurrentStep();
+  }
+
+  // ============ WAVE PROCESSING ============
+  function runWaveProcessing() {
+    if (waveStarted) return;
+    waveStarted = true;
+
+    const runBtn = document.getElementById('run-btn');
+    runBtn.disabled = true;
+    runBtn.innerHTML = '<span class="play">●</span>Processing...';
+
+    const list = document.getElementById('wave-list');
+    list.innerHTML = '';
+
+    document.getElementById('stat-auto').textContent = '0';
+    document.getElementById('stat-flag').textContent = '0';
+    document.getElementById('stat-pending').textContent = '22';
+    document.getElementById('stat-time').textContent = '0s';
+
+    let autoCount = 0;
+    let flagCount = 0;
+    const totalAnimDuration = 5000;
+    const stepDelay = (totalAnimDuration - 500) / WAVE_TXNS.length;
+
+    WAVE_TXNS.forEach((t, i) => {
+      const row = document.createElement('div');
+      row.className = 'wave-row';
+      const clsClass = t.cls === 'COGS' ? 'cogs' : (t.cls === 'Owner' ? 'owner' : 'ga');
+      row.innerHTML =
+        '<div class="wave-check">' + (t.c === 'low' ? '?' : '✓') + '</div>' +
+        '<div class="wave-date">' + t.d + '</div>' +
+        '<div class="wave-vendor">' + t.v + '</div>' +
+        '<div class="wave-amt">$' + t.a + '</div>' +
+        '<div class="wave-class ' + clsClass + '">' + t.cls + '</div>' +
+        '<div class="wave-gl">' + t.gl + '</div>' +
+        '<div class="wave-conf ' + (t.c === 'high' ? '' : (t.c === 'med' ? 'med' : 'low')) + '">' + (t.conf).toFixed(2) + '</div>';
+      list.appendChild(row);
+
+      setTimeout(() => {
+        row.classList.add('visible');
+        if (t.c === 'low') {
+          flagCount++;
+          document.getElementById('stat-flag').textContent = flagCount;
+        } else {
+          autoCount++;
+          document.getElementById('stat-auto').textContent = autoCount;
+        }
+        document.getElementById('stat-pending').textContent = 22 - (autoCount + flagCount);
+        document.getElementById('wave-count').textContent = (autoCount + flagCount);
+      }, 250 + i * stepDelay);
+    });
+
+    setTimeout(() => addAudit('audit-1', '[10:13:48]', '', 'Ingestion started · Amex Business 81007 · 517 transactions'), 300);
+    setTimeout(() => addAudit('audit-1', '[10:13:50]', '', 'Auto-coded 8 LoupeThis charges → COGS · GL 5000 (vendor rule applied)'), 1800);
+    setTimeout(() => addAudit('audit-1', '[10:13:52]', '', 'Auto-coded 47 software subscriptions → G&A · GL 6100'), 3000);
+    setTimeout(() => addAudit('audit-1', '[10:13:53]', 'q', 'Anderson Brothers Diesel $11,906.13 → confidence 0.42 · escalating'), 4200);
+    setTimeout(() => addAudit('audit-1', '[10:13:53]', '', 'Wave complete · 481 auto-coded · 28 for review · 8 awaiting context'), 4800);
+
+    setTimeout(() => {
+      document.getElementById('stat-time').textContent = '5s';
+      runBtn.innerHTML = '<span class="play">✓</span>Complete';
+    }, 5000);
+  }
+
+  // ============ ANDERSON ANALYSIS ============
+  function animateAnderson() {
+    const beats = document.querySelectorAll('#beats-2 .beat-row');
+    const audit = document.getElementById('audit-2');
+    const status = document.getElementById('agent-status-2');
+
+    audit.innerHTML = '';
+    beats.forEach(b => b.classList.remove('visible'));
+    status.classList.remove('idle');
+    status.innerHTML = '<span class="agent-status-dot"></span>analyzing';
+
+    beats.forEach((b, i) => {
+      setTimeout(() => {
+        b.classList.add('visible');
+        const tags = ['', '', '', 'q'];
+        const msgs = [
+          'Vendor lookup: ANDERSON BROTHERS DIESEL → auto repair (Seal Beach CA)',
+          'Amount $11,906.13 flagged as above auto-service typical range',
+          'No prior vendor history in Tropical Watch books · new vendor decision',
+          'Confidence 0.42 · composing Slack DM to Ji with full context'
+        ];
+        addAudit('audit-2', '[10:14:0' + (i + 1) + ']', tags[i], msgs[i]);
+      }, 400 + i * 700);
+    });
+
+    setTimeout(() => {
+      status.classList.add('idle');
+      status.innerHTML = '<span class="agent-status-dot"></span>awaiting Ji';
+    }, 400 + beats.length * 700 + 200);
+  }
+
+  // ============ SLACK INIT ============
+  function initSlackAnderson() {
+    const audit = document.getElementById('audit-3');
+    audit.innerHTML = '';
+    addAudit('audit-3', '[10:14:04]', 'q', 'Slack DM sent to Ji · Anderson Brothers $11,906.13');
+  }
+
+  // ============ MANUAL RESPONSE REVEAL ============
+  function revealResponse(revealKey) {
+    if (revealKey === 'cat-3') {
+      const buttons = document.querySelectorAll('#slack-actions-3 .slack-btn');
+      buttons.forEach(b => {
+        if (b.textContent.includes('Vehicle Expense')) {
+          b.classList.add('selected');
+          b.classList.remove('primary');
+        } else {
+          b.classList.add('faded');
+        }
+      });
+      document.getElementById('reveal-hint-3').classList.add('hidden');
+      document.getElementById('response-banner-3').classList.add('visible');
+      addAudit('audit-3', '[10:16:38]', 'r', 'Ji responded · Vehicle Expense (Business) · vendor rule created');
+      addAudit('audit-3', '[10:16:39]', '', 'Charge coded: Class G&A · GL 6400 Vehicle Expense');
+    } else if (revealKey === 'cat-6') {
+      const buttons = document.querySelectorAll('#slack-actions-6 .slack-btn');
+      buttons.forEach(b => {
+        if (b.textContent.includes('Recode to Business')) {
+          b.classList.add('selected');
+          b.classList.remove('primary');
+        } else {
+          b.classList.add('faded');
+        }
+      });
+      document.getElementById('reveal-hint-6').classList.add('hidden');
+      document.getElementById('response-banner-6').classList.add('visible');
+    }
+  }
+
+  // ============ CROSS-SOURCE (Reconciliation Screen 1) ============
+  function runCrossSource() {
+    if (findingsRevealed) return;
+    findingsRevealed = true;
+
+    const runBtn = document.getElementById('rec-run-btn');
+    runBtn.disabled = true;
+    runBtn.innerHTML = '<span class="play">●</span>Analyzing...';
+
+    const tiles = document.querySelectorAll('.file-tile .file-value');
+    tiles.forEach((el, i) => {
+      setTimeout(() => {
+        const target = parseInt(el.dataset.target);
+        animateCount(el, target, 600);
+      }, 200 + i * 250);
+    });
+
+    setTimeout(() => {
+      document.getElementById('findings-strip').style.opacity = '1';
+      runBtn.innerHTML = '<span class="play">✓</span>Complete';
+    }, 200 + tiles.length * 250 + 400);
+  }
+
+  function animateCount(el, target, duration) {
+    const start = 0;
+    const startTime = performance.now();
+    function update(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = Math.round(start + (target - start) * eased);
+      el.textContent = value.toLocaleString();
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target.toLocaleString();
+    }
+    requestAnimationFrame(update);
+  }
+
+  function addAudit(targetId, time, tag, text) {
+    const list = document.getElementById(targetId);
+    if (!list) return;
+    const item = document.createElement('div');
+    item.className = 'audit-item';
+    const tagClass = tag === 'q' ? ' q' : (tag === 'r' ? ' r' : '');
+    const tagText = tag === 'q' ? 'QUESTION' : (tag === 'r' ? 'RESPONSE' : 'AUTO');
+    item.innerHTML = '<span class="at-time">' + time + '</span><span class="at-tag' + tagClass + '">' + tagText + '</span>' + text;
+    list.appendChild(item);
+    list.scrollTop = list.scrollHeight;
+  }
+</script>
+
+</body>
+</html>

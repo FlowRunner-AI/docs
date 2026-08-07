@@ -1,0 +1,140 @@
+id: subflow
+name: SubFlow
+category: Subflows
+kind: native
+
+api:
+  group_type: SUBFLOW
+  config_keys: [subFlowId, subFlowVersionId, initialData, initialDataParams, storeResult, onFailElemId]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: "Reference a hermetic test subflow."
+
+docs:
+  purpose: >
+    Build a sequence of steps once, then drop it into your flow as a single step everywhere you need
+    it. You hand each placement the values it should work with and read back what it produces, and a
+    fix made in one spot updates every placement at once.
+  mental_model: |
+    Think of a subflow as a named, self-contained mini-flow that lives inside your flow. The SubFlow
+    block is a placement of it: when the flow reaches the block, that mini-flow runs as one unit on
+    the values you pass in, and whatever its Return Result block hands back becomes this block's result.
+
+    You hand the subflow those values through its ((Initial Params)) - a list of named inputs you set on
+    the SubFlow block. Each name becomes a field in the subflow's Initial Data, so inside the subflow
+    its steps read that value the same way a flow reads its trigger's payload, as
+    {{Initial Data->name}}. The name on the ((Initial Params)) row and the name the subflow reads back
+    are the same name.
+
+    The same definition can be placed in many spots, and every placement runs that one definition.
+    Because the steps live in the one shared definition, editing them updates every placement at once -
+    you edit in one place, and it changes everywhere it runs.
+  when_to_use: >
+    Reach for it when the same handful of steps shows up in more than one spot in a flow and you do
+    not want to rebuild or copy them each time - refreshing an access token before two different
+    calls, or formatting a record the same way in several branches. Keeping that work as one subflow
+    means a change lands everywhere it runs, instead of being fixed in one place and forgotten in
+    another. The trade-off against a Call Flow block is reach: a subflow stays inside this one flow,
+    so if the same logic also needs to run from other flows, build it as its own flow and use a
+    Call Flow block instead.
+  sections:
+    - title: Creating and editing a subflow
+      body: |
+        You create a subflow from the ((Subflows list)) in the ((blocks panel)): click its ((add button)) and the ((New SubFlow)) dialog opens. Give the subflow a name and, under ((Input Parameter Names)), declare each input it takes - this is where its arguments are defined. Use the ((plus)) to add a row per input. These names are exactly what the subflow reads later from its Initial Data.
+
+        A brand-new subflow is empty. To build what it actually does, drag it from the ((Subflows list)) - the Subflows category of the ((blocks panel)), where every subflow you create appears - into your flow, then step into it: select the SubFlow block and click ((Expand)), build the steps inside, and use ((Return)) at the top-left to come back out. The steps you add there are the subflow's logic, shared by every placement of it.
+
+        To change a subflow's input parameters after it exists, click the ((edit icon)) on the subflow in the ((Subflows list)) - that reopens its parameter list so you can add or rename inputs.
+      image: ../images/reference/subflow-new-dialog.png
+      alt: >
+        The New SubFlow dialog, with a SubFlow Name of "Get New Token" and one Input Parameter Name,
+        "clientId", and a plus to add more.
+  example:
+    - text: >
+        Suppose a flow makes two calls to a service that expects a fresh access token on each call,
+        and the token expires quickly. Rather than build the get-a-token steps twice, you build them
+        once as a subflow named Get New Token. Inside it, an HTTP Request authenticates and a Return
+        Result block hands back the token it obtained:
+    - lang: text
+      code: |
+        Inside the Get New Token subflow:
+          HTTP Request    POST /oauth/token, sending {{Initial Data->clientId}} as the x-client-id header
+          Return Result   hands back { token: <the access token from the response> }
+    - text: >
+        That {{Initial Data->clientId}} is the subflow reading its input: the value arrives as Initial
+        Data, exactly as a trigger's payload would, so the steps inside reference it by name. The
+        screenshot below shows it in place - inside the Get New Token subflow, the HTTP Request block is
+        selected, and its x-client-id header carries that bound {{Initial Data->clientId}} reference:
+    - image: ../images/reference/subflow-initial-data.png
+      alt: >
+        The Get New Token subflow opened with its HTTP Request block selected; the configuration panel's
+        x-client-id header is set to a bound Initial Data clientId reference.
+    - text: >
+        Now place a SubFlow block before the first call and fill in its ((Initial Params)). You add one row
+        named clientId - the same name the subflow reads from its Initial Data - and give it an
+        expression that supplies the value from this flow:
+    - lang: text
+      code: |
+        SubFlow:  Get New Token
+
+        Initial Params:
+          clientId  <-  {{Data Buckets:Default - Client ID->}}
+    - image: ../images/reference/subflow-config.png
+      alt: >
+        The SubFlow block for Get New Token with its configuration panel: an Initial Params list whose
+        clientId row is mapped to the Default bucket's Client ID value.
+    - text: >
+        When the flow reaches the block, the Get New Token steps run as one unit and their Return
+        Result hands back an object like `{ "token": "ey..." }`. That object becomes this block's
+        result, and you read it downstream through the alias set in ((Reference Result Data As)) -
+        here, {{Get New Token Result}}. In the Expression Editor you pick that alias under Block Data
+        and drill into the token field, which binds as {{Get New Token Result->token}}; the
+        first call then sends that reference as its bearer token. Place a second SubFlow block - again
+        pointing at Get New Token - before the second call, and it produces a fresh token the same
+        way, read through its own result alias. Because both placements run the one definition, the
+        day the token endpoint changes you edit Get New Token once and both calls pick up the fix.
+  common: [name, result_alias, notes]
+  config:
+    - field: Initial Params
+      type: repeatable name and expression
+      description: >
+        The values handed to the subflow to start, as named rows. Each row's name becomes a field in
+        the subflow's Initial Data, read inside as {{Initial Data->name}}, and the value is an
+        expression that supplies it from this flow. (Which subflow the block runs is set when you add
+        it, by dragging that subflow from the ((Subflows list)) - there is no picker in this panel.)
+  produces_result: true
+  data_in: The mapped input parameters (each from an expression).
+  data_out: The object the subflow's Return Result block hands back.
+  gotchas:
+    - "A subflow cannot contain another SubFlow block - you cannot place a subflow inside a subflow."
+    - "The subflow only hands a result back if its steps reach a Return Result block. Without one, this block runs the steps but gives the rest of the flow nothing structured to read."
+    - "Editing a subflow's steps changes every placement of it in the flow, since they all run the one definition. A fix in one place is a fix everywhere - which is the point, but means a change is never local to a single placement."
+  cross_refs: [call-flow, return-result]
+  terminology: [SubFlow]
+
+assertions:
+  - id: subflow-returns-result
+    when: run-instance
+    given: "a SubFlow that Return Results { token } and is passed creds"
+    expect: "this block's result == { token }"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Extract repeated logic into a reusable SubFlow."
+    - "Distinguish SubFlow (inline reuse) from Call Flow (separate flow)."
+  prerequisites: [return-result, call-flow]
+  common_mistakes:
+    - "Trying to nest SubFlows."
+    - "Confusing SubFlow with Call Flow."
+  exercise: >
+    Create a 'Get New Token' SubFlow used twice in one flow; confirm both placements
+    reflect edits to the shared logic.
+
+provenance:
+  confidence: V-real
+  evidence: "FBB 'GetCustomerMatches' (LIVE) — SUBFLOW 'Get New Token' (subFlowId/subFlowVersionId, initialDataParams). Re-verified live 2026-06-19 in the Documentation Flows workspace 'SubFlow' flow: SubFlow block's block-specific config is Initial Params (NOT 'Input parameters'); each Initial Params name becomes the subflow's Initial Data field, read inside as {{Initial Data->name}} (the Get New Token subflow's HTTP Request reads {{Initial Data->clientId}} in its x-client-id header); no subflow-picker in the panel (binding set at placement from the Subflows palette). Subflow created via the New SubFlow dialog (SubFlow Name + Input Parameter Names, plus to add more) - this is where args are declared; logic is built by dragging the subflow into the flow and stepping in (Expand); the input-parameter list is edited via the edit icon on the subflow in the Subflows palette. Screenshots subflow-config.png + subflow-initial-data.png + subflow-new-dialog.png."
+  verified_on: 2026-06-19

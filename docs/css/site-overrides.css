@@ -1,0 +1,383 @@
+/* ============================================================
+   FlowRunner Docs — Site Overrides
+   ============================================================
+
+   Site-specific tweaks that sit on top of flowrunner-mkdocs.css.
+   This file is the right place for project-specific adjustments;
+   never modify flowrunner-mkdocs.css directly.
+
+   Load order in mkdocs.yml:
+     extra_css:
+       - css/style.css
+       - css/chat-widget.css
+       - css/flowrunner-mkdocs.css
+       - css/site-overrides.css     <-- this file, loaded last
+
+   ============================================================ */
+/* ---------- 1. HEADER BACKGROUND ----------
+ 
+   Soften the solid header with a subtle gradient and clean bottom
+   border. Keeps the color identity but reduces visual weight.
+ 
+*/
+
+[data-md-color-scheme="default"] .md-header {
+      background-color: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: none
+}
+
+[data-md-color-scheme="slate"] .md-header {
+  background-color: rgba(20, 20, 20, 0.95);
+  border-bottom: 1px solid var(--fr-border);
+  box-shadow: none;
+}
+
+/* Match the tabs strip to the header for visual continuity */
+[data-md-color-scheme="default"] .md-tabs {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid #E5DFCE
+}
+
+[data-md-color-scheme="slate"] .md-tabs {
+  background-color: rgba(20, 20, 20, 0.95);
+   border-bottom: 1px solid var(--fr-border);
+}
+
+
+/* ---------- 2. HEADER TEXT COLORS ----------
+ 
+   Explicit colors so we don't rely on Material's inheritance
+   (which uses --md-primary-bg-color in ways that can produce
+   invisible text in dark mode).
+ 
+*/
+
+/* Light scheme: cream text on forest green header */
+[data-md-color-scheme="default"] .md-header,
+[data-md-color-scheme="default"] .md-tabs__link {
+  color: #4a453e;
+  letter-spacing: .18em;
+}
+
+[data-md-color-scheme="default"] .md-header__topic>.md-ellipsis {
+ color:#1F4438;
+  letter-spacing: .22em;
+}
+
+/* Header icons (search, theme toggle, etc.) in light scheme */
+[data-md-color-scheme="default"] .md-header__button {
+  letter-spacing: .18em;
+  color: #4a453e;
+}
+
+/* Dark scheme: amber brand, cream tabs */
+[data-md-color-scheme="slate"] .md-header__topic>.md-ellipsis {
+  color: #ff9300;
+}
+
+[data-md-color-scheme="slate"] .md-header,
+[data-md-color-scheme="slate"] .md-tabs__link {
+  color: #f5f1e8;
+}
+
+[data-md-color-scheme="slate"] .md-header__button {
+  color: #f5f1e8;
+}
+
+
+/* ---------- 3. BRAND vs TABS HIERARCHY ----------
+ 
+   The brand mark anchors the header. Tabs are secondary nav.
+   They should not be the same visual weight.
+ 
+*/
+
+/* Brand mark: slightly larger, full opacity, clearly dominant */
+.md-header__topic>.md-ellipsis {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 1;
+}
+
+/* Tabs: smaller, lower visual weight, but legible */
+.md-tabs__link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.50rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+}
+
+.md-tabs__link:hover {
+  opacity: 1;
+}
+
+.md-tabs__link--active {
+  opacity: 1;
+  font-weight: 500;
+}
+
+.md-tabs__item {
+  height: 2.0rem;
+}
+
+/* ---------- 4. ACTIVE TAB INDICATOR ----------
+ 
+   Subtle bottom border on the active tab using the accent color
+   appropriate to each scheme.
+ 
+*/
+
+[data-md-color-scheme="default"] .md-tabs__item--active .md-tabs__link {
+  border-bottom: 2px solid #332508;
+  padding-bottom: 8px;
+}
+
+[data-md-color-scheme="slate"] .md-tabs__item--active .md-tabs__link {
+  border-bottom: 2px solid #613e0c;
+  padding-bottom: 8px;
+}
+
+
+/* ---------- 5. HEADER BRAND VERTICAL OFFSET ----------
+
+   Nudge the logo and the "FLOWRUNNER USER GUIDE" brand line down
+   ~10px so they sit lower within the header bar. Uses relative
+   positioning so layout/height of the header is unaffected.
+
+*/
+
+.md-header__button.md-logo,
+.md-header__title {
+  position: relative;
+  top: 10px;
+}
+
+
+/* ---------- 6. THEME-DEPENDENT LOGO COLOR ----------
+
+   The logo is an inline SVG (theme.icon.logo -> flowrunner/logomark),
+   so its path uses fill="currentColor". That means a single asset is
+   recolored per scheme via `color` here — no second logo file, and it
+   stays crisp at any size.
+
+   The logomark is portrait (viewBox 1024x1536, ~0.667:1). We set an
+   explicit height and let width follow the aspect ratio so Material's
+   default square sizing doesn't squash it.
+
+*/
+
+.md-header__button.md-logo svg {
+  height: 1.5rem;
+  width: 1rem;            /* 1.5rem x (1024/1536) */
+}
+
+[data-md-color-scheme="default"] .md-header__button.md-logo {
+  color: #1F4438;         /* forest green on the light header */
+}
+
+[data-md-color-scheme="slate"] .md-header__button.md-logo {
+  color: #f5f1e8;         /* cream on the dark header */
+}
+
+
+/* ---------- 7. OPTIONAL: BRAND MARK ACCENT BAR ----------
+ 
+   Adds a small accent-colored bar under the brand mark.
+   Comment out if you don't want it.
+ 
+*/
+
+/*
+.md-header__topic {
+  position: relative;
+}
+ 
+.md-header__topic::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background: var(--fr-accent);
+  opacity: 0.6;
+}
+*/
+
+/* ---------- BLOCK REFERENCE TOKENS ----------
+
+   Block names emitted by the reference generator carry `.fr-block` so they
+   read as distinct tokens instead of blending into copy. The first mention of
+   another block is also a link (`a.fr-block` -> its reference page); repeats and
+   the page's own name are non-link spans. Styling uses opacity tints of the
+   existing brand green - no new palette colors.
+
+*/
+.md-typeset .fr-block,
+.md-typeset a.fr-block {
+  font-weight: 600;
+  color: var(--md-typeset-a-color);
+  background: rgba(31, 68, 56, 0.08);
+  border-radius: 0.35em;
+  padding: 0.03em 0.36em;
+  white-space: nowrap;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.md-typeset a.fr-block {
+  text-decoration: none;
+}
+.md-typeset a.fr-block:hover {
+  background: rgba(31, 68, 56, 0.15);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .fr-block,
+[data-md-color-scheme="slate"] .md-typeset a.fr-block {
+  background: rgba(255, 255, 255, 0.13);
+}
+[data-md-color-scheme="slate"] .md-typeset a.fr-block:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+
+/* ---------- GLOSSARY TOOLTIPS ----------
+
+   The improved tooltips (abbr + content.tooltips) default to the page
+   background, so the popover blends into the page. Lift it onto the
+   surface token with a clear border and a little elevation. Both
+   tokens are scheme-aware, so light and dark both read correctly.
+
+*/
+.md-tooltip2 .md-tooltip2__inner.md-typeset,
+.md-tooltip {
+  background-color: var(--fr-surface);
+  border: 1px solid var(--fr-border);
+  border-radius: 0.3rem;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.16);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+/* Dark mode: lift the tooltip onto a lighter surface so it does not read
+   as a near-black slab against the page. */
+[data-md-color-scheme="slate"] .md-tooltip2 .md-tooltip2__inner.md-typeset,
+[data-md-color-scheme="slate"] .md-tooltip {
+  background-color: #565656;
+  border-color: rgba(255, 255, 255, 0.213);
+}
+
+
+/* ---------- FENCED CODE BLOCKS ----------
+
+   The default code background sits a hair off the page background, so code
+   snippets read as washed-out. Lift them onto the surface token with a clear
+   border, rounded corners, a little elevation, and more comfortable padding
+   and type. Scheme-aware tokens keep light and dark correct.
+
+*/
+.md-typeset .highlight {
+  background-color: var(--fr-surface);
+  border: 1px solid var(--fr-border);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.md-typeset .highlight > pre {
+  background-color: transparent;
+  margin: 0;
+}
+.md-typeset .highlight pre > code {
+  background-color: transparent;
+  padding: 0.9rem 1rem;
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+
+/* ---------- CONTROL / BUTTON TOKENS (prototype) ----------
+
+   UI controls the reader clicks - buttons like Manage Capabilities or Delete -
+   carry `.fr-control` so they read as a pressable control. The cue is kept
+   deliberately distinct from the two cues already in use: block names are a
+   green `.fr-block` pill, product concepts (Initial Data) get a dotted glossary
+   underline, and plain field labels stay bold. A control is a neutral OUTLINED
+   chip - a border plus a faint surface fill, no new palette color - so it reads
+   as something you press without competing with the green block tokens. Both
+   tokens are scheme-aware, so light and dark render correctly.
+
+*/
+.md-typeset .fr-control {
+  font-weight: 400;
+  font-size: 0.9em;
+  color: var(--md-default-fg-color);
+  background: var(--fr-surface);
+  border: 1px solid var(--fr-border);
+  border-radius: 0.3em;
+  padding: 0.04em 0.42em;
+  white-space: nowrap;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+/* Dark scheme: the neutral chip has no accent color to lean on, so its faint
+   border/fill blend into body text. Lift the fill and brighten the outline so it
+   reads as a distinct pressable control against the dark page. */
+[data-md-color-scheme="slate"] .md-typeset .fr-control {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+
+/* ---------- EXPRESSION-EDITOR REFERENCE TOKENS ----------
+
+   A value that goes into a field through the Expression Editor is a token you
+   INSERT - never text you type or paste. It earns its own cue so a reader learns
+   that by sight: a rounded pill with a leading wand glyph, nodding to the wand
+   that opens the editor, deliberately unlike the monospace `code` used for typed
+   literals, the filled green .fr-block pill, and the square outlined .fr-control
+   chip. Authored as {{...}} in the source; refgen renders prose {{...}} as this
+   chip. Scheme-aware: the light pill leans on the brand green, the dark pill on
+   the dark-scheme gold accent, so it reads as its own token in both.
+
+*/
+:root {
+  --fr-wand: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72'/%3E%3Cpath d='m14 7 3 3'/%3E%3Cpath d='M5 6v4'/%3E%3Cpath d='M19 14v4'/%3E%3Cpath d='M10 2v2'/%3E%3Cpath d='M7 8H3'/%3E%3Cpath d='M21 16h-4'/%3E%3Cpath d='M11 3H9'/%3E%3C/svg%3E");
+}
+.md-typeset .fr-expr {
+  font-weight: 500;
+  font-size: 0.92em;
+  color: var(--fr-accent);
+  background: var(--fr-surface);
+  border: 1px solid rgba(31, 68, 56, 0.5);
+  border-radius: 1em;
+  padding: 0.03em 0.55em 0.03em 0.4em;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(31, 68, 56, 0.12);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.md-typeset .fr-expr::before {
+  /* The exact Lucide wand-sparkles icon FlowRunner puts on every expression-enabled
+     input, so the token wears the same wand that opens the editor. Drawn as a mask
+     tinted to the token's own color, so it tracks the accent in light and dark. */
+  content: "";
+  display: inline-block;
+  width: 0.82em;
+  height: 0.82em;
+  margin-right: 0.38em;
+  vertical-align: -0.09em;
+  background-color: currentColor;
+  opacity: 0.85;
+  -webkit-mask: var(--fr-wand) no-repeat center / contain;
+  mask: var(--fr-wand) no-repeat center / contain;
+}
+[data-md-color-scheme="slate"] .md-typeset .fr-expr {
+  color: var(--fr-accent);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(212, 167, 106, 0.55);
+  box-shadow: none;
+}

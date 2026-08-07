@@ -1,0 +1,197 @@
+id: custom-cloud-code
+name: Custom Cloud Code
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: CUSTOM_CLOUD_CODE
+  group_type: null
+  config_keys: [arguments, code, storeResult, onFailElemId, logging, skipBlock]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null   # no external deps; runs in the sandbox
+
+docs:
+  purpose: >
+    This block runs a snippet of JavaScript as a step in your flow. You pass values in as
+    named arguments, write your logic, and the value you return becomes the block's result.
+  mental_model: |
+    Each time the flow reaches this block, your code runs once, on the server, as a single step.
+    Data flows in through the block's ((Arguments)) list: each argument is a name plus a value
+    expression that reads a previous step's result, and inside the ((Open Code Editor)) modal that
+    name is a ready-to-use top-level variable. The values arrive already typed as the arrays,
+    objects, and numbers they were upstream - nothing is stringified - so an array stays an array
+    you can call `.filter()` on. Whatever your code returns becomes the block's result. Data flows
+    back out under the alias you set in ((Reference Result Data As)): later blocks pick that alias in
+    the Expression Editor and read into it, for example {{Custom Cloud Code Result->openCount}}.
+
+    The code runs in its own isolated sandbox, created fresh on every run. Because it is a brand-new
+    isolate each time, nothing you set persists between runs, and that same isolation is what keeps
+    each run fast and predictable.
+  when_to_use: >
+    Reach for it, from the Actions group in the block palette, when a few lines of code would be
+    cleaner than wiring up several blocks to do the same thing. Reshaping a payload, computing a
+    value, or combining two blocks' outputs is often a short snippet, where the no-code equivalent
+    might be a chain of Transform Data blocks that clutters the flow. It is also how you do something
+    genuinely custom that no built-in block offers. The one thing it is not for is reaching outside
+    the flow: the code has no network or file access, so let blocks like HTTP Request and the
+    database actions handle input and output, and use your code to work on what they return.
+  sections:
+    - title: As an AI Agent tool
+      position: after_example
+      body: |
+        Custom Cloud Code can also be handed to an AI Agent as a tool, so the agent runs your
+        snippet on its own when it needs to - to do a calculation or reshape some data mid-task.
+        You attach it from the agent block's tools drawer.
+
+        Used this way, and only this way, its arguments gain two extra fields under
+        ((Prepare for AI Agent)):
+
+        - ((Value Type)) - the data type the agent must supply, such as a string or a number.
+        - ((Description)) - what the argument is for, written for the agent. Together with the
+          type, this is how the agent knows what to pass, and when to reach for the tool.
+
+        The value then decides who supplies each argument:
+
+        - Leave a value empty and it becomes one of the tool's parameters - the agent fills it at
+          call time from the type and description.
+        - Set a value, static or an expression, and it is fixed input the agent cannot see or change.
+
+        As an ordinary block step, none of this appears: an argument is just a name and a value.
+      image: ../images/reference/custom-cloud-code-agent-tool.png
+      alt: >
+        The Code Editor's Arguments panel for a Custom Cloud Code tool: an argument's name and
+        value fields above a Prepare for AI Agent section with a Value Type dropdown and a
+        Description field that tell the agent what to pass.
+  example:
+    - text: >
+        Suppose an upstream HTTP Request block fetched a list of orders. In the ((Arguments)) list,
+        add one named orders whose value expression is the HTTP Request block's result, then write
+        the code in the ((Open Code Editor)) modal to shape that array down to what the next step
+        needs:
+    - lang: javascript
+      code: |
+        // "orders" is the array returned by the HTTP Request block
+        const open = orders.filter(order => order.status === "open");
+        return {
+          openCount: open.length,
+          openIds: open.map(order => order.id),
+        };
+    - image: ../images/reference/custom-cloud-code-example.png
+      alt: >
+        The Code Editor modal: an argument named orders bound to the HTTP Request
+        result, alongside the code that uses it.
+    - text: >
+        The block's result is the object you return, here `{ openCount, openIds }`. It is read
+        through the alias set in ((Reference Result Data As)), which for this block is Custom Cloud
+        Code Result. A later step picks that alias in the Expression Editor and reads into the
+        returned object - a Condition might gate on {{Custom Cloud Code Result->openCount}} >
+        0, or a Send Email block might list {{Custom Cloud Code Result->openIds}} in its
+        body - so the count and ids the code computed drive the rest of the flow.
+  config:
+    - field: Arguments
+      description: >
+        The values your code can use. Each argument has a name and a value, where the value is
+        either static or an expression that references a previous block's result. Inside the
+        code, each argument is available as a top-level variable of the same name.
+    - field: Code
+      description: >
+        The JavaScript to run. Press ((Open Code Editor)) to write it in the full-screen Code
+        Editor modal, where the ((Arguments)) panel sits beside the editor. Return the value that
+        becomes this block's result.
+  common: [name, result_alias, assign_variable, skip_block, logging, notes]
+  produces_result: true
+  data_in: ((Arguments)) (native JS values; no stringification).
+  data_out: The returned value, JSON-serialized.
+  limitations:
+    - "It is a V8 sandbox (roughly ES2023), not Node. There is no require, fetch, process, Buffer, crypto, setInterval, btoa, or structuredClone."
+    - "The server runs in UTC with the en-US locale; full ICU data is available."
+    - "The result is serialized as JSON. Map, Set, and RegExp become empty objects; NaN and Infinity become null; and undefined, functions, and Symbols are dropped."
+    - "Code runs in non-strict (sloppy) mode in a fresh isolate each time, so nothing persists between runs or instances."
+    - "Execution is capped at 10 seconds. Around 400MB of allocation is fine, and deep recursion raises a RangeError."
+    - "Return an object, not a bare scalar. `return 42` (or any bare number) fails with \"Invalid status code: 42\" - wrap it, for example `return { value: 42 }`."
+    - "A value that cannot be JSON-serialized - a BigInt, or an object with a circular reference - does not error. The block reports Success but silently replaces your result with an error object like `{ message: \"Do not know how to serialize a BigInt\" }`, which downstream blocks then read as if it were valid. Return only JSON-serializable values."
+  cross_refs: [ai-agent, http-request, handle-error]
+  terminology: [Custom Cloud Code, Cloud Code, Arguments]
+
+behavior:
+  - note: async/await and Promises are supported; the block waits for them before capturing the result.
+    lang: javascript
+    example: "return await Promise.resolve({ ok: true });"
+  - note: If you return a Promise, it is awaited and unwrapped automatically.
+    lang: javascript
+    example: "return Promise.resolve({ count: 3 });   // result is { count: 3 }"
+  - note: Throwing an Error sets the block's status to Error, using the error's message.
+    lang: javascript
+    example: 'throw new Error("orders is empty");'
+  - note: Throw a real Error object, not a bare string or number; a non-Error throw still fails the block, but its message is lost.
+    lang: javascript
+    example: 'throw "nope";   // fails the block, but the message is gone'
+  - note: Arguments arrive as native, typed JavaScript values (arrays, objects, numbers, null); nothing is stringified.
+    lang: javascript
+    example: "return Array.isArray(orders);   // true when orders came from an array-returning block"
+  - "A floating, un-awaited promise rejection is ignored, and the block returns normally."
+
+assertions:
+  - id: env-not-node
+    when: run-block
+    code: "return { hasProcess: typeof process, hasFetch: typeof fetch, hasRequire: typeof require }"
+    expect: { status: Success, result: { hasProcess: undefined, hasFetch: undefined, hasRequire: undefined } }
+  - id: timezone-utc
+    when: run-block
+    code: "return { tz: Intl.DateTimeFormat().resolvedOptions().timeZone }"
+    expect: { status: Success, result: { tz: UTC } }
+  - id: return-array-ok
+    when: run-block
+    code: "return [1, 'two', { three: 3 }]"
+    expect: { status: Success, result_is_array: true }
+  - id: promise-unwrapped
+    when: run-block
+    code: "return Promise.resolve({ n: 7 })"
+    expect: { status: Success, result: { n: 7 } }
+  - id: arg-native-types
+    when: run-block
+    note: "bind arg `payload` to an array-of-objects upstream result"
+    code: "return { isArr: Array.isArray(payload), idType: typeof payload[0].id }"
+    expect: { status: Success, result: { isArr: true, idType: number } }
+  - id: timeout-10s
+    when: run-block
+    code: "const s=Date.now(); while(Date.now()-s<12000){}; return {}"
+    expect: { status: Error, message_contains: "timed out after 10000ms" }
+
+known_bugs:
+  - id: BUG-ccc-number-return
+    repro: "return 42"
+    observed: { status: Error, message: "Invalid status code: 42" }
+    expected: { status: Success, result: 42 }
+    severity: medium
+    workaround: "Wrap scalars: return { value: 42 }"
+  - id: BUG-ccc-serialization-false-success
+    repro: "return { big: 123n }   # or a circular reference"
+    observed: { status: Success, result: { message: "Do not know how to serialize a BigInt" } }
+    expected: { status: Error }
+    severity: high
+    note: "Serialization failure swallowed as Success; downstream consumes the {message} object."
+
+training:
+  learning_objectives:
+    - "Explain that Cloud Code is a sandbox, not Node, and why I/O must come via blocks."
+    - "Pass data in via Arguments and return a result object."
+    - "Handle failure with try/catch and a Handle Error block."
+  prerequisites: [arguments-concept, expression-editor, instances-concept]
+  common_mistakes:
+    - "Calling fetch()/require() — undefined in the sandbox."
+    - "Returning a bare number (status-code bug) or a non-JSON value (Map/BigInt)."
+    - "Expecting module-level variables to persist between runs (they don't)."
+  exercise: >
+    Given an HTTP Request that returns a JSON array, add a Cloud Code block that receives
+    it as an argument and returns { count, firstId }. Then make it throw on empty input
+    and catch it with a Handle Error block.
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'This is my new flow' v3; ~40 Run-Block experiments (notes.md Custom Cloud Code RUNTIME); screenshots 27-34."
+  verified_on: 2026-06-13

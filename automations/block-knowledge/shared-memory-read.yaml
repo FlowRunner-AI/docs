@@ -1,0 +1,111 @@
+id: shared-memory-read
+name: "Shared Memory: Read"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: SHARED_MEMORY
+  subtype: READ
+  config_keys: [key, defaultValue, assignToVariable (dataBucket+variableName), storeResult, onFailElemId, logging]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    This block reads back state that an earlier run left behind. Shared Memory is the flow's own
+    key/value store, and what you saved into it is still there next time the flow runs - so you can
+    pick up a counter, a cursor, or a last-seen value where the previous run left off. Name the key
+    and the block hands you what is stored, with a default to fall back on the first time round.
+  mental_model: >
+    You give the block a key, and it returns whatever value is stored under that key. The thing
+    that makes Shared Memory different from a Data Bucket variable is that it survives between runs:
+    a value one run of the flow saves is still there for the next run to read. When the key has
+    never been written yet, the block returns the ((Default Value)) you set instead of nothing, so
+    the very first read still gives you something usable.
+  when_to_use: >
+    Reach for it when a piece of state has to outlive a single run of the flow - a running counter,
+    a cursor marking how far you got last time, the last value you saw. A Data Bucket variable
+    resets every run, so it cannot remember anything from one run to the next; Shared Memory is the
+    store that does. Pair this Read with a matching Shared Memory: Put to write the value back, and
+    the two together let a flow carry state forward run after run.
+  example:
+    - text: >
+        Suppose you want a flow to number each run it makes - run 1, run 2, run 3 - even though
+        each run starts fresh and remembers nothing on its own. Keep the count in Shared Memory
+        under the key `runCount`.
+    - text: >
+        Drop a Shared Memory: Read block (it lives in the Actions group of the block palette) into
+        the flow. Set its ((Key)) to `runCount`, and set its ((Default Value)) to `0` so the
+        first run (when nothing has been saved yet) reads a clean starting point instead of an empty
+        value. Leave ((Reference Result Data As)) at its default alias, {{Shared Memory: Read Result}} -
+        that is the name later blocks use to read what this block returned.
+    - image: ../images/reference/shared-memory-read-config.png
+      alt: >
+        The Shared Memory: Read block on the canvas with its configuration panel open: Key is set to
+        runCount and Default Value is set to 0.
+    - text: >
+        Downstream, you read that returned value by its alias. Build the new count in the Expression
+        Editor by picking the read value under Block Data (it appears as `Shared Memory: Read
+        Result`) and adding one - you build it there by picking the reference and the operator, not
+        by typing or pasting the text in. Feed that into a Shared Memory: Put block aimed at the same
+        `runCount` key, so each run leaves the next run a higher number.
+    - text: >
+        On the very first run, no value has been stored under `runCount`, so the Read block returns
+        the ((Default Value)), `0`. The expression turns that into `1`, and the Shared Memory: Put
+        block writes `1` back to `runCount`. The next run reads `1` and writes `2`, and the run after
+        that reads `2` and writes `3`. The value climbs because Shared Memory holds onto it between
+        runs, which a Data Bucket variable would not do.
+  config:
+    - field: Key
+      type: expression
+      required: true
+      description: The shared-memory key to read.
+    - field: Default Value
+      type: expression
+      description: Value used when the key does not exist yet (first run).
+      help_tooltip: "The return value if the value for the key has not yet been put"   # verbatim from product
+  common: [name, result_alias, assign_variable, skip_block, logging, notes]
+  produces_result: true
+  data_in: ((Key)) (+ ((Default Value))).
+  data_out: The stored value (or ((Default Value))).
+  gotchas:
+    - "Shared Memory persists between runs of the flow, unlike a Data Bucket variable, which resets every run."
+    - "On the first run, when the key has not been written yet, the block returns the ((Default Value)) as its result, and assigns it to the variable too if you set one."
+  cross_refs: [shared-memory-put, shared-memory-delete, set-variables, flow-memory-concept]
+  terminology: [Shared Memory, Key, Default Value]
+
+behavior:
+  - "Returns the stored value for the key, or the Default Value if absent."
+  - "Optionally assigns the value to a Data Bucket variable."
+
+assertions:
+  - id: read-default-when-absent
+    when: run-instance
+    given: "key absent, Default Value 0"
+    expect: "assigned variable == 0"
+  - id: read-persisted-value
+    when: run-instance
+    given: "a prior instance Put key=1"
+    expect: "Read output == 1"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Read cross-instance state with a default."
+    - "Distinguish Shared Memory (cross-instance) from Data Buckets (per-instance)."
+  prerequisites: [set-variables, instances-concept]
+  common_mistakes:
+    - "Expecting a value on first run (use Default Value)."
+  exercise: >
+    Build a counter: Read 'count' (default 0) -> Set count+1 -> Put 'count'. Run 3x and
+    confirm 1,2,3 across instances.
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'Flow Memory' v1, 3 instances — Read output 0/1/2 across runs. notes.md + screenshots 35,36,42,43."
+  verified_on: 2026-06-13

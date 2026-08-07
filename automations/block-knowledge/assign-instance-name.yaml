@@ -1,0 +1,98 @@
+id: assign-instance-name
+name: Assign Instance Name
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  subtype: SET_EXECUTION_NAME
+  config_keys: [instanceName, onFailElemId, logging, skipBlock]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    This block gives the current run of your flow a human-readable name, so you can find a specific
+    run later at a glance instead of hunting through a list of machine IDs. You supply the name, and
+    it stands in for the run's automatic Instance ID wherever the run is listed.
+  mental_model: |
+    Every time a flow runs, that run is one instance, and FlowRunner gives it an automatic
+    Instance ID to tell it apart from every other run - a long string you would not recognize at a
+    glance. This block sets a display name for the instance it runs in, something you choose and can
+    actually read. From the moment it runs, the Instances tab shows that name in place of the
+    Instance ID. The name can be fixed text or built from values already in the run.
+  when_to_use: >
+    Reach for it when you will later go looking for a specific run in the Instances tab and a column
+    of near-identical Instance IDs would not help you find it. A name built from the run's own data -
+    the customer email, an order number - turns that list into something you can scan. Put it early
+    in the flow: the name only applies from the point this block runs, so a run that fails before
+    reaching it is still listed by its Instance ID.
+  example:
+    - text: >
+        Suppose a flow runs once per support ticket, and each run starts with this trigger payload,
+        which the flow exposes as Initial Data:
+    - lang: json
+      code: |
+        {
+          "customer": "acme@example.com"
+        }
+    - text: >
+        Drop an Assign Instance Name block (in the block list under Actions) in early, and in the
+        Expression Editor set its ((Instance Name)) to a composite that pulls the customer in from
+        Initial Data, so each run announces who it is for:
+    - lang: text
+      code: |
+        Ticket: {{Initial Data->customer}}
+    - image: ../images/reference/assign-instance-name-config.png
+      alt: >
+        The Assign Instance Name block on the canvas with its configuration panel open: the Instance
+        Name field is set to the expression Ticket: {{Initial Data->customer}}.
+    - text: >
+        Here {{Initial Data->customer}} reads the `customer` field from that payload, so for the
+        payload above this run is named `Ticket: acme@example.com`. Open the Instances tab and that
+        is the row you see, in place of the run's Instance ID. A second run for a different customer
+        gets its own name the same way, so the two are clear to tell apart.
+  config:
+    - field: Instance Name
+      type: expression
+      required: true
+      description: 'Static text, dynamic values, or a composite (e.g. "User: {{name}}").'
+  common: [name, skip_block, logging, notes]
+  produces_result: false        # no referenceable result
+  data_in: The name expression.
+  data_out: Sets the instance's display name.
+  gotchas:
+    - "This block does not produce an output you can reference later in the flow - it only sets the run's display name."
+    - "Assign early so the name is visible throughout the instance lifecycle."
+  cross_refs: []
+  terminology: [Assign Instance Name, Instance Name, Instance ID]
+
+behavior:
+  - "Sets the instance's name; appears in the Instances list (else the raw GUID shows)."
+
+assertions:
+  - id: name-appears-in-instances
+    when: run-instance
+    given: "Assign Instance Name = 'DemoName'"
+    expect: "the instance is listed as 'DemoName' (not a GUID)"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Make instances findable with meaningful names."
+    - "Build composite names from runtime data."
+  prerequisites: [instances-concept, expression-editor]
+  common_mistakes:
+    - "Assigning late (name missing for early-failed instances)."
+  exercise: >
+    Name each instance from the trigger payload (e.g. the customer email) and find it in
+    the Instances tab.
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'This is my new flow' — Assign Instance Name from External Callback Data.name; 'DemoName' appears in Instances list. notes.md + screenshots 23,24."
+  verified_on: 2026-06-13

@@ -19,10 +19,16 @@ This is the documentation for FlowRunner™, a no-code automation platform by Ba
 - Include **info boxes** for important callouts using MkDocs admonitions
 
 ### Formatting Conventions
+
+> **Canonical source: `block-knowledge/VOICE.md`.** For the rebuilt docs, VOICE.md supersedes
+> this file wherever they differ. In particular: **UI controls you act on** (buttons, toggles,
+> fields, dropdowns, dialogs) are marked with the `((Component))` chip syntax (rendered as a
+> `.fr-control` chip), NOT bold. Bold is for field labels you *read* and for emphasis. ™ goes on
+> the first/most-prominent mention per page only, then the bare name (VOICE.md), not "always".
+
 - **Bold** (`**text**`) for:
-  - UI elements (e.g., **Flow Manager**, **SAVE** button)
-  - Product names (e.g., **FlowRunner™**)
-  - Important emphasis
+  - Field labels you read, and important emphasis (UI *controls* use `((chips))` — see VOICE.md)
+  - Product names on first mention (e.g., **FlowRunner™**), bare afterward
 - *Italics* (`*text*`) - Use sparingly for subtle emphasis
 - `Code formatting` (backticks) for:
   - Technical terms
@@ -189,3 +195,67 @@ His workflow involves reviewing content for technical accuracy, tone alignment, 
 
 ## Tools & resources
 Mark works with Material for MkDocs for documentation platform capabilities, utilizing features like grid cards for overview pages and admonitions for highlighting key information. He prefers receiving raw markdown for easier copying and editing rather than rendered artifacts, and maintains the FlowRunner Documentation Style Guide as his primary reference for consistency standards.
+
+
+## Visual Design
+
+This docs site uses the FlowRunner design system. The full specification lives
+in `MKDOCS_GUIDE.md` at the project root. Read it before making any styling
+or structural decisions about content presentation.
+
+### Always-on rules
+
+These apply to every docs page without exception:
+
+- **Family resemblance with the product UI, not pixel sameness.** Material
+  for MkDocs has a left nav rail, right ToC, search, and breadcrumbs by design.
+  Do not strip these to force visual identity with the product.
+- **Light theme is the default.** Dark theme is available via the header toggle.
+  Both must render correctly for any page you create or modify.
+- **Use admonitions sparingly; don't let them lose their signal.** Most context belongs in
+  prose. Reach for a callout only when a point genuinely needs to stand out - a plan
+  requirement, a real warning. There's no fixed cap, but if a page is full of colored boxes,
+  none of them read as important anymore.
+- **Page structure: h1 + lede + h2 sections.** One h1 per page. Avoid nesting
+  deeper than h3. If you need h4+ for section breaks, the page should be split.
+- **Prose before code blocks, not after.** Explain what code does, then show
+  the code. Optionally follow with "here's what this means."
+- **No emoji in headings or body prose.** Twemoji loads for unicode emoji in
+  user content, but headings, callouts, and prose stay typography-only.
+- **No hero images, cartoon illustrations, or decorative iconography.** Mermaid
+  diagrams and product screenshots only.
+- **Use mono inline code (backticks) only for:** file paths, variable names,
+  command-line tools, configuration keys, short literal values.
+
+### Hard prohibitions
+
+These will degrade the design system over time and must not happen:
+
+- **Do not modify `content/css/flowrunner-mkdocs.css` directly.** That file is
+  the FlowRunner design system. Changes to it cascade across the entire docs
+  site and across all FlowRunner properties that share the theme. If you
+  believe a change is needed, surface it as a discussion in the PR, not as
+  a unilateral edit.
+- **Do not add new accent colors, fonts, or design tokens.** The system has
+  three typefaces and a deliberately minimal color palette. If something feels
+  like it needs a fourth color or a new font, the design is trying to do too
+  much and should be simplified instead.
+- **Do not write inline `<style>` blocks in markdown files.** Page-specific
+  CSS fragmentation is how design systems die. If a page genuinely needs a
+  treatment the system doesn't support, raise it before reaching for inline
+  styles.
+- **Do not override design tokens with `!important` declarations** in any
+  CSS file. The cascade and load order are deliberate. Fighting them with
+  `!important` makes future maintenance painful.
+- **Do not add Google Analytics or any third-party tracking.** If analytics
+  are needed, use a privacy-respecting alternative and add it through the
+  `extra` config in mkdocs.yml, not via inline scripts.
+- **Do not disable the search or social plugins in mkdocs.yml.** They are
+  load-bearing for SEO and user experience.
+
+### When in doubt
+
+Read `MKDOCS_GUIDE.md` before improvising. The product demo at
+`visualsystem_demo.html` is the visual reference for
+the FlowRunner aesthetic. If a docs element feels louder, more colorful, or
+busier than the demo, dial it back.

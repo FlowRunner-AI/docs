@@ -1,170 +1,90 @@
-# List Iterator Block
+<!-- GENERATED FILE - do not edit. Source: block-knowledge/list-iterator.yaml. Regenerate: make refgen -->
+<!-- doclint: allow-unlinked: List Iterator -->
+# List Iterator
 
-The List Iterator block enables your workflow to process collections of data by executing a sequence of operations for each item in a list. This block functions as a loop mechanism, allowing you to apply the same logic repeatedly to every element in an array or collection, making it essential for bulk data processing, batch operations, and repetitive tasks.
+This block runs the same set of steps once for each item in a list. You give it an array, build the per-item steps inside it, and it runs them for every item.
 
-The List Iterator block provides a sophisticated looping environment where you can design complex processing logic that executes once for each item in your input list. Whether you're processing user records, transforming data arrays, validating multiple items, or performing bulk operations across datasets, this block provides the control and flexibility needed for efficient list processing.
+## How it works
 
-Common use cases include processing arrays of user data for bulk updates, transforming collections of records from API responses, validating multiple form submissions or uploads, generating reports from lists of transactions, and performing batch operations like sending emails to multiple recipients or updating multiple database records.
+It is a block container, dropped from the Utils category of the block palette: the steps you build inside it run once for each item in the list, and on each pass the current item is made available to those steps as <span class="fr-expr">Current Iteration Item</span> - the whole item. The loop also exposes the pass number as <span class="fr-expr">Current Iteration Number</span>, counting up from 0, so a step can tell which pass it is on.
 
-## Block Configuration
+## When to use it
 
-The List Iterator block requires a single input parameter that defines the collection of data to be processed.
+Reach for it whenever you have a list and need to do the same work for every entry: send a message to each recipient, validate each row, enrich each record. For a small, fixed set of items a few separate blocks might be simpler, but as soon as the count is dynamic, or you would be copying the same blocks again and again, one <span class="fr-block">List Iterator</span> is far cleaner.
 
-![list iterator sample](../images/list-iterator-sample.png)
+## Example
 
-### List Input
+Suppose an earlier block, an [HTTP Request](http-request.md){.fr-block}, returned this list of orders:
 
-The List input field accepts any array or collection from previous blocks in your workflow. Use the Expression Editor to select arrays from API responses, database queries, file processing results, or any other source that provides list data.
+```json
+[
+  { "id": 1024, "customer": "Acme",    "status": "open" },
+  { "id": 1025, "customer": "Globex",  "status": "cancelled" },
+  { "id": 1026, "customer": "Initech", "status": "open" }
+]
+```
 
-**Supported List Types**:
+Say you want to collect the id of every order you process, stopping as soon as you reach a cancelled one. Each entry is an order with an `id`, a `customer`, and a `status`. Point the loop's <span class="fr-control">List</span> at that result and the steps inside run once for each order, with that order handed to them as <span class="fr-expr">Current Iteration Item</span> - the whole order. To read the current order's status, you build the expression <span class="fr-expr">Current Iteration Item → status</span> in the Expression Editor, picking <span class="fr-expr">Current Iteration Item</span> under Flow Context and reaching its `status` property:
 
-- JSON arrays
-- Database query result sets
-- File processing outputs (CSV rows, etc.)
-- User-generated collections
-- Transformed data arrays from previous blocks
+![The Expression Editor with Current Iteration Item under Flow Context, used to build the expression Current Iteration Item arrow status.](../images/reference/list-iterator-expression.png)
 
-The List Iterator will execute its internal logic once for each item in the provided array, regardless of the data type or structure of the individual items.
+So for the Acme order <span class="fr-expr">Current Iteration Item → status</span> reads `"open"`, and for the Globex order, `"cancelled"` - the value the loop will check to decide whether to keep going.
 
-## Internal Flow Design
+Now the work. A loop cannot hand a value back to the rest of the flow on its own, so you collect what you build up in a variable that lives outside it - a [Data Bucket](../learn/concepts/variables.md) variable. Before the <span class="fr-block">List Iterator</span>, a [Set Variables](set-variables.md){.fr-block} block declares that variable, here `List with IDs`, and sets it to `Empty List`, a built-in value that gives you a fresh list with nothing in it yet:
 
-The List Iterator block creates a contained execution environment where you design the logic that processes each list item. When you navigate into the List Iterator block, FlowRunner™ opens a dedicated canvas for building the iteration logic. To access the internal canvas, double click the List Iterator block, or click the Expand icon. You will navigate the block's internal design environment. This canvas operates identically to the main flow editor but represents the logic that executes for each iteration.
+![A Set Variables block before the loop, assigning the Empty List value to a Data Bucket variable named List with IDs.](../images/reference/list-iterator-seed.png)
 
-## Special Flow Context Elements
+Inside the loop, a [Condition](condition.md){.fr-block} named Order cancelled? checks <span class="fr-expr">Current Iteration Item → status</span> against `"cancelled"`: its <span class="fr-control">Value to Check</span> is the <span class="fr-expr">Current Iteration Item → status</span> expression, its <span class="fr-control">Operation</span> is <span class="fr-control">EQUALS</span>, and its <span class="fr-control">Value</span> is `cancelled`:
 
-When designing logic inside a List Iterator, the Expression Editor provides access to special context elements that are specific to the current iteration and essential for most iterator implementations.
+![The Condition's configuration: Value to Check is Current Iteration Item arrow status, Operation is EQUALS, and Value is cancelled.](../images/reference/list-iterator-condition.png)
 
-![Expression Editor showing Flow Context section with special iterator elements](../images/iterator-pills.png)
+A <span class="fr-block">Condition</span> splits the flow in two: its <span class="fr-control">Yes</span> branch runs when the check is true, its <span class="fr-control">No</span> branch when it is false. The check here is `status` equals `"cancelled"`, so the everyday per-order work sits on the No branch (the order is not cancelled) and the early exit on the Yes branch (it is). While an order is not cancelled, the <span class="fr-block">Condition</span>'s No branch runs a [Transform Data](transform-data.md){.fr-block} block named Add To List Operation. A <span class="fr-block">Transform Data</span> block lets you pick an operation; here you choose <span class="fr-control">Add To List</span>, which appends the order's `id` to `List with IDs` and writes the result back to that same variable, so the list grows by one entry each pass:
 
-### Current Iteration Number
+![The Transform Data block named Add To List Operation, with the Add To List operation, adding Current Iteration Item arrow id to the List with IDs variable and assigning the result back to it.](../images/reference/list-iterator-transform.png)
 
-The "Current Iteration Number" element provides the zero-based index of the current loop cycle. This value starts at 0 for the first item and increments by 1 for each subsequent iteration.
+The moment an order is cancelled, the <span class="fr-block">Condition</span>'s Yes branch runs a [Break](break.md){.fr-block} that ends the loop. Put together, the loop looks like this:
 
-**Use Cases for Iteration Number**:
+![Inside the List Iterator: Start leads to the Condition Order cancelled? Its No branch leads to the Transform Data block Add To List Operation; its Yes branch leads to a Break that ends the loop.](../images/reference/list-iterator-loop.png)
 
-- Creating unique identifiers or filenames
-- Implementing pagination or batching logic
-- Adding sequence numbers to processed items
-- Conditional logic based on iteration position
-- Progress tracking and logging
+Here is what happens, order by order:
 
-### Current Iteration Item
+- **The Acme order** (`1024`, `open`): not cancelled, so the No branch adds its id - `List with IDs` becomes `[1024]`.
+- **The Globex order** (`1025`, `cancelled`): the Yes branch fires the <span class="fr-block">Break</span> and the loop stops; its id is never added.
+- **The Initech order** (`1026`) is never reached.
 
-The "Current Iteration Item" element provides direct access to the data for the current list item being processed. The structure and content depend on the type of data in your input list.
+After the loop, `List with IDs` holds `[1024]` - the orders you got through before the cancelled one. A block after the loop reads it back through the Expression Editor as <span class="fr-expr">Data Buckets:List with IDs → </span>.
 
-**Accessing Item Data**:
+## Configuration
 
-- `Flow Context.Current Iteration Item`: The complete current item
-- `Flow Context.Current Iteration Item.propertyName`: Specific properties of object items
-- For simple arrays: the element value directly
-- For object arrays: access object properties and nested data
+| Field | Description |
+| --- | --- |
+| List | Required. The array to loop over, usually an expression pointing at a previous block's result. |
 
-## Loop Control and Termination
+**Common settings** (available on most blocks):
 
-The List Iterator processes each item in the provided list sequentially. By default, it will iterate through every item in the collection, but you can implement early termination using loop control blocks.
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Skip Block | When on, the block is skipped during execution and the value in Simulated Result is used as its output. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
-### Break Block Integration
+## Behavior
 
-Within the List Iterator's internal flow, you can use a Break block to exit the loop early based on specific conditions. This allows you to implement scenarios where you only need to process items until a certain condition is met.
+- The inner steps run once per item, and each pass exposes that item as <span class="fr-expr">Current Iteration Item</span> and the pass number as <span class="fr-expr">Current Iteration Number</span> (counting from 0).
+- A block's result inside the loop is scoped to the current pass - it is not available to a later pass or after the loop; carry values across passes or out of the loop through a Data Bucket variable.
+- A <span class="fr-block">Break</span> block inside the loop ends it immediately, leaving any remaining items unprocessed.
+- You can inspect any single pass afterwards in the flow's analytics - the view of a past run - stepping through each pass block by block.
 
-![break block in iterator](../images/break-block-in-iterator.png)
+## Things to watch for
 
-**Common Break Scenarios**:
+- If you set <span class="fr-control">List</span> to an array you typed by hand, turn on the Expression Editor's <span class="fr-control">As JSON</span> toggle so it is read as structured data. Without it, FlowRunner sees the whole thing as one piece of text rather than a list of separate items, so there is nothing for the loop to step through. A list that comes from a previous block's result is already structured.
+- If the list is empty, the inner steps do not run at all.
+- To edit the steps inside the loop, step into it: hover the loop and choose <span class="fr-control">Expand</span>, then use <span class="fr-control">Return</span> at the top-left to come back out.
+- A block's result inside the loop lives only for the current pass - each pass overwrites it, and a later pass cannot read an earlier pass's block result. Nothing an inner block produces is available after the loop, either. To carry a value from one pass to the next, or out of the loop, accumulate it into a Data Bucket variable declared outside the loop, then read that variable after the loop finishes (the Example walks through this with List with IDs).
 
-- Stop processing when a target value is found
-- Exit early when error thresholds are reached
-- Terminate based on accumulated results or counters
-- Implement timeout or resource limit controls
+## Related
 
-### Empty List Handling
-
-When the List Iterator receives an empty array or null value, it skips execution entirely and continues to the next block in the main workflow. No iterations occur, and any blocks within the List Iterator are not executed.
-
-## Variable Access and Data Return
-
-The List Iterator block operates within the scope of the main workflow, providing specific patterns for accessing external data and returning results from the iteration process.
-
-### Accessing External Variables
-
-Logic inside the List Iterator can read and reference any variables or data declared in blocks that execute before the List Iterator. This includes results from previous blocks, trigger data, and any other workflow context.
-
-**Available External Data**:
-
-- Results from all previous blocks in the main flow
-- Initial trigger data and parameters
-- Global workflow variables and constants
-- User session information and context data
-
-### Returning Data from Iterations
-
-The List Iterator block cannot directly return data through traditional result mechanisms. Instead, you must use external variables to collect and store iteration results using dedicated variable management blocks.
-
-**Variable Update Mechanisms**:
-
-- **[Set Variables](./set-variables.md) Block**: Assign values directly to predefined variables
-- **[Transform Data](./transformer.md) Block**: Process data and assign the result to a variable
-
-**Data Return Pattern**:
-
-1. Create or initialize a variable in the main flow before the List Iterator
-2. Within the iterator logic, use [Set Variables](./set-variables.md) or [Transform Data](./transformer.md) blocks to update external variables
-3. After the List Iterator completes, access the accumulated results from the external variable
-
-**Implementation Strategy**:
-
-- Use Array or Object variables to collect results from each iteration
-- Implement append or update operations to modify external variables
-- Consider using conditional logic to filter which results to store
-- Handle error scenarios to prevent incomplete data collection
-
-## Error Handling Strategies
-
-The List Iterator provides flexible error handling options that can be implemented at different levels of the iteration process.
-
-### External Error Handling
-
-Errors that occur within the List Iterator's internal logic are propagated to the main workflow level. You can connect the List Iterator block to a [Handle Error](./error-handler.md) block to manage these exceptions at the workflow level.
-
-![list iterator error handler](../images/list-iterator-error-handler.png)
-
-### Internal Error Handling
-
-Alternatively, you can use Handle Error blocks within the List Iterator's internal flow to manage errors locally for individual iterations. This approach allows the iteration to continue processing remaining items even when individual items encounter errors.
-
-![list iterator internal error handler](../images/list-iterator-internal-error-handling.png)
-
-**Internal Error Handling Benefits**:
-
-- Continue processing remaining list items after individual failures
-- Collect error information while maintaining overall progress
-- Implement item-specific error recovery logic
-- Maintain detailed error tracking per iteration
-
-## Performance and Limitations
-
-### Runtime Considerations
-
-Every FlowRunner™ flow has limits on total runtime duration, which depend on your subscription plan. List Iterator blocks can consume significant execution time when processing large datasets or performing complex operations per iteration.
-
-**Optimization Strategies**:
-
-- Consider the size of input lists when designing iteration logic
-- Implement efficient processing patterns within iterations
-- Use Break blocks to exit early when objectives are met
-- Monitor total execution time for compliance with plan limits
-
-**Large Dataset Recommendations**:
-
-- Break large lists into smaller batches using multiple List Iterator blocks
-- Implement pagination or chunking strategies
-- Consider asynchronous processing patterns for very large datasets
-- Use conditional logic to skip unnecessary processing steps
-
-### Execution Time Management
-
-For very large lists, consider implementing execution strategies that optimize total flow runtime:
-
-- Process only essential items based on filtering criteria
-- Use parallel processing approaches with multiple smaller iterators
-- Implement checkpoint patterns to resume processing across multiple flow executions
-- Monitor and log progress to identify performance bottlenecks
+- [Break](break.md)
+- [Repeat](repeat.md)
+- [Transform Data](transform-data.md)
+- [Set Variables](set-variables.md)

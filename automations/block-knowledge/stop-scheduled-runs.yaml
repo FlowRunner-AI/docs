@@ -1,0 +1,121 @@
+id: stop-scheduled-runs
+name: "Stop Scheduled Runs"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: SYSTEM
+  subtype: STOP_SCHEDULED_RUNS
+  config_keys: [flowId, logging, enabled, retryPolicy, saveToVariable, storeResult, onFailElemId, simulationResult, slaConditions]
+
+testability:
+  class: external          # acts on the platform scheduler; stops real scheduled instance creation
+  hermetic: false
+  mock_strategy: "Stub via Skip Block + Simulated Result; do not point at a live production flow."
+
+docs:
+  purpose: >
+    Pause another flow's schedule from inside a flow - its scheduled runs stop firing, but the
+    schedule's definition is kept intact for a later resume. That lets a flow quiet a scheduled
+    workload on its own (around a maintenance job, or the moment an error rate climbs too high)
+    instead of waiting for a person to flip the switch.
+  mental_model: |
+    When a flow has a schedule, the platform starts a new run of it on a set rhythm - every
+    30 minutes, every night at 2am, and so on. This block, which lives in the Actions group of
+    the block palette, reaches over to one of those flows, named in its ((Flow)) field, and
+    switches that rhythm off. The schedule definition stays in place untouched - its frequency,
+    its start and end dates, its policies - so nothing is lost; only its on/off switch is
+    flipped to off. No more runs of that flow are launched on the clock until something turns the
+    schedule back on, which is what its counterpart Start Scheduled Runs does.
+
+    The block does hand back a result, but it is only an acknowledgement that the pause went
+    through - there is no schedule data or status to read out of it, so in practice nothing
+    downstream needs to consume it.
+  when_to_use: >
+    Reach for it when one flow needs to pause another flow's scheduled runs on its own, without
+    a person opening that flow and toggling its schedule by hand. The common case is a quiet
+    window: before a maintenance job runs, a flow stops the scheduled work that would collide
+    with it, does the maintenance, then turns the schedule back on with Start Scheduled Runs.
+    It also fits a condition-driven halt - stop a flow's scheduled runs the moment some limit is
+    reached or an error rate climbs too high. Doing this from a flow is cleaner than relying on
+    someone to remember to flip the switch at the right moment.
+  example:
+    - text: >
+        Suppose you have a flow called Email Sender that the platform runs on a schedule every
+        30 minutes to send a batch of queued emails. Tonight you need to migrate the email
+        provider, and you do not want a scheduled batch firing in the middle of it. You build a
+        short maintenance flow to handle the pause and resume around that work.
+    - text: >
+        The maintenance flow opens with a Stop Scheduled Runs block. In its ((Flow)) field you pick
+        Email Sender - the flow whose schedule you want to pause. When this flow runs, that one
+        line is enough to switch Email Sender's schedule off, so no new batch is launched on the
+        clock from this point on.
+    - text: >
+        After it, a Wait block holds for the length of the migration, and then a Start Scheduled
+        Runs block - also pointed at Email Sender - turns the schedule back on. Laid out, the
+        maintenance flow does three things in sequence:
+    - lang: text
+      code: |
+        1. Stop Scheduled Runs    Flow: Email Sender    (schedule paused)
+        2. Wait                   60 seconds            (migration window)
+        3. Start Scheduled Runs   Flow: Email Sender    (schedule resumed)
+    - text: >
+        The payoff: throughout the wait, Email Sender launches no scheduled batches, so the
+        migration runs clean. Its schedule was never deleted - every detail of its every-30-minutes
+        setup is still there - so the Start Scheduled Runs block at the end brings it straight
+        back to life, and the next batch goes out on the regular rhythm.
+    - image: ../images/reference/stop-scheduled-runs-config.png
+      alt: >
+        The Stop Scheduled Runs block configured with the flow whose schedule it should stop.
+  common: [name, result_alias, assign_variable, logging, notes]
+  config:
+    - field: Flow
+      type: dropdown
+      description: >
+        Required. The flow whose schedule you want to pause. Note - the dropdown currently lists
+        every flow in the workspace, not only the ones that actually have a schedule, so pick the
+        scheduled flow by name.
+  produces_result: true
+  data_in: The flow you select in the ((Flow)) field.
+  data_out: An acknowledgement that the schedule was paused.
+  gotchas:
+    - "This block pauses a schedule; it does not delete one. The flow's schedule - its frequency, its dates, its policies - is left fully defined, only switched off. Its counterpart Start Scheduled Runs flips that same switch back on. To remove a schedule outright, you open the flow's ((Configure Flow Schedule)) popup and use ((REMOVE SCHEDULING)) there - that deletes the schedule definition, which this block never does."
+    - "Picking a flow that has no schedule has nothing to switch off. Make sure the flow you choose actually runs on a schedule, especially since the ((Flow)) dropdown currently lists unscheduled flows too."
+    - "This block acts on the target flow's real schedule on the platform. When you are testing, point it at a throwaway flow rather than a production one, so you do not pause scheduled work that other people depend on."
+  cross_refs: [start-scheduled-runs, flow-scheduling-concept, call-flow]
+  terminology: [Scheduled Runs, Schedule, Flow]
+
+assertions:
+  - id: stop-halts-schedule
+    when: run-instance
+    given: "a target flow whose schedule is creating instances"
+    expect: "instance creation halts for that flow"
+
+known_bugs:
+  - id: sched-flow-dropdown-lists-all
+    repro: "Select Stop Scheduled Runs; open the Flow dropdown in a workspace where 0 flows have a schedule."
+    observed: "Dropdown lists ALL flows (14/15 in MyProjects), including unscheduled ones."
+    expected: "Dropdown should list only flows that have a schedule (here: none)."
+    severity: medium
+    note: "Also affects Start Scheduled Runs. Verified via API (metaInfo.schedule null for all). See memory flowrunner-bug-sched-flow-list; Jira candidate."
+
+training:
+  learning_objectives:
+    - "Halt a flow's scheduled instance creation programmatically."
+    - "Pair Start/Stop Scheduled Runs to resume/halt scheduled processing."
+  prerequisites: [flow-scheduling-concept, start-scheduled-runs]
+  common_mistakes:
+    - "Confusing Stop (halts instance creation; schedule preserved) with Remove Scheduling in the popup (deletes the schedule definition)."
+  exercise: >
+    With a flow whose schedule is running, use Stop Scheduled Runs to halt it, then confirm
+    no new instances appear.
+
+provenance:
+  confidence: V-real
+  evidence: >
+    MyProjects 'Scheduled Runs' flow (versionId DD085DD8-...) = Stop(->Email Sender) -> Wait 60s
+    -> Start(->Email Sender); both blocks' metaInfo.flowId = Email Sender (2EA402C3-...). Email
+    Sender has schedule.frequency.repeat.every=30 and stays intact while schedule.enabled toggles
+    — confirming Stop preserves the schedule. Concept narrated by Mark 2026-06-15. notes.md.
+  verified_on: 2026-06-15

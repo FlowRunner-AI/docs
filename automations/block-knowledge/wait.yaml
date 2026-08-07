@@ -1,0 +1,93 @@
+id: wait
+name: Wait
+category: Utils
+kind: native
+
+api:
+  element_type: WAIT
+  config_keys: [delay, storeResult, onFailElemId]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: "Use a tiny delay in tests; assert downstream runs after it."
+
+docs:
+  purpose: >
+    This block pauses for a set amount of time before the flow carries on. The path of the flow
+    that reaches it waits out the delay and then continues to the next step.
+  mental_model: >
+    Think of it as a held breath on one branch of the flow. When the flow reaches this block, that
+    branch pauses for the duration you set and the rest of the flow carries on; only this branch is
+    waiting. A flow can split into several paths, or branches, and any parallel branch keeps moving
+    while this one is held. Once the duration is up, the paused branch picks up exactly where it left
+    off and continues to its next step. You set the duration two ways: with ((Expression Mode)) off
+    you fill the ((Days)), ((Hours)), ((Minutes)), and ((Seconds)) fields directly; with it on you
+    author a value in the Expression Editor that must resolve to a number of seconds.
+  when_to_use: >
+    Reach for it whenever a step should not happen immediately. The most common case is backing off
+    before a retry: after a call fails, you pause so the thing you are calling has a moment to recover
+    before you try again. It also paces work that would otherwise run too fast - spacing out repeated
+    calls so you stay under a rate limit (the cap on how often a service will accept calls before
+    it starts rejecting them), or holding for a stretch before a follow-up step. It is a
+    single block for the job, rather than rigging up timing logic out of other blocks.
+  example:
+    - text: >
+        Suppose an HTTP Request block calls a payment provider, and that provider sometimes
+        returns an error when it is briefly busy. You want to give it one more try, but not the
+        instant it failed. In our flow a Handle Error block is wired off the failing call - that
+        gives a separate branch that only runs when the request fails - and on that branch a Wait
+        sits before the same HTTP Request runs again.
+    - text: >
+        On that branch the Wait is set to one minute. ((Expression Mode)) is off, and under
+        ((Wait for)) the ((Minutes)) field is 1 while the rest are 0:
+    - image: ../images/reference/wait-config.png
+      alt: >
+        The Wait block selected on the canvas, wired off a Handle Error branch, with its
+        configuration panel open: Expression Mode is off, and under Wait for, Days, Hours, and
+        Seconds are 0 while Minutes is 1.
+    - text: >
+        Now when the call fails, the error path reaches the Wait, the branch pauses for 60 seconds,
+        and only then does it run the same HTTP Request again.
+  config:
+    - field: Expression Mode
+      type: toggle
+      description: Off = simple Days/Hours/Minutes/Seconds; On = an expression that works out to a number of seconds.
+    - field: Days/Hours/Minutes/Seconds (delay)
+      type: numbers
+      description: The pause duration (at least one non-zero in simple mode).
+  common: [name, notes]
+  produces_result: true
+  data_in: The delay (seconds).
+  data_out: Continues after the delay.
+  gotchas:
+    - "In ((Expression Mode)) the expression has to work out to a number of seconds, not minutes or hours - to wait five minutes it must produce 300."
+  cross_refs: [handle-error, synchronize]
+  terminology: [Wait, Expression Mode, delay]
+
+behavior:
+  - "Suspends the branch for the duration you set, then continues."
+  - "Common pattern: a Handle Error path leads into a Wait (backoff), which then retries the failed step."
+
+assertions:
+  - id: pauses-then-continues
+    when: run-instance
+    given: "Wait 2s before a downstream block"
+    expect: "downstream block start ~2s after Wait start"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Insert a delay; use simple vs expression mode."
+    - "Apply Wait in an error-backoff-retry pattern."
+  prerequisites: [handle-error]
+  common_mistakes:
+    - "Zero delay in simple mode (needs a non-zero unit)."
+  exercise: >
+    After a failed API call (Handle Error), Wait 30s and retry once.
+
+provenance:
+  confidence: V-real
+  evidence: "MyProjects 'Content Engine' v6 — two Wait blocks (delay 60 & 300s) used as Handle Error -> Wait -> re-call API. notes.md."
+  verified_on: 2026-06-14

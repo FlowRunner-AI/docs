@@ -1,0 +1,146 @@
+id: call-flow
+name: Call Flow
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  operation: CALL_FLOW
+  meta_type: BACKENDLESS
+  subtype: AUTOMATION_SERVICE
+  config_keys: [flowId, initialData, initialDataParams, syncCall, storeResult, onFailElemId, logging]
+
+testability:
+  class: deterministic   # if the called flow is deterministic
+  hermetic: true
+  mock_strategy: "Call a hermetic test sub-flow, or stub via Skip Block + Simulated Result."
+
+docs:
+  purpose: >
+    This block reuses a whole flow as a single step. A routine you have already built - creating a
+    record, sending a notification, running a billing check - can be called from anywhere it is
+    needed, so it lives in one place instead of being copied into every flow that uses it. You hand
+    the called flow the values it needs to start, and choose whether to wait for its result or let
+    it run on its own.
+  mental_model: >
+    Call Flow lives in the Actions palette. Think of it as one flow handing part of its work to
+    another. When the flow reaches this block it starts a fresh run of the flow you chose - a separate
+    Instance with its own data - and the values you supply become that run's Initial Data, which the
+    called flow reads the same way it would the payload from its own trigger. The one real choice is
+    whether this flow waits for that run, set by ((Wait for completion)). If you need the called
+    flow's answer, leave it on: this flow pauses until the called flow finishes and takes back the
+    value from its Return Result block. That value becomes this block's result, read downstream
+    through the block's result alias - the ((Reference Result Data As)) name, {{Call Flow Result}} by
+    default - so a returned `{ "id": 88412 }` reads as {{Call Flow Result->id}} in the
+    Expression Editor. If you only need the work set in motion, turn it off: there is no result to
+    wait for, so instead the block hands back an `executionId`, an identifier for the run it started,
+    and this flow carries straight on while the called flow finishes on its own.
+  when_to_use: >
+    Reach for it when a piece of logic is worth keeping as its own flow and running from several
+    places - creating a record, sending a notification, running a billing routine. Building that
+    work once as a standalone flow and calling it keeps each flow shorter and means a fix lives in
+    one place instead of being copied around. Turn ((Wait for completion)) on when you need what the
+    called flow produces before this flow can carry on, and off when you only need to set the work
+    in motion and do not care to wait for it - for example launching a long job you will check on
+    later. If the reusable steps only ever run inside this one flow, a SubFlow keeps them inline
+    without a second flow to manage.
+  example:
+    - text: >
+        Suppose you have a flow named Create Beneficiary that takes a few details, writes a
+        beneficiary record, and finishes with a Return Result block that hands back the new
+        record's id. You want to use it from a parent flow that is setting up an account, where an
+        earlier block, Create IRA, has already produced the account it belongs to.
+    - text: >
+        Add a Call Flow block, set ((Flow)) to Create Beneficiary, and turn on ((Wait for
+        completion)) so the parent flow waits and reads back the id. Then map the values the called
+        flow needs to start under ((Initial Params)). Each row pairs a ((Property)) - the name the
+        called flow expects in its Initial Data - with a ((Value)), an expression that supplies it
+        from this flow. Bind a row named deposit_id to the account id the earlier block produced:
+    - lang: text
+      code: |
+        Flow:        Create Beneficiary
+        Wait for completion: on
+
+        Initial Params:
+          deposit_id   <-  {{Create IRA Result->id}}
+          first_name   <-  {{Initial Data:beneficiary.firstName->}}
+          last_name    <-  {{Initial Data:beneficiary.lastName->}}
+    - text: >
+        When the parent flow reaches this block, it starts a run of Create Beneficiary with those
+        three values as its Initial Data, then pauses. Create Beneficiary writes its record and its
+        Return Result block sends back the new id, say `{ "id": 88412 }`. That object becomes this
+        block's result under its alias - here the default {{Call Flow Result}}. The next block reads
+        the id straight from it: a Create Relationship block links the beneficiary to the account by
+        binding its owner field to {{Call Flow Result->id}} in the Expression Editor. Had
+        you turned ((Wait for completion)) off instead, the block would hand back an `executionId`
+        right away - there is no returned record to read yet - and the parent flow would continue
+        without waiting for the beneficiary record to be written.
+    - image: ../images/reference/call-flow-config.png
+      alt: >
+        The Call Flow block configured to run the Email Sender flow, with Initial Params rows that pass values into the called flow.
+  common: [name, result_alias, assign_variable, logging, notes]
+  config:
+    - field: Flow
+      type: dropdown
+      description: >
+        Required. The flow this block runs, picked from a dropdown that lists all of your workspace
+        flows; the refresh icon beside it re-reads the list after you create a flow elsewhere. The
+        flow you call has to be LIVE (published) for the call to run - only a published flow can be
+        started, so a draft in the list cannot actually be invoked.
+    - field: Version
+      type: dropdown
+      description: >
+        Which version of the chosen flow to run. Once you pick a Flow, a Version selector appears
+        beside it listing that flow's versions (each marked with its state, e.g. READY); the call
+        runs the version you select.
+    - field: Initial Params
+      type: repeatable name and expression
+      description: >
+        The values handed to the called flow to start its run. Each row pairs a Property - the name
+        the called flow expects in its Initial Data - with a Value, an expression that supplies it
+        from this flow.
+    - field: Wait for completion
+      type: toggle
+      description: >
+        When on, this flow waits for the called flow to finish and this block's result is the value
+        from the called flow's Return Result block. When off, this flow does not wait and the block
+        returns an executionId for the run it started.
+  produces_result: true
+  data_in: ((Initial Params)) (each mapped from an expression).
+  data_out: The called flow's Return Result when waiting, otherwise the executionId of the run it started.
+  gotchas:
+    - "The dropdown lists every flow in your workspace, but the flow you call has to be LIVE (published) to run. If a call does nothing or errors, check that the target flow is published, not still in draft."
+    - "What the block hands back depends on ((Wait for completion)). With it on, the result is the value from the called flow's Return Result block, read downstream as {{Call Flow Result->}} (or {{Call Flow Result->field}} for one field). With it off, this flow does not pause for the run, so its result cannot be the called flow's output yet - it is only an executionId, an identifier for the run, not the work it produced. If a later step expects the called flow's output, leave ((Wait for completion)) on."
+    - "If you are not waiting, the called flow runs on its own afterward, so this flow finishing does not mean the called flow has finished too."
+  cross_refs: [subflow, return-result, synchronize]
+  terminology: [Call Flow, Initial Data, Wait for completion, executionId]
+
+assertions:
+  - id: sync-returns-callee-result
+    when: run-instance
+    given: "Call Flow (syncCall=true) to a flow that Return Results { ok:true }"
+    expect: "this block's result == { ok:true } after callee completes"
+  - id: params-passed
+    when: run-instance
+    given: "initialDataParams { x: 5 }"
+    expect: "callee instance Initial Data.x == 5"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Compose flows by calling one from another and passing params."
+    - "Choose sync vs async and handle the different return."
+    - "Distinguish Call Flow (other flow) from SubFlow (inline reuse)."
+  prerequisites: [return-result, subflow, initial-data-concept]
+  common_mistakes:
+    - "Calling a non-LIVE flow."
+    - "Assuming async returns the result (it returns executionId)."
+  exercise: >
+    Build a 'Create Record' flow that Return Results an id, then Call it from a parent
+    flow (sync) and use the returned id downstream.
+
+provenance:
+  confidence: V-real
+  evidence: "FBB 'Create IRA' (LIVE) — Call 'Create Beneficiary' Flow: operation CALL_FLOW, flowId, syncCall true, initialDataParams (deposit_id <- Create IRA Result.id, ...). notes.md."
+  verified_on: 2026-06-14

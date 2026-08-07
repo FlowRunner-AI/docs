@@ -1,0 +1,142 @@
+id: return-result
+name: Return Result
+category: Utils
+kind: native
+
+api:
+  element_type: COMPOSE_RESULT
+  config_keys: [contentType, properties, logging, onFailElemId]
+
+testability:
+  class: deterministic
+  hermetic: true
+  mock_strategy: null
+
+docs:
+  purpose: >
+    This block lets you decide exactly what a caller sees back from a flow. You name the properties to
+    return and give each a value, and the caller reads back only that object - the id, the token, the
+    status you chose to expose - while everything the flow did to produce it stays hidden inside.
+  mental_model: |
+    A flow can do a lot of work, but a caller does not need to see all of it - it needs an answer.
+    Return Result is where you compose that answer. Its ((Content Type)) sets the format the caller
+    receives - ((JSON)), ((XML)), or ((Plain Text)) - and the ((Compose Result)) toggle decides how
+    you build it. With it on, you compose an object from a list of ((Property)) and ((Value)) rows,
+    each row a name paired with an expression: you assemble the exact shape you want to hand back -
+    say { token, expiresAt } - from values the flow worked out along the way, and nothing else leaks
+    out. With it off, the block hands back a single value from one ((Result)) expression instead, for
+    when the answer is just one thing. Either way, the caller reads back only what you returned and
+    never sees the rest.
+
+    The block is also terminal: it has no outbound connector, so nothing can be wired after it. When a
+    path of the flow reaches it, the object is composed and that path ends there. The composed object is
+    what a Call Flow block waiting on this flow, or a SubFlow block running it, reads back as its
+    result. The parent reads it through that caller block's result alias - if the Call Flow block is
+    named Issue Token, a later step in the parent reads a returned property as
+    {{Issue Token Result->token}}, built in the Expression Editor under Block Data.
+  when_to_use: >
+    Reach for it - it lives in the block list's Utils group - at the end of any flow that another
+    flow runs and reads back from: a flow invoked by a Call Flow block, or the steps inside a SubFlow
+    block. Those callers only get back what a
+    Return Result hands them, so this is how you decide what they see: the new record's id, a token,
+    a status object, rather than the flow's whole internal workings. A flow with no Return Result
+    still runs to completion, but it gives its caller nothing structured to read, so add this block
+    whenever the caller needs an answer.
+  sections:
+    - title: Returning more than one result
+      body: |
+        A flow does not always have a single way out. Put a Return Result on each branch of a
+        Condition and a run will reach one or another depending on which way it forked - and a flow
+        can even hit more than one Return Result before it finishes. When that happens, the caller
+        does not get back a single plain object. It gets back an envelope that wraps up everything
+        that was returned:
+
+        - the **first result** - the object from the first Return Result the run reached, so a caller
+          that only wants "the answer" has one to read;
+        - the **list of all results** that ran, each one tagged with the name of the Return Result
+          block it came from, so a caller can tell the branches apart and pick out the one it cares
+          about;
+        - an overall **status** for the run.
+
+        So a single-Return-Result flow and a multi-Return-Result flow hand back different shapes. When
+        you want the caller to read a simple object directly, keep to one Return Result on the path it
+        will take; when several can run, expect the envelope and read the result you want out of it by
+        the block name that produced it.
+  example:
+    - text: >
+        Suppose you build a SubFlow named Issue Token that authenticates against a service and gets
+        back an access token and how long it stays valid. Earlier steps in that subflow have already
+        landed those two values - the token sits in a Data Bucket variable named accessToken, and the
+        expiry in expiresAt. You want the parent flow that runs this subflow to read both back, and
+        nothing else.
+    - text: >
+        Add a Return Result block at the end of the subflow. Leave ((Content Type)) on JSON, then add two
+        rows to ((Compose Result)) - one property per row, each pairing a ((Property)) name with a ((Value))
+        expression:
+    - lang: text
+      code: |
+        Content Type: JSON
+
+        Compose Result:
+          token       =  {{Data Buckets:Auth - accessToken->}}
+          expiresAt   =  {{Data Buckets:Auth - expiresAt->}}
+    - text: >
+        When the subflow runs and a path reaches this block, it composes
+        { "token": "...", "expiresAt": "..." } and ends there. Back in the parent flow, the result of
+        the block that ran the subflow is that object, and you read each property through that block's
+        result alias. If the SubFlow block is named Issue Token, the next step reads the token in the
+        Expression Editor (under Block Data) as {{Issue Token Result->token}} and uses it on a later
+        call:
+    - lang: text
+      code: |
+        Authorization  =  Bearer {{Issue Token Result->token}}
+    - text: >
+        Anything the subflow did to obtain the token stays inside the subflow - the caller sees only
+        the two properties you chose to return.
+    - image: ../images/reference/return-result-config.png
+      alt: >
+        The Return Result block with its configuration panel: a Content Type and a list of Property and Value rows that compose the result handed back to the calling flow.
+  common: [name, logging, notes]
+  config:
+    - field: Content Type
+      type: dropdown
+      description: >
+        The format of the returned data. The default is JSON, which composes the object from the
+        rows below.
+    - field: Compose Result
+      type: repeatable property and value
+      description: >
+        The properties of the returned object. Each row is a property name paired with an expression
+        that supplies its value. Together the rows make up the object the caller reads back.
+  produces_result: true
+  data_in: Composed property and value pairs.
+  data_out: The returned object that the Call Flow or SubFlow caller reads back.
+  gotchas:
+    - "This block is terminal: it has no outbound connector, so nothing can be wired after it. The path that reaches it ends there - put it where that path's work is finished."
+    - "If a flow has more than one Return Result block - for example one on each branch of a Condition - the caller does not get a single plain object. Instead it gets back a structure that holds the result from the first Return Result a run reaches, plus a list of every Return Result that ran, each tagged with the name of the block it came from, and an overall status. When you need the caller to read a simple object directly, keep to a single Return Result on the path it will take."
+  cross_refs: [call-flow, subflow, condition]
+  terminology: [Return Result, Compose Result, Content Type]
+
+assertions:
+  - id: returns-composed-object
+    when: run-instance
+    given: "Return Result with { ok: true, id: <expr> }"
+    expect: "the caller (Call Flow/SubFlow) result == { ok:true, id:<value> }"
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Define a flow/subflow's output with Return Result."
+    - "Understand single vs multiple Return Result structures."
+  prerequisites: [call-flow, subflow, expression-editor]
+  common_mistakes:
+    - "Expecting blocks after Return Result to run (it's terminal)."
+  exercise: >
+    Make a SubFlow that composes and returns { token, expiresAt }, then consume it from
+    a Call Flow.
+
+provenance:
+  confidence: V-real
+  evidence: "FBB 'Application Processor' v4 + many FBB/MyProjects flows use COMPOSE_RESULT as terminal. Config (Content Type JSON + Property/Value) from scratch capture. notes.md."
+  verified_on: 2026-06-14

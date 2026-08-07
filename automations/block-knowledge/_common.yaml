@@ -1,0 +1,22 @@
+# Shared definitions for the settings that appear on most blocks. Each record lists
+# which of these apply under `docs.common: [name, logging, ...]`; the reference
+# generator renders them as a "Common settings" table. Define each one here once.
+
+name:
+  field: Name
+  description: A label for this block on the canvas.
+result_alias:
+  field: Reference Result Data As
+  description: The alias used to reference this block's result in later blocks.
+assign_variable:
+  field: Assign to a Variable
+  description: Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name.
+skip_block:
+  field: Skip Block
+  description: When on, the block is skipped during execution and the value in Simulated Result is used as its output.
+logging:
+  field: Logging
+  description: What to log to the Logging panel while the flow is LIVE, both on start and on completion.
+notes:
+  field: Notes
+  description: Freeform notes for documenting the block; they do not affect execution.

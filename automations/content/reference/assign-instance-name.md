@@ -1,42 +1,61 @@
-The **Assign Instance Name** action in FlowRunner™ enables flow designers to dynamically assign a unique and descriptive name to each flow instance. This name acts as a visual identifier in the analytics interface, enhancing traceability and making it easier to interpret execution data.  
+<!-- GENERATED FILE - do not edit. Source: block-knowledge/assign-instance-name.yaml. Regenerate: make refgen -->
+<!-- doclint: allow-unlinked: Assign Instance Name -->
+# Assign Instance Name
 
-Every flow instance operates in its own isolated context, managing the data specific to that instance. Assigning an instance name provides a meaningful label in analytics, allowing flow designers to quickly identify and analyze individual runs, especially when multiple instances execute concurrently.  
+This block gives the current run of your flow a human-readable name, so you can find a specific run later at a glance instead of hunting through a list of machine IDs. You supply the name, and it stands in for the run's automatic Instance ID wherever the run is listed.
 
-### How It Works  
+## How it works
 
-Flow designers use the [Expression Editor](../flow-editing/expressioneditor.md) to define the name for an instance. This name can be dynamically generated using: 
+Every time a flow runs, that run is one instance, and FlowRunner gives it an automatic
+Instance ID to tell it apart from every other run - a long string you would not recognize at a
+glance. This block sets a display name for the instance it runs in, something you choose and can
+actually read. From the moment it runs, the Instances tab shows that name in place of the
+Instance ID. The name can be fixed text or built from values already in the run.
 
-- Data from trigger events.  
-- Outputs from actions and transformations.  
-- Static text combined with dynamic values.  
+## When to use it
 
-For example, a flow processing customer feedback might use the following name:  
+Reach for it when you will later go looking for a specific run in the Instances tab and a column of near-identical Instance IDs would not help you find it. A name built from the run's own data - the customer email, an order number - turns that list into something you can scan. Put it early in the flow: the name only applies from the point this block runs, so a run that fails before reaching it is still listed by its Instance ID.
+
+## Example
+
+Suppose a flow runs once per support ticket, and each run starts with this trigger payload, which the flow exposes as Initial Data:
+
+```json
+{
+  "customer": "acme@example.com"
+}
 ```
-User: {{User Name}}, Email: {{Email Address}}
+
+Drop an <span class="fr-block">Assign Instance Name</span> block (in the block list under Actions) in early, and in the Expression Editor set its <span class="fr-control">Instance Name</span> to a composite that pulls the customer in from Initial Data, so each run announces who it is for:
+
+```text
+Ticket: {{Initial Data->customer}}
 ```
-where `User Name` and `Email Address` are values retrieved earlier in the flow.  
 
-### Timing of Name Assignment  
+![The Assign Instance Name block on the canvas with its configuration panel open: the Instance Name field is set to the expression Ticket: <span class="fr-expr">Initial Data → customer</span>.](../images/reference/assign-instance-name-config.png)
 
-It is recommended to assign the instance name early in the flow's runtime. Analytics will display the name only after it has been assigned. If the flow runs for an extended period before the name is set, its analytics entry will show a unique identifier assigned buy the system. Assigning the name at the start (or right after start) ensures visibility throughout the entire lifecycle of the flow instance.  
+Here <span class="fr-expr">Initial Data → customer</span> reads the `customer` field from that payload, so for the payload above this run is named `Ticket: acme@example.com`. Open the Instances tab and that is the row you see, in place of the run's Instance ID. A second run for a different customer gets its own name the same way, so the two are clear to tell apart.
 
-### Setting Up  
+## Configuration
 
-To configure the **Assign Instance Name** action:  
+| Field | Description |
+| --- | --- |
+| Instance Name | Required. Static text, dynamic values, or a composite (e.g. "User: <span class="fr-expr">name</span>"). |
 
-1. **Add the Action**: Place the **Assign Instance Name** block in the flow at the point where the name should be assigned. Ideally, this should be near the beginning of the flow.  
-2. **Define the Name**: Use the **Expression Editor** to create a meaningful name. You can use:  
+**Common settings** (available on most blocks):
 
-     - A single dynamic value, such as `{{UserEmail}}`.  
-     - A composite value, such as `Feedback Submission - {{FeedbackID}}`.  
-     - A combination of multiple data points to provide detailed context.  
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Skip Block | When on, the block is skipped during execution and the value in Simulated Result is used as its output. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
-3. **Save the Configuration**: Once the configuration is complete, the action will assign the specified name to the flow instance when executed.  
+## Behavior
 
-### Best Practices  
+- Sets the instance's name; appears in the Instances list (else the raw GUID shows).
 
-- **Leverage Dynamic Names**: Use the flexibility of the [Expression Editor](../flow-editing/expressioneditor.md) to create meaningful and unique names that reflect the flow’s context.  
-- **Assign Early**: Place the **Assign Instance Name** block early in the flow to ensure the instance is identified in analytics from the start.  
-- **Be Descriptive**: Choose names that provide insight into the instance's purpose or key data to simplify monitoring and debugging.  
+## Things to watch for
 
-By using the **Assign Instance Name** action effectively, flow designers can enhance the transparency and manageability of their flows while improving the usefulness of analytics.  
+- This block does not produce an output you can reference later in the flow - it only sets the run's display name.
+- Assign early so the name is visible throughout the instance lifecycle.

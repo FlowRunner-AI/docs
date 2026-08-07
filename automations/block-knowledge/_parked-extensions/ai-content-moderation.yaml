@@ -1,0 +1,160 @@
+id: ai-content-moderation
+name: Moderate Content
+category: AI
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: AI_MODERATE_CONTENT
+  config_keys: [moderationContent, images, storeResult, onFailElemId, logging, skipBlock]   # Text Content populates moderationContent: [{text}]; subtype MODERATION
+
+testability:
+  class: external          # real moderation model call
+  hermetic: false
+  mock_strategy: "Stub via Skip Block + Simulated Result with a sample moderation object; or assert on flagged/flaggedCategories, not exact scores."
+
+docs:
+  purpose: >
+    This block checks text and images for harmful or inappropriate material and hands back a
+    verdict your flow can act on. You feed it the content a user submitted, and it returns
+    whether the content was flagged, which categories it tripped - harassment, hate, violence,
+    sexual, self-harm, illicit activity - and a confidence score for each, so a later step can
+    approve it, reject it, or route it to a person.
+  mental_model: |
+    You give the block content to inspect, and it gives you back a single analysis of that
+    content. The content comes in two forms, which you can use on their own or together: text,
+    typed in or built in the Expression Editor from an earlier block's result, and images, given
+    as publicly reachable URLs. Each field takes more than one entry - press the plus control to
+    add another piece of text or another image URL - so one block can weigh several items at once.
+
+    When the flow reaches the block, it sends everything to the moderation model and waits for the
+    reply. That reply is one object describing what it found. The headline is `flagged`, a true or
+    false answer to the plain question "did any of this break the rules". Below that, `categories`
+    breaks the verdict out by type, each a true or false; `flaggedCategories` lists the tripped
+    ones as a comma-separated string for quick reading; `category_scores` gives a confidence from 0
+    to 1 for every category, so you can tell a borderline 0.5 from a near-certain 0.95; and
+    `category_applied_input_types` notes whether each finding came from the text, the image, or
+    both. Text and images are weighed separately and then reported together in that one object, so a
+    post with a clean caption and a flagged photo still comes back as a single flagged result that
+    tells you the photo was the cause.
+
+    The block does not decide what to do about a verdict - it only reports. You read the result in
+    the blocks that follow and make the call there, most often by feeding `flagged` or a specific
+    score into a Condition that forks the flow.
+  when_to_use: >
+    Reach for it wherever your flow takes in content that people will see and you need to keep
+    harmful material out: screening a forum post or comment before it publishes, vetting an
+    uploaded profile photo, reviewing a product listing's description and image together, or
+    filtering messages in a chat. It is the right block whenever the decision is "is this content
+    safe to allow" rather than open-ended judgment - if you instead need a model to read content and
+    reason about it freely, an AI Agent fits better. You will find it in the AI group of the block
+    palette, alongside the other AI-backed actions.
+  example:
+    - text: >
+        Suppose your flow accepts comments on a community site and you want to block abusive ones
+        before they post. Drop in a Moderate Content block and, in its Text Content field, build a
+        reference in the Expression Editor to the comment that came in - here the submitted text is
+        "I'm going to find you and hurt you badly". Leave Images empty, since this run is checking
+        text only.
+    - image: ../images/reference/ai-content-moderation-config.png
+      alt: >
+        The Moderate Content block selected on the canvas with its configuration panel: Text Content
+        set to the incoming comment "I'm going to find you and hurt you badly", Images left empty, and
+        the verdict exposed under the Reference Result Data As alias Moderate Content Result.
+    - text: >
+        The block exposes its verdict under the Reference Result Data As alias, `Moderate Content
+        Result` by default, so later blocks have a readable name to reach for. When the block runs, it
+        returns one object describing the verdict:
+    - lang: json
+      code: |
+        {
+          "flagged": true,
+          "categories": {
+            "harassment": true,
+            "harassment/threatening": true,
+            "violence": true,
+            "hate": false,
+            "sexual": false,
+            "self-harm": false,
+            "illicit": false
+          },
+          "flaggedCategories": "harassment, harassment/threatening, violence",
+          "category_scores": {
+            "harassment": 0.6478,
+            "harassment/threatening": 0.5313,
+            "violence": 0.9534,
+            "hate": 0.0001
+          },
+          "category_applied_input_types": {
+            "harassment": ["text"],
+            "violence": ["text"]
+          }
+        }
+    - text: >
+        That captured shape is what makes the verdict usable downstream. In the next block you open
+        the Expression Editor, switch to its Block Data, and there is `Moderate Content Result` to
+        expand and drill into. The headline answer reads as the reference below:
+    - lang: text
+      code: |
+        {{Moderate Content Result->flagged}}
+    - text: >
+        Now consume it. Add a Condition right after, and set its test to that reference being equal
+        to true. Comments that come back flagged take the Condition's Yes path - route them to a
+        Set Variables that marks the comment held for review, or to a Send Email that alerts a
+        moderator - while clean comments take the No path and post as normal. For a stricter gate
+        you can test a single score instead of the headline, reading
+        `{{Moderate Content Result->category_scores.violence}}` and holding anything above 0.8, which lets
+        borderline content through to a person rather than blocking it outright.
+  common: [name, result_alias, assign_variable, notes]
+  config:
+    - field: Text Content
+      type: expression (repeatable)
+      description: >
+        The written content to analyze, taken as a string from the Expression Editor so it can come
+        from an earlier block's result. Press the plus control to add more than one text entry and
+        check several pieces in a single run.
+    - field: Images
+      type: repeatable URL
+      description: >
+        Image URLs to analyze, each a publicly reachable link to a standard web image (JPEG, PNG,
+        GIF, and the like). The URL must be reachable without authentication. Press the plus control
+        to add more than one image. Keep the count reasonable to keep the flow responsive.
+  produces_result: true
+  data_in: The text entries and image URLs you supply.
+  data_out: >
+    One moderation object with `flagged`, per-category `categories`, the `flaggedCategories` string,
+    `category_scores`, and `category_applied_input_types`.
+  gotchas:
+    - "The block reports a verdict; it does not act on one. Nothing is blocked or held until you read the result in a following block - typically feeding `flagged` or a specific score into a Condition - and build the approve/reject/review paths yourself."
+    - "Image URLs have to be publicly reachable. A link that needs a login or sits behind a private bucket cannot be fetched for analysis, so host the image somewhere open, or check it some other way."
+    - "What is reliable versus what needs judgment: `flagged` and `flaggedCategories` give you a clean yes-or-no to gate on, but the per-category scores are confidences, not certainties. A real violation can score in the middle and a harmless phrase can score low-but-nonzero, so when you threshold on a score, pick the cutoff for your audience and consider routing the middle band to a person rather than auto-deciding it."
+    - "Text and images are weighed separately, then merged into one result. Use `category_applied_input_types` to tell which input caused a finding - it is how you learn that a post's photo tripped the verdict while its caption was clean."
+  cross_refs: [ai-agent, condition, handle-error]
+  terminology: [Moderate Content, Text Content, Images, Reference Result Data As]
+
+assertions:
+  - id: flags-harmful-text
+    when: run-block
+    given: "Text Content set to a clearly threatening message"
+    expect: { status: Success, result_contains: "flagged" }
+    note: "Non-deterministic scores - assert on the flagged boolean / flaggedCategories, not exact numbers."
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Feed text and/or image URLs into the block and read back the moderation verdict."
+    - "Reference the result via its alias and gate the flow on flagged with a Condition."
+    - "Threshold on a category score and route the middle band to human review."
+  prerequisites: [expression-editor]
+  common_mistakes:
+    - "Expecting the block to block content on its own instead of acting on the result downstream."
+    - "Passing image URLs that are not publicly reachable."
+  exercise: >
+    Moderate an incoming comment, then add a Condition that holds the comment for review when
+    the result's flagged value is true.
+
+provenance:
+  confidence: V-real
+  evidence: "Block RUN live 2026-06-24 (Moderate Content, AI group; element id ai-content-moderation). Config confirmed in-product: Text Content + Images (expression/repeatable), default alias 'Moderate Content Result'. RESULT SHAPE RUNTIME-VERIFIED by running on the example text 'I'm going to find you and hurt you badly' — the returned object has exactly: categories (the 13 OpenAI categories: harassment, harassment/threatening, sexual, hate, hate/threatening, illicit, illicit/violent, self-harm/intent, self-harm/instructions, self-harm, sexual/minors, violence, violence/graphic), category_applied_input_types (each category -> [\"text\"|\"image\"]), category_scores (each category -> 0..1 float), flagged (bool, was true), and flaggedCategories (comma string, was exactly 'harassment, harassment/threatening, violence'). The record's worked JSON is a faithful abbreviation of this. Internal input key is moderationContent: [{text}] with subtype MODERATION. Block+config screenshot still to capture."
+  verified_on: 2026-06-24

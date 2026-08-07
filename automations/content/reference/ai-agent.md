@@ -1,173 +1,104 @@
-# AI Agent Block
+<!-- GENERATED FILE - do not edit. Source: block-knowledge/ai-agent.yaml. Regenerate: make refgen -->
+<!-- doclint: allow-unlinked: AI Agent -->
+# AI Agent
 
-The **AI Agent** block brings artificial intelligence into your FlowRunner™ workflows. Unlike regular automation blocks that always follow the same sequence, the AI Agent can read your instructions, pick the best tools, and decide how to use them. This gives your flows flexibility to handle complex scenarios with very little setup.
+This block puts an AI agent to work inside your flow. You hand it a goal in plain language and a set of tools - any of FlowRunner's built-in actions, your own flows, the tools on an MCP server, or a Knowledge Base to search - and the agent decides for itself which tools to use to reach the goal, then returns its answer. It can also carry memory across runs and hand back structured data the blocks after it can read.
 
-Think of the AI Agent as a smart teammate inside your flow. You provide it with prompts and tools, and it figures out the best way to complete the task.
+## How it works
 
-!!! info "How AI Agents Differ from Regular Blocks"
-    Regular blocks run step by step in a fixed order. AI Agents are different because they can:
+You give the agent three things: a <span class="fr-control">System Prompt</span> that sets its role and rules, a <span class="fr-control">User Prompt</span> that carries the request for this run, and - through <span class="fr-control">Manage Capabilities</span> - the tools it is allowed to use. From there it works toward the goal on its own. It reads the request, and whenever finishing the job needs a fact or an action it does not already have, it reaches for one of its tools: looking something up with a built-in action, running one of your flows, calling out to an MCP server, or searching a Knowledge Base. It folds whatever comes back into its work and keeps going until it can answer. You do not wire those steps up yourself - you supply the goal and the tools, and the agent chooses which to use and when. Its reply always comes back under an `output` property on the result - plain text there, or a structured object when you turn on <span class="fr-control">Force Parsed Output</span> - so a later block reads the answer from `output`, not from the result itself. The <span class="fr-control">User Prompt</span> is usually built in the Expression Editor from earlier blocks' results, so a fresh input flows in on every run.
 
-    - Choose which tools to use  
-    - Decide the order of actions  
-    - Remember past interactions  
-    - Adapt based on results  
+## When to use it
 
+Reach for it when a step calls for judgment or open-ended work rather than a fixed rule - reading messy input and deciding what it means, gathering the right facts from several places, drafting a reply, or handling a small task from start to finish. Attach tools and it stops being something that only answers and becomes one that can act: look a customer up, search your own documents, and kick off a follow-up flow, all in a single step. Its wording varies from run to run, so use it where that is welcome - and turn on <span class="fr-control">Force Parsed Output</span> when a later block needs the result in a fixed shape.
 
+## What the agent can do (Manage Capabilities)
 
-## How the AI Agent Works
+<span class="fr-control">Manage Capabilities</span> is where an answer-only model turns into an agent. Open it and you choose the tools this agent is allowed to reach for, drawn from six groups:
 
-When you add an AI Agent to your flow, you are giving it the role of a decision-maker. It receives instructions through prompts, looks at the tools you connected, and decides how to use them. By default, the agent can choose the order of tool execution and adapt as it goes.
+- **Extensions** - FlowRunner's built-in actions, well over a thousand of them, grouped by the extension they come from: send an email, create or find a record, call an HTTP endpoint, post a message, and far more. These are the same actions you would otherwise drop on the canvas as blocks; here the agent can run any you attach, on its own, whenever the task calls for it.
+- **MCP Extensions** - tools published by the MCP servers you have registered, grouped by server. Attach a whole server, or expand it and pick individual tools.
+- **Flows** - your own flows, handed to the agent as tools it can run. A flow you already built becomes a skill the agent can call mid-task; the flow's description and the description of each of its arguments are what tell the agent when to call it and what to pass. Because the agent runs the whole flow and waits for its result, a flow tool can even pause the agent until a person responds. See [Flows as agent tools](flows-as-agent-tools-concept.md).
+- **Knowledge** - your [Knowledge Bases](knowledge-bases-concept.md), exposed as document tools (add, list, and delete documents), so the agent can search your own content and ground its answer in it instead of guessing.
+- **Shared Memory** - the flow's own key/value store, so the agent can stash a value mid-task and read it back later, or share state with the rest of the flow. (This is the same store that backs the agent's [Messages History](flow-memory-concept.md).)
+- **Utils** - a small set of utility tools, such as naming the current instance or making an HTTP request directly.
 
-If you prefer more control, you can also specify the order of tool usage yourself. In that case, the agent will follow the procedure you outline instead of deciding on its own.
+You decide what this particular agent gets; it then decides, run by run, which of those tools it actually needs. Leave a tool's input blank and the agent fills it in itself - handy, but the value is its own guess, so pin any input that has to be exact.
 
-In short, the AI Agent reads your prompt, understands the goal, and either orchestrates the tools dynamically or executes them in the order you defined.
+![The Manage AI Agent Capabilities window. Down the left, six tool groups with counts - Extensions (1449), MCP Extensions (50), Flows (18), Knowledge (4), Shared Memory (3), and Utils (2) - above a search box. The Knowledge group is selected, listing its document tools on the right: Add Document, Delete by Filter, Delete Document, and List Documents, each with a plus to attach it.](../images/reference/ai-agent-capabilities.png)
 
+## Example
 
-## Configuring the AI Agent Block
+Say a support flow receives a customer's question and you want an agent to answer it. A good answer needs facts the model does not have on its own: the customer's recent orders, and what your help articles say. This is exactly where capabilities earn their keep.
 
-Before your AI Agent can run, you need to configure its main properties. These settings define which model the agent uses, what instructions it follows, and whether it remembers past interactions.
+Set the <span class="fr-control">System Prompt</span> to the job the agent should do on every question:
 
-The configuration includes:
+```text
+You are a support assistant. Use your tools to look up the customer and their
+recent orders, and to search the help articles, then answer the question in two
+or three sentences. If you are not sure, say so rather than guess.
+```
 
-* **AI Provider** — the large language model service to use. FlowRunner™ supports OpenAI, Anthropic, Mistral, Cohere, Groq, DeepSeek, and Google Gemini.
-* **AI Model** — the specific model from the chosen provider.
-* **API Key** — the provider’s API key, required for authentication.
-* **System Prompt** — defines the agent’s role, rules, and overall behavior.
-* **User Prompt** — defines the task or question for the current run.
-* **Memory (Message History)** — controls how many past messages the agent remembers. By default, memory is enabled and set to 15 messages.
+In the <span class="fr-control">User Prompt</span>, feed in the incoming question. Build it in the Expression Editor so the live question flows in on every run rather than being pasted in as fixed text:
 
-![sample ai agent](../images/sample-ai-agent.png)
+```text
+{{Initial Data->question}}
+```
 
-The next sections explain prompts and memory in more detail.
+![The AI Agent block's configuration panel: AI Model set to Claude Sonnet 4.6, an API key filled in, a System Prompt telling the agent to use its tools to look up the customer and search the help articles, and the User Prompt shown as a bound reference pill reading "Initial Data question". The MANAGE CAPABILITIES button at the top of the panel is where its tools are attached next.](../images/reference/ai-agent-config.png)
 
+Now open <span class="fr-control">Manage Capabilities</span> and attach two tools: a built-in action that fetches a customer's recent orders, and your Help Articles Knowledge Base. That is the whole of the wiring - you are handing the agent the tools, not scripting when to use them.
 
+When the flow runs, the agent reads the question, decides on its own that it needs the order history and a help article, calls the lookup action and searches the Knowledge Base, and writes an answer grounded in both - none of which you wired step by step. Turn on <span class="fr-control">Force Parsed Output</span> and name the fields you want in the <span class="fr-control">System Prompt</span>, and the structured answer comes back inside the result's `output` property, ready for a later block to act on:
 
-## Writing Prompts
+```json
+{
+  "output": {
+    "answer": "Your most recent order, #10473, shipped Tuesday and is due to arrive Friday. If it has not arrived by then, reply here and we will open a trace.",
+    "needsHuman": false
+  }
+}
+```
 
-Prompts are the instructions that drive the AI Agent’s behavior. You use two types of prompts: **system prompts** and **user prompts**. Both can use the [Expression Editor](../flow-editing/expressioneditor.md) to pull in dynamic data from your flow.
+Because the reply always arrives under `output`, a later block reads `output->needsHuman` to decide whether to send the answer straight to the customer or route the ticket to a person, and shows `output->answer` either way.
 
-### System Prompt
+## Configuration
 
-The system prompt defines the agent’s role and rules. Here you describe what the agent is, what it can do, how it should use tools, what output format to follow, and any limits it must respect. You can keep the prompt fixed or make it dynamic with the Expression Editor.
+| Field | Description |
+| --- | --- |
+| AI Model | Required. The model to call, chosen from one list grouped by provider (Claude, GPT, Gemini, and others); the provider is implied by the model you pick. |
+| AI API Key | Required. The key that authorizes the call. Pick a key you have already saved, or type a new one right here. Without a valid key the call cannot run. |
+| System Prompt | The standing instruction that sets the agent's role, behavior, and rules, applied to every request this block makes. |
+| User Prompt | The request for this run. Usually built in the Expression Editor from earlier blocks' results, so the input changes from run to run. |
+| Manage Capabilities | Opens the window where you attach the agent's tools - built-in actions, MCP server tools, your own flows, and Knowledge Bases. See "What the agent can do" above. |
+| Files | Files for the model to read alongside the prompts - each entry is a URL and a MIME Type, added with the <span class="fr-control">+</span> control. The files are attached to the first message of the conversation; with <span class="fr-control">Messages History</span> on they are sent only once, at the start of the dialogue. What the model can read depends on the provider: Anthropic takes images (JPEG, PNG, GIF, WebP) and PDF; Gemini takes images, PDF, audio, video, PPTX and more (not DOCX, DOC, or EPUB); OpenAI pro models take images and most document formats, OpenAI standard models images only; other providers do not support file reading. |
+| Messages History | When on, the model is also fed the messages from recent prior runs of this block, up to the limit you set (maximum 20), so it can carry context across separate interactions. This is the agent's memory across runs (see [Agent Memory](flow-memory-concept.md)), and it is kept in Shared Memory. |
+| Force Parsed Output | When on, the block asks the model to return structured JSON instead of plain text, by adding an instruction to your System Prompt. Use it when a later block needs to read specific fields from the result. |
+| LangSmith Settings | Connects this block to LangSmith, an outside service for tracing and monitoring AI calls, so you can inspect what was sent and returned. |
 
-### User Prompt
+**Common settings** (available on most blocks):
 
-The user prompt describes the task for the current run. This usually includes the immediate goal, data from earlier flow blocks, and any special instructions. With the Expression Editor, you can insert context such as trigger data, variables, or results from previous steps.
+| Field | Description |
+| --- | --- |
+| Name | A label for this block on the canvas. |
+| Reference Result Data As | The alias used to reference this block's result in later blocks. |
+| Assign to a Variable | Optionally store the result in a Data Bucket variable too; you choose the bucket and the variable name. |
+| Skip Block | When on, the block is skipped during execution and the value in Simulated Result is used as its output. |
+| Logging | What to log to the Logging panel while the flow is LIVE, both on start and on completion. |
+| Notes | Freeform notes for documenting the block; they do not affect execution. |
 
+## Things to watch for
 
+- The reply always arrives in the result's output property. Read it as `output` for the text, or `output->yourField` for a named field when <span class="fr-control">Force Parsed Output</span> is on. Reading the result directly, without going through `output`, gets you nothing.
+- The output is not deterministic: the same prompts can come back worded differently from one run to the next, so this block suits work where the wording can vary, not a step that needs an identical value every time. Write downstream steps to tolerate that, and when a later block needs the result in a fixed shape, turn on <span class="fr-control">Force Parsed Output</span> so the model returns structured JSON instead of prose.
+- When you attach a tool but leave one of its inputs blank, the agent fills that input in itself while it runs. That is convenient, but it means the value is the agent's guess. If an input has to be a specific value, set it explicitly so the agent cannot choose its own.
+- The block cannot run without a model and a valid API Key. You can pick a saved key or type a new one in the <span class="fr-control">AI API Key</span> field.
+- <span class="fr-control">Messages History</span> only carries context when it is turned on, and even then only up to the limit you set (maximum 20). With it off, each run starts with no memory of earlier runs.
+- While testing, you can avoid a real model call - and its cost - by turning on <span class="fr-control">Skip Block</span> and putting a sample reply in <span class="fr-control">Simulated Result</span>, so the rest of the flow runs against that stand-in instead.
 
-## Memory and Context
+## Related
 
-The AI Agent automatically keeps track of context during execution. By default, memory is **enabled** and stores up to **15 messages** in the run history. This allows the agent to build on past interactions instead of starting fresh every time.
-
-### Adjusting Memory
-
-If you want to change this behavior:
-
-1. Open the AI Agent properties.
-2. Look for the **Messages History** setting.
-3. Change the number of past messages to keep (up to 15) or turn the setting off completely if you do not want the agent to remember context.
-
-![AI Agent memory settings](../images/agent-memory-config.png)
-
-!!! info "Memory Persistence"
-    Memory is shared across different runs of the same flow version. This means multiple executions can use the same context, which is helpful for multi-interaction workflows.
-
-### When Memory Helps
-
-Since memory is on by default, your agent will usually remember the last 15 messages. This is useful for conversational chatbots, multi-step approvals, customer support systems, or data processes that build on previous results. You can reduce the number of stored messages or disable memory if your flow doesn’t need history.
-
-
-
-## Giving Your Agent Tools
-
-Tools are what make the AI Agent powerful. Each tool you add gives the agent new abilities, so it can handle a wider range of tasks.
-
-At the same time, adding too many tools can sometimes reduce accuracy. Current AI models may struggle to choose efficiently when faced with a very large toolset. For best results, start with only the tools the agent truly needs. You can always add more as you refine your flow.
-
-### What Counts as a Tool
-
-Any FlowRunner™ action can be a tool. That includes built-in actions like **Send Email** or **HTTP Request**, integrations like Gmail, Slack, or Airtable, and even custom extensions you create.
-
-### Adding Tools
-
-To add tools to your AI Agent:
-
-1. Select the AI Agent block in your flow.
-2. Click **Manage Tools** in the properties panel or the **Add Tools** icon in the AI Agent block itself:
-
-    ![add tools icon](../images/add-tools-icon.png)
-
-3. Pick from the list of available actions.
-4. Repeat the process to add as many tools as you need.
-
-![Adding tools to AI Agent](../images/add-tools-popup.png)
-
-Each tool you connect expands what the agent can do.
-
-### Configuring Tools
-
-When you add a tool, you can decide how its fields should be set. Some fields can use **fixed values** that you enter directly. Others can pull in **dynamic values** from another part of the flow, such as a trigger, an action, a transformer, a variable, or a placeholder. If you leave a field empty, the AI Agent will decide what to put there during execution.
-
-To configure a tool:
-
-1. Click on the tool inside the AI Agent.  
-2. Set it up as you would configure a standalone action.  
-3. Fill in any fields you want fixed or linked to data from elsewhere in the flow.  
-4. Leave fields empty if you want the AI to determine them dynamically.
-
-![Configuring a tool within AI Agent](../images/ai-agent-tool-config.png)
-
-!!! note "Flexible Tool Configuration"
-    Tool fields can be set in different ways. You can enter a fixed value, or you can link the field to data coming from another block in your flow, such as a trigger, an action, a transformer, a variable, or a placeholder. If you leave a field empty, the AI Agent will decide what value to provide during execution. Fields you configure will always use the values you defined, while empty fields let the agent act on its own. This balance gives you both control and flexibility.
-
-
-## Monitoring with LangSmith
-
-For deeper insight into how your AI Agent makes decisions, you can connect FlowRunner™ with **LangSmith** from LangChain. This integration shows you what the agent understood, which tools it used, and how it responded.
-
-To enable LangSmith monitoring:
-
-1. In the AI Agent properties, open **LangSmith Settings**.
-2. Toggle on **Enable LangSmith**.
-3. Enter your API key, project name, and account cluster.
-4. Optionally, add a trace label for organization.
-
-![LangSmith configuration](../images/ai-agent-langsmith.png)
-
-LangSmith helps you debug agent behavior, analyze why it chose certain tools, check token usage, and compare different prompts or setups. It is also helpful for performance tuning, since you can see how long each step takes.
-
-## Best Practices
-
-Follow these tips to get the most out of AI Agents.
-
-* **Write Clear Prompts**: Make system prompts specific and give examples if formatting is important. Define boundaries for what the agent should and should not do. Test and refine as needed.
-
-* **Pick the Right Tools**:  Only add tools that are relevant to the task. While each tool you add expands the agent’s abilities, adding too many can sometimes have the opposite effect. Current AI models may struggle to pick the best option when faced with an overly large toolset, which can reduce accuracy or efficiency.
-
-    A good approach is to start with just the essential tools, test the flow, and then add more only if the agent needs them. Pre-configure common values to ensure consistency, and group related tools so the agent better understands how they connect.
-
-* **Keep It Fast**: Keep message history as short as possible for quicker execution. Use LangSmith to spot slow steps and manage token costs.
-
-* **Plan for Mistakes**: Add error handler blocks after AI Agents. Include fallback instructions in prompts. Log agent decisions for debugging and test with varied inputs to ensure reliability.
-
-
-
-## Common Uses
-
-AI Agents are great in many scenarios. You can use them for customer service routing, document classification, content moderation, approval workflows, data analysis, or orchestrating tasks across multiple systems.
-
-
-
-## Troubleshooting
-
-If your AI Agent doesn’t behave as expected:
-
-1. Check your prompts for clarity.
-2. Review tool setup and required fields.
-3. Turn on LangSmith for detailed logs.
-4. Test tools independently of the AI Agent.
-5. Start simple, then add complexity.
-
-!!! tip "Testing AI Agents"
-    Use FlowRunner’s test mode to experiment with prompts and tool setups before running them in production.
+- [Flows as Agent Tools](flows-as-agent-tools-concept.md)
+- [Agent Memory](flow-memory-concept.md)
+- [Knowledge Bases (RAG stores)](knowledge-bases-concept.md)
+- [AI Router](ai-router.md)

@@ -1,0 +1,116 @@
+id: start-scheduled-runs
+name: "Start Scheduled Runs"
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: SYSTEM
+  subtype: START_SCHEDULED_RUNS
+  config_keys: [flowId, logging, enabled, retryPolicy, saveToVariable, storeResult, onFailElemId, simulationResult, slaConditions]
+
+testability:
+  class: external          # acts on the platform scheduler; starts real scheduled instance creation
+  hermetic: false
+  mock_strategy: "Stub via Skip Block + Simulated Result; do not point at a live production flow."
+
+docs:
+  purpose: >
+    Switch another flow's schedule back on from inside a flow, so its scheduled runs start firing
+    again without a person flipping the toggle. Paired with Stop Scheduled Runs, it lets you
+    automate a whole pause-and-resume cycle - hold a scheduled flow during a maintenance window,
+    then bring it back on its own.
+  mental_model: >
+    You find this block in the Actions palette. A flow's schedule has two separate parts: the
+    schedule itself - how often the flow should run, defined once on the target flow - and whether
+    that schedule is currently active. This block touches only the second part. It finds the
+    schedule that already exists on the flow you name in its ((Flow)) field and switches it back to
+    active, so the platform starts creating a new instance each time the schedule comes due again.
+    It does not set, change, or read the timing; if the target flow has no schedule at all, there
+    is nothing for it to turn on. The block hands back only an acknowledgement that the start was
+    carried out - there is no schedule data or run detail in it worth reading, so you confirm the
+    resume by watching the target flow's runs rather than by consuming this block's result.
+  when_to_use: >
+    Reach for it when one flow needs to switch another flow's scheduled runs back on without a
+    person doing it by hand. A common shape is an operator flow that pauses a scheduled flow for
+    a maintenance window with Stop Scheduled Runs, waits, and then resumes it with this block - so
+    the pause-and-resume happens automatically on its own timer. It is the programmatic equivalent
+    of toggling the schedule on yourself, which is the better choice when a person is right there
+    and only needs to do it once.
+  example:
+    - text: >
+        Suppose you run a flow called Nightly Report Export on a schedule - it runs every night
+        and emails a report. During a database migration you need it to stay quiet for an hour,
+        then pick its schedule back up on its own. You build a small operator flow to do that.
+    - text: >
+        The operator flow does three things in sequence. First a Stop Scheduled Runs block, with
+        Nightly Report Export chosen in its ((Flow)) field, halts its scheduled runs so no report
+        goes out during the migration. Next a Wait block holds for the length of the maintenance
+        window. Finally a Start Scheduled Runs block, with the same Nightly Report Export flow in
+        its ((Flow)) field, turns its schedule back on:
+    - lang: text
+      code: |
+        1. Stop Scheduled Runs    Flow: Nightly Report Export    (schedule paused)
+        2. Wait                   1 hour                         (maintenance window)
+        3. Start Scheduled Runs   Flow: Nightly Report Export    (schedule resumed)
+    - text: >
+        The payoff: from the moment the Start Scheduled Runs block runs, Nightly Report Export is
+        scheduled again, and the next nightly run creates an instance as normal. The schedule's
+        timing was never changed - it was only switched off and back on. The block itself returns
+        nothing but an acknowledgement, so it is not something you read to verify the resume; instead you
+        confirm it on the target flow, watching its ((Instances)) tab for the next scheduled run to
+        appear.
+    - image: ../images/reference/start-scheduled-runs-config.png
+      alt: >
+        The Start Scheduled Runs block configured with the flow whose schedule it should start.
+  common: [name, result_alias, assign_variable, logging, notes]
+  config:
+    - field: Flow
+      type: dropdown
+      description: >
+        Required. The flow whose scheduled runs you want to turn back on. Note that the ((Flow))
+        dropdown currently lists every flow in the workspace, not only the ones that already have a
+        schedule, so pick the target flow carefully.
+  produces_result: true
+  data_in: The target flow you select in the ((Flow)) field.
+  data_out: Only an acknowledgement that the start was carried out - no schedule data or run detail worth reading.
+  gotchas:
+    - "The target flow has to already have a schedule defined on it. This block only turns an existing schedule back on - it does not create one, so if the flow was never scheduled there is nothing here to start."
+    - "Defining a flow's schedule and turning that schedule on or off are two different things. The schedule (how often the flow runs) is set up separately on the flow itself; this block controls whether that schedule is active. Use it to resume scheduled runs, not to set their timing."
+    - "The ((Flow)) dropdown currently lists every flow in the workspace, including flows that have no schedule at all. Selecting an unscheduled flow does not start anything, so make sure the flow you choose is one that actually has a schedule."
+  cross_refs: [stop-scheduled-runs, flow-scheduling-concept, call-flow]
+  terminology: [Scheduled Runs, Schedule, Flow]
+
+assertions:
+  - id: start-resumes-schedule
+    when: run-instance
+    given: "a target flow that has a schedule, with instance creation halted"
+    expect: "instance creation resumes per the flow's schedule"
+
+known_bugs:
+  - id: sched-flow-dropdown-lists-all
+    repro: "Select Start Scheduled Runs; open the Flow dropdown in a workspace where 0 flows have a schedule."
+    observed: "Dropdown lists ALL flows (14/15 in MyProjects), including unscheduled ones."
+    expected: "Dropdown should list only flows that have a schedule (here: none)."
+    severity: medium
+    note: "Also affects Stop Scheduled Runs. Verified via API (metaInfo.schedule null for all). See memory flowrunner-bug-sched-flow-list; Jira candidate."
+
+training:
+  learning_objectives:
+    - "Start a flow's schedule programmatically."
+    - "Separate DEFINING a schedule (Configure Flow Schedule) from CONTROLLING it (this block)."
+  prerequisites: [flow-scheduling-concept]
+  common_mistakes:
+    - "Expecting this block to define the schedule (it only starts an already-defined one)."
+  exercise: >
+    On a test flow with a schedule configured, use Start Scheduled Runs to activate it, then
+    confirm instances begin appearing on the Instances tab.
+
+provenance:
+  confidence: V-real
+  evidence: >
+    MyProjects 'Scheduled Runs' flow (versionId DD085DD8-...) = Stop(->Email Sender) -> Wait 60s
+    -> Start(->Email Sender); both blocks' metaInfo.flowId = Email Sender (2EA402C3-...). Email
+    Sender has schedule.frequency.repeat.every=30; Start re-enables (schedule.enabled=true) while
+    the schedule object stays intact. Concept narrated by Mark 2026-06-15. notes.md.
+  verified_on: 2026-06-15

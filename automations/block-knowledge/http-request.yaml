@@ -1,0 +1,172 @@
+id: http-request
+name: HTTP Request
+category: Actions
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: HTTP
+  config_keys: [url, method, body, query, headers, retryPolicy, storeResult, onFailElemId, logging, skipBlock]
+
+testability:
+  class: external          # hits a real endpoint
+  hermetic: false
+  mock_strategy: "Point at a deterministic test endpoint, or stub via Skip Block + Simulated Result."
+
+docs:
+  purpose: >
+    Reach any web API or external service from inside a flow and turn its response into data
+    the rest of the flow can use. You describe the call you want to make, and the result is
+    whatever the service sends back - records to read, a confirmation to check, structured
+    data for later blocks to act on.
+  mental_model: >
+    You describe a request - where it goes, how to make the call, and what to send with it -
+    and the block makes that call for you and hands back the response for later steps to read.
+    The where is the address you point at. The how is the ((Method)), which tells the service what
+    you mean to do there: GET reads, POST creates, PUT and PATCH update, DELETE removes, HEAD
+    checks. The what is whatever the call needs to carry along - the data you are sending, the
+    parameters that narrow down what you want, the named values that prove who you are. You are
+    not writing networking code; you are filling in a description of the call, and the block
+    turns that into a real request, waits for the reply, and gives you back the response body -
+    the data the service returned - ready for the next step to read.
+  when_to_use: >
+    Reach for it whenever your flow needs to talk to a service that FlowRunner does not
+    already have a dedicated block for: pulling records from a third-party API, posting an
+    update to a webhook, kicking off a job in another system. You will find it in the Actions
+    category of the block palette. If a purpose-built block exists for the service you are
+    calling, that block is usually less work because it handles the address and the
+    authentication for you. This block is the general-purpose option for everything else -
+    any service with a web API is reachable from here.
+  sections:
+    - title: Retrying a failed call
+      body: |
+        A call to an outside service can fail for reasons that have nothing to do with your request -
+        the service is briefly overloaded, or the network drops the connection. Turn on the block's
+        ((Retry Policy)) and it reattempts the call on its own before it hands the failure on.
+
+        A Retry Policy decides three things:
+
+        - **What is worth retrying.** For a service that answered with an error status, list the codes
+          or ranges to retry on in ((Retry on status codes)) - a specific code like `429` (too many
+          requests), or a range like `5XX` for server errors. For a call that never reached the service,
+          turn on ((Retry on network errors)) - connection refused, DNS failures, TLS errors, and
+          timeouts. A response the policy does not match is treated as final.
+        - **How many times to try.** ((Max attempts)) counts the first call: `3` means the original
+          request plus two retries.
+        - **How long to wait between tries.** ((Backoff strategy)) is either ((Fixed)) - the same delay
+          before every retry - or ((Exponential with jitter)), which grows the wait each retry by a
+          ((Multiplier)) and then picks a random wait in the upper half of it, so a burst of failing
+          runs does not retry in step. Fixed takes a single ((Delay)); Exponential takes an
+          ((Initial delay)) and the ((Multiplier)).
+
+        Retry a request only when repeating it is safe. A GET can be retried freely; a non-idempotent
+        request - a POST that creates a record or charges a card - repeats that side effect on each
+        attempt, so retry those with care.
+      image: ../images/reference/http-request-retry-policy.png
+      alt: >
+        The HTTP Request block's Retry Policy: a field to add status codes or ranges to retry on, a
+        Retry on network errors toggle, Max attempts set to 3, and a Backoff strategy of Exponential
+        with jitter with its Initial delay and Multiplier.
+  example:
+    - text: >
+        Suppose you want to list the public organizations a GitHub user belongs to. GitHub's
+        API answers that at a fixed address, so set the ((Method)) to GET and the ((URL)) to the
+        endpoint for that user:
+    - lang: text
+      code: |
+        https://api.github.com/users/octocat/orgs
+    - text: >
+        GitHub asks callers to identify the kind of response they want, so add one ((Header)) -
+        a ((Name)) of Accept and a ((Value)) of application/vnd.github+json. A GET request like this
+        carries no ((Body)), since you are reading rather than sending. With that filled in, open
+        the block's ((Test Panel)) and press ((run block)) - this sends the real request once,
+        so you can see exactly what comes back before you wire anything downstream. The
+        response body is a list of organizations, each one an object:
+    - lang: json
+      code: |
+        [
+          { "login": "github",     "id": 9919,   "url": "https://api.github.com/orgs/github" },
+          { "login": "octo-org",   "id": 583231, "url": "https://api.github.com/orgs/octo-org" }
+        ]
+    - text: >
+        That captured shape is what makes the result ready to use next. The block exposes its
+        response under the alias set in ((Reference Result Data As)), {{HTTP Request Result}} by
+        default. In a following block you open the Expression Editor on a field, switch to its
+        Block Data, and there is {{HTTP Request Result}} to expand and drill into. Because the
+        body is a list, you index it: the first organization's login reads as the reference
+        below, and the Expression Editor offers login, id, and url for you because the test run
+        showed it the real structure.
+    - lang: text
+      code: |
+        {{HTTP Request Result->[0].login}}
+    - text: >
+        Drop that reference into a Send Email block's body, or feed the whole list into a
+        List Iterator to act on every organization in turn - the payoff is that one block
+        turned a public API into structured data your flow can read and act on.
+    - image: ../images/reference/http-request-config.png
+      alt: >
+        The HTTP Request block selected on the canvas with its configuration panel: the URL is
+        https://api.github.com/users/octocat/orgs, HTTP Method is GET, Body and Query are empty, and
+        a single Header has the Name Accept and the Value application/vnd.github+json.
+  common: [name, result_alias, assign_variable, skip_block, logging, notes]
+  config:
+    - field: URL
+      type: expression
+      description: >
+        Required. The full web address to send the request to. It can be a fixed address or
+        an expression that builds the address from earlier values.
+    - field: HTTP Method
+      type: dropdown
+      description: >
+        What you want to do at that address: GET reads, POST creates, PUT and PATCH update,
+        DELETE removes, HEAD checks. Defaults to POST.
+    - field: Body
+      type: expression
+      description: >
+        The data you are sending with the request, usually JSON. Used by methods that
+        write, such as POST, PUT, and PATCH; a GET typically has none.
+    - field: Query
+      type: expression
+      description: >
+        Extra parameters appended to the URL, such as a search term, a page number, or a
+        filter the service understands.
+    - field: Headers
+      type: repeatable Name/Value
+      description: >
+        Named values sent alongside the request, each a Name and a Value. Most often used for
+        authentication (an API key, a Bearer token, or Basic credentials) and to declare the
+        content type.
+  produces_result: true
+  data_in: The URL, method, headers, body, and query you configure.
+  data_out: The response body the service returns.
+  gotchas:
+    - "The result the block hands you is only the response body - the data the service sent back - so the reference syntax reaches straight into that data ({{HTTP Request Result->[0].login}}), with no status or headers wrapper around it. Because the status code and the response headers are not exposed separately, you cannot test the numeric status to tell success from failure; instead check for a value the body itself contains, such as an id on a created record or an error field the service returns."
+    - "Before you reference the result in later blocks, run this block once from its ((Test Panel)) with ((run block)). The reason: the Expression Editor can only offer field names it has actually seen, and a test run sends the real request and captures the real shape of the response. Skip it and downstream blocks have only a placeholder to work from, so the names you want to reference will not appear."
+    - "Authentication usually travels in a ((Header)) - the request itself carries no separate credentials field, so the auth value rides in as a header Name/Value pair. If a call comes back rejected, the first thing to check is whether the right auth header (an API key, a Bearer token, or Basic credentials) is present and correct."
+  cross_refs: [custom-cloud-code, handle-error]
+  terminology: [HTTP Request, Headers, Method]
+
+assertions:
+  - id: get-returns-body
+    when: run-block
+    given: "GET a known JSON endpoint"
+    expect: { status: Success, result_shape: "matches the endpoint's JSON" }
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Call an API with method/headers/body and consume the response."
+    - "Authenticate via headers."
+    - "Capture the response shape with a Test run."
+  prerequisites: [expression-editor]
+  common_mistakes:
+    - "Expecting status codes/headers in the result (body only)."
+    - "Forgetting auth headers."
+  exercise: >
+    GET a public JSON API, run it in Test Mode, then reference a nested field downstream.
+
+provenance:
+  confidence: V-run
+  evidence: "MyProjects 'This is my new flow' — HTTP Request (GET github orgs) run in Test Mode; result inspected. FBB 'Application Processor' 'Create Application'. notes.md + screenshots 06,16."
+  verified_on: 2026-06-13
