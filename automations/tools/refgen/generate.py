@@ -27,10 +27,12 @@ def run(records_dir: Path, output_dir: Path, mkdocs_path: Path) -> list[str]:
         return errors
 
     name_by_id = {r["id"]: r["name"] for r in records}
+    concept_ids = {r["id"] for r in records if r.get("concept")}
 
     output_dir.mkdir(parents=True, exist_ok=True)
     for r in records:
-        page = render_page(r, name_by_id=name_by_id, common_defs=common_defs)
+        page = render_page(r, name_by_id=name_by_id, common_defs=common_defs,
+                           concept_ids=concept_ids)
         (output_dir / f"{r['id']}.md").write_text(page)
 
     mkdocs_path.write_text(update_mkdocs_nav(mkdocs_path.read_text(), records))

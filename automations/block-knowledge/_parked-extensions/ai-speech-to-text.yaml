@@ -1,0 +1,139 @@
+id: ai-speech-to-text
+name: Speech to Text
+category: AI
+kind: native
+
+testability:
+  class: external          # real transcription model call; non-deterministic
+  hermetic: false
+  mock_strategy: "Point at a fixed, short audio URL and assert the result contains expected words, not an exact transcript; or stub via Skip Block + Simulated Result."
+
+docs:
+  purpose: >
+    Turn a recording of someone speaking into written text your flow can read. You hand the block a
+    URL pointing at an audio file, and it hands back the transcript - the words from the recording as
+    a plain string - for later blocks to search, summarize, or act on.
+  mental_model: >
+    You give the block one thing it cannot do without: a ((File URL)) that points at an audio file the
+    block can reach over the web. It downloads that audio, runs it through a transcription model, and
+    returns the spoken words as text. The result is a small object with a single `text` property
+    holding the whole transcript, so a later block reads the words from `text`, not from the result
+    itself. The other fields only steer the transcription: a ((Model)) to pick which transcription
+    engine runs, a ((Language)) to tell it what tongue to expect, a ((Prompt)) to nudge its spelling and
+    style, and a ((Temperature)) to set how literal it stays. None of those are required - point it at
+    audio and it transcribes - but each one tightens the result when the audio is hard. The ((File URL))
+    is usually built in the Expression Editor from an earlier block's result, so a fresh recording
+    flows in on every run.
+  when_to_use: >
+    Reach for it whenever a flow receives speech and needs the words rather than the audio - a voice
+    message a customer left, a meeting recording, a podcast episode, a voice note attached to a form.
+    Once the speech is text, the rest of the flow can treat it like any other string: feed it to an
+    AI Agent to summarize or judge it, search it for a keyword, store it, or branch on what was said.
+    You will find it in the AI group of the block palette, alongside the other AI blocks. The audio
+    has to live at a public URL the block can fetch without a login, and a single file is capped at
+    25MB - so this block is the right choice when the recording is already hosted and within that
+    size, not for raw microphone capture or very long archives you would need to split first.
+  example:
+    - text: >
+        Suppose an earlier block in a support flow uploaded a customer's voice message and produced a
+        public link to it. You want that message as text so a later step can read it. Bind the
+        ((File URL)) to the upload block's result in the Expression Editor, so the live recording flows
+        in on each run rather than being pasted as a fixed address:
+    - lang: text
+      code: |
+        `{{Upload Voicemail Result->fileURL}}`
+    - text: >
+        The recording is an English voicemail, so set ((Language)) to en to steer the model and leave
+        ((Model)), ((Prompt)), and ((Temperature)) at their defaults - the audio is clean, so it needs no
+        extra nudging. With that filled in, the block downloads the file, transcribes it, and returns
+        a small object whose `text` property holds the whole transcript:
+    - lang: json
+      code: |
+        {
+          "text": "Hi, this is Dana Lee. My order hasn't arrived and I'd like an update. Please call me back."
+        }
+    - text: >
+        That captured shape is what makes the transcript ready to use next. The block exposes its
+        result under the alias set in ((Reference Result Data As)), `Speech to Text Result` by default.
+        In a following block you open the Expression Editor on a field, switch to its Block Data, and
+        there is `Speech to Text Result` to expand; because the result carries a single `text`
+        property, you drill into it and the words read as the reference below:
+    - lang: text
+      code: |
+        `{{Speech to Text Result->text}}`
+    - text: >
+        Drop that reference into an AI Agent's User Prompt to summarize the message and decide whether
+        it needs a callback, or into a Condition to branch on what the customer asked for - the payoff
+        is that one block turned a recording into a string the rest of the flow can read and act on.
+  common: [name, result_alias, assign_variable, notes]
+  config:
+    - field: File URL
+      type: expression
+      description: >
+        Required. A publicly accessible URL pointing at the audio file to transcribe; the block fetches
+        it without authentication. Accepts MP3, MP4, MPEG, MPGA, M4A, WAV, and WebM, up to 25MB. Usually
+        built in the Expression Editor from an earlier block's result.
+    - field: Model
+      type: dropdown
+      description: >
+        Optional. Which transcription model runs, trading speed against accuracy. Leave it at the
+        default for general use; pick a newer model when the audio is hard - heavy accents, technical
+        terms, or background noise.
+    - field: Language
+      type: expression
+      description: >
+        Optional. The language of the audio, given as a standard code such as en, es, or fr. The model
+        can detect language on its own, but naming it improves accuracy, especially on short or accented
+        clips. Left empty, the model attempts automatic detection.
+    - field: Prompt
+      type: expression
+      description: >
+        Optional. Context that guides the transcription - the correct spelling of names or technical
+        terms, or the style to follow. Useful for specialized vocabulary or for keeping wording
+        consistent across segments of a longer recording.
+    - field: Temperature
+      type: number
+      description: >
+        Optional. How literal the transcription stays, from 0 to 1. Low values (0 to 0.2) give the most
+        consistent, deterministic output; higher values allow more variation but risk errors. Most
+        transcription work wants a low value.
+  produces_result: true
+  data_in: The audio File URL you point at, plus the optional model, language, prompt, and temperature.
+  data_out: >
+    A small object with a single `text` property holding the full transcript as a string. Read the
+    words as `Speech to Text Result->text`, not from the result directly.
+  gotchas:
+    - "The transcript arrives inside a `text` property on the result, not as the result itself. Read it as `{{Speech to Text Result->text}}`; referencing the result directly, without going through `text`, gets you the wrapper object rather than the words."
+    - "The audio has to live at a public URL the block can fetch with no login. A link that needs authentication, or a private file, comes back as a failed fetch rather than a transcript - so if an upstream block hands you a protected link, make it public first."
+    - "A single file is capped at 25MB. For a recording larger than that, split it into smaller segments earlier in the flow, transcribe each, and join the results - using the ((Prompt)) to carry context across segments so names and terms stay consistent."
+    - "Transcription is not deterministic: the same audio can come back worded slightly differently from one run to the next, more so as ((Temperature)) rises. Keep ((Temperature)) low for the steadiest output, and write downstream steps to tolerate small wording differences rather than matching an exact transcript."
+    - "Accuracy follows the audio. Clear speech at a normal pace with little background noise transcribes well; heavily compressed, noisy, or distorted recordings transcribe worse. Naming the ((Language)) and supplying a ((Prompt)) with proper spellings helps the model on difficult audio."
+  cross_refs: [ai-agent, http-request, knowledge-bases-concept]
+  terminology: [Speech to Text, File URL, Model, Language, Prompt, Temperature]
+
+assertions:
+  - id: returns-transcript
+    when: run-block
+    given: "a short, clear English audio URL"
+    expect: { status: Success, result_contains_path: "text" }
+    note: "Non-deterministic - assert the transcript contains expected words, not an exact match."
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Point the block at a public audio URL and read the transcript from the result's text property."
+    - "Steer transcription with language, prompt, and temperature when audio is difficult."
+    - "Feed the transcript into a downstream block such as an AI Agent or Condition."
+  prerequisites: [expression-editor]
+  common_mistakes:
+    - "Reading the result directly instead of its text property."
+    - "Pointing at a private or oversized (over 25MB) audio file."
+  exercise: >
+    Transcribe a short public audio clip, then reference its text downstream in an AI Agent that
+    summarizes what was said.
+
+provenance:
+  confidence: V-config
+  evidence: "Block VERIFIED live in palette 2026-06-24 (native 'Speech to Text'; internal element id is ai-create-transcription - the docs record keeps the readable id ai-speech-to-text). Config fields confirmed in-product: Model, File URL, Language, Prompt, Temperature (no per-block AI API Key field - uses the workspace AI config); default result alias 'Speech to Text Result'. Result text-property shape from legacy; not runtime-re-run this pass. Block+config screenshot still to capture."
+  verified_on: 2026-06-24

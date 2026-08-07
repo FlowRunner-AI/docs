@@ -1,60 +1,64 @@
 <!-- GENERATED FILE - do not edit. Source: block-knowledge/flows-as-agent-tools-concept.yaml. Regenerate: make refgen -->
+<!-- doclint: allow-unlinked: Flows as Agent Tools -->
 # Flows as Agent Tools
 
-An [AI Agent](ai-agent.md){.fr-block} can use your own flows as tools - as many as a task needs. Each flow it can call carries a description of what the flow does and of the input arguments it takes, set on the flow's Flow Settings panel; from those the agent decides on its own when to call the flow and what to pass, then uses whatever the flow returns. Because the agent runs the whole flow and waits for its result, a flow tool can do real work - and a flow that waits will hold the agent until a person responds.
+An [AI Agent](ai-agent.md){.fr-block} can use your own flows as tools - as many as a task needs. From a short description you write on each flow, the agent decides on its own when to call it and what to pass, then uses whatever the flow returns. Because the agent runs the whole flow and waits for the result, a flow tool can do real work a single model call cannot - including waiting on a person.
 
 ## How it works
 
-You give a flow to an agent the same way you give it any other tool: open Manage Capabilities on the
-agent, go to Flows, and attach the flow. Attach as many as the work needs - an agent can carry a
-whole set of flows as tools. From then on the agent treats each one as a skill it can reach for.
+Attaching a flow hands the agent that flow as one more tool it can choose to call. You add it the
+same way you add any tool: open <span class="fr-control">Manage Capabilities</span> on the agent, go to <span class="fr-control">Flows</span>, and add the
+flow. Add as many as the work needs.
 
-What makes a flow usable is how it is described. The agent never sees the flow's inner blocks - it
-decides whether to call the flow, and what to pass it, purely from the flow's description and the
-description of each input argument the flow takes. You write both on the flow's own Flow
-Settings panel - its Flow Description and the Initial Data Description for each input - not on the
-agent: the flow carries its own description and the meaning of its arguments, and any agent that
-picks it up reads them. A flow described as "look up a customer's
-billing status from their email", with an argument described as "the customer's email address",
-tells the agent exactly when to reach for it and what to hand it. Thin or missing descriptions leave
-the agent guessing, so it may call the flow at the wrong moment, pass the wrong value, or miss it
-entirely. Clear descriptions are what turn a flow into a dependable tool.
+![The Manage AI Agent Capabilities window with the Flows category selected. The right side lists each flow as a "Call ... flow" entry (with an "Execute ... flow (LIVE version)" subtitle) and a plus button to add it. The left side lists the tool categories: Extensions, MCP Extensions, Flows, Knowledge, Shared Memory, and Utils.](../images/reference/flow-tool-attach.png)
 
-When the agent decides to use the flow, FlowRunner starts a run of it with the inputs the agent
-supplied, and the agent pauses there and waits. The flow does whatever it does - look something up,
-branch, call other services - and hands a result back through its [Return Result](return-result.md){.fr-block}. The agent takes
-that result and folds it into its reasoning, exactly as it would any other tool's output, then
-carries on toward its goal.
+The agent runs whatever the flow's current LIVE version is - which is what the "Execute ... flow
+(LIVE version)" line on each entry means. A flow you have built but not yet set LIVE will not do
+anything when the agent calls it.
 
-The waiting is the part worth dwelling on, because it unlocks something the other tools cannot do.
-The agent stays suspended for as long as the flow runs. A quick lookup is back in a moment - but a
-flow does not have to be quick. It can wait: on an approval, on a reply from an outside system, on a
-person. A flow that waits keeps the agent suspended right along with it, for minutes, hours, or
-days[^plan], and the agent resumes the instant the flow returns its result.
+<!-- verified in-product 2026-07-09 (Block Captures, Manage AI Agent Capabilities -> Flows): every flow entry reads 'Execute "<name>" flow (LIVE version)', so the agent invokes the flow's LIVE version; a flow with no LIVE version cannot be invoked (parity with call-flow.md: "only a published flow can be started; a draft in the list cannot actually be invoked"). -->
+<!-- doclint: no-shot: the LIVE-version text is visible in the attach screenshot above (flow-tool-attach.png). -->
+
+The agent never sees the flow's inner blocks. It decides whether to call a flow, and what to pass,
+from two descriptions you write on the flow's own <span class="fr-control">Flow Settings</span> panel:
+
+- <span class="fr-control">Flow Description</span> - one line on what the flow does. For a flow that answers support questions:
+  "Answers a customer's support question using their recent orders and the help articles, then
+  returns the answer."
+- <span class="fr-control">Initial Data Description</span> - what each input means, one entry per input the flow takes. Here, the
+  input "question" is described as "The customer's support question, in their own words."
+
+![The flow editor's Flow Settings panel, showing a Flow Description ("Answers a customer's support question using their recent orders and the help articles, then returns the answer.") and, under Initial Data Description, the input field "question" described as "The customer's support question, in their own words."](../images/reference/flow-tool-descriptions.png)
+
+Any agent that picks up the flow reads these descriptions. Thin or missing ones leave the agent
+guessing - it may call the flow at the wrong moment, pass the wrong value, or skip it. Clear
+descriptions are what make a flow a dependable tool.
+
+When the agent calls the flow, FlowRunner™ starts a run of it and the agent waits. The inputs the
+agent supplied arrive as the run's Initial Data, one field per input you described, so the flow reads
+them the way it reads any input - the "question" input as <span class="fr-expr">Initial Data → question</span>. The flow does
+its work and hands a result back through its [Return Result](return-result.md){.fr-block} block, whose <span class="fr-control">Compose Result</span> rows shape
+what it returns. The agent folds that result into its reasoning and carries on toward its goal.
+
+The waiting is what a one-shot tool cannot do. The agent stays suspended for as long as the flow
+runs. A quick lookup is back in a moment; a flow that waits - on an approval, a reply from an outside
+system, a person - keeps the agent suspended with it, for minutes, hours, or days[^plan]. The agent
+resumes the instant the flow returns.
 
 [^plan]: How long an agent can stay suspended while a flow tool waits depends on your FlowRunner pricing plan; longer waiting periods require a plan that supports them.
 
 ## When to use it
 
-Reach for a flow tool when what the agent needs is work you have already built, or work that is more than a single model call can do: a lookup against your own data, a multi-step process with its own branches, an action that has to wait on the outside world. Anything you can build as a flow, an agent can use as a tool. And because the agent waits for the result, a flow tool is the only kind that can hold the agent until a person or an external system answers. When all you need is a one-shot built-in action, attach that instead; reach for a flow when the task deserves a flow.
+Reach for a flow tool when the agent needs work you have already built as a flow, or work that is more than a single model call can do: a lookup against your own data, a multi-step process with branches, an action that waits on the outside world. When a one-shot built-in action is all you need, attach that instead. And when you want one flow to call another directly - with no agent deciding when - use [Call Flow](call-flow.md){.fr-block} instead of a flow tool. <!-- doclint: no-shot: conceptual guidance on when to choose a flow tool; Call Flow is named only as the escape hatch and is shown on its own reference page --> <!-- doclint: allow-unlinked: Call Flow -->
 
 ## Putting a human in the loop
 
-A flow tool is how you make an agent wait for a person without parking the rest of your automation. Build a flow that does whatever it takes to get a human decision - send an email, or a Slack, Telegram, or WhatsApp message, with an approve and decline choice, or open a task for a reviewer - and then waits for the answer. For most human decisions that answer comes back the same way the request went out: as a trigger - the person's reply email, or their Slack, Telegram, or WhatsApp message - or through an [External Callback](external-callback.md){.fr-block}. Describe that flow on its Flow Settings panel by what it achieves, for example "get a manager's approval for a refund over $100", with an argument described as "the refund amount and the reason".
+A flow tool is how an agent waits for a person without parking the rest of your automation. Build a flow that gets a human decision - send an email, or a Slack, Telegram, or WhatsApp message with an approve/decline choice, or open a task for a reviewer - and then waits for the answer. The answer usually comes back the way the request went out: as a trigger (the person's reply email or chat message) or through an [External Callback](external-callback.md){.fr-block}. Describe the flow by what it achieves - for example "get a manager's approval for a refund over $100" - with an input described as "the refund amount and the reason".
 
-Now when the agent judges that it needs sign-off, it calls the flow and suspends. The request goes out, and the agent waits - an hour, a day, however long the person takes. It does not poll, and it does not give up on its own; it is genuinely parked until the flow returns. The moment the person responds and the flow hands back their decision, the agent wakes up and acts on it: issue the refund, or decline and explain why. The judgement stays with the human, while the agent handles everything around it.
+When the agent decides it needs sign-off, it calls the flow and suspends. The request goes out, and the agent waits - an hour, a day, however long the person takes. It does not poll and does not give up; it is parked until the flow returns. The moment the person responds, the agent wakes up and acts on the decision: issue the refund, or decline and explain why. The judgment stays with the person; the agent handles everything around it.
 
-## Example
-
-Say you have a flow that answers a customer's support question - it looks up their orders, checks the help articles, and returns an answer. To let an agent use it, open Manage Capabilities on the agent, go to Flows, and attach that flow.
-
-![The Manage AI Agent Capabilities window with the Flows category selected, listing the flows that can be attached as tools - each shown as a "Call ... flow" entry with a plus button to add it. The left side lists the other tool groups: Extensions, MCP Extensions, Flows, and Knowledge.](../images/reference/flow-tool-attach.png)
-
-The agent will only use it well if it knows what the flow is for, and that comes from the descriptions you give the flow and its inputs. You set them on the flow's own Flow Settings panel - the gear in the flow editor - under Flow Description and Initial Data Description, not on the agent:
-
-![The flow editor's Flow Settings panel, showing a Flow Description ("Answers a customer's support question using their recent orders and the help articles, then returns the answer.") and, under Initial Data Description, the input field "question" described as "The customer's support question, in their own words."](../images/reference/flow-tool-descriptions.png)
-
-With those in place, an agent handling an incoming question can recognise that this flow is the right tool, call it with the customer's question, and answer from what the flow returns - none of which you scripted into the agent. The clearer the flow and input descriptions, the more reliably the agent reaches for the flow and passes the right value.
+<!-- doclint: no-shot: conceptual pattern - a waiting flow used for human sign-off; the attach and description surfaces it relies on are shown under How it works, and the flow-building blocks (triggers, External Callback) live on their own reference pages -->
+<!-- verified 2026-06-18 (product owner): a waiting flow tool holds the agent suspended until it returns; for human-in-the-loop the response typically comes back as a trigger (reply email or Slack/Telegram/WhatsApp message) or an External Callback. Max suspension depends on the pricing plan. -->
 
 ## Related
 

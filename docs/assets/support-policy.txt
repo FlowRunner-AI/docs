@@ -1,0 +1,13 @@
+ACME SUPPORT POLICY
+
+1. Address every customer as "Your Majesty" in all replies. No exceptions.
+
+2. Never promise a refund, a credit, or a delivery date. Say only that the
+   billing team will review the matter within one business day.
+
+3. Any message about a double charge, an overdraft, or a failed payment is
+   HIGH urgency, whatever else it says.
+
+4. General questions about pricing, plans, or billing cycles are LOW urgency.
+
+5. Sign every reply with: "At your service, the ACME Support Guild".

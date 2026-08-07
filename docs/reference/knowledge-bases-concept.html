@@ -6,21 +6,24 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Comprehensive documentation for FlowRunner, a no-code platform for automating business processes with ease.">
+        <meta name="description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter.">
       
       
       
         <link rel="canonical" href="https://docs.flowrunner.ai/reference/knowledge-bases-concept.html">
       
       
-        <link rel="prev" href="flow-scheduling-concept.html">
+        <link rel="prev" href="flows-as-agent-tools-concept.html">
       
       
-        <link rel="next" href="actions-group.html">
+        <link rel="next" href="per-user-memory-concept.html">
+      
+      
+        
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -28,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -68,7 +71,6 @@
     
       
 
-    
     
     
    <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
@@ -118,7 +120,7 @@
     <a href=".." title="FlowRunner™ User Guide" class="md-header__button md-logo" aria-label="FlowRunner™ User Guide" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet">
+  <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet">
 <g transform="translate(0.000000,1536.000000) scale(0.100000,-0.100000)"
 fill="currentColor" stroke="none">
 <path d="M4650 11485 c-343 -58 -654 -215 -909 -460 -170 -163 -286 -333 -379
@@ -273,7 +275,53 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13a9 9 0 0 0 9 9 9 9 0 0 0-9-9m9 9a9 9 0 0 0 9-9 9 9 0 0 0-9 9m6-19v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V3c.74 0 1.47.12 2.16.39.55.23 1.04.57 1.45 1L12 2l2.39 2.39c.41-.43.9-.77 1.45-1A5.9 5.9 0 0 1 18 3"/></svg>
     
   
-  Learn
+  Welcome
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../definitions.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Platform
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../manage/flows.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Manage
 
         </a>
       </li>
@@ -332,40 +380,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
     
     
+      
+  
+  
+  
+  
+    
+    
       <li class="md-tabs__item">
-        <a href="../platform/forms.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  Platform
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-  
-  
-    
-    
-      
-  
-  
-  
-    
-  
-  
-    
-    
-      <li class="md-tabs__item md-tabs__item--active">
         <a href="ai-agent.html" class="md-tabs__link">
           
   
@@ -391,13 +413,13 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../extend/custom-actions.html" class="md-tabs__link">
+        <a href="../api/index.html" class="md-tabs__link">
           
   
   
     
   
-  Extend
+  API
 
         </a>
       </li>
@@ -436,7 +458,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <a href=".." title="FlowRunner™ User Guide" class="md-nav__button md-logo" aria-label="FlowRunner™ User Guide" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet">
+  <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet">
 <g transform="translate(0.000000,1536.000000) scale(0.100000,-0.100000)"
 fill="currentColor" stroke="none">
 <path d="M4650 11485 c-343 -58 -654 -215 -909 -460 -170 -163 -286 -333 -379
@@ -487,12 +509,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
       
-        
-      
-        
-      
-        
-      
     
     
     
@@ -517,9 +533,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13a9 9 0 0 0 9 9 9 9 0 0 0-9-9m9 9a9 9 0 0 0 9-9 9 9 0 0 0-9 9m6-19v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V3c.74 0 1.47.12 2.16.39.55.23 1.04.57 1.45 1L12 2l2.39 2.39c.41-.43.9-.77 1.45-1A5.9 5.9 0 0 1 18 3"/></svg>
   
   <span class="md-ellipsis">
-    Learn
+    
+  
+    Welcome
+  
+
     
   </span>
+  
   
 
             </a>
@@ -534,7 +555,11 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            Learn
+            
+  
+    Welcome
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -546,64 +571,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   
-    <li class="md-nav__item">
-      <a href="../definitions.html" class="md-nav__link">
-        
-  
-  
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2zm0 2h2v2H3m12-.5V9a2 2 0 0 0-2-2H9v10h4a2 2 0 0 0 2-2v-1.5a1.54 1.54 0 0 0-1.5-1.5 1.54 1.54 0 0 0 1.5-1.5M13 15h-2v-2h2zm0-4h-2V9h2m6-2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-1h-2v1h-2V9h2v1h2V9a2 2 0 0 0-2-2Z"/></svg>
-  
-  <span class="md-ellipsis">
-    Terminology
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../learn/quickstart.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Quick Start
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
     
     
-      
-        
-      
-        
-      
-        
-      
-        
       
         
       
@@ -624,28 +593,344 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" >
         
           
-          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
             
   
   
   <span class="md-ellipsis">
-    Core Concepts
+    
+  
+    Quick Starts
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1_4">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2">
             <span class="md-nav__icon md-icon"></span>
-            Core Concepts
+            
+  
+    Quick Starts
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Contact Us Form (no-code)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/quickstart-code.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Contact Us Form (code JS)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/quickstart-agent.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation with an AI Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Platform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../definitions.html" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2zm0 2h2v2H3m12-.5V9a2 2 0 0 0-2-2H9v10h4a2 2 0 0 0 2-2v-1.5a1.54 1.54 0 0 0-1.5-1.5 1.54 1.54 0 0 0 1.5-1.5M13 15h-2v-2h2zm0-4h-2V9h2m6-2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-1h-2v1h-2V9h2v1h2V9a2 2 0 0 0-2-2Z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/workspace.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -659,9 +944,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Flows & Instances
+  
+
     
   </span>
+  
   
 
       </a>
@@ -682,9 +972,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Triggers
+  
+
     
   </span>
+  
   
 
       </a>
@@ -705,9 +1000,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Blocks
+  
+
     
   </span>
+  
   
 
       </a>
@@ -728,9 +1028,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Variables & Data Buckets
+  
+
     
   </span>
+  
   
 
       </a>
@@ -751,9 +1056,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
-    Expressions
+    
+  
+    Expression Editor
+  
+
     
   </span>
+  
   
 
       </a>
@@ -774,9 +1084,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Subflows
+  
+
     
   </span>
+  
   
 
       </a>
@@ -797,9 +1112,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Shared Memory
+  
+
     
   </span>
+  
   
 
       </a>
@@ -823,14 +1143,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../learn/tutorials.html" class="md-nav__link">
+      <a href="../platform/forms.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Tutorials
+    
+  
+    Forms
+  
+
     
   </span>
+  
   
 
       </a>
@@ -839,19 +1164,154 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
               
             
-          </ul>
-        </nav>
-      
-    </li>
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/mcp-servers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Servers
   
 
     
-      
-      
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
   
   
   
   
+    <li class="md-nav__item">
+      <a href="../platform/oauth-connections.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OAuth Connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/api-keys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI API Keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/compliance-and-security.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compliance & Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/sla-goals.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SLA Goals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
     
     
       
@@ -865,41 +1325,51 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
       
-        
-      
     
     
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_9" id="__nav_2_9_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
-    Build
+    
+  
+    Concept Guides
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_9">
             <span class="md-nav__icon md-icon"></span>
-            Build
+            
+  
+    Concept Guides
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -910,14 +1380,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../build/flow-editor.html" class="md-nav__link">
+      <a href="flow-memory-concept.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    The Flow Editor
+    
+  
+    Agent Memory
+  
+
     
   </span>
+  
   
 
       </a>
@@ -933,14 +1408,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../build/data-and-variables.html" class="md-nav__link">
+      <a href="error-handling-concept.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Data & Variables
+    
+  
+    Error Handling
+  
+
     
   </span>
+  
   
 
       </a>
@@ -956,14 +1436,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../build/flow-control.html" class="md-nav__link">
+      <a href="flows-as-agent-tools-concept.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Flow Control
+    
+  
+    Flows as Agent Tools
+  
+
     
   </span>
+  
   
 
       </a>
@@ -976,20 +1461,160 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../build/ai-in-flows.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Bases (RAG stores)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="knowledge-bases-concept.html" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
-    AI in Flows
+    
+  
+    Knowledge Bases (RAG stores)
+  
+
     
   </span>
   
+  
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to use it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-knowledge-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Knowledge Base
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-setup-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The setup screen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#giving-a-knowledge-base-to-an-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Giving a Knowledge Base to an agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keeping-a-knowledge-base-up-to-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keeping a Knowledge Base up to date
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#things-to-watch-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Things to watch for
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1002,14 +1627,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../build/integrations.html" class="md-nav__link">
+      <a href="per-user-memory-concept.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Integrations & I/O
+    
+  
+    Per-User Memory
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1018,24 +1648,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../build/managing-flows.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Managing Flows
-    
-  </span>
-  
-
-      </a>
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1086,9 +1701,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
-    Run & Monitor
+    
+  
+    Manage
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1097,7 +1717,11 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            Run & Monitor
+            
+  
+    Manage
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1108,14 +1732,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../run/testing.html" class="md-nav__link">
+      <a href="../manage/flows.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Testing
+    
+  
+    Flows
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1131,14 +1760,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../run/running-flows.html" class="md-nav__link">
+      <a href="../manage/workspace-settings.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Running Flows
+    
+  
+    Workspace Settings
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1154,14 +1788,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../run/scheduling.html" class="md-nav__link">
+      <a href="../manage/team.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Scheduling
+    
+  
+    Team
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1177,14 +1816,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../run/monitoring.html" class="md-nav__link">
+      <a href="../manage/billing.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Monitoring & Analytics
+    
+  
+    Billing
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1208,8 +1852,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
     
     
-      
-        
       
         
       
@@ -1242,9 +1884,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
-    Platform
+    
+  
+    Build
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1253,7 +1900,11 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            Platform
+            
+  
+    Build
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1264,14 +1915,122 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/forms.html" class="md-nav__link">
+      <a href="../build/flow-editor.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Forms
+    
+  
+    The Flow Editor
+  
+
     
   </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../build/data-and-variables/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data & Variables
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data & Variables
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/data-and-variables/passing-data.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Passing Data Between Blocks
+  
+
+    
+  </span>
+  
   
 
       </a>
@@ -1287,14 +2046,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/knowledge-bases.html" class="md-nav__link">
+      <a href="../build/data-and-variables/holding-values.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Knowledge Bases
+    
+  
+    Holding Values in Variables
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1310,14 +2074,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/mcp-servers.html" class="md-nav__link">
+      <a href="../build/data-and-variables/reshaping-data.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    MCP Servers
+    
+  
+    Reshaping Data
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1333,14 +2102,138 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/connections.html" class="md-nav__link">
+      <a href="../build/data-and-variables/across-runs.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Connections
+    
+  
+    Sharing Data Across Runs & Flows
+  
+
     
   </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../build/flow-control/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flow Control
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Flow Control
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/branching.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Yes/No Branching
+  
+
+    
+  </span>
+  
   
 
       </a>
@@ -1356,14 +2249,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/compliance-and-security.html" class="md-nav__link">
+      <a href="../build/flow-control/routing.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Compliance & Security
+    
+  
+    Routing on a Value
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1379,17 +2277,457 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/workspace.html" class="md-nav__link">
+      <a href="../build/flow-control/repeating.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Workspace
+    
+  
+    Repeating Steps
+  
+
     
   </span>
   
+  
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/collections.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working Through a List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/parallel.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running Steps in Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/waiting.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a Delay
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/external-callbacks.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Waiting on an External System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/error-handling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handling Errors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with AI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Working with AI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/ai-in-flows.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI in Flows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../build/integrations/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrations & I/O
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integrations & I/O
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/calling-a-service.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calling an External Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/returning-a-result.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Returning a Result
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/running-another-flow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running Another Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/custom-actions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom & Marketplace Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1406,18 +2744,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
   
   
-    
   
   
-  
     
     
-      
-        
-      
-        
-      
-        
       
         
       
@@ -1431,90 +2761,44 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   
   <span class="md-ellipsis">
-    Block Reference
+    
+  
+    Run & Monitor
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
-            Block Reference
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="">
             
   
-  
-  <span class="md-ellipsis">
-    AI
-    
-  </span>
+    Run & Monitor
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_1">
-            <span class="md-nav__icon md-icon"></span>
-            AI
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1525,14 +2809,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="ai-agent.html" class="md-nav__link">
+      <a href="../run/testing.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    AI Agent
+    
+  
+    Testing
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1548,14 +2837,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="ai-router.html" class="md-nav__link">
+      <a href="../run/running-flows.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    AI Router
+    
+  
+    Running Flows
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1563,449 +2857,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
 
               
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Actions
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_2">
-            <span class="md-nav__icon md-icon"></span>
-            Actions
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="assign-instance-name.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Assign Instance Name
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="call-flow.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Call Flow
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="custom-cloud-code.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Custom Cloud Code
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="http-request.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    HTTP Request
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="knowledge-base-add-document.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Knowledge Base: Add Document
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="knowledge-base-delete-document.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Knowledge Base: Delete Document
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="knowledge-base-delete-by-filter.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Knowledge Base: Delete by Filter
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="knowledge-base-list-documents.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Knowledge Base: List Documents
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="shared-memory-delete.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Shared Memory: Delete
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="shared-memory-put.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Shared Memory: Put
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="shared-memory-read.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Shared Memory: Read
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="start-scheduled-runs.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Start Scheduled Runs
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="stop-scheduled-runs.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Stop Scheduled Runs
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Concepts
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_5_3">
-            <span class="md-nav__icon md-icon"></span>
-            Concepts
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -2019,202 +2870,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
-    Flow Scheduling (Configure Flow Schedule)
+    
+  
+    Scheduling
+  
+
     
   </span>
   
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Knowledge Bases (RAG stores)
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="knowledge-bases-concept.html" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    Knowledge Bases (RAG stores)
-    
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      How it works
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#when-to-use-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      When to use it
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#behavior" class="md-nav__link">
-    <span class="md-ellipsis">
-      Behavior
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#things-to-watch-for" class="md-nav__link">
-    <span class="md-ellipsis">
-      Things to watch for
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
-    <span class="md-ellipsis">
-      Related
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Groups
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_4">
-            <span class="md-nav__icon md-icon"></span>
-            Groups
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="actions-group.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Actions Group
-    
-  </span>
   
 
       </a>
@@ -2230,518 +2893,22 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="triggers-group.html" class="md-nav__link">
+      <a href="../run/monitoring.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Triggers Group
+    
+  
+    Monitoring & Analytics
+  
+
     
   </span>
+  
   
 
       </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Subflows
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_5">
-            <span class="md-nav__icon md-icon"></span>
-            Subflows
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="subflow.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    SubFlow
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Triggers
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_6">
-            <span class="md-nav__icon md-icon"></span>
-            Triggers
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="external-callback.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    External Callback
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    Utils
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_7">
-            <span class="md-nav__icon md-icon"></span>
-            Utils
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="break.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Break
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="condition.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Condition
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="handle-error.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Handle Error
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="list-iterator.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    List Iterator
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="repeat.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Repeat
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="return-result.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Return Result
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="set-variables.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Set Variables
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="synchronize.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Synchronize
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="transform-data.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Transform Data
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="value-router.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Value Router
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="wait.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Wait
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -2762,6 +2929,16 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
     
     
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
       
         
       
@@ -2786,9 +2963,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
-    Extend
+    
+  
+    Block Reference
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2797,7 +2979,69 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            Extend
+            
+  
+    Block Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2808,14 +3052,1369 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../extend/custom-actions.html" class="md-nav__link">
+      <a href="ai-agent.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    About Custom Actions
+    
+  
+    AI Agent
+  
+
     
   </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ai-router.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Router
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Actions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Actions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="assign-instance-name.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Assign Instance Name
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="call-flow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="custom-cloud-code.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Cloud Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http-request.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP Request
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="knowledge-base-add-document.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Base: Add Document
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="knowledge-base-delete-document.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Base: Delete Document
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="knowledge-base-delete-by-filter.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Base: Delete by Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="knowledge-base-list-documents.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Base: List Documents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="shared-memory-delete.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shared Memory: Delete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="shared-memory-put.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shared Memory: Put
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="shared-memory-read.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shared Memory: Read
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="start-scheduled-runs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Scheduled Runs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="stop-scheduled-runs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stop Scheduled Runs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Groups
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Groups
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="actions-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Actions Group
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="triggers-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triggers Group
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Subflows
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Subflows
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="subflow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SubFlow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triggers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Triggers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="external-callback.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Callback
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utils
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Utils
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="break.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Break
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="condition.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Condition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="handle-error.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handle Error
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="list-iterator.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    List Iterator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="repeat.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repeat
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="return-result.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Return Result
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="set-variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set Variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="synchronize.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synchronize
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="transform-data.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transform Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="value-router.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Value Router
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="wait.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wait
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../api/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/activating-a-trigger.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Activating an External Callback
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/block-results.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieving Block Results
+  
+
+    
+  </span>
+  
   
 
       </a>
@@ -2860,7 +4459,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
-      How it works
+      
+        How it works
+      
     </span>
   </a>
   
@@ -2869,16 +4470,53 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#when-to-use-it" class="md-nav__link">
     <span class="md-ellipsis">
-      When to use it
+      
+        When to use it
+      
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#behavior" class="md-nav__link">
+  <a href="#creating-a-knowledge-base" class="md-nav__link">
     <span class="md-ellipsis">
-      Behavior
+      
+        Creating a Knowledge Base
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-setup-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The setup screen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#giving-a-knowledge-base-to-an-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Giving a Knowledge Base to an agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keeping-a-knowledge-base-up-to-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keeping a Knowledge Base up to date
+      
     </span>
   </a>
   
@@ -2887,7 +4525,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#things-to-watch-for" class="md-nav__link">
     <span class="md-ellipsis">
-      Things to watch for
+      
+        Things to watch for
+      
     </span>
   </a>
   
@@ -2896,7 +4536,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
-      Related
+      
+        Related
+      
     </span>
   </a>
   
@@ -2912,6 +4554,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           
           
             <div class="md-content" data-md-component="content">
+              
               <article class="md-content__inner md-typeset">
                 
                   
@@ -2919,31 +4562,92 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <!-- GENERATED FILE - do not edit. Source: block-knowledge/knowledge-bases-concept.yaml. Regenerate: make refgen -->
-<h1 id="knowledge-bases-rag-stores">Knowledge Bases (RAG stores)<a class="headerlink" href="#knowledge-bases-rag-stores" title="Permanent link">&para;</a></h1>
-<p>A Knowledge Base is a RAG (retrieval-augmented generation) store: documents are chunked, embedded, and stored in a vector store so AI Agents (and the KB action blocks) can retrieve relevant content by similarity.</p>
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
-<p>Title + Description (identity) → AI Setup (which embedding model + chunking turns text into vectors) → Vector Store (where the vectors live). Documents on the Data tab are processed (chunk → embed → store) asynchronously.</p>
-<h2 id="when-to-use-it">When to use it<a class="headerlink" href="#when-to-use-it" title="Permanent link">&para;</a></h2>
-<p>Give an <a class="fr-block" href="ai-agent.html">AI Agent</a> domain knowledge to ground its answers, or build a searchable corpus the flow can add to / query / clean up via the Knowledge Base action blocks.</p>
-<h2 id="behavior">Behavior<a class="headerlink" href="#behavior" title="Permanent link">&para;</a></h2>
+<!-- doclint: allow-unlinked: Knowledge Bases -->
+<h1 id="knowledge-bases-rag-stores"><abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Bases</abbr> (<abbr title="Retrieval-Augmented Generation - giving an AI model relevant snippets from your own documents at question time, so its answer is grounded in your content rather than only what the model was trained on.">RAG</abbr> stores)<a class="headerlink" data-preview="" href="#knowledge-bases-rag-stores" title="Permanent link">&para;</a></h1>
+<p>A <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> lets an <a class="fr-block" data-preview="" href="ai-agent.html">AI Agent</a> answer from your own documents instead of only from what the model was trained on. You feed it your content - a product manual, a policy handbook, your support articles - and at question time the agent can pull back the passages that match what it was asked, so its answer is grounded in your material. This retrieve-then-answer approach is the pattern commonly called <abbr title="Retrieval-Augmented Generation - giving an AI model relevant snippets from your own documents at question time, so its answer is grounded in your content rather than only what the model was trained on.">RAG</abbr>, short for retrieval-augmented generation.</p>
+<h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<p>A <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> does three things: it stores the documents you give it, it indexes them so
+their meaning can be searched, and at question time it finds the pieces most relevant to what
+was asked. So an <span class="fr-block">AI Agent</span> can answer from those pieces instead of guessing from its general
+training.</p>
+<p>The indexing is what makes a meaning-based search possible. When you add a document, FlowRunner
+does not keep it as one long block of text. It breaks the document into smaller pieces, called
+chunks, and turns each chunk into an <abbr title="A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.">embedding</abbr> - a list of numbers that captures the meaning of
+that piece of text. Those <abbr title="A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.">embeddings</abbr> live in a <abbr title="The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.">vector store</abbr>, a kind of database built to compare
+meanings and return the closest matches.</p>
+<p>So when an <span class="fr-block">AI Agent</span> asks the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> a question, the question is turned into an <abbr title="A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.">embedding</abbr>
+too, and the store hands back the chunks whose meaning is nearest - not the ones that happen to
+share the same words. That is how a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> answers from your content: it finds what is
+relevant by meaning, and the agent writes its answer from those passages.</p>
+<p>A <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> is a standing resource: you set it up once, then feed and manage its documents over
+time. How it slices and embeds your text is fixed when you create it.</p>
+<!-- doclint: no-shot: conceptual - how RAG storage, indexing, and retrieval work; the Knowledge Base's own surfaces (nav, setup screen) are shown in the sections below -->
+<!-- doclint: allow-unlinked: Knowledge Base -->
+
+<h2 id="when-to-use-it">When to use it<a class="headerlink" data-preview="" href="#when-to-use-it" title="Permanent link">&para;</a></h2>
+<p>Reach for a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> when you want an <span class="fr-block">AI Agent</span> to answer from facts you supply - a product manual, a policy handbook, a set of support articles - rather than from whatever the model already knows. It keeps answers grounded in your material and lets you update what the AI knows by changing documents instead of retraining anything. The trade-off is that it is a standing resource you configure and feed, not a single block you drop into a flow, so it is worth setting up when an agent needs real, current domain knowledge, and overkill when a short fixed instruction in the agent's prompt would do. <!-- doclint: no-shot: conceptual guidance on when a Knowledge Base is worth it; the AI Agent that draws on it is shown on its own reference page --> <!-- doclint: allow-unlinked: Knowledge Base --></p>
+<h2 id="creating-a-knowledge-base">Creating a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr><a class="headerlink" data-preview="" href="#creating-a-knowledge-base" title="Permanent link">&para;</a></h2>
+<p>You create a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> from the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Bases</abbr> group in the workspace navigation - hover
+it and click the <span class="fr-control">+</span>.</p>
+<p><a class="glightbox" href="../images/reference/knowledge-bases-nav.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The workspace navigation under Agent tools &amp; Knowledge, hovering the Knowledge Bases group: a plus icon for creating a new Knowledge Base appears at the right, with MCP Servers below." src="../images/reference/knowledge-bases-nav.png" /></a></p>
+<h2 id="the-setup-screen">The setup screen<a class="headerlink" data-preview="" href="#the-setup-screen" title="Permanent link">&para;</a></h2>
+<p>The setup screen takes a few things:</p>
 <ul>
-<li>Documents are chunked (Chunk Size/Overlap), embedded (Provider/Model), and stored in the Vector Store.</li>
-<li>AI Agents attach a KB via Manage Capabilities → Knowledge; KB blocks add/list/delete documents.</li>
+<li><span class="fr-control">Title</span> and <span class="fr-control">Description</span> - a name and summary for the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>.</li>
+<li><span class="fr-control">Embedding Model</span> - the model that turns your text into vectors, and an <span class="fr-control">AI API Key</span> for it to run under.</li>
+<li><span class="fr-control">Vector Store</span> - the store that holds those vectors.</li>
+<li><span class="fr-control">Chunk Size</span> and <span class="fr-control">Chunk Overlap</span> - how each document is sliced into chunks.</li>
 </ul>
-<h2 id="things-to-watch-for">Things to watch for<a class="headerlink" href="#things-to-watch-for" title="Permanent link">&para;</a></h2>
+<p>Together these decide how your text is stored and searched.</p>
+<div class="admonition warning">
+<p class="admonition-title">In Memory is for testing only</p>
+<p>The <span class="fr-control">In Memory</span> <abbr title="The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.">vector store</abbr> does not persist - anything you add to it is held for a
+short window and then dropped. Use it only while you are trying things out; for anything
+you need to keep, pick a <abbr title="The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.">vector store</abbr> that persists.</p>
+</div>
+<!-- verified in-product 2026-07-10 (MyProjects -> Knowledge Bases -> Create New AI Knowledge Base): the create dialog carries exactly Title, Description, Embedding Model (default "Text Embedding 3 Small"), AI API Key ("Select API Key Setup or enter new key"), Vector Store (default "In Memory"), Chunk Size (2000), Chunk Overlap (300). Chunk help tooltips verbatim as in the ui block. knowledge-bases-setup.png still matches these fields. -->
+<!-- doclint: no-shot: the setup screen is shown by knowledge-bases-setup.png above; this text names the fields it depicts -->
+<!-- doclint: allow-unlinked: Knowledge Base -->
+
+<p><a class="glightbox" href="../images/reference/knowledge-bases-setup.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Create AI Agents Knowledge Base dialog: a Title of Product Docs, a Description, an Embedding Model set to Text Embedding 3 Small, an AI API Key entered, a Vector Store set to In Memory (flagged as non-persistent), and Chunk Size and Chunk Overlap fields with explanatory help text." src="../images/reference/knowledge-bases-setup.png" /></a></p>
+<h2 id="giving-a-knowledge-base-to-an-agent">Giving a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> to an agent<a class="headerlink" data-preview="" href="#giving-a-knowledge-base-to-an-agent" title="Permanent link">&para;</a></h2>
+<p>Creating a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> does nothing on its own - an agent has to be pointed at it. You do that
+on the <span class="fr-block">AI Agent</span> block: open <span class="fr-control">Manage Capabilities</span>, go to <span class="fr-control">Knowledge</span>, and under <span class="fr-control">Search</span> add
+the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>. From then on the agent can search it and answer from its documents.</p>
+<!-- verified in-product 2026-07-10 (Tests workspace, "Agent With Knowledge" flow): the AI Agent's Manage Capabilities -> Knowledge category has two groups - "Document Management" (the Add/Delete/List action tools) and "Search", which lists the workspace's knowledge bases (here "Test KB") each with a + to attach. With 0 knowledge bases in a workspace the Search group is empty, so only Document Management shows. -->
+
+<p><a class="glightbox" href="../images/reference/kb-attach-to-agent.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Manage AI Agent Capabilities window with the Knowledge category selected. The right panel has two groups: Document Management (the Add Document, Delete Document, Delete by Filter, and List Documents action tools) and Search, which lists the workspace's knowledge bases - here &quot;Test KB&quot; - each with a plus button to add it to the agent." src="../images/reference/kb-attach-to-agent.png" /></a></p>
+<h2 id="keeping-a-knowledge-base-up-to-date">Keeping a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> up to date<a class="headerlink" data-preview="" href="#keeping-a-knowledge-base-up-to-date" title="Permanent link">&para;</a></h2>
+<p>A <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> is read at question time, but you also have to get documents into it and keep
+them current. A flow can do that with the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> action blocks:</p>
 <ul>
-<li>Embedding Provider/Model + Chunk Size/Overlap + Vector Store are CONFIGURABLE AT CREATION (Create dialog), then become READ-ONLY once data has been added to the KB — you can't re-chunk/re-embed documents already in the store. (On the Test KB, which had data, these showed readOnly while Title/Description/API Key stayed editable.)</li>
-<li>In-Memory vector store is for testing only — 6h data lifetime, non-extendable.</li>
-<li>Document ingestion is async (Processing → Completed) — added docs aren't queryable instantly.</li>
+<li><a class="fr-block" data-preview="" href="knowledge-base-add-document.html">Add Document</a> - add a document.</li>
+<li><a class="fr-block" data-preview="" href="knowledge-base-list-documents.html">List Documents</a> - list what the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> holds.</li>
+<li><a class="fr-block" data-preview="" href="knowledge-base-delete-document.html">Delete Document</a> - remove one document by its file id.</li>
+<li><a class="fr-block" data-preview="" href="knowledge-base-delete-by-filter.html">Delete by Filter</a> - remove several at once by a metadata filter.</li>
 </ul>
-<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
+<p>Because a flow manages the documents, the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> can stay in sync with wherever your
+content lives. A flow that runs when a file lands in a Git repo, a row is added to a Google
+Sheet, or a record is created in Airtable can add that content on its own - and remove a
+document just as easily when the source goes away.</p>
+<p>You can also hand those same action blocks to an <span class="fr-block">AI Agent</span> as tools. Then the agent decides for
+itself when to add or delete a document - saving something it was told to remember, or clearing
+an entry that is out of date - instead of you wiring every change into a flow.</p>
+<!-- verified in-product 2026-07-10 (Manage AI Agent Capabilities, keyword "knowledge base"): the four Knowledge Base action blocks are attachable to an AI Agent as tools - descriptions verbatim: "Adds a document to a knowledge base for later retrieval." / "Lists documents in a knowledge base with optional metadata filter, limit, and offset." / "Deletes a specific document from a knowledge base by file ID." / "Deletes documents from a knowledge base matching a metadata filter." -->
+<!-- doclint: no-shot: each Knowledge Base action block is shown on its own reference page; this section explains when to reach for them from a flow or an agent -->
+
+<h2 id="things-to-watch-for">Things to watch for<a class="headerlink" data-preview="" href="#things-to-watch-for" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="knowledge-base-add-document.html">Knowledge Base: Add Document</a></li>
-<li><a href="knowledge-base-list-documents.html">Knowledge Base: List Documents</a></li>
-<li><a href="knowledge-base-delete-document.html">Knowledge Base: Delete Document</a></li>
-<li><a href="knowledge-base-delete-by-filter.html">Knowledge Base: Delete by Filter</a></li>
-<li><a href="ai-agent.html">AI Agent</a></li>
-<li>api-keys-registry</li>
+<li>The <abbr title="A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.">embedding</abbr> model, chunk size, chunk overlap, and <abbr title="The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.">vector store</abbr> are set when you create the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> and lock once it holds any documents. You cannot change how existing content was sliced or embedded after the fact, so choose these with care up front - to switch, you create a fresh <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> and add the documents again. The title, description, and <span class="fr-control">AI API Key</span> stay editable, so you can rename it or rotate the key at any time.</li>
+<li>Adding a document is not instant. A new document shows as Processing while it is being chunked and embedded, and only becomes searchable once it reaches Completed. A query run right after you add will not find content that is still processing.</li>
+</ul>
+<h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a data-preview="" href="knowledge-base-add-document.html"><abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>: Add Document</a></li>
+<li><a data-preview="" href="knowledge-base-list-documents.html"><abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>: List Documents</a></li>
+<li><a data-preview="" href="knowledge-base-delete-document.html"><abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>: Delete Document</a></li>
+<li><a data-preview="" href="knowledge-base-delete-by-filter.html"><abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>: Delete by Filter</a></li>
+<li><a data-preview="" href="ai-agent.html">AI Agent</a></li>
 </ul>
 
 
@@ -2982,7 +4686,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="flow-scheduling-concept.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Flow Scheduling (Configure Flow Schedule)">
+          <a href="flows-as-agent-tools-concept.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Flows as Agent Tools">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2992,20 +4696,20 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
                 Previous
               </span>
               <div class="md-ellipsis">
-                Flow Scheduling (Configure Flow Schedule)
+                Flows as Agent Tools
               </div>
             </div>
           </a>
         
         
           
-          <a href="actions-group.html" class="md-footer__link md-footer__link--next" aria-label="Next: Actions Group">
+          <a href="per-user-memory-concept.html" class="md-footer__link md-footer__link--next" aria-label="Next: Per-User Memory">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Actions Group
+                Per-User Memory
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -3042,10 +4746,11 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["announce.dismiss", "search.suggest", "search.highlight", "search.share", "navigation.footer", "content.tabs.link", "content.tooltips", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow", "content.code.copy", "content.code.annotate", "navigation.indexes"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["announce.dismiss", "search.suggest", "search.highlight", "search.share", "navigation.footer", "content.tabs.link", "content.tooltips", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow", "content.code.copy", "content.code.annotate", "navigation.indexes"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../js/chat-widget.js"></script>
       

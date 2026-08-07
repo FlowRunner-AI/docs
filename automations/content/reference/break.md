@@ -1,11 +1,21 @@
 <!-- GENERATED FILE - do not edit. Source: block-knowledge/break.yaml. Regenerate: make refgen -->
+<!-- doclint: allow-unlinked: Break -->
 # Break
 
 Placed inside a loop, this block ends the loop early: when the flow reaches it, the loop stops and the flow carries on after it, leaving any not-yet-processed items untouched.
 
 ## How it works
 
-It is the loop's exit. You put it inside a [List Iterator](list-iterator.md){.fr-block} or [Repeat](repeat.md){.fr-block} loop, usually right after a [Condition](condition.md){.fr-block}, so that when that condition is met and the flow reaches the <span class="fr-block">Break</span>, the loop stops there instead of running through every remaining item.
+Think of it as the loop's early exit. You rarely want every iteration once you have found what
+you came for, so you fire the <span class="fr-block">Break</span> the moment you have it - which is why it almost always sits
+behind a [Condition](condition.md){.fr-block} that decides when "done enough" is true. Reaching it drops you out of the
+loop and on to whatever follows.
+
+<span class="fr-block">Break</span> breaks the loop it sits inside - the nearest enclosing one. If you have nested loops, it
+ends only the inner loop and the outer loop keeps going, because the block belongs to whichever
+loop currently surrounds it. It hands nothing back either: there is no result to read after a
+<span class="fr-block">Break</span>, so nothing downstream references it - its whole job is to change where the flow goes
+next, not to produce a value. You will find <span class="fr-block">Break</span> in the palette's Utils group.
 
 ## When to use it
 
@@ -13,9 +23,9 @@ Use it when you do not always need to finish the whole loop: stop as soon as you
 
 ## Example
 
-<span class="fr-block">Break</span> lives inside a <span class="fr-block">List Iterator</span> or <span class="fr-block">Repeat</span> loop, usually right after a <span class="fr-block">Condition</span>: when the flow reaches it, the loop stops. The block itself has almost nothing to configure - just a name and notes:
+<span class="fr-block">Break</span> lives inside a [List Iterator](list-iterator.md){.fr-block} or [Repeat](repeat.md){.fr-block} loop, usually right after a <span class="fr-block">Condition</span>: when the flow reaches it, the loop stops. The block itself has almost nothing to configure - just a <span class="fr-control">Name</span> for the canvas and optional <span class="fr-control">Notes</span>. It exposes no result, so unlike most blocks there is no output alias to read afterwards; the screenshot below shows the whole panel:
 
-![The Break block with its configuration panel. Break has only a Name and Notes - it ends the surrounding Repeat or List Iterator loop the moment the flow reaches it.](../images/reference/break-config.png)
+![The Break block selected inside a Repeat loop's body (the canvas header reads Block "Repeat"), wired on the Yes path of a Condition that follows a Set Variables step, with its configuration panel - which holds only a Name and Notes, since Break ends the surrounding loop the moment the flow reaches it and exposes no result.](../images/reference/break-config.png)
 
 ## Configuration
 

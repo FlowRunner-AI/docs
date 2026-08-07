@@ -17,12 +17,13 @@ docs:
     This block pauses for a set amount of time before the flow carries on. The path of the flow
     that reaches it waits out the delay and then continues to the next step.
   mental_model: >
-    A flow can split into several paths, or branches; only the one that reaches this block waits,
-    and it waits for exactly the duration you set before picking up where it left off. You set the
-    duration one of two ways. With **Expression Mode**
-    off you fill in plain **Days**, **Hours**, **Minutes**, and **Seconds** fields, and at least one
-    has to be non-zero. With **Expression Mode** on you supply an expression that works out to a
-    number of seconds, so the wait can be computed at run time rather than fixed when you build the flow.
+    Think of it as a held breath on one branch of the flow. When the flow reaches this block, that
+    branch pauses for the duration you set and the rest of the flow carries on; only this branch is
+    waiting. A flow can split into several paths, or branches, and any parallel branch keeps moving
+    while this one is held. Once the duration is up, the paused branch picks up exactly where it left
+    off and continues to its next step. You set the duration two ways: with ((Expression Mode)) off
+    you fill the ((Days)), ((Hours)), ((Minutes)), and ((Seconds)) fields directly; with it on you
+    author a value in the Expression Editor that must resolve to a number of seconds.
   when_to_use: >
     Reach for it whenever a step should not happen immediately. The most common case is backing off
     before a retry: after a call fails, you pause so the thing you are calling has a moment to recover
@@ -34,16 +35,17 @@ docs:
     - text: >
         Suppose an HTTP Request block calls a payment provider, and that provider sometimes
         returns an error when it is briefly busy. You want to give it one more try, but not the
-        instant it failed. Wire a Handle Error block off the failing call - that gives you a
-        separate branch that only runs when the request fails - and on that branch place a Wait
-        before you run the same HTTP Request again.
+        instant it failed. In our flow a Handle Error block is wired off the failing call - that
+        gives a separate branch that only runs when the request fails - and on that branch a Wait
+        sits before the same HTTP Request runs again.
     - text: >
-        Leave **Expression Mode** off and set the fields to one minute - **Minutes** is 1, the
-        rest are 0:
+        On that branch the Wait is set to one minute. ((Expression Mode)) is off, and under
+        ((Wait for)) the ((Minutes)) field is 1 while the rest are 0:
     - image: ../images/reference/wait-config.png
       alt: >
-        The Wait block on the canvas with its configuration panel open: Expression Mode is off, and
-        under Wait for, Days, Hours, and Seconds are 0 while Minutes is 1.
+        The Wait block selected on the canvas, wired off a Handle Error branch, with its
+        configuration panel open: Expression Mode is off, and under Wait for, Days, Hours, and
+        Seconds are 0 while Minutes is 1.
     - text: >
         Now when the call fails, the error path reaches the Wait, the branch pauses for 60 seconds,
         and only then does it run the same HTTP Request again.
@@ -59,13 +61,13 @@ docs:
   data_in: The delay (seconds).
   data_out: Continues after the delay.
   gotchas:
-    - "In Expression Mode the expression has to work out to a number of seconds, not minutes or hours - to wait five minutes it must produce 300."
+    - "In ((Expression Mode)) the expression has to work out to a number of seconds, not minutes or hours - to wait five minutes it must produce 300."
   cross_refs: [handle-error, synchronize]
   terminology: [Wait, Expression Mode, delay]
 
 behavior:
   - "Suspends the branch for the duration you set, then continues."
-  - "Common pattern: Handle Error -> Wait (backoff) -> retry."
+  - "Common pattern: a Handle Error path leads into a Wait (backoff), which then retries the failed step."
 
 assertions:
   - id: pauses-then-continues

@@ -1,0 +1,300 @@
+- generic [ref=f2e11217]:
+  - complementary [ref=f2e11218]:
+    - generic [ref=f2e11220]:
+      - generic [ref=f2e11221] [cursor=pointer]:
+        - generic [ref=f2e11222]: DF
+        - generic [ref=f2e11905]: Documentation Flows
+      - generic [ref=f2e11909]:
+        - progressbar [ref=f2e11910]
+        - generic [ref=f2e11911]:
+          - generic [ref=f2e11912]: 1 / 12000 Executions
+          - generic [ref=f2e11913]: 0%
+    - navigation [ref=f2e11234]:
+      - generic [ref=f2e11235]:
+        - generic [ref=f2e11914]: Automate
+        - generic [ref=f2e11237]:
+          - generic [ref=f2e11238]:
+            - generic [ref=f2e11915] [cursor=pointer]: Flows
+            - generic [ref=f2e11924]:
+              - link "AG Probe" [ref=f2e11925] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/07F23ABE-DAC6-48DF-B498-08C525AEA716
+              - link "Cart Summary" [ref=f2e11936] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/819B4600-FCB4-424A-B05E-1E6976C255AE
+              - link "Condition Test" [ref=f2e11947] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/021E8714-DF6A-4896-A814-CC2818BB7A94
+              - link "Delay One Path" [ref=f2e11958] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/3FECA0F9-38A9-44FF-B738-F5735BDF9E93
+              - link "Dynamic Wait Demo" [ref=f2e11969] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/50AE056C-CB14-4C15-BF5A-EECB2607E6BF
+              - link "Enrichment Group" [ref=f2e11980] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/1B52CCED-2564-4280-8A25-609E8AF769CF
+              - link "Error Catch Demo" [ref=f2e11991] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/567E06CD-3627-450A-AEED-242182E48F83
+              - link "Error Handling" [ref=f2e12002] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/A7B2D9CD-1902-4BF2-B7F8-9697F881C733
+              - link "Error Handling Demo" [ref=f2e12013] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/31BB7928-7CB5-407F-9EF1-6154B08E07F3
+              - link "Handle Error" [ref=f2e12024] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/F93DBB59-8623-485C-BC03-8712A090BE30
+              - link "Join Test" [ref=f2e12035] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/E5E03E54-B89D-4482-9155-4988846E6BEF
+              - link "No Sync Test" [ref=f2e12046] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/B616BB4E-A146-4B94-8E99-18E2A89FA332
+              - link "Order Approval" [ref=f2e12057] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/ADDC6191-A779-4DD0-AF14-0B95FBB1FA79
+              - link "Order Check" [ref=f2e12068] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/BE9F178E-ED5D-4602-A596-A04FA43E1866
+              - link "Order Poller" [ref=f2e12079] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/228C17CD-C833-48EB-AC3B-D1E5CDC302E8
+              - link "Order Router" [ref=f2e12090] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/BF2B546C-21D2-4DCE-BC2A-725D3FA6D429
+              - link "Paced Calls" [ref=f2e12101] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/4077259E-9D49-4E26-B23D-B415A3B234A4
+              - link "Parallel Enrichment" [ref=f2e12112] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/280C5482-D8A7-4BA8-A918-8B0CF7420994
+              - link "Payment Hand-off" [ref=f2e12123] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/A9FFD57D-41B8-4029-B802-7173A83E3AC2
+              - link "Payment Hand-off Test" [ref=f2e12134] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/C081ADD2-9823-4B35-AF65-796CD1777A04
+              - link "Race Test" [ref=f2e12145] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/1D814D7A-0157-4EE6-84F5-7CF73946B449
+              - link "Retry Logic" [ref=f2e12156] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/BC1713EE-6277-4E54-BFED-3FA2005E1D0D
+              - link "Route by Credit Score" [ref=f2e12167] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/694282BC-70C0-479E-9DA3-FF36CDF81AB8
+              - link "Route Requests" [ref=f2e12178] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/53D71DCF-CCBE-4193-9CEC-612C6CB0FABC
+              - link "SubFlow" [ref=f2e12189] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/185A6F4F-1AC1-4E3E-847A-122A0B680009
+              - link "Testing Demo" [ref=f2e12200] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/046A98F4-34C9-403F-A3A3-21F1720CA1E4
+              - link "Timeout Test" [ref=f2e12211] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/DD7D3EEC-3A05-4A44-90FE-5E56D4BAB84F
+              - link "Unhandled Failure Demo" [ref=f2e12222] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/1D2156E7-12B9-4CD5-B4E0-48830F0E7ED7
+              - link "ZZ AI Scratch" [ref=f2e12424] [cursor=pointer]:
+                - /url: /app/Documentation Flows/flowrunner/manage/flow/7BA7E80C-B98D-4C8F-B1BC-78735B41A923
+          - generic [ref=f2e12233] [cursor=pointer]: Forms
+      - generic [ref=f2e11567]:
+        - generic [ref=f2e12243]: Agent tools & Knowledge
+        - generic [ref=f2e11569]:
+          - generic [ref=f2e12244]:
+            - generic [ref=f2e12245]: Knowledge Bases
+            - img [ref=f2e12253] [cursor=pointer]
+          - generic [ref=f2e12254]:
+            - generic [ref=f2e12255]: MCP Servers
+            - img [ref=f2e12262] [cursor=pointer]
+          - link "Custom Extensions" [ref=f2e12263] [cursor=pointer]:
+            - /url: /app/Documentation Flows/custom-extensions
+      - generic [ref=f2e11599]:
+        - generic [ref=f2e12271]: Connections
+        - generic [ref=f2e11601]:
+          - link "OAuth Connections" [ref=f2e12272] [cursor=pointer]:
+            - /url: /app/Documentation Flows/oauth-connections
+          - link "API Keys" [ref=f2e12279] [cursor=pointer]:
+            - /url: /app/Documentation Flows/api-keys
+      - generic [ref=f2e11616]:
+        - generic [ref=f2e12286]: Compliance & security
+        - generic [ref=f2e11618]:
+          - link "Activity Log" [ref=f2e12287] [cursor=pointer]:
+            - /url: /app/Documentation Flows/enterprise-security/activity-log
+          - link "SLA Calendars" [ref=f2e12293] [cursor=pointer]:
+            - /url: /app/Documentation Flows/calendars
+          - link "Compliance" [ref=f2e12300] [cursor=pointer]:
+            - /url: /app/Documentation Flows/enterprise-security/compliance
+          - link "Panic Mode" [ref=f2e12307] [cursor=pointer]:
+            - /url: /app/Documentation Flows/enterprise-security/panic
+      - generic [ref=f2e11645]:
+        - generic [ref=f2e12313]: Workspace settings
+        - generic [ref=f2e11647]:
+          - link "General" [ref=f2e12314] [cursor=pointer]:
+            - /url: /app/Documentation Flows/settings/general
+          - link "Folders & Files" [ref=f2e12321] [cursor=pointer]:
+            - /url: /app/Documentation Flows/files
+          - link "Team" [ref=f2e12327] [cursor=pointer]:
+            - /url: /app/Documentation Flows/settings/team
+          - link "Billing" [ref=f2e12336] [cursor=pointer]:
+            - /url: /app/Documentation Flows/settings/billing
+      - generic [ref=f2e11676]:
+        - generic [ref=f2e12342]: Administration
+        - generic [ref=f2e11678]:
+          - link "Shared Extensions" [ref=f2e12343] [cursor=pointer]:
+            - /url: /admin/shared-extensions
+          - link "CRM" [ref=f2e12351] [cursor=pointer]:
+            - /url: /admin/crm
+          - link "Notifications" [ref=f2e12358] [cursor=pointer]:
+            - /url: /admin/notifications
+          - link "Cloud Code" [ref=f2e12365] [cursor=pointer]:
+            - /url: /admin/cloud-code
+    - generic [ref=f2e11708]:
+      - generic [ref=f2e11710]:
+        - generic [ref=f2e11711]: MA
+        - generic [ref=f2e12371]:
+          - generic [ref=f2e12372]: Mark Piller
+          - generic [ref=f2e12373]: mark@backendless.com
+      - generic [ref=f2e11716] [cursor=pointer]
+  - generic [ref=f2e11718]:
+    - generic [ref=f2e11719]:
+      - button [ref=f2e11721] [cursor=pointer]
+      - generic [ref=f2e12435]:
+        - generic [ref=f2e12436]: Flows
+        - generic [ref=f2e12437]: /
+        - generic [ref=f2e12438]: ZZ AI Scratch
+        - generic [ref=f2e12439]: /
+        - combobox [ref=f2e12441] [cursor=pointer]:
+          - generic [ref=f2e12442]: Version 1
+        - generic [ref=f2e12447]:
+          - button [disabled] [ref=f2e12448]
+          - button [ref=f2e12452] [cursor=pointer]
+          - button [ref=f2e12457] [cursor=pointer]
+          - button [ref=f2e12462] [cursor=pointer]
+          - button [disabled] [ref=f2e12467]
+          - generic [ref=f2e12471]: Not Ready
+      - generic [ref=f2e11770]:
+        - button [ref=f2e11771] [cursor=pointer]
+        - button [ref=f2e11779] [cursor=pointer]
+    - main [ref=f2e12]:
+      - generic [ref=f2e14]:
+        - generic [ref=f2e12477]:
+          - link "Edit" [ref=f2e12478] [cursor=pointer]:
+            - /url: /app/Documentation Flows/flowrunner/manage/flow/7BA7E80C-B98D-4C8F-B1BC-78735B41A923/version/1/edit
+          - link "Dashboard" [ref=f2e12479] [cursor=pointer]:
+            - /url: /app/Documentation Flows/flowrunner/manage/flow/7BA7E80C-B98D-4C8F-B1BC-78735B41A923/version/1/analytics/dashboard
+          - link "Performance" [ref=f2e12480] [cursor=pointer]:
+            - /url: /app/Documentation Flows/flowrunner/manage/flow/7BA7E80C-B98D-4C8F-B1BC-78735B41A923/version/1/analytics/performance
+          - link "Instances" [ref=f2e12481] [cursor=pointer]:
+            - /url: /app/Documentation Flows/flowrunner/manage/flow/7BA7E80C-B98D-4C8F-B1BC-78735B41A923/version/1/analytics/instances
+          - button "SLA Goals" [ref=f2e12483]
+          - link "Logs" [ref=f2e12484] [cursor=pointer]:
+            - /url: /app/Documentation Flows/flowrunner/manage/flow/7BA7E80C-B98D-4C8F-B1BC-78735B41A923/version/1/logging
+          - link "Version Admin" [ref=f2e12485] [cursor=pointer]:
+            - /url: /app/Documentation Flows/flowrunner/manage/flow/7BA7E80C-B98D-4C8F-B1BC-78735B41A923/version/1/admin
+        - generic [ref=f2e12486]:
+          - generic [ref=f2e12487]:
+            - generic [ref=f2e12488]:
+              - generic [ref=f2e12489]:
+                - button "" [ref=f2e12490] [cursor=pointer]
+                - button "" [ref=f2e12492] [cursor=pointer]
+                - button "" [disabled] [ref=f2e12494]
+                - button "" [ref=f2e12496] [cursor=pointer]
+              - generic [ref=f2e12498]:
+                - button " 4 Condition  Start" [ref=f2e26751]:
+                  - generic "Condition" [ref=f2e24556]:
+                    - generic [ref=f2e23609]:
+                      - generic [ref=f2e23610]: 
+                      - generic [ref=f2e23613]:
+                        - generic [ref=f2e23614]: "4"
+                        - generic [ref=f2e23624]: Condition
+                    - generic [ref=f2e23625]: 
+                    - generic [ref=f2e23629]: Start
+                - img "Mini Map" [ref=f2e24557]
+                - link "React Flow attribution" [ref=f2e24558] [cursor=pointer]:
+                  - /url: https://reactflow.dev
+                  - text: React Flow
+            - generic [ref=f2e12508]:
+              - generic [ref=f2e12509]:
+                - generic [ref=f2e12510]: Test Monitor
+                - generic [ref=f2e12511]: 
+              - generic:
+                - generic:
+                  - generic:
+                    - generic [ref=f2e12514]:
+                      - button "Flow Data" [ref=f2e12515] [cursor=pointer]
+                      - button "Block Results" [ref=f2e12516] [cursor=pointer]
+                      - button "Logging" [ref=f2e12517] [cursor=pointer]
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic [ref=f2e23592]:
+                            - generic [ref=f2e23593]: +
+                            - generic [ref=f2e23596]: Property Names
+                            - generic [ref=f2e23597]: Property Values
+                          - generic [ref=f2e23598]:
+                            - generic [ref=f2e23599]: There are no values yet.
+                            - generic [ref=f2e23600] [cursor=pointer]: Add first one
+          - complementary [ref=f2e12521]:
+            - generic [ref=f2e12522]:
+              - generic "Blocks List" [ref=f2e12523] [cursor=pointer]: 
+              - generic "Block Configuration" [ref=f2e12525] [cursor=pointer]: 
+              - generic "Flow Settings" [ref=f2e12527] [cursor=pointer]: 
+            - generic [ref=f2e23634]:
+              - generic [ref=f2e23635]:
+                - generic [ref=f2e23636]:
+                  - generic [ref=f2e23637]: 
+                  - generic [ref=f2e23639]: Condition
+                - button " Delete" [ref=f2e23641] [cursor=pointer]:
+                  - generic [ref=f2e23642]: 
+                  - generic [ref=f2e23643]: Delete
+              - generic [ref=f2e23646]:
+                - generic [ref=f2e23649]:
+                  - generic [ref=f2e23650]: Test Panel
+                  - generic [ref=f2e23651]:
+                    - button " Run Block" [disabled] [ref=f2e23652]:
+                      - generic [ref=f2e23653]: 
+                      - generic [ref=f2e23654]: Run Block
+                    - button "Show Invocation History" [ref=f2e23655] [cursor=pointer]
+                - generic [ref=f2e23659]:
+                  - generic [ref=f2e23660]: Name
+                  - textbox [ref=f2e23661]: Condition
+                - generic [ref=f2e23662]:
+                  - generic [ref=f2e23666]:
+                    - generic [ref=f2e23667]: Condition
+                    - generic [ref=f2e23669]:
+                      - generic [ref=f2e23670]:
+                        - group [ref=f2e23673]:
+                          - generic [ref=f2e23674]:
+                            - generic [ref=f2e23675]:
+                              - generic [ref=f2e23676]: Value to Check
+                              - generic [ref=f2e23678]:
+                                - textbox "(no value)" [ref=f2e23681]
+                                - generic [ref=f2e23682] [cursor=pointer]
+                              - paragraph [ref=f2e23780]: Property is required
+                            - generic [ref=f2e23686]:
+                              - generic [ref=f2e23687]: Value Data Type
+                              - combobox [ref=f2e23689]:
+                                - generic:
+                                  - generic:
+                                    - generic: 
+                                    - generic: STRING
+                            - generic [ref=f2e23692]:
+                              - generic [ref=f2e23693]: Operation
+                              - combobox [ref=f2e24129]:
+                                - generic: AI QUESTION
+                            - generic [ref=f2e24559]:
+                              - generic [ref=f2e24560]: Yes/No Question
+                              - generic [ref=f2e24562]:
+                                - textbox "(no value)" [ref=f2e24565]
+                                - generic [ref=f2e24566] [cursor=pointer]
+                              - paragraph [ref=f2e24570]: The value cannot be empty.
+                        - generic [ref=f2e23698] [cursor=pointer]: 
+                      - generic [ref=f2e23699] [cursor=pointer]: +
+                  - generic [ref=f2e24572]:
+                    - generic [ref=f2e24573]:
+                      - generic [ref=f2e24574]:
+                        - text: AI Model
+                        - generic [ref=f2e24575]: 
+                      - generic [ref=f2e24576]:
+                        - combobox [active] [ref=f2e24577]:
+                          - generic [ref=f2e24578]: Claude Haiku 4.5
+                        - button "Clear selection" [ref=f2e26752] [cursor=pointer]
+                    - generic [ref=f2e24580]:
+                      - generic [ref=f2e24581]:
+                        - text: AI API Key
+                        - generic [ref=f2e24582]: 
+                      - textbox "Select API Key Setup or enter new key" [ref=f2e26757]
+                      - paragraph [ref=f2e24587]: AI API Key is required
+                - generic [ref=f2e23702]:
+                  - generic [ref=f2e23704]:
+                    - checkbox "Reference Result Data As" [ref=f2e23706] [cursor=pointer]
+                    - text: Reference Result Data As
+                  - textbox [disabled] [ref=f2e23707]: Condition Result
+                - generic [ref=f2e23710]:
+                  - generic [ref=f2e23711]: Notes
+                  - textbox "Add notes to block..." [ref=f2e23713]
+  - generic [ref=f2e11785]:
+    - generic [ref=f2e11786]:
+      - generic [ref=f2e11787]: Notifications
+      - generic [ref=f2e11789]:
+        - button [ref=f2e11790] [cursor=pointer]
+        - button [ref=f2e11795] [cursor=pointer]
+    - generic [ref=f2e11801]: No notifications

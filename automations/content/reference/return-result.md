@@ -1,21 +1,57 @@
 <!-- GENERATED FILE - do not edit. Source: block-knowledge/return-result.yaml. Regenerate: make refgen -->
+<!-- doclint: allow-unlinked: Return Result -->
 # Return Result
 
-This block builds the object a flow hands back to whatever started it, and ends that path of the flow. You list the properties you want to send back, give each one a value, and that object becomes the flow's output.
+This block lets you decide exactly what a caller sees back from a flow. You name the properties to return and give each a value, and the caller reads back only that object - the id, the token, the status you chose to expose - while everything the flow did to produce it stays hidden inside.
 
 ## How it works
 
-Think of it as the answer a flow gives back to its caller. You build that answer in the block's Compose Result list: each row is one property of the returned object, a name paired with an expression for its value, so you assemble the exact shape you want to send back - say { token, expiresAt } - from values the flow worked out along the way. When a path of the flow reaches this block, it composes that object and stops there: this block is terminal, so any blocks wired after it on the same path do not run. The composed object is what a [Call Flow](call-flow.md){.fr-block} block waiting on this flow, or a [SubFlow](subflow.md){.fr-block} block running it, reads back as its result.
+A flow can do a lot of work, but a caller does not need to see all of it - it needs an answer.
+<span class="fr-block">Return Result</span> is where you compose that answer. Its <span class="fr-control">Content Type</span> sets the format the caller
+receives - <span class="fr-control">JSON</span>, <span class="fr-control">XML</span>, or <span class="fr-control">Plain Text</span> - and the <span class="fr-control">Compose Result</span> toggle decides how
+you build it. With it on, you compose an object from a list of <span class="fr-control">Property</span> and <span class="fr-control">Value</span> rows,
+each row a name paired with an expression: you assemble the exact shape you want to hand back -
+say { token, expiresAt } - from values the flow worked out along the way, and nothing else leaks
+out. With it off, the block hands back a single value from one <span class="fr-control">Result</span> expression instead, for
+when the answer is just one thing. Either way, the caller reads back only what you returned and
+never sees the rest.
+
+The block is also terminal: it has no outbound connector, so nothing can be wired after it. When a
+path of the flow reaches it, the object is composed and that path ends there. The composed object is
+what a [Call Flow](call-flow.md){.fr-block} block waiting on this flow, or a [SubFlow](subflow.md){.fr-block} block running it, reads back as its
+result. The parent reads it through that caller block's result alias - if the <span class="fr-block">Call Flow</span> block is
+named Issue Token, a later step in the parent reads a returned property as
+<span class="fr-expr">Issue Token Result → token</span>, built in the Expression Editor under Block Data.
 
 ## When to use it
 
-Reach for it at the end of any flow that another flow runs and reads back from - a flow invoked by a <span class="fr-block">Call Flow</span> block, or the steps inside a <span class="fr-block">SubFlow</span> block. Those callers only get back what a <span class="fr-block">Return Result</span> hands them, so this is how you decide what they see: the new record's id, a token, a status object, rather than the flow's whole internal workings. A flow with no <span class="fr-block">Return Result</span> still runs to completion, but it gives its caller nothing structured to read, so add this block whenever the caller needs an answer.
+Reach for it - it lives in the block list's Utils group - at the end of any flow that another flow runs and reads back from: a flow invoked by a <span class="fr-block">Call Flow</span> block, or the steps inside a <span class="fr-block">SubFlow</span> block. Those callers only get back what a <span class="fr-block">Return Result</span> hands them, so this is how you decide what they see: the new record's id, a token, a status object, rather than the flow's whole internal workings. A flow with no <span class="fr-block">Return Result</span> still runs to completion, but it gives its caller nothing structured to read, so add this block whenever the caller needs an answer.
+
+## Returning more than one result
+
+A flow does not always have a single way out. Put a <span class="fr-block">Return Result</span> on each branch of a
+[Condition](condition.md){.fr-block} and a run will reach one or another depending on which way it forked - and a flow
+can even hit more than one <span class="fr-block">Return Result</span> before it finishes. When that happens, the caller
+does not get back a single plain object. It gets back an envelope that wraps up everything
+that was returned:
+
+- the **first result** - the object from the first <span class="fr-block">Return Result</span> the run reached, so a caller
+  that only wants "the answer" has one to read;
+- the **list of all results** that ran, each one tagged with the name of the <span class="fr-block">Return Result</span>
+  block it came from, so a caller can tell the branches apart and pick out the one it cares
+  about;
+- an overall **status** for the run.
+
+So a single-Return-Result flow and a multi-Return-Result flow hand back different shapes. When
+you want the caller to read a simple object directly, keep to one <span class="fr-block">Return Result</span> on the path it
+will take; when several can run, expect the envelope and read the result you want out of it by
+the block name that produced it.
 
 ## Example
 
 Suppose you build a <span class="fr-block">SubFlow</span> named Issue Token that authenticates against a service and gets back an access token and how long it stays valid. Earlier steps in that subflow have already landed those two values - the token sits in a Data Bucket variable named accessToken, and the expiry in expiresAt. You want the parent flow that runs this subflow to read both back, and nothing else.
 
-Add a <span class="fr-block">Return Result</span> block at the end of the subflow. Leave Content Type on JSON, then add two rows to Compose Result - one property per row, each a name paired with an expression for its value:
+Add a <span class="fr-block">Return Result</span> block at the end of the subflow. Leave <span class="fr-control">Content Type</span> on JSON, then add two rows to <span class="fr-control">Compose Result</span> - one property per row, each pairing a <span class="fr-control">Property</span> name with a <span class="fr-control">Value</span> expression:
 
 ```text
 Content Type: JSON
@@ -25,7 +61,13 @@ Compose Result:
   expiresAt   =  {{Data Buckets:Auth - expiresAt->}}
 ```
 
-When the subflow runs and a path reaches this block, it composes { "token": "...", "expiresAt": "..." } and ends there. Back in the parent flow, the <span class="fr-block">SubFlow</span> block's result is that object, so the next step can read the token through it and use it on a later call. Anything the subflow did to obtain the token stays inside the subflow - the caller sees only the two properties you chose to return.
+When the subflow runs and a path reaches this block, it composes { "token": "...", "expiresAt": "..." } and ends there. Back in the parent flow, the result of the block that ran the subflow is that object, and you read each property through that block's result alias. If the <span class="fr-block">SubFlow</span> block is named Issue Token, the next step reads the token in the Expression Editor (under Block Data) as <span class="fr-expr">Issue Token Result → token</span> and uses it on a later call:
+
+```text
+Authorization  =  Bearer {{Issue Token Result->token}}
+```
+
+Anything the subflow did to obtain the token stays inside the subflow - the caller sees only the two properties you chose to return.
 
 ![The Return Result block with its configuration panel: a Content Type and a list of Property and Value rows that compose the result handed back to the calling flow.](../images/reference/return-result-config.png)
 
@@ -46,8 +88,8 @@ When the subflow runs and a path reaches this block, it composes { "token": "...
 
 ## Things to watch for
 
-- This block is terminal: it ends the path of the flow that reaches it. Any block wired after it on that same path does not run, so put it last and do not expect later steps on that branch to execute.
-- If a flow has more than one <span class="fr-block">Return Result</span> block - for example one on each branch of a [Condition](condition.md){.fr-block} - the caller does not get a single plain object. Instead it gets back a structure that holds the result from the first <span class="fr-block">Return Result</span> a run reaches, plus a list of every <span class="fr-block">Return Result</span> that ran, each tagged with the name of the block it came from, and an overall status. When you need the caller to read a simple object directly, keep to a single <span class="fr-block">Return Result</span> on the path it will take.
+- This block is terminal: it has no outbound connector, so nothing can be wired after it. The path that reaches it ends there - put it where that path's work is finished.
+- If a flow has more than one <span class="fr-block">Return Result</span> block - for example one on each branch of a <span class="fr-block">Condition</span> - the caller does not get a single plain object. Instead it gets back a structure that holds the result from the first <span class="fr-block">Return Result</span> a run reaches, plus a list of every <span class="fr-block">Return Result</span> that ran, each tagged with the name of the block it came from, and an overall status. When you need the caller to read a simple object directly, keep to a single <span class="fr-block">Return Result</span> on the path it will take.
 
 ## Related
 

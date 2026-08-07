@@ -56,11 +56,13 @@ def test_concept_nav_is_a_flat_list_sorted_by_name():
 
 
 def test_update_nav_injects_concepts_when_markers_present():
+    # Concept Guides now live in a sub-section under Platform (6-space markers).
     mkdocs = (
         "nav:\n"
-        "  - 'Concept Guides':\n"
-        "    # BEGIN generated concept nav\n"
-        "    # END generated concept nav\n"
+        "  - 'Platform':\n"
+        "    - 'Concept Guides':\n"
+        "      # BEGIN generated concept nav\n"
+        "      # END generated concept nav\n"
         "  - 'Block Reference':\n"
         "    # BEGIN generated reference nav\n"
         "    # END generated reference nav\n"
@@ -68,7 +70,11 @@ def test_update_nav_injects_concepts_when_markers_present():
     out = update_mkdocs_nav(mkdocs, _records_with_concepts())
     data = yaml.safe_load(out)                           # must remain valid YAML
     nav = {list(s.keys())[0]: list(s.values())[0] for s in data["nav"]}
-    assert {"Flow Memory": "reference/flow-memory-concept.md"} in nav["Concept Guides"]
+    # the concept pages render under Platform > Concept Guides
+    concept_guides = next(v for item in nav["Platform"]
+                          if isinstance(item, dict) and "Concept Guides" in item
+                          for v in [item["Concept Guides"]])
+    assert {"Flow Memory": "reference/flow-memory-concept.md"} in concept_guides
     # concept pages must NOT appear inside Block Reference
     assert "flow-memory-concept" not in str(nav["Block Reference"])
 

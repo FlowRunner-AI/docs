@@ -1,47 +1,76 @@
 site_name: FlowRunner™ User Guide
 site_url: https://docs.flowrunner.ai
-site_description: Comprehensive documentation for FlowRunner, a no-code platform for automating business processes with ease.
+site_description: FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter.
 
 nav:
-  - 'Learn':
-    - 'Overview': index.md
+  - 'Welcome':
+    - 'What is FlowRunner?': index.md
+    - 'Quick Starts':  
+      - 'A Contact Us Form (no-code)': learn/quickstart.md
+      - 'A Contact Us Form (code JS)': learn/quickstart-code.md
+      - 'Automation with an AI Agent': learn/quickstart-agent.md
+#      - 'Tutorials': learn/tutorials.md
+  - 'Platform':
     - 'Terminology': definitions.md
-    - 'Quick Start': learn/quickstart.md
     - 'Core Concepts':
+      - 'Workspace': platform/workspace.md
       - 'Flows & Instances': learn/concepts/flows-and-instances.md
       - 'Triggers': learn/concepts/triggers.md
       - 'Blocks': learn/concepts/blocks.md
       - 'Variables & Data Buckets': learn/concepts/variables.md
-      - 'Expressions': learn/concepts/expressions.md
+      - 'Expression Editor': learn/concepts/expressions.md
       - 'Subflows': learn/concepts/subflows.md
       - 'Shared Memory': learn/concepts/shared-memory.md
-    - 'Tutorials': learn/tutorials.md
+    - 'Forms': platform/forms.md
+    - 'MCP Servers': platform/mcp-servers.md
+    - 'OAuth Connections': platform/oauth-connections.md
+    - 'API Keys': platform/api-keys.md
+    - 'Compliance & Security': platform/compliance-and-security.md
+    - 'SLA Goals': platform/sla-goals.md
+    - 'Concept Guides':
+      # BEGIN generated concept nav
+      - 'Agent Memory': reference/flow-memory-concept.md
+      - 'Error Handling': reference/error-handling-concept.md
+      - 'Flows as Agent Tools': reference/flows-as-agent-tools-concept.md
+      - 'Knowledge Bases (RAG stores)': reference/knowledge-bases-concept.md
+      # END generated concept nav
+      - 'Per-User Memory': reference/per-user-memory-concept.md
+  - 'Manage':
+    - 'Flows': manage/flows.md
+    - 'Workspace Settings': manage/workspace-settings.md
+    - 'Team': manage/team.md
+    - 'Billing': manage/billing.md
   - 'Build':
     - 'The Flow Editor': build/flow-editor.md
-    - 'Data & Variables': build/data-and-variables.md
-    - 'Flow Control': build/flow-control.md
-    - 'AI in Flows': build/ai-in-flows.md
-    - 'Integrations & I/O': build/integrations.md
-    - 'Managing Flows': build/managing-flows.md
+    - 'Data & Variables':
+      - build/data-and-variables/index.md
+      - 'Passing Data Between Blocks': build/data-and-variables/passing-data.md
+      - 'Holding Values in Variables': build/data-and-variables/holding-values.md
+      - 'Reshaping Data': build/data-and-variables/reshaping-data.md
+      - 'Sharing Data Across Runs & Flows': build/data-and-variables/across-runs.md
+    - 'Flow Control':
+      - build/flow-control/index.md
+      - 'Yes/No Branching': build/flow-control/branching.md
+      - 'Routing on a Value': build/flow-control/routing.md
+      - 'Repeating Steps': build/flow-control/repeating.md
+      - 'Working Through a List': build/flow-control/collections.md
+      - 'Running Steps in Parallel': build/flow-control/parallel.md
+      - 'Adding a Delay': build/flow-control/waiting.md
+      - 'Waiting on an External System': build/flow-control/external-callbacks.md
+      - 'Handling Errors': build/flow-control/error-handling.md
+    - 'Working with AI':  
+      - 'AI in Flows': build/ai-in-flows.md
+    - 'Integrations & I/O':
+      - build/integrations/index.md
+      - 'Calling an External Service': build/integrations/calling-a-service.md
+      - 'Returning a Result': build/integrations/returning-a-result.md
+      - 'Running Another Flow': build/integrations/running-another-flow.md
+      - 'Custom & Marketplace Actions': build/integrations/custom-actions.md
   - 'Run & Monitor':
     - 'Testing': run/testing.md
     - 'Running Flows': run/running-flows.md
-    - 'Scheduling': run/scheduling.md
+    - 'Scheduling': reference/flow-scheduling-concept.md
     - 'Monitoring & Analytics': run/monitoring.md
-  - 'Platform':
-    - 'Forms': platform/forms.md
-    - 'Knowledge Bases': platform/knowledge-bases.md
-    - 'MCP Servers': platform/mcp-servers.md
-    - 'Connections': platform/connections.md
-    - 'Compliance & Security': platform/compliance-and-security.md
-    - 'Workspace': platform/workspace.md
-  - 'Concept Guides':
-    # BEGIN generated concept nav
-    - 'Flow Memory (Agent Memory)': reference/flow-memory-concept.md
-    - 'Flow Scheduling (Configure Flow Schedule)': reference/flow-scheduling-concept.md
-    - 'Flows as Agent Tools': reference/flows-as-agent-tools-concept.md
-    - 'Knowledge Bases (RAG stores)': reference/knowledge-bases-concept.md
-    # END generated concept nav
   - 'Block Reference':
     # BEGIN generated reference nav
     - 'AI':
@@ -81,8 +110,13 @@ nav:
       - 'Value Router': reference/value-router.md
       - 'Wait': reference/wait.md
     # END generated reference nav
-  - 'Extend':
-    - 'About Custom Actions': extend/custom-actions.md
+ # - 'Extend':
+ #   - 'About Custom Actions': extend/custom-actions.md
+  - 'API':
+    - api/index.md
+    - 'Call Flow': api/call-flow.md
+    - 'Activating an External Callback': api/activating-a-trigger.md
+    - 'Retrieving Block Results': api/block-results.md
 
 docs_dir: content
 site_dir: ../docs
@@ -107,6 +141,11 @@ extra_javascript:
 #  - 'js/jquery-3.3.1.min.js'
 #  - 'js/bootstrap-tour-standalone.min.js'
 #  - 'js/docs.js'
+
+# Render ((UI Component)) markers as .fr-control chips on hand-authored pages
+# (the generated Block Reference already has its chips baked in - no-op there).
+hooks:
+  - hooks/control_chips.py
 
 theme:
   name: 'material'
@@ -193,16 +232,27 @@ markdown_extensions:
   - md_in_html
   - abbr
   - footnotes
-
+  - material.extensions.preview:
+      configurations:
+        - targets:
+            include:
+              - index.md
+              - build/*
+              - manage/*
+              - run/*
+              - reference/*
+              - learn/*
+              - platform/*
 
 plugins:
   - search
   - social:
-      cards: true   # TEMP (local preview only): no arm64 cairo on this machine. RESTORE to true before committing mkdocs.yml.
+      cards: !ENV [CARDS, true]   # defaults true (CI/prod build has cairo); on local arm64 without cairo run with CARDS=false
       cards_layout_options:
-        # FlowRunner forest green — reads well on white messaging app backgrounds
-        background_color: "#1F4438"
-        color: "#FAF7F0"
+        background_color: "#FAF7F0"
+        color: "#1F4438"
+        font_family: Inter Tight
+        logo: content/assets/social/logomark-green.svg
   - glightbox:
       skip_classes:
         - skip-lightbox

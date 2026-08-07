@@ -19,10 +19,16 @@ This is the documentation for FlowRunner™, a no-code automation platform by Ba
 - Include **info boxes** for important callouts using MkDocs admonitions
 
 ### Formatting Conventions
+
+> **Canonical source: `block-knowledge/VOICE.md`.** For the rebuilt docs, VOICE.md supersedes
+> this file wherever they differ. In particular: **UI controls you act on** (buttons, toggles,
+> fields, dropdowns, dialogs) are marked with the `((Component))` chip syntax (rendered as a
+> `.fr-control` chip), NOT bold. Bold is for field labels you *read* and for emphasis. ™ goes on
+> the first/most-prominent mention per page only, then the bare name (VOICE.md), not "always".
+
 - **Bold** (`**text**`) for:
-  - UI elements (e.g., **Flow Manager**, **SAVE** button)
-  - Product names (e.g., **FlowRunner™**)
-  - Important emphasis
+  - Field labels you read, and important emphasis (UI *controls* use `((chips))` — see VOICE.md)
+  - Product names on first mention (e.g., **FlowRunner™**), bare afterward
 - *Italics* (`*text*`) - Use sparingly for subtle emphasis
 - `Code formatting` (backticks) for:
   - Technical terms
@@ -206,8 +212,10 @@ These apply to every docs page without exception:
   Do not strip these to force visual identity with the product.
 - **Light theme is the default.** Dark theme is available via the header toggle.
   Both must render correctly for any page you create or modify.
-- **At most two admonitions per page.** Most context belongs in prose, not in
-  colored callout boxes.
+- **Use admonitions sparingly; don't let them lose their signal.** Most context belongs in
+  prose. Reach for a callout only when a point genuinely needs to stand out - a plan
+  requirement, a real warning. There's no fixed cap, but if a page is full of colored boxes,
+  none of them read as important anymore.
 - **Page structure: h1 + lede + h2 sections.** One h1 per page. Avoid nesting
   deeper than h3. If you need h4+ for section breaks, the page should be split.
 - **Prose before code blocks, not after.** Explain what code does, then show

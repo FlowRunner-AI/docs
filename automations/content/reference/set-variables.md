@@ -1,7 +1,8 @@
 <!-- GENERATED FILE - do not edit. Source: block-knowledge/set-variables.yaml. Regenerate: make refgen -->
+<!-- doclint: allow-unlinked: Set Variables -->
 # Set Variables
 
-This block stores values under names you choose, so later steps can read them back. You give it a name and a value for each variable, and it writes them for the rest of the run to use.
+This block stores values now under names you choose, so later steps can read them back - the flow's per-run scratch space. You give it a name and a value for each variable, and it writes them for the rest of the run to use.
 
 ## How it works
 
@@ -9,11 +10,11 @@ Each variable you set lives in a Data Bucket. You pick the bucket and list the v
 
 ## When to use it
 
-Reach for it whenever a value you compute or receive in one step is needed by a later step: a flag that records a decision, a counter you raise as you go, or a derived value you work out once and reuse. Holding it in a named variable is cleaner than recomputing it everywhere it is needed, and it gives the value a clear label the rest of the flow can read. If the value has to survive past the current run - a total that carries from one run to the next - a Data Bucket will not keep it; use Shared Memory for that instead.
+Reach for it - it lives in the palette's Utils category - whenever a value you compute or receive in one step is needed by a later step: a flag that records a decision, a counter you raise as you go, or a derived value you work out once and reuse. Holding it in a named variable is cleaner than recomputing it everywhere it is needed, and it gives the value a clear label the rest of the flow can read. If the value has to survive past the current run - a total that carries from one run to the next - a Data Bucket will not keep it; use Shared Memory for that instead.
 
 ## Example
 
-Suppose a flow processes support tickets, and you want to greet the requester by name and keep a running count of how many tickets this run has handled. The trigger hands the flow a ticket, available as Initial Data:
+Suppose a flow processes support tickets, and you want to greet the requester by name and keep a running count of how many tickets this run has handled. When a run starts, the flow receives a ticket as Initial Data:
 
 ```json
 {
@@ -31,9 +32,9 @@ Bucket: Ticket
   processedCount  = Ticket - processedCount + 1
 ```
 
-When the flow reaches the block, both variables are written into the Ticket bucket. A later step reads them back: a message block can drop in the greeting variable to send "Hi Dana Okafor, we are on it.", and a logging step can record that processedCount is now 1. Each new run starts with the Ticket bucket empty, so processedCount begins counting from one again.
+![The Set Variables block selected on the canvas with its configuration panel: the Data Bucket is Ticket, and two Perform Changes rows write greeting (the expression "Hi " plus the Initial Data requester plus ", we are on it.") and processedCount (the Ticket processedCount value plus 1).](../images/reference/set-variables-config.png)
 
-![The Set Variables block on the canvas with its configuration panel: a Data Bucket selector and a Perform Changes section where each row names a variable and gives it a value.](../images/reference/set-variables-config.png)
+When the flow reaches the block, both variables are written into the Ticket bucket. A later step reads them back from there. In its own Expression Editor, a downstream block picks the greeting variable out of the Ticket bucket, which renders as the `Ticket - greeting` pill - the read-back reference that pairs with the greeting you wrote here. A message block built on that pill sends "Hi Dana Okafor, we are on it.", and a logging step reading the `Ticket - processedCount` pill records that processedCount is now 1. Each new run starts with the Ticket bucket empty, so processedCount begins counting from one again.
 
 ## Configuration
 
@@ -51,7 +52,7 @@ When the flow reaches the block, both variables are written into the Ticket buck
 
 ## Things to watch for
 
-- This block does not produce a block result, so there is no Reference Result Data As alias for it. What it leaves behind is the variables themselves, which later steps read by name from the bucket.
+- This block does not produce a block result, so there is no <span class="fr-control">Reference Result Data As</span> alias for it. What it leaves behind is the variables themselves, which later steps read by name from the bucket.
 - A Data Bucket's variables belong to the current run and are gone when the run ends. If a value has to carry over to a future run - a running total, for example - <span class="fr-block">Set Variables</span> will not hold it; use Shared Memory, which keeps its values between runs.
 - Variables are referenced by their bucket and name together, shown as a 'Bucket - name' pill when you pick one in the Expression Editor.
 
@@ -59,4 +60,3 @@ When the flow reaches the block, both variables are written into the Ticket buck
 
 - [Shared Memory: Read](shared-memory-read.md)
 - [Transform Data](transform-data.md)
-- expression-editor

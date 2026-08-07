@@ -1,0 +1,150 @@
+id: ai-text-to-speech
+name: Text To Speech
+category: AI
+kind: native
+
+api:
+  element_type: ACTION
+  meta_type: TEXT_TO_SPEECH
+  config_keys: [input, model, voice, responseFormat, speed, storeResult, onFailElemId, logging, skipBlock]
+
+testability:
+  class: external          # real TTS model call; non-deterministic audio output
+  hermetic: false
+  mock_strategy: "Stub via Skip Block + Simulated Result (supply a sample result with a fileURL). Or assert that a fileURL comes back, not the audio bytes."
+
+docs:
+  purpose: >
+    Turn a piece of text into natural-sounding spoken audio. You hand the block the words you
+    want read aloud and pick a voice, and it returns a ready-to-play audio file - a voiceover for
+    a video, an audio version of an article, a spoken reply for a voice assistant, or an audio
+    alternative that makes written content accessible.
+  mental_model: |
+    You give the block the text to read and choose how it should sound, and it synthesizes the
+    speech and hands you back an audio file. The ((Input)) is the text itself, usually built in the
+    Expression Editor from an earlier block's result so a fresh passage flows in on every run. How
+    it sounds comes from three choices: the ((Voice)), which is the preset speaker reading your text
+    (alloy, nova, fable, and others); the ((Model)), which trades speed against audio fidelity; and
+    the ((Response Format)), the audio file type you get back (mp3, wav, and more). A ((Speed)) control
+    fine-tunes how fast the voice speaks.
+
+    The block does not return the audio bytes inline. It returns a result with a `fileURL` property
+    - a link to the generated audio file - and that is what later blocks read. So a step after this
+    one reaches into the result for `fileURL` and does something with the link: saves it, attaches
+    it to a message, streams it to a user, or hands it to another block. The reply is always under
+    `fileURL`, not the result itself.
+  when_to_use: >
+    Reach for it whenever a step needs to produce spoken audio from text: narrating an article or a
+    blog post, generating a voiceover for content, giving a chatbot or voice assistant something to
+    say back, or adding an audio alternative to written material for accessibility. You will find it
+    in the AI group of the block palette. It is the counterpart to a speech-to-text step - that one
+    turns audio into words, this one turns words into audio. One thing to size up first: a single
+    request is limited to 4,096 characters of input, about five minutes of speech, so for longer
+    content you split the text and run the block once per piece.
+  example:
+    - text: >
+        Suppose an earlier block in a flow has produced a short article summary, and you want to
+        offer readers an audio version of it. The summary arrives as the result of that block - say
+        its alias is `Summary Result`, holding text like this:
+    - lang: text
+      code: |
+        FlowRunner now ships a Text to Speech block. It reads any passage aloud in a
+        voice you choose and returns a ready-to-play audio file.
+    - text: >
+        Add a Text To Speech block from the AI palette group. In ((Input)), build a reference to that
+        summary in the Expression Editor so the live text flows in on every run rather than being
+        pasted as fixed words:
+    - lang: text
+      code: |
+        `{{Summary Result}}`
+    - text: >
+        Pick a ((Voice)) that suits the content - nova reads bright and engaging, a good fit for an
+        article - leave the ((Model)) on tts-1-hd for the cleaner audio, and set the ((Response Format))
+        to mp3 so the file plays anywhere on the web. Leave ((Speed)) at 1.0 for a normal speaking
+        pace, and the block is ready to run.
+    - text: >
+        When the flow runs, the block synthesizes the speech and returns a result carrying the link
+        to the audio file under a `fileURL` property. With the default alias, a following block reads
+        that link through the Expression Editor - open Block Data, expand `Text To Speech Result`, and
+        the `fileURL` property is there to drill into:
+    - lang: text
+      code: |
+        `{{Text To Speech Result->fileURL}}`
+    - text: >
+        Now consume it: drop that reference into a Send Email block so the message links readers to
+        the spoken version, or feed it to an HTTP Request that saves the file to your own storage.
+        The payoff is that one block turned a passage of text into an audio file the rest of your
+        flow can deliver.
+  common: [name, result_alias, assign_variable, skip_block, logging, notes]
+  config:
+    - field: Input
+      type: expression
+      description: >
+        Required. The text to convert to speech, up to 4,096 characters (about five minutes of
+        audio). Usually built in the Expression Editor from an earlier block's result. Standard
+        punctuation guides the pauses and intonation, so write it as you would want it read.
+    - field: Model
+      type: dropdown
+      description: >
+        The speech model, which trades speed against fidelity: tts-1 is tuned for fast, real-time
+        use, tts-1-hd for the best audio quality, and gpt-4o-mini-tts is a newer variant. Defaults
+        to tts-1.
+    - field: Voice
+      type: dropdown
+      description: >
+        The preset speaker that reads your text - alloy (neutral), echo (clear, professional),
+        fable (warm, for storytelling), onyx (deep, authoritative), nova (bright, engaging), and
+        shimmer (expressive). Newer models add further voices. Test a few against your content to
+        find the right tone.
+    - field: Response Format
+      type: dropdown
+      description: >
+        The audio file format you get back: mp3 (default), opus, and aac are compressed and suit
+        web and streaming; flac and wav are lossless for higher quality; pcm is raw audio for custom
+        processing.
+    - field: Speed
+      type: number
+      description: >
+        How fast the voice speaks, from 0.25 to 4.0, where 1.0 is the normal pace (the default).
+        Very high speeds can blur pronunciation on complex words.
+  produces_result: true
+  data_in: The Input text, plus the Voice, Model, Response Format, and Speed you choose.
+  data_out: >
+    A result carrying a link to the generated audio file under a `fileURL` property; later blocks
+    read the link from `fileURL`.
+  gotchas:
+    - "The result is not the audio itself - it is a link to the audio file, under a `fileURL` property. Read it as `Text To Speech Result->fileURL` (with your alias), then save, stream, or attach that link. Reading the result directly, without going through `fileURL`, does not get you the audio."
+    - "A single request is capped at 4,096 characters of input, roughly five minutes of speech. For longer content, split the text at natural breaks (paragraph or sentence ends) and run the block once per piece, keeping the same Voice and Model across them so the narration stays consistent."
+    - "Higher Speed values can affect pronunciation quality, especially on complex or technical words. Test the speed against your actual content rather than assuming a fast pace reads cleanly."
+    - "The voices are tuned for English. They can read other languages, but quality varies, so verify the output when synthesizing non-English text."
+    - "While testing, you can avoid a real model call - and its cost - by turning on ((Skip Block)) and putting a sample result (with a fileURL) in ((Simulated Result)), so the rest of the flow runs against that stand-in."
+  cross_refs: [ai-agent, http-request, custom-cloud-code]
+  terminology: [Text to Speech, Input, Voice, Model, Response Format, Speed]
+
+assertions:
+  - id: returns-file-url
+    when: run-block
+    given: "Input 'hello world', Voice alloy, Model tts-1"
+    expect: { status: Success, result_contains: "fileURL" }
+    note: "Audio output is non-deterministic; assert a fileURL is returned, not the bytes."
+
+known_bugs: []
+
+training:
+  learning_objectives:
+    - "Synthesize speech from text and choose a voice, model, and format."
+    - "Read the generated audio link from the result's fileURL property and consume it downstream."
+    - "Handle the 4,096-character input limit by chunking longer text."
+  prerequisites: [expression-editor]
+  common_mistakes:
+    - "Reading the result directly instead of through fileURL."
+    - "Feeding more than 4,096 characters in one request."
+    - "Assuming high Speed values keep pronunciation clean."
+  exercise: >
+    Feed a short passage into a Text to Speech block, pick a voice and mp3 format, run it, then
+    reference the result's fileURL in a following block.
+
+provenance:
+  confidence: V-config
+  evidence: "Block VERIFIED live in palette 2026-06-24 (element id ai-text-to-speech, name 'Text To Speech', AI group). Config fields confirmed in-product: Input, Model (default tts-1), Voice (default alloy), Response Format (default mp3), Speed (default 1). CORRECTION: there is NO 'AI API Key' field on this block (uses the workspace AI config) - the inferred key field/config_key/prerequisite were removed. Default result alias 'Text To Speech Result'. The fileURL result property is from the legacy doc; not runtime-re-run this pass. Block+config screenshot still to capture."
+  verified_on: 2026-06-24

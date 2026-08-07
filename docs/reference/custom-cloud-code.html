@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Comprehensive documentation for FlowRunner, a no-code platform for automating business processes with ease.">
+        <meta name="description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter.">
       
       
       
@@ -19,8 +19,11 @@
         <link rel="next" href="http-request.html">
       
       
+        
+      
+      
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -28,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -68,7 +71,6 @@
     
       
 
-    
     
     
    <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
@@ -118,7 +120,7 @@
     <a href=".." title="FlowRunner™ User Guide" class="md-header__button md-logo" aria-label="FlowRunner™ User Guide" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet">
+  <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet">
 <g transform="translate(0.000000,1536.000000) scale(0.100000,-0.100000)"
 fill="currentColor" stroke="none">
 <path d="M4650 11485 c-343 -58 -654 -215 -909 -460 -170 -163 -286 -333 -379
@@ -273,7 +275,51 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13a9 9 0 0 0 9 9 9 9 0 0 0-9-9m9 9a9 9 0 0 0 9-9 9 9 0 0 0-9 9m6-19v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V3c.74 0 1.47.12 2.16.39.55.23 1.04.57 1.45 1L12 2l2.39 2.39c.41-.43.9-.77 1.45-1A5.9 5.9 0 0 1 18 3"/></svg>
     
   
-  Learn
+  Welcome
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../definitions.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Platform
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../manage/flows.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Manage
 
         </a>
       </li>
@@ -329,28 +375,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../platform/forms.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  Platform
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
     
   
   
@@ -391,13 +415,13 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../extend/custom-actions.html" class="md-tabs__link">
+        <a href="../api/index.html" class="md-tabs__link">
           
   
   
     
   
-  Extend
+  API
 
         </a>
       </li>
@@ -436,7 +460,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <a href=".." title="FlowRunner™ User Guide" class="md-nav__button md-logo" aria-label="FlowRunner™ User Guide" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet">
+  <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet">
 <g transform="translate(0.000000,1536.000000) scale(0.100000,-0.100000)"
 fill="currentColor" stroke="none">
 <path d="M4650 11485 c-343 -58 -654 -215 -909 -460 -170 -163 -286 -333 -379
@@ -487,12 +511,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
       
-        
-      
-        
-      
-        
-      
     
     
     
@@ -517,9 +535,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13a9 9 0 0 0 9 9 9 9 0 0 0-9-9m9 9a9 9 0 0 0 9-9 9 9 0 0 0-9 9m6-19v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V3c.74 0 1.47.12 2.16.39.55.23 1.04.57 1.45 1L12 2l2.39 2.39c.41-.43.9-.77 1.45-1A5.9 5.9 0 0 1 18 3"/></svg>
   
   <span class="md-ellipsis">
-    Learn
+    
+  
+    Welcome
+  
+
     
   </span>
+  
   
 
             </a>
@@ -534,7 +557,11 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            Learn
+            
+  
+    Welcome
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -546,64 +573,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   
-    <li class="md-nav__item">
-      <a href="../definitions.html" class="md-nav__link">
-        
-  
-  
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2zm0 2h2v2H3m12-.5V9a2 2 0 0 0-2-2H9v10h4a2 2 0 0 0 2-2v-1.5a1.54 1.54 0 0 0-1.5-1.5 1.54 1.54 0 0 0 1.5-1.5M13 15h-2v-2h2zm0-4h-2V9h2m6-2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-1h-2v1h-2V9h2v1h2V9a2 2 0 0 0-2-2Z"/></svg>
-  
-  <span class="md-ellipsis">
-    Terminology
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../learn/quickstart.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Quick Start
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
     
     
-      
-        
-      
-        
-      
-        
-      
-        
       
         
       
@@ -624,26 +595,35 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" >
         
           
-          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
             
   
   
   <span class="md-ellipsis">
-    Core Concepts
+    
+  
+    Quick Starts
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1_4">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2">
             <span class="md-nav__icon md-icon"></span>
-            Core Concepts
+            
+  
+    Quick Starts
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -654,14 +634,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../learn/concepts/flows-and-instances.html" class="md-nav__link">
+      <a href="../learn/quickstart.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Flows & Instances
+    
+  
+    A Contact Us Form (no-code)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -677,14 +662,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../learn/concepts/triggers.html" class="md-nav__link">
+      <a href="../learn/quickstart-code.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Triggers
+    
+  
+    A Contact Us Form (code JS)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -700,106 +690,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../learn/concepts/blocks.html" class="md-nav__link">
+      <a href="../learn/quickstart-agent.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Blocks
+    
+  
+    Automation with an AI Agent
+  
+
     
   </span>
   
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../learn/concepts/variables.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Variables & Data Buckets
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../learn/concepts/expressions.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Expressions
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../learn/concepts/subflows.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Subflows
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../learn/concepts/shared-memory.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Shared Memory
-    
-  </span>
   
 
       </a>
@@ -811,29 +714,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           </ul>
         </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../learn/tutorials.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Tutorials
-    
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -854,6 +734,12 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
     
     
+      
+        
+      
+        
+      
+        
       
         
       
@@ -888,9 +774,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
-    Build
+    
+  
+    Platform
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -899,7 +790,11 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
-            Build
+            
+  
+    Platform
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -910,14 +805,119 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../build/flow-editor.html" class="md-nav__link">
+      <a href="../definitions.html" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2zm0 2h2v2H3m12-.5V9a2 2 0 0 0-2-2H9v10h4a2 2 0 0 0 2-2v-1.5a1.54 1.54 0 0 0-1.5-1.5 1.54 1.54 0 0 0 1.5-1.5M13 15h-2v-2h2zm0-4h-2V9h2m6-2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-1h-2v1h-2V9h2v1h2V9a2 2 0 0 0-2-2Z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/workspace.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    The Flow Editor
+    
+  
+    Workspace
+  
+
     
   </span>
+  
   
 
       </a>
@@ -933,14 +933,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../build/data-and-variables.html" class="md-nav__link">
+      <a href="../learn/concepts/flows-and-instances.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Data & Variables
+    
+  
+    Flows & Instances
+  
+
     
   </span>
+  
   
 
       </a>
@@ -956,14 +961,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../build/flow-control.html" class="md-nav__link">
+      <a href="../learn/concepts/triggers.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Flow Control
+    
+  
+    Triggers
+  
+
     
   </span>
+  
   
 
       </a>
@@ -979,14 +989,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../build/ai-in-flows.html" class="md-nav__link">
+      <a href="../learn/concepts/blocks.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    AI in Flows
+    
+  
+    Blocks
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1002,14 +1017,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../build/integrations.html" class="md-nav__link">
+      <a href="../learn/concepts/variables.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Integrations & I/O
+    
+  
+    Variables & Data Buckets
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1025,17 +1045,466 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../build/managing-flows.html" class="md-nav__link">
+      <a href="../learn/concepts/expressions.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Managing Flows
+    
+  
+    Expression Editor
+  
+
     
   </span>
   
+  
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/concepts/subflows.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Subflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/concepts/shared-memory.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shared Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/forms.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/mcp-servers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Servers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/oauth-connections.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OAuth Connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/api-keys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI API Keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/compliance-and-security.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compliance & Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/sla-goals.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SLA Goals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concept Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concept Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="flow-memory-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="error-handling-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Error Handling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="flows-as-agent-tools-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flows as Agent Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="knowledge-bases-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Bases (RAG stores)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="per-user-memory-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Per-User Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1086,9 +1555,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
-    Run & Monitor
+    
+  
+    Manage
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1097,7 +1571,11 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            Run & Monitor
+            
+  
+    Manage
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1108,14 +1586,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../run/testing.html" class="md-nav__link">
+      <a href="../manage/flows.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Testing
+    
+  
+    Flows
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1131,14 +1614,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../run/running-flows.html" class="md-nav__link">
+      <a href="../manage/workspace-settings.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Running Flows
+    
+  
+    Workspace Settings
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1154,14 +1642,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../run/scheduling.html" class="md-nav__link">
+      <a href="../manage/team.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Scheduling
+    
+  
+    Team
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1177,14 +1670,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../run/monitoring.html" class="md-nav__link">
+      <a href="../manage/billing.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Monitoring & Analytics
+    
+  
+    Billing
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1208,8 +1706,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
     
     
-      
-        
       
         
       
@@ -1242,9 +1738,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
-    Platform
+    
+  
+    Build
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1253,7 +1754,11 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            Platform
+            
+  
+    Build
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1264,14 +1769,122 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/forms.html" class="md-nav__link">
+      <a href="../build/flow-editor.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Forms
+    
+  
+    The Flow Editor
+  
+
     
   </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../build/data-and-variables/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data & Variables
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data & Variables
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/data-and-variables/passing-data.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Passing Data Between Blocks
+  
+
+    
+  </span>
+  
   
 
       </a>
@@ -1287,14 +1900,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/knowledge-bases.html" class="md-nav__link">
+      <a href="../build/data-and-variables/holding-values.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Knowledge Bases
+    
+  
+    Holding Values in Variables
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1310,14 +1928,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/mcp-servers.html" class="md-nav__link">
+      <a href="../build/data-and-variables/reshaping-data.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    MCP Servers
+    
+  
+    Reshaping Data
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1333,14 +1956,138 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/connections.html" class="md-nav__link">
+      <a href="../build/data-and-variables/across-runs.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Connections
+    
+  
+    Sharing Data Across Runs & Flows
+  
+
     
   </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../build/flow-control/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flow Control
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Flow Control
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/branching.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Yes/No Branching
+  
+
+    
+  </span>
+  
   
 
       </a>
@@ -1356,14 +2103,19 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/compliance-and-security.html" class="md-nav__link">
+      <a href="../build/flow-control/routing.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Compliance & Security
+    
+  
+    Routing on a Value
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1379,14 +2131,635 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../platform/workspace.html" class="md-nav__link">
+      <a href="../build/flow-control/repeating.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Workspace
+    
+  
+    Repeating Steps
+  
+
     
   </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/collections.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working Through a List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/parallel.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running Steps in Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/waiting.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a Delay
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/external-callbacks.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Waiting on an External System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/error-handling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handling Errors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with AI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Working with AI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/ai-in-flows.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI in Flows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../build/integrations/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrations & I/O
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integrations & I/O
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/calling-a-service.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calling an External Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/returning-a-result.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Returning a Result
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/running-another-flow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running Another Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/custom-actions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom & Marketplace Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run & Monitor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Run & Monitor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run/testing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run/running-flows.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running Flows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="flow-scheduling-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run/monitoring.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring & Analytics
+  
+
+    
+  </span>
+  
   
 
       </a>
@@ -1425,8 +2798,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
       
-        
-      
     
     
     
@@ -1443,26 +2814,35 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
+    
+  
     Block Reference
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            Block Reference
+            
+  
+    Block Reference
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1495,26 +2875,35 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
         
           
-          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="">
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
+    
+  
     AI
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_1">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
             <span class="md-nav__icon md-icon"></span>
-            AI
+            
+  
+    AI
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1530,9 +2919,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     AI Agent
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1553,9 +2947,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     AI Router
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1625,26 +3024,35 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
+    
+  
     Actions
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_5_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_2">
             <span class="md-nav__icon md-icon"></span>
-            Actions
+            
+  
+    Actions
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1660,9 +3068,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Assign Instance Name
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1683,9 +3096,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Call Flow
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1715,9 +3133,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Custom Cloud Code
+  
+
     
   </span>
+  
   
 
           <span class="md-nav__icon md-icon"></span>
@@ -1728,9 +3151,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Custom Cloud Code
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1753,7 +3181,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
-      How it works
+      
+        How it works
+      
     </span>
   </a>
   
@@ -1762,7 +3192,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#when-to-use-it" class="md-nav__link">
     <span class="md-ellipsis">
-      When to use it
+      
+        When to use it
+      
     </span>
   </a>
   
@@ -1771,7 +3203,20 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     <span class="md-ellipsis">
-      Example
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#as-an-ai-agent-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As an AI Agent tool
+      
     </span>
   </a>
   
@@ -1780,7 +3225,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Configuration
+      
+        Configuration
+      
     </span>
   </a>
   
@@ -1789,7 +3236,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#behavior" class="md-nav__link">
     <span class="md-ellipsis">
-      Behavior
+      
+        Behavior
+      
     </span>
   </a>
   
@@ -1798,7 +3247,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#limitations" class="md-nav__link">
     <span class="md-ellipsis">
-      Limitations
+      
+        Limitations
+      
     </span>
   </a>
   
@@ -1807,7 +3258,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
-      Related
+      
+        Related
+      
     </span>
   </a>
   
@@ -1834,9 +3287,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     HTTP Request
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1857,9 +3315,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Knowledge Base: Add Document
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1880,9 +3343,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Knowledge Base: Delete Document
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1903,9 +3371,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Knowledge Base: Delete by Filter
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1926,9 +3399,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Knowledge Base: List Documents
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1949,9 +3427,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Shared Memory: Delete
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1972,9 +3455,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Shared Memory: Put
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1995,9 +3483,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Shared Memory: Read
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2018,9 +3511,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Start Scheduled Runs
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2041,9 +3539,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Stop Scheduled Runs
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2089,132 +3592,35 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
         
           
-          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
-    Concepts
     
-  </span>
   
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_3">
-            <span class="md-nav__icon md-icon"></span>
-            Concepts
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="flow-scheduling-concept.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Flow Scheduling (Configure Flow Schedule)
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="knowledge-bases-concept.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Knowledge Bases (RAG stores)
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
     Groups
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_4">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
             <span class="md-nav__icon md-icon"></span>
-            Groups
+            
+  
+    Groups
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2230,9 +3636,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Actions Group
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2253,9 +3664,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Triggers Group
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2299,26 +3715,35 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
         
           
-          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="">
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
+    
+  
     Subflows
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_5">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
             <span class="md-nav__icon md-icon"></span>
-            Subflows
+            
+  
+    Subflows
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2334,9 +3759,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     SubFlow
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2380,26 +3810,35 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
         
           
-          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="">
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
+    
+  
     Triggers
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_6">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
             <span class="md-nav__icon md-icon"></span>
-            Triggers
+            
+  
+    Triggers
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2415,9 +3854,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     External Callback
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2481,26 +3925,35 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" >
         
           
-          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="">
+          <label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
+    
+  
     Utils
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_7">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_6">
             <span class="md-nav__icon md-icon"></span>
-            Utils
+            
+  
+    Utils
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2516,9 +3969,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Break
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2539,9 +3997,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Condition
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2562,9 +4025,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Handle Error
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2585,9 +4053,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     List Iterator
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2608,9 +4081,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Repeat
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2631,9 +4109,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Return Result
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2654,9 +4137,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Set Variables
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2677,9 +4165,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Synchronize
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2700,9 +4193,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Transform Data
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2723,9 +4221,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Value Router
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2746,9 +4249,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
   <span class="md-ellipsis">
+    
+  
     Wait
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2782,6 +4290,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
+          
+        
+      
+        
+      
+        
+      
+        
       
     
     
@@ -2796,28 +4312,46 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../api/index.html" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
-    Extend
+    
+  
+    API
+  
+
     
   </span>
   
+  
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
-            Extend
+            
+  
+    API
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -2826,14 +4360,75 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../extend/custom-actions.html" class="md-nav__link">
+      <a href="../api/call-flow.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    About Custom Actions
+    
+  
+    Call Flow
+  
+
     
   </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/activating-a-trigger.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Activating an External Callback
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/block-results.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieving Block Results
+  
+
+    
+  </span>
+  
   
 
       </a>
@@ -2878,7 +4473,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
-      How it works
+      
+        How it works
+      
     </span>
   </a>
   
@@ -2887,7 +4484,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#when-to-use-it" class="md-nav__link">
     <span class="md-ellipsis">
-      When to use it
+      
+        When to use it
+      
     </span>
   </a>
   
@@ -2896,7 +4495,20 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     <span class="md-ellipsis">
-      Example
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#as-an-ai-agent-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As an AI Agent tool
+      
     </span>
   </a>
   
@@ -2905,7 +4517,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Configuration
+      
+        Configuration
+      
     </span>
   </a>
   
@@ -2914,7 +4528,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#behavior" class="md-nav__link">
     <span class="md-ellipsis">
-      Behavior
+      
+        Behavior
+      
     </span>
   </a>
   
@@ -2923,7 +4539,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#limitations" class="md-nav__link">
     <span class="md-ellipsis">
-      Limitations
+      
+        Limitations
+      
     </span>
   </a>
   
@@ -2932,7 +4550,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
-      Related
+      
+        Related
+      
     </span>
   </a>
   
@@ -2948,6 +4568,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           
           
             <div class="md-content" data-md-component="content">
+              
               <article class="md-content__inner md-typeset">
                 
                   
@@ -2955,14 +4576,25 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <!-- GENERATED FILE - do not edit. Source: block-knowledge/custom-cloud-code.yaml. Regenerate: make refgen -->
-<h1 id="custom-cloud-code">Custom Cloud Code<a class="headerlink" href="#custom-cloud-code" title="Permanent link">&para;</a></h1>
+<!-- doclint: allow-unlinked: Custom Cloud Code -->
+<h1 id="custom-cloud-code">Custom Cloud Code<a class="headerlink" data-preview="" href="#custom-cloud-code" title="Permanent link">&para;</a></h1>
 <p>This block runs a snippet of JavaScript as a step in your flow. You pass values in as named arguments, write your logic, and the value you return becomes the block's result.</p>
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
-<p>Each time the flow reaches this block, your code runs once, on the server, as a single step. The arguments you declare arrive as ready-to-use variables, already typed as the arrays, objects, and numbers they were upstream, and whatever your code returns becomes the block's result for the rest of the flow to use. The code runs in its own isolated sandbox, created fresh on every run, which keeps it fast and predictable.</p>
-<h2 id="when-to-use-it">When to use it<a class="headerlink" href="#when-to-use-it" title="Permanent link">&para;</a></h2>
-<p>Reach for it when a few lines of code would be cleaner than wiring up several blocks to do the same thing. Reshaping a payload, computing a value, or combining two blocks' outputs is often a short snippet, where the no-code equivalent might be a chain of <a class="fr-block" href="transform-data.html">Transform Data</a> blocks that clutters the flow. It is also how you do something genuinely custom that no built-in block offers. The one thing it is not for is reaching outside the flow: the code has no network or file access, so let blocks like <a class="fr-block" href="http-request.html">HTTP Request</a> and the database actions handle input and output, and use your code to work on what they return.</p>
-<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
-<p>Suppose an upstream <span class="fr-block">HTTP Request</span> block fetched a list of orders. Declare an argument named orders bound to that block's result, then shape it down to what the next step needs:</p>
+<h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<p>Each time the flow reaches this block, your code runs once, on the server, as a single step.
+Data flows in through the block's <span class="fr-control">Arguments</span> list: each argument is a name plus a value
+<abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr> that reads a previous step's result, and inside the <span class="fr-control">Open Code Editor</span> modal that
+name is a ready-to-use top-level variable. The values arrive already typed as the arrays,
+objects, and numbers they were upstream - nothing is stringified - so an array stays an array
+you can call <code>.filter()</code> on. Whatever your code returns becomes the block's result. Data flows
+back out under the alias you set in <span class="fr-control">Reference Result Data As</span>: later blocks pick that alias in
+the <abbr title="The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.">Expression Editor</abbr> and read into it, for example <span class="fr-expr">Custom Cloud Code Result → openCount</span>.</p>
+<p>The code runs in its own isolated sandbox, created fresh on every run. Because it is a brand-new
+isolate each time, nothing you set persists between runs, and that same isolation is what keeps
+each run fast and predictable.</p>
+<h2 id="when-to-use-it">When to use it<a class="headerlink" data-preview="" href="#when-to-use-it" title="Permanent link">&para;</a></h2>
+<p>Reach for it, from the Actions group in the block palette, when a few lines of code would be cleaner than wiring up several blocks to do the same thing. Reshaping a payload, computing a value, or combining two blocks' outputs is often a short snippet, where the no-code equivalent might be a chain of <a class="fr-block" data-preview="" href="transform-data.html">Transform Data</a> blocks that clutters the flow. It is also how you do something genuinely custom that no built-in block offers. The one thing it is not for is reaching outside the flow: the code has no network or file access, so let blocks like <a class="fr-block" data-preview="" href="http-request.html">HTTP Request</a> and the database actions handle input and output, and use your code to work on what they return.</p>
+<h2 id="example">Example<a class="headerlink" data-preview="" href="#example" title="Permanent link">&para;</a></h2>
+<p>Suppose an upstream <span class="fr-block">HTTP Request</span> block fetched a list of orders. In the <span class="fr-control">Arguments</span> list, add one named orders whose value <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr> is the <span class="fr-block">HTTP Request</span> block's result, then write the code in the <span class="fr-control">Open Code Editor</span> modal to shape that array down to what the next step needs:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// &quot;orders&quot; is the array returned by the HTTP Request block</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">open</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">orders</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">order</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">order</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">);</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">return</span><span class="w"> </span><span class="p">{</span>
@@ -2970,9 +4602,28 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nx">openIds</span><span class="o">:</span><span class="w"> </span><span class="nx">open</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">order</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">order</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">};</span>
 </code></pre></div>
-<p><a class="glightbox" href="../images/reference/custom-cloud-code-example.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Custom Cloud Code editor: an argument named orders bound to the HTTP Request result, alongside the code that uses it." src="../images/reference/custom-cloud-code-example.png" /></a></p>
-<p>The block's result is the object you return, which later blocks read through its alias, <span class="fr-block">Custom Cloud Code</span> Result.</p>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<p><a class="glightbox" href="../images/reference/custom-cloud-code-example.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Code Editor modal: an argument named orders bound to the HTTP Request result, alongside the code that uses it." src="../images/reference/custom-cloud-code-example.png" /></a></p>
+<p>The block's result is the object you return, here <code>{ openCount, openIds }</code>. It is read through the alias set in <span class="fr-control">Reference Result Data As</span>, which for this block is <span class="fr-block">Custom Cloud Code</span> Result. A later step picks that alias in the <abbr title="The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.">Expression Editor</abbr> and reads into the returned object - a <a class="fr-block" data-preview="" href="condition.html">Condition</a> might gate on <span class="fr-expr">Custom Cloud Code Result → openCount</span> &gt; 0, or a Send Email block might list <span class="fr-expr">Custom Cloud Code Result → openIds</span> in its body - so the count and ids the code computed drive the rest of the flow.</p>
+<h2 id="as-an-ai-agent-tool">As an AI Agent tool<a class="headerlink" data-preview="" href="#as-an-ai-agent-tool" title="Permanent link">&para;</a></h2>
+<p><span class="fr-block">Custom Cloud Code</span> can also be handed to an <a class="fr-block" data-preview="" href="ai-agent.html">AI Agent</a> as a tool, so the agent runs your
+snippet on its own when it needs to - to do a calculation or reshape some data mid-task.
+You attach it from the agent block's tools drawer.</p>
+<p>Used this way, and only this way, its arguments gain two extra fields under
+<span class="fr-control">Prepare for AI Agent</span>:</p>
+<ul>
+<li><span class="fr-control">Value Type</span> - the data type the agent must supply, such as a string or a number.</li>
+<li><span class="fr-control">Description</span> - what the argument is for, written for the agent. Together with the
+  type, this is how the agent knows what to pass, and when to reach for the tool.</li>
+</ul>
+<p>The value then decides who supplies each argument:</p>
+<ul>
+<li>Leave a value empty and it becomes one of the tool's parameters - the agent fills it at
+  call time from the type and description.</li>
+<li>Set a value, static or an <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr>, and it is fixed input the agent cannot see or change.</li>
+</ul>
+<p>As an ordinary block step, none of this appears: an argument is just a name and a value.</p>
+<p><a class="glightbox" href="../images/reference/custom-cloud-code-agent-tool.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Code Editor's Arguments panel for a Custom Cloud Code tool: an argument's name and value fields above a Prepare for AI Agent section with a Value Type dropdown and a Description field that tell the agent what to pass." src="../images/reference/custom-cloud-code-agent-tool.png" /></a></p>
+<h2 id="configuration">Configuration<a class="headerlink" data-preview="" href="#configuration" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -2983,11 +4634,11 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <tbody>
 <tr>
 <td>Arguments</td>
-<td>The values your code can use. Each argument has a name and a value, where the value is either static or an expression that references a previous block's result. Inside the code, each argument is available as a top-level variable of the same name.</td>
+<td>The values your code can use. Each argument has a name and a value, where the value is either static or an <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr> that references a previous block's result. Inside the code, each argument is available as a top-level variable of the same name.</td>
 </tr>
 <tr>
 <td>Code</td>
-<td>The JavaScript to run, written in the Open Code Editor modal. Return the value that becomes this block's result.</td>
+<td>The JavaScript to run. Press <span class="fr-control">Open Code Editor</span> to write it in the full-screen Code Editor modal, where the <span class="fr-control">Arguments</span> panel sits beside the editor. Return the value that becomes this block's result.</td>
 </tr>
 </tbody>
 </table>
@@ -3026,7 +4677,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </tr>
 </tbody>
 </table>
-<h2 id="behavior">Behavior<a class="headerlink" href="#behavior" title="Permanent link">&para;</a></h2>
+<h2 id="behavior">Behavior<a class="headerlink" data-preview="" href="#behavior" title="Permanent link">&para;</a></h2>
 <ul>
 <li>async/await and Promises are supported; the block waits for them before capturing the result.
   <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">({</span><span class="w"> </span><span class="nx">ok</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">});</span>
@@ -3045,19 +4696,21 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </code></pre></div></li>
 <li>A floating, un-awaited promise rejection is ignored, and the block returns normally.</li>
 </ul>
-<h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>
+<h2 id="limitations">Limitations<a class="headerlink" data-preview="" href="#limitations" title="Permanent link">&para;</a></h2>
 <ul>
 <li>It is a V8 sandbox (roughly ES2023), not Node. There is no require, fetch, process, Buffer, crypto, setInterval, btoa, or structuredClone.</li>
 <li>The server runs in UTC with the en-US locale; full ICU data is available.</li>
 <li>The result is serialized as JSON. Map, Set, and RegExp become empty objects; NaN and Infinity become null; and undefined, functions, and Symbols are dropped.</li>
 <li>Code runs in non-strict (sloppy) mode in a fresh isolate each time, so nothing persists between runs or instances.</li>
 <li>Execution is capped at 10 seconds. Around 400MB of allocation is fine, and deep recursion raises a RangeError.</li>
+<li>Return an object, not a bare scalar. <code>return 42</code> (or any bare number) fails with "Invalid status code: 42" - wrap it, for example <code>return { value: 42 }</code>.</li>
+<li>A value that cannot be JSON-serialized - a BigInt, or an object with a circular reference - does not error. The block reports Success but silently replaces your result with an error object like <code>{ message: "Do not know how to serialize a BigInt" }</code>, which downstream blocks then read as if it were valid. Return only JSON-serializable values.</li>
 </ul>
-<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
+<h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
-<li>expression-editor</li>
-<li><a href="http-request.html">HTTP Request</a></li>
-<li><a href="handle-error.html">Handle Error</a></li>
+<li><a data-preview="" href="ai-agent.html">AI Agent</a></li>
+<li><a data-preview="" href="http-request.html">HTTP Request</a></li>
+<li><a data-preview="" href="handle-error.html">Handle Error</a></li>
 </ul>
 
 
@@ -3156,10 +4809,11 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["announce.dismiss", "search.suggest", "search.highlight", "search.share", "navigation.footer", "content.tabs.link", "content.tooltips", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow", "content.code.copy", "content.code.annotate", "navigation.indexes"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["announce.dismiss", "search.suggest", "search.highlight", "search.share", "navigation.footer", "content.tabs.link", "content.tooltips", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow", "content.code.copy", "content.code.annotate", "navigation.indexes"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../js/chat-widget.js"></script>
       
