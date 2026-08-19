@@ -188,8 +188,7 @@ stay plain text and are not mistaken for something the editor should work out.
 
 Now the substitutions. A [Custom Cloud Code](../reference/custom-cloud-code.md){.fr-block} block runs a
 snippet of JavaScript on the server as one step of the flow. It gets a fresh sandbox on every run, so
-nothing carries over between runs, and it has no network access - it works on what you hand it and returns
-a value.
+nothing carries over between runs, and it works on what you hand it and returns a value.
 
 That last part is the bit to hold on to. The block does not reach into the flow and help itself to data.
 You pass values in by name, your code returns one value, and that returned value becomes the block's

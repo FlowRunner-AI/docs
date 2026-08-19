@@ -71,6 +71,7 @@ nav:
     - 'Running Flows': run/running-flows.md
     - 'Scheduling': reference/flow-scheduling-concept.md
     - 'Monitoring & Analytics': run/monitoring.md
+    - 'Inspecting a Single Run': run/inspecting-a-run.md
   - 'Block Reference':
     # BEGIN generated reference nav
     - 'AI':

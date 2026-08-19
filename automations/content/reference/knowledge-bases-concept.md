@@ -8,8 +8,7 @@ A Knowledge Base lets an [AI Agent](ai-agent.md){.fr-block} answer from your own
 
 A Knowledge Base does three things: it stores the documents you give it, it indexes them so
 their meaning can be searched, and at question time it finds the pieces most relevant to what
-was asked. So an <span class="fr-block">AI Agent</span> can answer from those pieces instead of guessing from its general
-training.
+was asked.
 
 The indexing is what makes a meaning-based search possible. When you add a document, FlowRunner
 does not keep it as one long block of text. It breaks the document into smaller pieces, called
@@ -22,66 +21,109 @@ too, and the store hands back the chunks whose meaning is nearest - not the ones
 share the same words. That is how a Knowledge Base answers from your content: it finds what is
 relevant by meaning, and the agent writes its answer from those passages.
 
-A Knowledge Base is a standing resource: you set it up once, then feed and manage its documents over
-time. How it slices and embeds your text is fixed when you create it.
-
 <!-- doclint: no-shot: conceptual - how RAG storage, indexing, and retrieval work; the Knowledge Base's own surfaces (nav, setup screen) are shown in the sections below -->
 <!-- doclint: allow-unlinked: Knowledge Base -->
 
 ## When to use it
 
-Reach for a Knowledge Base when you want an <span class="fr-block">AI Agent</span> to answer from facts you supply - a product manual, a policy handbook, a set of support articles - rather than from whatever the model already knows. It keeps answers grounded in your material and lets you update what the AI knows by changing documents instead of retraining anything. The trade-off is that it is a standing resource you configure and feed, not a single block you drop into a flow, so it is worth setting up when an agent needs real, current domain knowledge, and overkill when a short fixed instruction in the agent's prompt would do. <!-- doclint: no-shot: conceptual guidance on when a Knowledge Base is worth it; the AI Agent that draws on it is shown on its own reference page --> <!-- doclint: allow-unlinked: Knowledge Base -->
+Reach for a Knowledge Base when you want an <span class="fr-block">AI Agent</span> to answer from facts you supply rather than from whatever the model already knows. It keeps answers grounded in your material and lets you update what the AI knows by changing documents instead of retraining anything. The trade-off is that it is a standing resource you configure and feed - it needs its own vector store and an embedding API key from an AI provider - not a single block you drop into a flow. So it is worth setting up when an agent needs real, current domain knowledge, and overkill when a short fixed instruction in the agent's prompt would do. <!-- doclint: no-shot: conceptual guidance on when a Knowledge Base is worth it; the AI Agent that draws on it is shown on its own reference page --> <!-- doclint: allow-unlinked: Knowledge Base -->
 
 ## Creating a Knowledge Base
 
-You create a Knowledge Base from the Knowledge Bases group in the workspace navigation - hover
-it and click the <span class="fr-control">+</span>.
+You create a Knowledge Base from the Knowledge Bases group in the workspace navigation,
+under Agent tools & Knowledge - hover the group and click the <span class="fr-control">+</span>.
 
 ![The workspace navigation under Agent tools & Knowledge, hovering the Knowledge Bases group: a plus icon for creating a new Knowledge Base appears at the right, with MCP Servers below.](../images/reference/knowledge-bases-nav.png)
 
 ## The setup screen
 
-The setup screen takes a few things:
+Creating a Knowledge Base is a two-step dialog. The walkthrough below creates a
+Knowledge Base named Product Docs - a store for a product manual an agent will answer
+from - backed by Qdrant, one of the vector stores FlowRunner supports. The first step,
+<span class="fr-control">General Settings</span>, decides what the Knowledge Base is and how it processes text:
 
-- <span class="fr-control">Title</span> and <span class="fr-control">Description</span> - a name and summary for the Knowledge Base.
-- <span class="fr-control">Embedding Model</span> - the model that turns your text into vectors, and an <span class="fr-control">AI API Key</span> for it to run under.
-- <span class="fr-control">Vector Store</span> - the store that holds those vectors.
-- <span class="fr-control">Chunk Size</span> and <span class="fr-control">Chunk Overlap</span> - how each document is sliced into chunks.
+- <span class="fr-control">Title</span> and <span class="fr-control">Description</span> - a name and a required summary for the Knowledge Base.
+- <span class="fr-control">Embedding Model</span> - the model that turns your text into embeddings, picked from the
+  supported AI providers, and an <span class="fr-control">AI API Key</span> - your own key from that provider's
+  account, used whenever your text is sent to the provider to be embedded.
+- <span class="fr-control">Vector Store</span> - which store holds those vectors: MongoDB Atlas, Qdrant, or
+  PostgreSQL with the pgvector extension.
+- <span class="fr-control">Chunk Size</span> and <span class="fr-control">Chunk Overlap</span> - how each document is sliced. Chunk Size caps how
+  many characters one chunk holds; Chunk Overlap repeats the tail of one chunk at the
+  start of the next, so an idea that spans the boundary is not cut in half. Larger chunks
+  preserve more context per match; smaller ones make retrieval more precise.
 
-Together these decide how your text is stored and searched.
-
-!!! warning "In Memory is for testing only"
-    The <span class="fr-control">In Memory</span> vector store does not persist - anything you add to it is held for a
-    short window and then dropped. Use it only while you are trying things out; for anything
-    you need to keep, pick a vector store that persists.
-
-<!-- verified in-product 2026-07-10 (MyProjects -> Knowledge Bases -> Create New AI Knowledge Base): the create dialog carries exactly Title, Description, Embedding Model (default "Text Embedding 3 Small"), AI API Key ("Select API Key Setup or enter new key"), Vector Store (default "In Memory"), Chunk Size (2000), Chunk Overlap (300). Chunk help tooltips verbatim as in the ui block. knowledge-bases-setup.png still matches these fields. -->
+<!-- verified in-product 2026-08-14 (Documentation Flows -> Knowledge Bases -> +): the create dialog is now a two-step wizard titled "Create AI Agents Knowledge Base" with steps "1 General Settings" / "2 Storage Configuration". Step 1 carries Title, Description (REQUIRED - inline "Description is required"), Embedding Model (default "Text Embedding 3 Small"; options grouped by provider: Open AI, Google Gemini AI, Mistral AI, Cohere, Voyage AI), AI API Key (required, "Select API Key Setup or enter new key" + Save as Setup), Vector Store (NO default; exactly MongoDB Atlas / Qdrant / PostgreSQL (pgvector) - the In-Memory adapter was removed in release 1.0.13, FR-3316), Chunk Size (2000), Chunk Overlap (300). Chunk help tooltips verbatim as in the ui block. -->
 <!-- doclint: no-shot: the setup screen is shown by knowledge-bases-setup.png above; this text names the fields it depicts -->
 <!-- doclint: allow-unlinked: Knowledge Base -->
 
-![The Create AI Agents Knowledge Base dialog: a Title of Product Docs, a Description, an Embedding Model set to Text Embedding 3 Small, an AI API Key entered, a Vector Store set to In Memory (flagged as non-persistent), and Chunk Size and Chunk Overlap fields with explanatory help text.](../images/reference/knowledge-bases-setup.png)
+![The first step of the Create AI Agents Knowledge Base dialog, General Settings: a Title of Product Docs, a Description, an Embedding Model set to Text Embedding 3 Small, an AI API Key entered, a Vector Store set to Qdrant, and Chunk Size and Chunk Overlap fields with explanatory help text. A step indicator at the top shows Storage Configuration as the second step.](../images/reference/knowledge-bases-setup.png)
+
+## Connecting the vector store
+
+The vector store is your own database, not something FlowRunner hosts for you. Whichever
+option you pick, you bring a running instance - an Atlas cluster, a Qdrant instance, or a
+PostgreSQL database - and the dialog's second step, <span class="fr-control">Storage Configuration</span>, asks for
+whatever the chosen store needs to connect. For the Product Docs walkthrough, that is the
+Qdrant instance and the collection its vectors will live in:
+
+- **MongoDB Atlas** - the <span class="fr-control">Connection String</span> from your Atlas dashboard (Database →
+  Connect → Drivers). Press <span class="fr-control">Test</span> and the dialog connects to the cluster, then lets you
+  pick the <span class="fr-control">Database Name</span> and <span class="fr-control">Collection Name</span> from what it finds there - or name
+  new ones.
+- **Qdrant** - the instance <span class="fr-control">URL</span> (for Qdrant Cloud, in the form
+  `https://your-cluster.qdrant.io:6333`), an <span class="fr-control">API Key</span>, and the <span class="fr-control">Collection Name</span> that
+  will hold the vectors.
+- **PostgreSQL (pgvector)** - <span class="fr-control">Host</span>, <span class="fr-control">Port</span>, <span class="fr-control">Database</span>, <span class="fr-control">User</span>, <span class="fr-control">Password</span>,
+  and a <span class="fr-control">Table Name</span>. A table that does not exist yet is created for you, with the
+  pgvector extension.
+
+Qdrant and PostgreSQL also offer a <span class="fr-control">Search entire collection</span> checkbox. Left off, a
+search sees only the documents added through this Knowledge Base; turned on, it searches
+everything already stored in that collection or table - useful when the store holds
+embeddings you produced outside FlowRunner.
+
+<!-- verified in-product 2026-08-14 (create dialog step 2, all three stores driven): Qdrant = URL / API Key / Collection Name / Search entire collection; MongoDB Atlas = Connection String (+ Test button; Database Name and Collection Name comboboxes stay disabled - "Test connection first" / "Select database first" - until Test succeeds); PostgreSQL = Host / Port (5432) / Database / User / Password / Table Name (placeholder knowledge_base_vectors) / Search entire collection. Tooltips captured verbatim in the ui block. MongoDB has NO Search entire collection checkbox. -->
+<!-- doclint: allow-unlinked: Knowledge Base -->
+
+![The second step of the Create AI Agents Knowledge Base dialog, Storage Configuration, with Qdrant selected: fields for the instance URL, an API Key, and a Collection Name of product-docs, plus a Search entire collection checkbox, with Back and Create buttons below.](../images/reference/knowledge-bases-storage.png)
+
+## The Knowledge Base's own screen
+
+Once created, Product Docs opens from the same Knowledge Bases group in the
+navigation, and it has two tabs. <span class="fr-control">Setup</span> carries the choices from the create dialog.
+<span class="fr-control">Data</span> lists the documents the Knowledge Base holds and shows each document's status
+while it is being processed.
+
+<!-- doclint: no-shot: MARK'S DECISION 2026-08-15 - Knowledge Bases are verified by the QA team; no recapture work needed. Tabs + editability verified 2026-07-10 on Tests workspace "Test KB" (ui block); the Product Docs Setup/Data shots and the kb-attach-to-agent.png refresh are deliberately NOT being produced. -->
+<!-- doclint: allow-unlinked: Knowledge Base -->
 
 ## Giving a Knowledge Base to an agent
 
 Creating a Knowledge Base does nothing on its own - an agent has to be pointed at it. You do that
 on the <span class="fr-block">AI Agent</span> block: open <span class="fr-control">Manage Capabilities</span>, go to <span class="fr-control">Knowledge</span>, and add the Knowledge
-Base from the list of the workspace's knowledge bases. From then on the agent can search it and
-answer from its documents.
+Base from the list of the workspace's knowledge bases. Once the manual has been added -
+the next section shows how, with an Add Document block - ask the agent a question the
+manual answers, say what the warranty period is, and the reply comes from that document
+instead of from general training.
 
 <!-- verified in-product 2026-07-10 (Tests workspace, "Agent With Knowledge" flow): the AI Agent's Manage Capabilities -> Knowledge category has two groups - "Document Management" (the Add/Delete/List action tools) and "Search", which lists the workspace's knowledge bases (here "Test KB") each with a + to attach. -->
-<!-- LABEL DRIFT observed 2026-08-06 (Documentation Flows, zero KBs): the groups render as "DOCUMENT MANAGEMENT ACTIONS" and "KNOWLEDGE BASES" (empty state: "There are no registered knowledge bases in the workspace. Create a new knowledge base."). Prose above deliberately describes rather than quotes the group label until this is reconciled; the with-KB state could not be re-driven (KB creation needs an embedding-capable key; only an Anthropic key is saved). RECAPTURE kb-attach-to-agent.png + reconcile labels once a KB exists here. -->
+<!-- LABEL DRIFT observed 2026-08-06 (Documentation Flows, zero KBs): the groups render as "DOCUMENT MANAGEMENT ACTIONS" and "KNOWLEDGE BASES" (empty state: "There are no registered knowledge bases in the workspace. Create a new knowledge base."). Prose above deliberately describes rather than quotes the group label. MARK'S DECISION 2026-08-15: KBs are verified by the QA team - the kb-attach-to-agent.png recapture is deliberately NOT being redone; the Test KB shot stands. -->
 
 ![The Manage AI Agent Capabilities window with the Knowledge category selected. The right panel has two groups: Document Management (the Add Document, Delete Document, Delete by Filter, and List Documents action tools) and Search, which lists the workspace's knowledge bases - here "Test KB" - each with a plus button to add it to the agent.](../images/reference/kb-attach-to-agent.png)
 
-## Keeping a Knowledge Base up to date
+## Loading and maintaining documents
 
-A Knowledge Base is read at question time, but you also have to get documents into it and keep
-them current. A flow can do that with the Knowledge Base action blocks:
+A Knowledge Base is read at question time, but the documents have to get into it first.
+For Product Docs, that is a flow with an Add Document block loading the product manual;
+once the document finishes processing on the <span class="fr-control">Data</span> tab, the agent's warranty-period
+answer comes from the manual instead of from general training. The same four action
+blocks then keep the content current:
 
 - [Add Document](knowledge-base-add-document.md){.fr-block} - add a document.
 - [List Documents](knowledge-base-list-documents.md){.fr-block} - list what the Knowledge Base holds.
-- [Delete Document](knowledge-base-delete-document.md){.fr-block} - remove one document by its file id.
-- [Delete by Filter](knowledge-base-delete-by-filter.md){.fr-block} - remove several at once by a metadata filter.
+- [Delete Document](knowledge-base-delete-document.md){.fr-block} - remove one document by its file id, read from an earlier List Documents.
+- [Delete by Filter](knowledge-base-delete-by-filter.md){.fr-block} - remove several at once, filtered on the metadata you attached when adding them.
 
 Because a flow manages the documents, the Knowledge Base can stay in sync with wherever your
 content lives. A flow that runs when a file lands in a Git repo, a row is added to a Google
@@ -97,8 +139,8 @@ an entry that is out of date - instead of you wiring every change into a flow.
 
 ## Things to watch for
 
-- The embedding model, chunk size, chunk overlap, and vector store are set when you create the Knowledge Base and lock once it holds any documents. You cannot change how existing content was sliced or embedded after the fact, so choose these with care up front - to switch, you create a fresh Knowledge Base and add the documents again. The title, description, and <span class="fr-control">AI API Key</span> stay editable, so you can rename it or rotate the key at any time.
-- Adding a document is not instant. A new document shows as Processing while it is being chunked and embedded, and only becomes searchable once it reaches Completed. A query run right after you add will not find content that is still processing.
+- The embedding model, chunk size, chunk overlap, and vector store are chosen in the create dialog, and on a Knowledge Base that holds documents they are read-only - you cannot change how existing content was sliced or embedded after the fact. Treat them as permanent choices: to switch, you create a fresh Knowledge Base and add the documents again. The title, description, and <span class="fr-control">AI API Key</span> stay editable, so you can rename it or rotate the key at any time.
+- Adding a document is not instant. In the document list on the Knowledge Base's <span class="fr-control">Data</span> tab, a new document shows as Processing while it is being chunked and embedded, and only becomes searchable once it reaches Completed. A query run right after you add will not find content that is still processing.
 
 ## Related
 

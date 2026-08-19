@@ -2624,6 +2624,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
       
+        
+      
     
     
     
@@ -2768,6 +2770,34 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
   
     Monitoring & Analytics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run/inspecting-a-run.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspecting a Single Run
   
 
     
@@ -3218,6 +3248,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <span class="md-ellipsis">
       
         Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-code-can-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the code can use
       
     </span>
   </a>
@@ -4517,6 +4558,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
+  <a href="#what-the-code-can-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the code can use
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#as-an-ai-agent-tool" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4594,47 +4646,85 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <p>This block runs a snippet of JavaScript as a step in your flow. You pass values in as named arguments, write your logic, and the value you return becomes the block's result.</p>
 <h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>
 <p>Each time the flow reaches this block, your code runs once, on the server, as a single step.
-Data flows in through the block's <span class="fr-control">Arguments</span> list: each argument is a name plus a value
-<abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr> that reads a previous step's result, and inside the <span class="fr-control">Open Code Editor</span> modal that
-name is a ready-to-use top-level variable. The values arrive already typed as the arrays,
-objects, and numbers they were upstream - nothing is stringified - so an array stays an array
-you can call <code>.filter()</code> on. Whatever your code returns becomes the block's result. Data flows
-back out under the alias you set in <span class="fr-control">Reference Result Data As</span>: later blocks pick that alias in
-the <abbr title="The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.">Expression Editor</abbr> and read into it, for example <span class="fr-expr">Custom Cloud Code Result → openCount</span>.</p>
-<p>The code runs in its own isolated sandbox, created fresh on every run. Because it is a brand-new
-isolate each time, nothing you set persists between runs, and that same isolation is what keeps
-each run fast and predictable.</p>
+Data flows in through the <span class="fr-control">Arguments</span> list on the block's configuration panel. Each
+argument is a name plus a value -
+typically an <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr> that reads a previous step's result. Press <span class="fr-control">Open Code Editor</span> to
+write the code; inside the Code Editor, each argument name is a ready-to-use top-level
+variable. The values arrive already typed, so an array stays an array you can call
+<code>.filter()</code> on. Whatever your code returns
+becomes the block's result, which later blocks read in the <abbr title="The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.">Expression Editor</abbr> under the
+block's result alias - by default, <span class="fr-expr">Custom Cloud Code Result</span>.</p>
+<p>The code runs in its own isolated environment, created fresh on every run - nothing you set
+persists from one run to the next.</p>
 <h2 id="when-to-use-it">When to use it<a class="headerlink" data-preview="" href="#when-to-use-it" title="Permanent link">&para;</a></h2>
-<p>Reach for it, from the Actions group in the block palette, when a few lines of code would be cleaner than wiring up several blocks to do the same thing. Reshaping a payload, computing a value, or combining two blocks' outputs is often a short snippet, where the no-code equivalent might be a chain of <a class="fr-block" data-preview="" href="transform-data.html">Transform Data</a> blocks that clutters the flow. It is also how you do something genuinely custom that no built-in block offers. The one thing it is not for is reaching outside the flow: the code has no network or file access, so let blocks like <a class="fr-block" data-preview="" href="http-request.html">HTTP Request</a> and the database actions handle input and output, and use your code to work on what they return.</p>
+<p>Reach for it when a few lines of code would be cleaner than wiring up several blocks to do the same thing. Reshaping an API response, computing a value, or combining two blocks' outputs is often a short snippet, where the no-code equivalent might be a chain of <a class="fr-block" data-preview="" href="transform-data.html">Transform Data</a> blocks that clutters the flow. It is also how you do something genuinely custom that no built-in block offers. The code can even reach the web itself with <code>fetch</code>, but save that for the occasional call a snippet genuinely needs: a dedicated block like <a class="fr-block" data-preview="" href="http-request.html">HTTP Request</a> shows its call on the canvas, records it in run history, and can retry on failure, none of which a fetch buried in code gets you. You will find the block in the Actions group of the block palette.</p>
 <h2 id="example">Example<a class="headerlink" data-preview="" href="#example" title="Permanent link">&para;</a></h2>
-<p>Suppose an upstream <span class="fr-block">HTTP Request</span> block fetched a list of orders. In the <span class="fr-control">Arguments</span> list, add one named orders whose value <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr> is the <span class="fr-block">HTTP Request</span> block's result, then write the code in the <span class="fr-control">Open Code Editor</span> modal to shape that array down to what the next step needs:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// &quot;orders&quot; is the array returned by the HTTP Request block</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">open</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">orders</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">order</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">order</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">);</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">return</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nx">openCount</span><span class="o">:</span><span class="w"> </span><span class="nx">open</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nx">openIds</span><span class="o">:</span><span class="w"> </span><span class="nx">open</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">order</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">order</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">};</span>
+<p>Suppose an upstream Fetch Orders block (an <span class="fr-block">HTTP Request</span>) fetched a list of orders, and the rest of the flow needs one question answered: how many orders are still open, and which ones - a count to branch on, and the ids to save for the follow-up. Say the fetched list looks like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">[</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1002</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1003</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;shipped&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1005</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">]</span>
 </code></pre></div>
-<p><a class="glightbox" href="../images/reference/custom-cloud-code-example.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Code Editor modal: an argument named orders bound to the HTTP Request result, alongside the code that uses it." src="../images/reference/custom-cloud-code-example.png" /></a></p>
-<p>The block's result is the object you return, here <code>{ openCount, openIds }</code>. It is read through the alias set in <span class="fr-control">Reference Result Data As</span>, which for this block is <span class="fr-block">Custom Cloud Code</span> Result. A later step picks that alias in the <abbr title="The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.">Expression Editor</abbr> and reads into the returned object - a <a class="fr-block" data-preview="" href="condition.html">Condition</a> might gate on <span class="fr-expr">Custom Cloud Code Result → openCount</span> &gt; 0, or a Send Email block might list <span class="fr-expr">Custom Cloud Code Result → openIds</span> in its body - so the count and ids the code computed drive the rest of the flow.</p>
+<p>This block - named Count Open Orders here - answers that question. In its <span class="fr-control">Arguments</span> list, add one argument named <code>orders</code>, and for its value pick the Fetch Orders block's result in the <abbr title="The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.">Expression Editor</abbr>. Then write the code in the Code Editor, opened with <span class="fr-control">Open Code Editor</span>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// &quot;orders&quot; is the array returned by the HTTP Request block</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">open</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">orders</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">order</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">order</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">);</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nx">openCount</span><span class="o">:</span><span class="w"> </span><span class="nx">open</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nx">openIds</span><span class="o">:</span><span class="w"> </span><span class="nx">open</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">order</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">order</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">};</span>
+</code></pre></div>
+<p>The screenshot below shows the editor with <code>orders</code> bound beside this code:</p>
+<p><a class="glightbox" href="../images/reference/custom-cloud-code-example.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Code Editor: an argument named orders bound to the HTTP Request result, alongside the code that uses it." src="../images/reference/custom-cloud-code-example.png" /></a></p>
+<p>Against the sample list above, the code returns this - the block's result:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;openCount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;openIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1002</span><span class="p">,</span><span class="w"> </span><span class="mi">1005</span><span class="p">]</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">}</span>
+</code></pre></div>
+<p>Downstream blocks read the result through its alias - left at its default, <span class="fr-block">Custom Cloud Code</span> Result. In this flow, an Any Open? block (a <a class="fr-block" data-preview="" href="condition.html">Condition</a>) checks whether <span class="fr-expr">Custom Cloud Code Result → openCount</span> is greater than 0, and its Yes branch leads to Save Open Order Ids (a <a class="fr-block" data-preview="" href="set-variables.html">Set Variables</a> block), which stores <span class="fr-expr">Custom Cloud Code Result → openIds</span> in an Open Order Ids variable - ready for whatever notification or reporting step the flow adds next. The count and ids the code computed drive the rest of the flow. On the canvas, the chain reads left to right:</p>
+<p><a class="glightbox" href="../images/reference/custom-cloud-code-canvas.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The wired chain on the canvas: a Fetch Orders HTTP Request block into the selected Count Open Orders Custom Cloud Code block, into an Any Open? Condition whose Yes branch leads to a Save Open Order Ids block. Beside the canvas, the selected block's configuration panel shows its Name, the Open Code Editor button, the orders argument bound to the HTTP Request Result, and the result alias." src="../images/reference/custom-cloud-code-canvas.png" /></a></p>
+<h2 id="what-the-code-can-use">What the code can use<a class="headerlink" data-preview="" href="#what-the-code-can-use" title="Permanent link">&para;</a></h2>
+<p>The runtime is the isolated JavaScript environment described above. Modern language
+features are all there, and a set of familiar globals comes with them:</p>
+<ul>
+<li><code>fetch</code> - real network access. It works as it does in a browser: pass headers as a
+  plain object and the body as a string, and read the response with <code>.json()</code> or
+  <code>.text()</code>. There are no <code>Headers</code>, <code>FormData</code>, or <code>Blob</code> constructors, so stick to
+  plain objects and strings.</li>
+<li><code>crypto</code> - <code>randomUUID()</code>, <code>getRandomValues()</code>, and the WebCrypto <code>subtle</code> API.</li>
+<li><code>Buffer</code> - base64 and hex conversions, and binary data generally.</li>
+<li>Timers - <code>setTimeout</code> and <code>setInterval</code> really wait. To pause your code, wrap one in a
+  Promise and await it: <code>await new Promise(r =&gt; setTimeout(r, 300))</code>.</li>
+<li>Text and URLs - <code>TextEncoder</code> and <code>TextDecoder</code>, <code>atob</code> and <code>btoa</code>, <code>structuredClone</code>,
+  <code>URL</code> and <code>URLSearchParams</code>, and <code>AbortController</code>.</li>
+</ul>
+<p>These globals are everything the runtime provides - anything they do not cover still
+comes into the flow through blocks. What is deliberately not here is Node.js itself; the
+exact list is under Limitations below.</p>
+<!-- verified in-product 2026-08-14 (Documentation Flows "Runtime Probe", post release 1.0.13 / FR-3102): present = fetch, Buffer, crypto (randomUUID/getRandomValues/subtle - SHA-256 digest verified), setTimeout/setInterval/clearTimeout (real 300ms delay), queueMicrotask, TextEncoder/TextDecoder, atob/btoa, structuredClone, URL/URLSearchParams, AbortController/AbortSignal. fetch verified live: GET api.github.com 200 + JSON; POST postman-echo with plain-object headers + string body echoed both. Absent = require, process, dynamic import ("A dynamic import callback was not specified"), Blob, File, FormData, Headers, Request, Response, ReadableStream/WritableStream/TransformStream/CompressionStream, WebSocket, EventTarget, MessageChannel, BroadcastChannel, performance/Performance, Crypto/SubtleCrypto constructors. -->
+<!-- doclint: no-shot: a runtime capability list; the Code Editor itself is shown in the example above -->
+
 <h2 id="as-an-ai-agent-tool">As an AI Agent tool<a class="headerlink" data-preview="" href="#as-an-ai-agent-tool" title="Permanent link">&para;</a></h2>
-<p><span class="fr-block">Custom Cloud Code</span> can also be handed to an <a class="fr-block" data-preview="" href="ai-agent.html">AI Agent</a> as a tool, so the agent runs your
-snippet on its own when it needs to - to do a calculation or reshape some data mid-task.
-You attach it from the agent block's tools drawer.</p>
-<p>Used this way, and only this way, its arguments gain two extra fields under
+<p><span class="fr-block">Custom Cloud Code</span> can also be given to an <a class="fr-block" data-preview="" href="ai-agent.html">AI Agent</a> as a tool, so the agent runs a snippet
+on its own when it decides it needs to - to do a calculation or reshape some data mid-task.
+You attach it from the agent's <span class="fr-control">Manage Capabilities</span> window, where it is listed under
+<span class="fr-control">Utils</span>. The tool then appears in the <span class="fr-control">Tools</span> row on the agent block, and selecting it
+there opens the tool's own configuration.</p>
+<p>A tool turns the block's usual data flow around: instead of the flow handing every value
+in, the agent supplies what you leave open. Leave the code or an argument value empty and
+the agent provides it at runtime; a filled value is locked - the agent cannot see or
+override it.</p>
+<p>In the tool's Code Editor, each argument gains two extra fields under
 <span class="fr-control">Prepare for AI Agent</span>:</p>
 <ul>
 <li><span class="fr-control">Value Type</span> - the data type the agent must supply, such as a string or a number.</li>
 <li><span class="fr-control">Description</span> - what the argument is for, written for the agent. Together with the
   type, this is how the agent knows what to pass, and when to reach for the tool.</li>
 </ul>
-<p>The value then decides who supplies each argument:</p>
-<ul>
-<li>Leave a value empty and it becomes one of the tool's parameters - the agent fills it at
-  call time from the type and description.</li>
-<li>Set a value, static or an <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr>, and it is fixed input the agent cannot see or change.</li>
-</ul>
 <p>As an ordinary block step, none of this appears: an argument is just a name and a value.</p>
+<!-- attach flow re-verified in-product 2026-08-14 (Documentation Flows, post 1.0.13 / FR-3227): Manage Capabilities -> Utils lists exactly Assign Instance Name / Custom Cloud Code ("Runs a JavaScript snippet with typed arguments. Anything left empty is filled in by the agent.") / File Reader / HTTP Request, each with a + to add. Added tool shows in the agent node's "Tools" row; clicking it opens a config panel headed "Custom Cloud Code / AI Tool" with Name, OPEN CODE EDITOR, Notes, and the helper text verbatim: "Leave the code or an argument value empty to let the agent provide it at runtime. Filled values are locked - the agent cannot see or override them." The old "tools drawer" phrasing was replaced with these verified surfaces. -->
+
 <p><a class="glightbox" href="../images/reference/custom-cloud-code-agent-tool.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Code Editor's Arguments panel for a Custom Cloud Code tool: an argument's name and value fields above a Prepare for AI Agent section with a Value Type dropdown and a Description field that tell the agent what to pass." src="../images/reference/custom-cloud-code-agent-tool.png" /></a></p>
 <h2 id="configuration">Configuration<a class="headerlink" data-preview="" href="#configuration" title="Permanent link">&para;</a></h2>
 <table>
@@ -4651,7 +4741,7 @@ You attach it from the agent block's tools drawer.</p>
 </tr>
 <tr>
 <td>Code</td>
-<td>The JavaScript to run. Press <span class="fr-control">Open Code Editor</span> to write it in the full-screen Code Editor modal, where the <span class="fr-control">Arguments</span> panel sits beside the editor. Return the value that becomes this block's result.</td>
+<td>The JavaScript to run. Press <span class="fr-control">Open Code Editor</span> to write it in the full-screen Code Editor, where the <span class="fr-control">Arguments</span> panel sits beside the editor. Return the value that becomes this block's result.</td>
 </tr>
 </tbody>
 </table>
@@ -4692,32 +4782,35 @@ You attach it from the agent block's tools drawer.</p>
 </table>
 <h2 id="behavior">Behavior<a class="headerlink" data-preview="" href="#behavior" title="Permanent link">&para;</a></h2>
 <ul>
-<li>async/await and Promises are supported; the block waits for them before capturing the result.
-  <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">({</span><span class="w"> </span><span class="nx">ok</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">});</span>
+<li>async/await and Promises are supported; a returned Promise is awaited and unwrapped automatically before the result is captured.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">return</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">({</span><span class="w"> </span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="mf">3</span><span class="w"> </span><span class="p">});</span><span class="w">   </span><span class="c1">// result is { count: 3 }</span>
 </code></pre></div></li>
-<li>If you return a Promise, it is awaited and unwrapped automatically.
-  <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">return</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">({</span><span class="w"> </span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="mf">3</span><span class="w"> </span><span class="p">});</span><span class="w">   </span><span class="c1">// result is { count: 3 }</span>
+<li>fetch makes real calls; await it and read the reply from the Response.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">reply</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;Content-Type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;application/json&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">reply</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
 </code></pre></div></li>
-<li>Throwing an Error sets the block's status to Error, using the error's message.
-  <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">&quot;orders is empty&quot;</span><span class="p">);</span>
+<li>Throwing an Error sets the block's status to Error; the message keeps the error's name as a prefix.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">&quot;orders is empty&quot;</span><span class="p">);</span><span class="w">   </span><span class="c1">// the block fails with &quot;Error: orders is empty&quot;</span>
 </code></pre></div></li>
-<li>Throw a real Error object, not a bare string or number; a non-Error throw still fails the block, but its message is lost.
-  <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">throw</span><span class="w"> </span><span class="s2">&quot;nope&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// fails the block, but the message is gone</span>
+<li>A thrown bare string also fails the block, with that string as the message - though a real Error object remains better style.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">throw</span><span class="w"> </span><span class="s2">&quot;nope&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// the block fails with &quot;nope&quot;</span>
 </code></pre></div></li>
-<li>Arguments arrive as native, typed JavaScript values (arrays, objects, numbers, null); nothing is stringified.
-  <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">return</span><span class="w"> </span><span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">orders</span><span class="p">);</span><span class="w">   </span><span class="c1">// true when orders came from an array-returning block</span>
+<li>Even null passes through as-is; nothing is converted to text on the way in.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">return</span><span class="w"> </span><span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">orders</span><span class="p">);</span><span class="w">   </span><span class="c1">// true when orders came from an array-returning block</span>
 </code></pre></div></li>
-<li>A floating, un-awaited promise rejection is ignored, and the block returns normally.</li>
+<li>Any JSON-serializable return value works, scalars included.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">return</span><span class="w"> </span><span class="mf">42</span><span class="p">;</span><span class="w">   </span><span class="c1">// the block&#39;s result is 42</span>
+</code></pre></div></li>
 </ul>
 <h2 id="limitations">Limitations<a class="headerlink" data-preview="" href="#limitations" title="Permanent link">&para;</a></h2>
 <ul>
-<li>It is a V8 sandbox (roughly ES2023), not Node. There is no require, fetch, process, Buffer, crypto, setInterval, btoa, or structuredClone.</li>
-<li>The server runs in UTC with the en-US locale; full ICU data is available.</li>
+<li>You cannot load external libraries or packages - the globals listed under What the code can use are everything available. There is no require, no import, no process, and none of the Node modules (fs, http, zlib, and the rest).</li>
+<li>The server runs in UTC with the en-US locale. Date and number formatting for other locales still works - Intl carries the full locale data.</li>
 <li>The result is serialized as JSON. Map, Set, and RegExp become empty objects; NaN and Infinity become null; and undefined, functions, and Symbols are dropped.</li>
-<li>Code runs in non-strict (sloppy) mode in a fresh isolate each time, so nothing persists between runs or instances.</li>
-<li>Execution is capped at 10 seconds. Around 400MB of allocation is fine, and deep recursion raises a RangeError.</li>
-<li>Return an object, not a bare scalar. <code>return 42</code> (or any bare number) fails with "Invalid status code: 42" - wrap it, for example <code>return { value: 42 }</code>.</li>
-<li>A value that cannot be JSON-serialized - a BigInt, or an object with a circular reference - does not error. The block reports Success but silently replaces your result with an error object like <code>{ message: "Do not know how to serialize a BigInt" }</code>, which downstream blocks then read as if it were valid. Return only JSON-serializable values.</li>
+<li>Code runs in non-strict (sloppy) mode - assigning to an undeclared variable does not throw, so a typo in a variable name can fail silently.</li>
+<li>Time is not the tight limit - runs that compute or wait for over a minute complete fine. Memory is: around 100MB of your own allocations is safe, but a couple of hundred megabytes crashes the execution environment, and the block fails with "Cloud Code execution was interrupted".</li>
+<li>A value that cannot be JSON-serialized - a BigInt, or an object with a circular reference - fails the block with "Return value is not JSON-serializable", naming what could not be converted.</li>
+<li>An un-awaited promise rejection crashes the execution environment and fails the block the same way. Await every promise, or attach a .catch().</li>
 </ul>
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>

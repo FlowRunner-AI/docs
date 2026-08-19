@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://docs.flowrunner.ai/reference/ai-agent.html">
       
       
-        <link rel="prev" href="../run/monitoring.html">
+        <link rel="prev" href="../run/inspecting-a-run.html">
       
       
         <link rel="next" href="ai-router.html">
@@ -2624,6 +2624,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
       
+        
+      
     
     
     
@@ -2768,6 +2770,34 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
   
     Monitoring & Analytics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run/inspecting-a-run.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspecting a Single Run
   
 
     
@@ -4582,8 +4612,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <li><strong>Flows</strong> - your own flows, handed to the agent as tools it can run. A flow you already built becomes a skill the agent can call mid-task; the flow's description and the description of each of its arguments are what tell the agent when to call it and what to pass. Because the agent runs the whole flow and waits for its result, a flow tool can even pause the agent until a person responds. See <a data-preview="" href="flows-as-agent-tools-concept.html">Flows as agent tools</a>.</li>
 <li><strong>Knowledge</strong> - your <a data-preview="" href="knowledge-bases-concept.html"><abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Bases</abbr></a>, exposed as document tools (add, list, and delete documents), so the agent can search your own content and ground its answer in it instead of guessing.</li>
 <li><strong><abbr title="A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.">Shared Memory</abbr></strong> - the flow's own key/value store, so the agent can stash a value mid-task and read it back later, or share state with the rest of the flow. (This is the same store that backs the agent's <a data-preview="" href="flow-memory-concept.html">Messages History</a>.)</li>
-<li><strong>Utils</strong> - a small set of utility tools, such as naming the current instance or making an HTTP request directly.</li>
+<li><strong>Utils</strong> - a small set of utility tools: naming the current instance, making an HTTP request directly, reading a file from a URL, and running a <a data-preview="" href="custom-cloud-code.html">Custom Cloud Code</a> snippet the agent can feed its own inputs to.</li>
 </ul>
+<!-- Utils re-verified in-product 2026-08-14 (Documentation Flows, Manage AI Agent Capabilities -> Utils), post release 1.0.13 / FR-3227: exactly four tools - Assign Instance Name ("Assign a custom name to the current flow instance for identification."), Custom Cloud Code ("Runs a JavaScript snippet with typed arguments. Anything left empty is filled in by the agent."), File Reader ("Read a file from a URL. Supported file types depend on the selected AI provider and model."), HTTP Request ("Send an HTTP request to any URL with configurable method, headers, body, and query parameters."). NOTE this workspace showed FIVE categories (Extensions 3195 / Flows 33 / Knowledge 4 / Shared Memory 3 / Utils 4) - MCP Extensions appears only when MCP servers are registered, and counts have drifted from the 2026-06-24 capture (see parked follow-up: recapture ai-agent-capabilities.png + reconcile counts/groups). -->
+
 <p>You decide what this particular agent gets; it then decides, run by run, which of those tools it actually needs. Leave a tool's input blank and the agent fills it in itself - handy, but the value is its own guess, so pin any input that has to be exact.</p>
 <p><a class="glightbox" href="../images/reference/ai-agent-capabilities.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Manage AI Agent Capabilities window. Down the left, six tool groups with counts - Extensions (1449), MCP Extensions (50), Flows (18), Knowledge (4), Shared Memory (3), and Utils (2) - above a search box. The Knowledge group is selected, listing its document tools on the right: Add Document, Delete by Filter, Delete Document, and List Documents, each with a plus to attach it." src="../images/reference/ai-agent-capabilities.png" /></a></p>
 <h2 id="example">Example<a class="headerlink" data-preview="" href="#example" title="Permanent link">&para;</a></h2>
@@ -4742,7 +4774,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../run/monitoring.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Monitoring &amp; Analytics">
+          <a href="../run/inspecting-a-run.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Inspecting a Single Run">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -4752,7 +4784,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
                 Previous
               </span>
               <div class="md-ellipsis">
-                Monitoring & Analytics
+                Inspecting a Single Run
               </div>
             </div>
           </a>

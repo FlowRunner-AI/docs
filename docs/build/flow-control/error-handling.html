@@ -2760,6 +2760,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
       
+        
+      
     
     
     
@@ -2904,6 +2906,34 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
   
     Monitoring & Analytics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/inspecting-a-run.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspecting a Single Run
   
 
     
@@ -4574,8 +4604,10 @@ in the upper half; fields: Initial delay + Multiplier). Warning shown: retrying 
 MANUAL RETRY (the advanced alternative, still valid): "Retry Logic" (flow BC1713EE): Set Variables (result
 var OUTSIDE the loop) -> Repeat (Max Iteration Count 5) { AI Agent -onFail-> Handle Error -> Wait; success
 -> Set Variables -> Break } -> cloud-code reads the var. Break ends the REPEAT on success. Shot:
-errorhandling-retry. NOTE: the built-in Retry Policy is prod-pending (dev only) - confirm with Mark whether
-to ship §4's built-in copy now or gate it to the prod release.
+errorhandling-retry. RESOLVED 2026-08-14: the built-in Retry Policy shipped to prod in release 1.0.13
+(2026-08-10, FR-2958); prod UI re-verified in Documentation Flows ("Retry Demo" flow) - fields match the
+dev walkthrough (incl. Multiplier, default 2), a 503 run retried 3 attempts with 2s fixed waits, and the
+run-history Element Execution Details gained a "Retry attempts" tab with per-attempt cards.
 PALETTE: Handle Error is in UTILS. SHOTS: errorhandling-terminated (§1), -catch (§2), -read (§3), -retry (§4).
 TODO before final: re-pan §2 (labels clipped); consider OpenAI for a cleaner §3 message; add a §4 run/Logs
 shot (retry passes + Waits, then exhaust); a shot of the Set Variables PICKING Handle Error Result.

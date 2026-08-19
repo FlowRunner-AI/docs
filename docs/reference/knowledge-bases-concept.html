@@ -1581,6 +1581,28 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
+  <a href="#connecting-the-vector-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecting the vector store
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-knowledge-bases-own-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Knowledge Base's own screen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#giving-a-knowledge-base-to-an-agent" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1592,10 +1614,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#keeping-a-knowledge-base-up-to-date" class="md-nav__link">
+  <a href="#loading-and-maintaining-documents" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Keeping a Knowledge Base up to date
+        Loading and maintaining documents
       
     </span>
   </a>
@@ -2770,6 +2792,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
       
+        
+      
     
     
     
@@ -2914,6 +2938,34 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
   
     Monitoring & Analytics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run/inspecting-a-run.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspecting a Single Run
   
 
     
@@ -4514,6 +4566,28 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
+  <a href="#connecting-the-vector-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connecting the vector store
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-knowledge-bases-own-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Knowledge Base's own screen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#giving-a-knowledge-base-to-an-agent" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4525,10 +4599,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#keeping-a-knowledge-base-up-to-date" class="md-nav__link">
+  <a href="#loading-and-maintaining-documents" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Keeping a Knowledge Base up to date
+        Loading and maintaining documents
       
     </span>
   </a>
@@ -4581,8 +4655,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>
 <p>A <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> does three things: it stores the documents you give it, it indexes them so
 their meaning can be searched, and at question time it finds the pieces most relevant to what
-was asked. So an <span class="fr-block">AI Agent</span> can answer from those pieces instead of guessing from its general
-training.</p>
+was asked.</p>
 <p>The indexing is what makes a meaning-based search possible. When you add a document, FlowRunner
 does not keep it as one long block of text. It breaks the document into smaller pieces, called
 chunks, and turns each chunk into an <abbr title="A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.">embedding</abbr> - a list of numbers that captures the meaning of
@@ -4592,54 +4665,93 @@ meanings and return the closest matches.</p>
 too, and the store hands back the chunks whose meaning is nearest - not the ones that happen to
 share the same words. That is how a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> answers from your content: it finds what is
 relevant by meaning, and the agent writes its answer from those passages.</p>
-<p>A <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> is a standing resource: you set it up once, then feed and manage its documents over
-time. How it slices and embeds your text is fixed when you create it.</p>
 <!-- doclint: no-shot: conceptual - how RAG storage, indexing, and retrieval work; the Knowledge Base's own surfaces (nav, setup screen) are shown in the sections below -->
 <!-- doclint: allow-unlinked: Knowledge Base -->
 
 <h2 id="when-to-use-it">When to use it<a class="headerlink" data-preview="" href="#when-to-use-it" title="Permanent link">&para;</a></h2>
-<p>Reach for a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> when you want an <span class="fr-block">AI Agent</span> to answer from facts you supply - a product manual, a policy handbook, a set of support articles - rather than from whatever the model already knows. It keeps answers grounded in your material and lets you update what the AI knows by changing documents instead of retraining anything. The trade-off is that it is a standing resource you configure and feed, not a single block you drop into a flow, so it is worth setting up when an agent needs real, current domain knowledge, and overkill when a short fixed instruction in the agent's prompt would do. <!-- doclint: no-shot: conceptual guidance on when a Knowledge Base is worth it; the AI Agent that draws on it is shown on its own reference page --> <!-- doclint: allow-unlinked: Knowledge Base --></p>
+<p>Reach for a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> when you want an <span class="fr-block">AI Agent</span> to answer from facts you supply rather than from whatever the model already knows. It keeps answers grounded in your material and lets you update what the AI knows by changing documents instead of retraining anything. The trade-off is that it is a standing resource you configure and feed - it needs its own <abbr title="The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.">vector store</abbr> and an <abbr title="A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.">embedding</abbr> API key from an AI provider - not a single block you drop into a flow. So it is worth setting up when an agent needs real, current domain knowledge, and overkill when a short fixed instruction in the agent's prompt would do. <!-- doclint: no-shot: conceptual guidance on when a Knowledge Base is worth it; the AI Agent that draws on it is shown on its own reference page --> <!-- doclint: allow-unlinked: Knowledge Base --></p>
 <h2 id="creating-a-knowledge-base">Creating a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr><a class="headerlink" data-preview="" href="#creating-a-knowledge-base" title="Permanent link">&para;</a></h2>
-<p>You create a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> from the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Bases</abbr> group in the workspace navigation - hover
-it and click the <span class="fr-control">+</span>.</p>
+<p>You create a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> from the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Bases</abbr> group in the workspace navigation,
+under Agent tools &amp; Knowledge - hover the group and click the <span class="fr-control">+</span>.</p>
 <p><a class="glightbox" href="../images/reference/knowledge-bases-nav.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The workspace navigation under Agent tools &amp; Knowledge, hovering the Knowledge Bases group: a plus icon for creating a new Knowledge Base appears at the right, with MCP Servers below." src="../images/reference/knowledge-bases-nav.png" /></a></p>
 <h2 id="the-setup-screen">The setup screen<a class="headerlink" data-preview="" href="#the-setup-screen" title="Permanent link">&para;</a></h2>
-<p>The setup screen takes a few things:</p>
+<p>Creating a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> is a two-step dialog. The walkthrough below creates a
+<abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> named Product Docs - a store for a product manual an agent will answer
+from - backed by Qdrant, one of the vector stores FlowRunner supports. The first step,
+<span class="fr-control">General Settings</span>, decides what the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> is and how it processes text:</p>
 <ul>
-<li><span class="fr-control">Title</span> and <span class="fr-control">Description</span> - a name and summary for the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>.</li>
-<li><span class="fr-control">Embedding Model</span> - the model that turns your text into vectors, and an <span class="fr-control">AI API Key</span> for it to run under.</li>
-<li><span class="fr-control">Vector Store</span> - the store that holds those vectors.</li>
-<li><span class="fr-control">Chunk Size</span> and <span class="fr-control">Chunk Overlap</span> - how each document is sliced into chunks.</li>
+<li><span class="fr-control">Title</span> and <span class="fr-control">Description</span> - a name and a required summary for the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>.</li>
+<li><span class="fr-control">Embedding Model</span> - the model that turns your text into <abbr title="A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.">embeddings</abbr>, picked from the
+  supported AI providers, and an <span class="fr-control">AI API Key</span> - your own key from that provider's
+  account, used whenever your text is sent to the provider to be embedded.</li>
+<li><span class="fr-control">Vector Store</span> - which store holds those vectors: MongoDB Atlas, Qdrant, or
+  PostgreSQL with the pgvector extension.</li>
+<li><span class="fr-control">Chunk Size</span> and <span class="fr-control">Chunk Overlap</span> - how each document is sliced. Chunk Size caps how
+  many characters one chunk holds; Chunk Overlap repeats the tail of one chunk at the
+  start of the next, so an idea that spans the boundary is not cut in half. Larger chunks
+  preserve more context per match; smaller ones make retrieval more precise.</li>
 </ul>
-<p>Together these decide how your text is stored and searched.</p>
-<div class="admonition warning">
-<p class="admonition-title">In Memory is for testing only</p>
-<p>The <span class="fr-control">In Memory</span> <abbr title="The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.">vector store</abbr> does not persist - anything you add to it is held for a
-short window and then dropped. Use it only while you are trying things out; for anything
-you need to keep, pick a <abbr title="The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.">vector store</abbr> that persists.</p>
-</div>
-<!-- verified in-product 2026-07-10 (MyProjects -> Knowledge Bases -> Create New AI Knowledge Base): the create dialog carries exactly Title, Description, Embedding Model (default "Text Embedding 3 Small"), AI API Key ("Select API Key Setup or enter new key"), Vector Store (default "In Memory"), Chunk Size (2000), Chunk Overlap (300). Chunk help tooltips verbatim as in the ui block. knowledge-bases-setup.png still matches these fields. -->
+<!-- verified in-product 2026-08-14 (Documentation Flows -> Knowledge Bases -> +): the create dialog is now a two-step wizard titled "Create AI Agents Knowledge Base" with steps "1 General Settings" / "2 Storage Configuration". Step 1 carries Title, Description (REQUIRED - inline "Description is required"), Embedding Model (default "Text Embedding 3 Small"; options grouped by provider: Open AI, Google Gemini AI, Mistral AI, Cohere, Voyage AI), AI API Key (required, "Select API Key Setup or enter new key" + Save as Setup), Vector Store (NO default; exactly MongoDB Atlas / Qdrant / PostgreSQL (pgvector) - the In-Memory adapter was removed in release 1.0.13, FR-3316), Chunk Size (2000), Chunk Overlap (300). Chunk help tooltips verbatim as in the ui block. -->
 <!-- doclint: no-shot: the setup screen is shown by knowledge-bases-setup.png above; this text names the fields it depicts -->
 <!-- doclint: allow-unlinked: Knowledge Base -->
 
-<p><a class="glightbox" href="../images/reference/knowledge-bases-setup.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Create AI Agents Knowledge Base dialog: a Title of Product Docs, a Description, an Embedding Model set to Text Embedding 3 Small, an AI API Key entered, a Vector Store set to In Memory (flagged as non-persistent), and Chunk Size and Chunk Overlap fields with explanatory help text." src="../images/reference/knowledge-bases-setup.png" /></a></p>
+<p><a class="glightbox" href="../images/reference/knowledge-bases-setup.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The first step of the Create AI Agents Knowledge Base dialog, General Settings: a Title of Product Docs, a Description, an Embedding Model set to Text Embedding 3 Small, an AI API Key entered, a Vector Store set to Qdrant, and Chunk Size and Chunk Overlap fields with explanatory help text. A step indicator at the top shows Storage Configuration as the second step." src="../images/reference/knowledge-bases-setup.png" /></a></p>
+<h2 id="connecting-the-vector-store">Connecting the <abbr title="The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.">vector store</abbr><a class="headerlink" data-preview="" href="#connecting-the-vector-store" title="Permanent link">&para;</a></h2>
+<p>The <abbr title="The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.">vector store</abbr> is your own database, not something FlowRunner hosts for you. Whichever
+option you pick, you bring a running instance - an Atlas cluster, a Qdrant instance, or a
+PostgreSQL database - and the dialog's second step, <span class="fr-control">Storage Configuration</span>, asks for
+whatever the chosen store needs to connect. For the Product Docs walkthrough, that is the
+Qdrant instance and the collection its vectors will live in:</p>
+<ul>
+<li><strong>MongoDB Atlas</strong> - the <span class="fr-control">Connection String</span> from your Atlas dashboard (Database →
+  Connect → Drivers). Press <span class="fr-control">Test</span> and the dialog connects to the cluster, then lets you
+  pick the <span class="fr-control">Database Name</span> and <span class="fr-control">Collection Name</span> from what it finds there - or name
+  new ones.</li>
+<li><strong>Qdrant</strong> - the instance <span class="fr-control">URL</span> (for Qdrant Cloud, in the form
+  <code>https://your-cluster.qdrant.io:6333</code>), an <span class="fr-control">API Key</span>, and the <span class="fr-control">Collection Name</span> that
+  will hold the vectors.</li>
+<li><strong>PostgreSQL (pgvector)</strong> - <span class="fr-control">Host</span>, <span class="fr-control">Port</span>, <span class="fr-control">Database</span>, <span class="fr-control">User</span>, <span class="fr-control">Password</span>,
+  and a <span class="fr-control">Table Name</span>. A table that does not exist yet is created for you, with the
+  pgvector extension.</li>
+</ul>
+<p>Qdrant and PostgreSQL also offer a <span class="fr-control">Search entire collection</span> checkbox. Left off, a
+search sees only the documents added through this <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>; turned on, it searches
+everything already stored in that collection or table - useful when the store holds
+<abbr title="A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.">embeddings</abbr> you produced outside FlowRunner.</p>
+<!-- verified in-product 2026-08-14 (create dialog step 2, all three stores driven): Qdrant = URL / API Key / Collection Name / Search entire collection; MongoDB Atlas = Connection String (+ Test button; Database Name and Collection Name comboboxes stay disabled - "Test connection first" / "Select database first" - until Test succeeds); PostgreSQL = Host / Port (5432) / Database / User / Password / Table Name (placeholder knowledge_base_vectors) / Search entire collection. Tooltips captured verbatim in the ui block. MongoDB has NO Search entire collection checkbox. -->
+<!-- doclint: allow-unlinked: Knowledge Base -->
+
+<p><a class="glightbox" href="../images/reference/knowledge-bases-storage.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The second step of the Create AI Agents Knowledge Base dialog, Storage Configuration, with Qdrant selected: fields for the instance URL, an API Key, and a Collection Name of product-docs, plus a Search entire collection checkbox, with Back and Create buttons below." src="../images/reference/knowledge-bases-storage.png" /></a></p>
+<h2 id="the-knowledge-bases-own-screen">The <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>'s own screen<a class="headerlink" data-preview="" href="#the-knowledge-bases-own-screen" title="Permanent link">&para;</a></h2>
+<p>Once created, Product Docs opens from the same <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Bases</abbr> group in the
+navigation, and it has two tabs. <span class="fr-control">Setup</span> carries the choices from the create dialog.
+<span class="fr-control">Data</span> lists the documents the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> holds and shows each document's status
+while it is being processed.</p>
+<!-- doclint: no-shot: MARK'S DECISION 2026-08-15 - Knowledge Bases are verified by the QA team; no recapture work needed. Tabs + editability verified 2026-07-10 on Tests workspace "Test KB" (ui block); the Product Docs Setup/Data shots and the kb-attach-to-agent.png refresh are deliberately NOT being produced. -->
+<!-- doclint: allow-unlinked: Knowledge Base -->
+
 <h2 id="giving-a-knowledge-base-to-an-agent">Giving a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> to an agent<a class="headerlink" data-preview="" href="#giving-a-knowledge-base-to-an-agent" title="Permanent link">&para;</a></h2>
 <p>Creating a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> does nothing on its own - an agent has to be pointed at it. You do that
 on the <span class="fr-block">AI Agent</span> block: open <span class="fr-control">Manage Capabilities</span>, go to <span class="fr-control">Knowledge</span>, and add the Knowledge
-Base from the list of the workspace's knowledge bases. From then on the agent can search it and
-answer from its documents.</p>
+Base from the list of the workspace's knowledge bases. Once the manual has been added -
+the next section shows how, with an Add Document block - ask the agent a question the
+manual answers, say what the warranty period is, and the reply comes from that document
+instead of from general training.</p>
 <!-- verified in-product 2026-07-10 (Tests workspace, "Agent With Knowledge" flow): the AI Agent's Manage Capabilities -> Knowledge category has two groups - "Document Management" (the Add/Delete/List action tools) and "Search", which lists the workspace's knowledge bases (here "Test KB") each with a + to attach. -->
-<!-- LABEL DRIFT observed 2026-08-06 (Documentation Flows, zero KBs): the groups render as "DOCUMENT MANAGEMENT ACTIONS" and "KNOWLEDGE BASES" (empty state: "There are no registered knowledge bases in the workspace. Create a new knowledge base."). Prose above deliberately describes rather than quotes the group label until this is reconciled; the with-KB state could not be re-driven (KB creation needs an embedding-capable key; only an Anthropic key is saved). RECAPTURE kb-attach-to-agent.png + reconcile labels once a KB exists here. -->
+<!-- LABEL DRIFT observed 2026-08-06 (Documentation Flows, zero KBs): the groups render as "DOCUMENT MANAGEMENT ACTIONS" and "KNOWLEDGE BASES" (empty state: "There are no registered knowledge bases in the workspace. Create a new knowledge base."). Prose above deliberately describes rather than quotes the group label. MARK'S DECISION 2026-08-15: KBs are verified by the QA team - the kb-attach-to-agent.png recapture is deliberately NOT being redone; the Test KB shot stands. -->
 
 <p><a class="glightbox" href="../images/reference/kb-attach-to-agent.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Manage AI Agent Capabilities window with the Knowledge category selected. The right panel has two groups: Document Management (the Add Document, Delete Document, Delete by Filter, and List Documents action tools) and Search, which lists the workspace's knowledge bases - here &quot;Test KB&quot; - each with a plus button to add it to the agent." src="../images/reference/kb-attach-to-agent.png" /></a></p>
-<h2 id="keeping-a-knowledge-base-up-to-date">Keeping a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> up to date<a class="headerlink" data-preview="" href="#keeping-a-knowledge-base-up-to-date" title="Permanent link">&para;</a></h2>
-<p>A <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> is read at question time, but you also have to get documents into it and keep
-them current. A flow can do that with the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> action blocks:</p>
+<h2 id="loading-and-maintaining-documents">Loading and maintaining documents<a class="headerlink" data-preview="" href="#loading-and-maintaining-documents" title="Permanent link">&para;</a></h2>
+<p>A <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> is read at question time, but the documents have to get into it first.
+For Product Docs, that is a flow with an Add Document block loading the product manual;
+once the document finishes processing on the <span class="fr-control">Data</span> tab, the agent's warranty-period
+answer comes from the manual instead of from general training. The same four action
+blocks then keep the content current:</p>
 <ul>
 <li><a class="fr-block" data-preview="" href="knowledge-base-add-document.html">Add Document</a> - add a document.</li>
 <li><a class="fr-block" data-preview="" href="knowledge-base-list-documents.html">List Documents</a> - list what the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> holds.</li>
-<li><a class="fr-block" data-preview="" href="knowledge-base-delete-document.html">Delete Document</a> - remove one document by its file id.</li>
-<li><a class="fr-block" data-preview="" href="knowledge-base-delete-by-filter.html">Delete by Filter</a> - remove several at once by a metadata filter.</li>
+<li><a class="fr-block" data-preview="" href="knowledge-base-delete-document.html">Delete Document</a> - remove one document by its file id, read from an earlier List Documents.</li>
+<li><a class="fr-block" data-preview="" href="knowledge-base-delete-by-filter.html">Delete by Filter</a> - remove several at once, filtered on the metadata you attached when adding them.</li>
 </ul>
 <p>Because a flow manages the documents, the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> can stay in sync with wherever your
 content lives. A flow that runs when a file lands in a Git repo, a row is added to a Google
@@ -4653,8 +4765,8 @@ an entry that is out of date - instead of you wiring every change into a flow.</
 
 <h2 id="things-to-watch-for">Things to watch for<a class="headerlink" data-preview="" href="#things-to-watch-for" title="Permanent link">&para;</a></h2>
 <ul>
-<li>The <abbr title="A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.">embedding</abbr> model, chunk size, chunk overlap, and <abbr title="The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.">vector store</abbr> are set when you create the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> and lock once it holds any documents. You cannot change how existing content was sliced or embedded after the fact, so choose these with care up front - to switch, you create a fresh <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> and add the documents again. The title, description, and <span class="fr-control">AI API Key</span> stay editable, so you can rename it or rotate the key at any time.</li>
-<li>Adding a document is not instant. A new document shows as Processing while it is being chunked and embedded, and only becomes searchable once it reaches Completed. A query run right after you add will not find content that is still processing.</li>
+<li>The <abbr title="A numeric representation of a piece of text that captures its meaning, so similar text sits close together. Knowledge Bases use embeddings to find the documents most related to a query.">embedding</abbr> model, chunk size, chunk overlap, and <abbr title="The database that holds embeddings and finds the closest matches to a query. A Knowledge Base is backed by one.">vector store</abbr> are chosen in the create dialog, and on a <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> that holds documents they are read-only - you cannot change how existing content was sliced or embedded after the fact. Treat them as permanent choices: to switch, you create a fresh <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr> and add the documents again. The title, description, and <span class="fr-control">AI API Key</span> stay editable, so you can rename it or rotate the key at any time.</li>
+<li>Adding a document is not instant. In the document list on the <abbr title="A managed store of documents that FlowRunner indexes so an AI step can search them and ground its answers in your own content. You create and fill Knowledge Bases in the Knowledge Bases area, then read from them in a flow.">Knowledge Base</abbr>'s <span class="fr-control">Data</span> tab, a new document shows as Processing while it is being chunked and embedded, and only becomes searchable once it reaches Completed. A query run right after you add will not find content that is still processing.</li>
 </ul>
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>

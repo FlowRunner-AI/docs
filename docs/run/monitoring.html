@@ -16,7 +16,7 @@
         <link rel="prev" href="../reference/flow-scheduling-concept.html">
       
       
-        <link rel="next" href="../reference/ai-agent.html">
+        <link rel="next" href="inspecting-a-run.html">
       
       
         
@@ -2624,6 +2624,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
       
         
       
+        
+      
     
     
     
@@ -2856,17 +2858,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#reading-a-single-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reading a single run
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2881,6 +2872,34 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="inspecting-a-run.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspecting a Single Run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -4462,17 +4481,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#reading-a-single-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reading a single run
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4501,50 +4509,76 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="monitoring-analytics">Monitoring &amp; Analytics<a class="headerlink" data-preview="" href="#monitoring-analytics" title="Permanent link">&para;</a></h1>
-<p>A live flow runs on its own - monitoring is how you know it is doing what you built it for, and where to look the moment it isn't. Four views answer four questions: the <strong>Dashboard</strong> - what is going on with the flow, and is anything wrong? <strong>Performance</strong> - which step is slow, or starting to fail? <strong>Logs</strong> - what happened, step by step, on a run you need to trace? And opening a single <strong><abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr></strong> - what did that one run do with its data? How far back any of them can look is set by your <strong>workspace billing plan</strong> - the history reaches only as far as the plan's audit-trail retention.</p>
+<p>A live <strong>FlowRunner™</strong> flow runs on its own - monitoring is how you know it is doing what you built it for, and where to look the moment it isn't. Three of the tabs across the top of an opened flow answer the health questions:</p>
+<ul>
+<li><span class="fr-control">Dashboard</span> - what is going on with the flow, and is anything wrong?</li>
+<li><span class="fr-control">Performance</span> - which step is slow, or starting to fail?</li>
+<li><span class="fr-control">Logs</span> - what happened, step by step, on a run you need to trace?</li>
+</ul>
+<p>The fourth question - what did one particular run do with its data? - has its own page: <a data-preview="" href="inspecting-a-run.html">Inspecting a Single Run</a>, reached by opening a run from the <span class="fr-control"><abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></span> tab. The rest of the row belongs to other work: <span class="fr-control">View</span> and <span class="fr-control">Version Admin</span> to reading and administering the version, <span class="fr-control">SLA Goals</span> to the targets covered with <a data-preview="" href="../platform/sla-goals.html">SLA goals</a>. The <span class="fr-control">Dashboard</span>, <span class="fr-control">Performance</span>, and <span class="fr-control"><abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></span> tabs each carry the same <span class="fr-control">From</span> / <span class="fr-control">To</span> date window - with presets like <strong>Past 30 days</strong> - that sets the range their numbers cover, and <span class="fr-control">REFRESH</span> beside it re-reads them, so you can watch a number move. The views read from the flow's run history.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
+<p><a class="glightbox" href="../images/run/monitoring-tab-row.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The tab row of an opened flow - View, Dashboard, Performance, Instances, SLA Goals, Logs, Version Admin - with the From / To date window, its Past 30 days preset, and the REFRESH button beneath it." src="../images/run/monitoring-tab-row.png" /></a></p>
 <h2 id="dashboard-the-flow-at-a-glance">Dashboard - the flow at a glance<a class="headerlink" data-preview="" href="#dashboard-the-flow-at-a-glance" title="Permanent link">&para;</a></h2>
 <p>Open the <span class="fr-control">Dashboard</span> to take in the whole flow at once and catch trouble before you go digging. The headline numbers answer "is anything wrong?":</p>
 <ul>
-<li><strong>Completion Rate</strong> and <strong>Error Rate</strong> - are runs succeeding? A rising Error Rate is your cue to open the Logs or the failing runs.</li>
-<li><strong>Active <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></strong> - how many runs are in flight right now. A count that keeps climbing means runs are starting faster than they finish, and a backlog is building.</li>
+<li><strong>Completion Rate</strong> and <strong>Error Rate</strong> - are runs succeeding? A rising Error Rate is your cue to open the <span class="fr-control">Logs</span> or the failing runs.</li>
+<li><strong>Active <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></strong> - how many runs are in flight. A count that keeps climbing means runs are starting faster than they finish, and a backlog is building.</li>
 <li><strong>Total Runs</strong> - the volume over the range, so you can watch load rise or fall.</li>
-<li><strong>SLA Compliance</strong> - whether runs are hitting the time targets you set as <a data-preview="" href="../platform/sla-goals.html">SLA goals</a>. This carries real data on the Business and Enterprise plans, where SLA tracking lives.</li>
+<li><strong>SLA Compliance</strong> - whether runs are hitting the time targets you set as <a data-preview="" href="../platform/sla-goals.html">SLA goals</a>.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></li>
 </ul>
-<p>Below the numbers is where you make sense of what the flow is doing:</p>
+<p>Below the numbers is where you make sense of what the flow is doing. The example the shots follow is a flow that polls an order until it ships:</p>
 <ul>
-<li><strong>Run history</strong> charts <em>when</em> the flow actually ran, as a heatmap of daily activity. A quiet stretch that should have been busy points at a schedule that stopped; a burst points at a caller gone wild. Click a day to list its runs - each with its time, what started it, and how it ended - so an odd-looking day is one click from the runs behind it. When a flow has more than one version, the Versions list lets you tick which versions to include, to read a new version's behaviour on its own or next to the old one.</li>
+<li><strong>Run history</strong> charts <em>when</em> the flow actually ran, as a heatmap of daily activity with its own year picker, so it reaches further back than the date window above. A quiet stretch that should have been busy points at a schedule that stopped; a burst points at a caller firing far more often than it should. Click a day to list its runs - each with its time, what started it, and how it ended - so an odd-looking day is one click from the runs behind it.</li>
+<li><strong>Versions</strong> - when a flow has more than one version, the Versions list lets you tick which versions the Run history includes, to read a new version's behavior on its own or next to the old one.</li>
+<li>What starts the runs - the chart beside the day's list splits the runs by source: <abbr title="Flow runs that fire automatically on a schedule you set, rather than from a trigger or a manual launch.">Scheduled Runs</abbr>, API, Trigger Event, or Other Execution. This is how you tell a steady scheduled job from an API flood, or notice a trigger firing when nothing should be triggering it.</li>
 </ul>
-<p><a class="glightbox" href="../images/run/monitoring-dashboard.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Dashboard: health cards (SLA Compliance, Completion Rate, Error Rate, Total Runs, Active Instances) above the Run history heatmap, with a day selected to list that day's activations by time, source, and status." src="../images/run/monitoring-dashboard.png" /></a></p>
+<p><a class="glightbox" href="../images/run/monitoring-dashboard.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Dashboard tab: the monitoring tab row and date window above health cards (SLA Compliance, Completion Rate, Error Rate, Total Runs, Active Instances), the Run history heatmap with a day selected, that day's activations listed by time, source, and status, the Versions list beside the heatmap, and the source chart showing 100% API." src="../images/run/monitoring-dashboard.png" /></a></p>
+<p>Two more panels sit below:</p>
 <ul>
-<li><strong>Execution sources</strong> - what is starting your runs: a schedule, an API call, a trigger. This is how you tell a steady scheduled job from an API flood, or notice a trigger firing when nothing should be triggering it.</li>
-<li><strong>Block Transitions</strong> - which paths the runs actually took, drawn onto the flow. A branch that never fires, or one that fires far more often than you expected, stands out against the diagram.</li>
-<li><strong>Problematic <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></strong> - the shortlist worth your attention: the runs that errored or missed an SLA goal, ready to open.</li>
+<li><strong>Block Transitions</strong> - which paths the runs actually took, as a percentage on the connections between blocks, drawn onto the flow diagram. A branch that never fires, or one that fires far more often than you expected, stands out against the diagram.</li>
+<li><strong>Problematic <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></strong> - the shortlist worth your attention: the runs that errored or missed an SLA goal, each row opening the run when clicked. An empty list is the state you want - it means every run in range finished clean. When a run does land here, <a data-preview="" href="inspecting-a-run.html#finding-the-step-that-failed">Inspecting a Single Run</a> covers tracing it to the step that failed.</li>
 </ul>
+<p><a class="glightbox" href="../images/run/monitoring-dashboard-panels.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Dashboard's lower panels: Block Transitions drawing the flow with a percentage badge on the connections between blocks, and the Problematic Instances table - empty here, because every run in range finished without errors or missed SLA goals." src="../images/run/monitoring-dashboard-panels.png" /></a></p>
 <h2 id="performance-where-the-time-goes">Performance - where the time goes<a class="headerlink" data-preview="" href="#performance-where-the-time-goes" title="Permanent link">&para;</a></h2>
-<p>When a flow feels slow, <span class="fr-control">Performance</span> tells you which step to blame. It times every block across the runs in range - <strong>Average</strong>, <strong>Min</strong>, and <strong>Max</strong> time spent in that step - beside its <strong>Error Rate</strong> and SLA <strong>Compliance</strong>. Sort by average time to bring the bottleneck to the top, or by error rate to surface a step that is quietly failing. A block whose max time towers over its average is one that stalls on certain inputs and not others - the kind of intermittent slowness that is hard to catch any other way.</p>
-<p><a class="glightbox" href="../images/run/monitoring-performance.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Performance table: each block with its Average / Min / Max time in step, Error Rate, and Compliance - so the slowest or most error-prone step stands out." src="../images/run/monitoring-performance.png" /></a></p>
+<p>When a flow feels slow, <span class="fr-control">Performance</span> tells you which step to blame. It times every block across the runs in range - <strong>Average</strong>, <strong>Min</strong>, and <strong>Max</strong> time spent in that step - beside its <strong>Error Rate</strong> and <strong>Compliance Status</strong>. Sort by average time to bring the bottleneck to the top, or by error rate to surface a step that is quietly failing. One reading note: a loop block like <a class="fr-block" data-preview="" href="../reference/repeat.html">Repeat</a> appears with its inner blocks nested beneath it, and the loop's own time covers all its passes - so when a loop tops the sort, open its nested rows to find the step actually costing the time. And a block whose max time towers over its average is one that stalls on some runs and not others - intermittent slowness that averages alone would hide.</p>
+<p><a class="glightbox" href="../images/run/monitoring-performance.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Performance table sorted by average time, descending: the Poll Until Shipped loop on top with its inner blocks nested beneath it, each block with its Average / Min / Max time in step, Error Rate, and Compliance Status." src="../images/run/monitoring-performance.png" /></a></p>
 <h2 id="logs-the-play-by-play">Logs - the play-by-play<a class="headerlink" data-preview="" href="#logs-the-play-by-play" title="Permanent link">&para;</a></h2>
-<p>When you need the actual sequence of events rather than the averages, the <span class="fr-control">Logs</span> tab is the raw record: every run, and every block within it, timestamped as it starts and completes, tagged with how the run began. It is where you reconstruct a specific run or pin down the moment one went wrong. Filter to a single run or to errors, and use the toggles to wrap long lines or drop the ids when you just want to read the flow of events.</p>
-<p><a class="glightbox" href="../images/run/monitoring-logs.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Logs stream: timestamped INFO lines for each run and each block, with filter and display controls above." src="../images/run/monitoring-logs.png" /></a></p>
-<h2 id="reading-a-single-run">Reading a single run<a class="headerlink" data-preview="" href="#reading-a-single-run" title="Permanent link">&para;</a></h2>
-<p>The tabs above describe the flow in aggregate; to answer "what did <em>this</em> run do with <em>this</em> data", open a run from the <span class="fr-control"><abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></span> tab. The flow is redrawn as that run took it - every block it executed is ticked, so a wrong branch or a skipped step is obvious at sight - and two panels carry the detail:</p>
+<p>When you need the actual sequence of events, the <span class="fr-control">Logs</span> tab is the raw record: every run, and every block within it, timestamped as it starts and completes, tagged with how the run began. It is where you reconstruct a specific run or pin down the moment one went wrong.</p>
+<p><a class="glightbox" href="../images/run/monitoring-logs.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Logs stream: timestamped INFO lines for each run and each block - execution started, per-block started and completed, execution completed - with the search box, Filter and display toggles, and the Log Source picker above." src="../images/run/monitoring-logs.png" /></a></p>
+<p>The controls above the stream narrow it to what you are tracing. The <span class="fr-control">Log Source</span> picker scopes the stream to a single run - and once one is picked, a <span class="fr-control">Show logging for</span> picker appears to narrow further to one block's lines. Type a term into the search box and tick <span class="fr-control">Filter</span> to keep only the lines whose message matches it, highlighted where they match. Three more controls matter for tracing:</p>
 <ul>
-<li><span class="fr-control"><abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr> Summary</span> - the run's facts: how long it took, whether it errored, which SLA goals it missed, and the <strong><abbr title="The data passed to a flow when a run is started - for example the payload of an API call that launches it. It is available to expressions as Initial Data. (When a trigger starts the flow instead, the trigger's data belongs to the trigger block, not to Initial Data.)">Initial Data</abbr></strong> it started from.</li>
-<li>Select any block and <span class="fr-control">Element Execution Details</span> shows the <strong>Input</strong> it received and the <strong>Output</strong> it produced. That is how you follow a value from the data that arrived, watch each block reshape it, and pin the step where a wrong result first appears.</li>
+<li><span class="fr-control">From</span> / <span class="fr-control">To</span> - scope the stream to a time window.</li>
+<li><span class="fr-control">CLEAR LOG AREA</span> - empty the pane, so you watch only what arrives next.</li>
+<li><span class="fr-control">Basic timestamps</span> - trade the full date on each line for a compact clock time.</li>
 </ul>
-<p><a class="glightbox" href="../images/run/monitoring-instance-detail.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="An opened run: the flow with each executed block ticked, a block selected, and the Instance Summary and that block's Input and Output below." src="../images/run/monitoring-instance-detail.png" /></a></p>
-<p><strong>Loops.</strong> A <a class="fr-block" data-preview="" href="../reference/repeat.html">Repeat</a> or <a class="fr-block" data-preview="" href="../reference/list-iterator.html">List Iterator</a> runs the same inner steps many times, and a bug usually lives in one pass. Its <span class="fr-control">expand</span> icon steps into the loop, and the <span class="fr-control">Iteration #</span> field walks the run pass by pass - so you can jump to the one iteration of forty where a value went wrong and inspect every block on that pass. <span class="fr-control">RETURN</span> steps back out.</p>
-<p><a class="glightbox" href="../images/run/monitoring-loop-iteration.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Inside a loop: its inner blocks each ticked, the Iteration # field to step through passes, and the selected block's Input and Output for the chosen pass." src="../images/run/monitoring-loop-iteration.png" /></a></p>
-<p><strong>Errors.</strong> A failed run flags the error in its <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr> Summary, and the block that broke carries the message in its Output - so a run marked with an error in the list takes you, in a couple of clicks, to the exact step that failed and why.</p>
-<!-- verified in-product 2026-07-15 (Documentation Flows, "Order Poller" v1, 3 real COMPLETED activations; status chip cropped out; sidebar/footer excluded; no personal data - instance UUIDs/timestamps only). Dashboard cards: SLA Compliance / Completion Rate / Error Rate / Total Runs / Active Instances. Run history: calendar heatmap; the Versions list has a per-version checkbox controlling which versions the Run history includes ("Across N selected version"); CLICKING an active day drills in -> a "<date> Flow Activations" list of that day's runs (time, source e.g. API, status COMPLETED) + the execution-source breakdown for it (here 100% API). Execution sources = Scheduled Runs / API / Trigger Event / Other. Block Transitions = per-path % on the flow diagram. Problematic Instances = errored/SLA-missed runs. Performance: per-element AVERAGE/MIN/MAX TIME IN STEP + ERROR RATE + COMPLIANCE, sortable. Logs: timestamped per-run/per-block INFO stream + Filter/Wrap/Shorten IDs/Basic timestamps/Log Source/From-To. Single run: executed path ticked; Instance Summary (timing, Has Errors, Missed Goals, Initial Data); Element Execution Details Input/Output per selected block; loop drill-down via the block's fa-expand icon -> inner blocks + "Iteration #" navigator + per-pass I/O + RETURN. Corrections applied 2026-07-15 per Mark's 2/10 review: teach value not narrate; "workspace billing plan"; dropped the gratuitous flow-naming lede + filler cross-refs. NOT captured: an errored instance (Order Poller has none) - errors described from the verified Has Errors flag + Testing block-error behaviour. History-retention-by-plan and SLA-on-Business/Enterprise are product-owner facts (Mark). -->
+<p><a class="glightbox" href="../images/run/monitoring-logs-narrowed.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The stream narrowed: the Log Source picker holding one run, the Show logging for picker it revealed, and a search for &quot;execution completed&quot; with Filter ticked - only the matching lines remain, the matched text highlighted." src="../images/run/monitoring-logs-narrowed.png" /></a></p>
+<!-- verified in-product 2026-07-15 (Documentation Flows, "Order Poller" v1, 3 real COMPLETED activations; status chip cropped out; sidebar/footer excluded; no personal data - instance UUIDs/timestamps only). Dashboard cards: SLA Compliance / Completion Rate / Error Rate / Total Runs / Active Instances. Run history: calendar heatmap; the Versions list has a per-version checkbox controlling which versions the Run history includes ("Across N selected version"); CLICKING an active day drills in -> a "<date> Flow Activations" list of that day's runs (time, source e.g. API, status COMPLETED) + the execution-source breakdown for it (here 100% API). Execution sources = Scheduled Runs / API / Trigger Event / Other. Block Transitions = per-path % on the flow diagram. Problematic Instances = errored/SLA-missed runs. Performance: per-element AVERAGE/MIN/MAX TIME IN STEP + ERROR RATE + COMPLIANCE, sortable. Corrections applied 2026-07-15 per Mark's 2/10 review: teach value not narrate; "workspace billing plan"; dropped the gratuitous flow-naming lede + filler cross-refs. History-retention-by-plan and SLA-on-Business/Enterprise are product-owner facts (Mark). -->
+<!-- RE-DRIVEN 2026-08-14 (post release 1.0.13; Order Poller's July runs had aged out of run history, so 5 fresh LIVE API activations were launched to repopulate; all shots recaptured at full width, nav rail collapsed):
+TABS + RANGE: tab row (View / Dashboard / Performance / Instances / SLA Goals / Logs / Version Admin - seven tabs; the lede scopes its frame and routes the rest) + the shared From/To window with "Past 30 days" preset + REFRESH captured in-frame in monitoring-dashboard.png; the same From/To bar re-observed on Performance and Instances (Logs has its own From/To row). REFRESH re-reads the view (clicked; no auto-refresh observed - worded as "re-reads them"). Run-history heatmap has an independent YEAR picker (2026) - prose separates the two ranges. The source chart carries NO on-screen heading; its axis labels (Scheduled Runs / API / Trigger Event / Other Execution) are verbatim - the prose lead-in is deliberately plain, not bolded as a label.
+DASHBOARD PANELS: Block Transitions % badges appear on the connections BETWEEN BLOCKS (the Start connection carries none - prose + alt phrased accordingly). Problematic Instances: verified POPULATED on the retry flow's dashboard (errored run E6775B29 listed; clicking the row OPENED the run); the Order Poller panel is legitimately empty (healthy flow) - the shot teaches the empty state.
+PERFORMANCE: recaptured same-day, full width, sorted by AVERAGE TIME IN STEP DESCENDING (arrow visible) - Poll Until Shipped (1s) tops the table with its inner blocks (Wait 1s / Re-fetch Order / Cancelled? / Update Order Status) NESTED beneath it, then the top-level blocks; the loop-container row's time (1s avg) covers the loop body (inner sum ≈ 1.05s per pass) - basis for the "loop tops the sort" reading note. 7 rows all whole; headers verbatim ELEMENT NAME / AVERAGE TIME IN STEP / MIN TIME IN STEP / MAX TIME IN STEP / ERROR RATE / COMPLIANCE STATUS / COMPLIANCE CONDITIONS.
+LOGS: re-verified with the fresh runs. Search+Filter keeps lines whose MESSAGE matches, with the match HIGHLIGHTED (monitoring-logs-narrowed.png); an execution id or block name as the term matches nothing (the filter reads the message segment only) - "filter to a single run" via search removed. Log Source picker (label "All Instances" until picked) scopes to one run: per-line "Execution Name:" prefix drops and the "Show logging for" picker appears (options All + each block name - a BLOCK filter, not severity; no severity/error filter exists on this tab). CLEAR LOG AREA clicked: empties the pane. Basic timestamps: ON = HH:MM:SS.mmm, OFF = full date string. Shorten IDs: visible in the shots but NOT documented - toggling produced NO visible change on these lines (full UUIDs both ways). MARK'S CALL 2026-08-15: it is a BUG; Mark files it in Jira himself; docs stay silent on the control until the fix lands. Now-tailing and Wrap-messages effects not separately exercised - prose names only verified controls.
+NOT re-driven: Active Instances beyond value 0 (prose stays label-level; the climbing-count sentence is arithmetic, not a product claim). Whether the Logs tab's horizon follows the same audit-trail retention as the other tabs was not verified - footnote 1 scopes to the three verified views.
+PAGE SPLIT: Mark decided 2026-08-15 - the single-run drill-down moved to run/inspecting-a-run.md; this page keeps the health views. Intro shot monitoring-tab-row.png is a crop of the same monitoring-dashboard.png capture (tab row + From/To + Past 30 days + REFRESH), placed where the lede names those controls. -->
 
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
+<li><a data-preview="" href="inspecting-a-run.html">Inspecting a Single Run</a> - opening one run to see what it did with its data</li>
 <li><a data-preview="" href="running-flows.html">Running Flows</a> - taking a flow live, and the run list these views draw on</li>
 <li><a data-preview="" href="../platform/sla-goals.html">SLA Goals</a> - the time targets that SLA Compliance measures against</li>
 <li><a data-preview="" href="../learn/concepts/flows-and-instances.html">Flows and <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></a> - the flow-and-run model behind every number here</li>
 <li><a data-preview="" href="../manage/billing.html">Billing</a> - what the runs behind these numbers cost, and how far back the history reaches</li>
 </ul>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>How far back the history reaches - and with it the Dashboard, Performance, and <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr> views - is set by the workspace billing plan's audit-trail retention. <a data-preview="" href="../manage/billing.html">Billing</a> covers the plans.&#160;<a class="footnote-backref" data-preview="" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>SLA tracking carries real data on the Business and Enterprise plans, where <a data-preview="" href="../platform/sla-goals.html">SLA goals</a> live.&#160;<a class="footnote-backref" data-preview="" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
@@ -4599,13 +4633,13 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         
         
           
-          <a href="../reference/ai-agent.html" class="md-footer__link md-footer__link--next" aria-label="Next: AI Agent">
+          <a href="inspecting-a-run.html" class="md-footer__link md-footer__link--next" aria-label="Next: Inspecting a Single Run">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                AI Agent
+                Inspecting a Single Run
               </div>
             </div>
             <div class="md-footer__button md-icon">
