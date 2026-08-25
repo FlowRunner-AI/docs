@@ -428,7 +428,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4985,8 +4985,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -5010,9 +5008,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -5026,14 +5023,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -5047,6 +5038,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -5055,14 +5072,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -5922,8 +5939,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 
-<!-- GENERATED FILE - do not edit. Source: block-knowledge/transform-data.yaml. Regenerate: make refgen -->
-<!-- doclint: allow-unlinked: Transform Data -->
 <h1 id="transform-data">Transform Data<a class="headerlink" data-preview="" href="#transform-data" title="Permanent link">&para;</a></h1>
 <p>This block reshapes a value without writing code. You pick one operation from a built-in library, give it the inputs it asks for, and its result becomes this block's output, ready for the next block to read.</p>
 <h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>
@@ -6019,11 +6034,6 @@ unlisted.</p>
 <strong>Value or Expression to Check</strong> at the value and the operation returns true or
 false - the check you run on an optional field before building on it, with the answer
 stored under the block's alias for a <span class="fr-block">Condition</span> or a later step to read.</p>
-<!-- verified in-product 2026-08-06 (throwaway flow, Run Block x3): "hello" -> true;
-an unresolved reference (null) -> false; the Empty Text common value ("") -> false.
-This operation replaced the old "If Empty" (which returned a fallback value and
-treated only null as empty) - the picker no longer offers If Empty. -->
-
 <p>What counts as no value: <code>null</code> and an empty string <code>""</code> both come back false; a value
 that is actually there comes back true. The operation does not substitute a default -
 it only reports; pair it with a <span class="fr-block">Condition</span> when the two cases need different handling.</p>

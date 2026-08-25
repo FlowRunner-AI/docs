@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4281,8 +4281,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4306,9 +4304,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4322,14 +4319,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4343,6 +4334,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4351,14 +4368,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4523,25 +4540,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="working-through-a-list">Working Through a List<a class="headerlink" data-preview="" href="#working-through-a-list" title="Permanent link">&para;</a></h1>
-<!-- product-exploration log (2026-07-13, Documentation Flows workspace, flow "Cart Summary" 819B4600, built clean this session; run-proven via the activate URL, instance E2935CA8)
-- List Iterator lives in palette UTILS. Config is only Name + List (required) + Skip Block + Notes. Dropped into an empty loop auto-wires to the loop's Start and is marked its first block.
-- DATA SOURCE: an HTTP Request "Fetch Cart" GETs https://dummyjson.com/carts/28 -> Success. Its result alias is "Fetch Cart Result"; the products array is reached as <span class="fr-expr">Fetch Cart Result → products</span> (the output IS the cart object at the root - products is a top-level key, NOT wrapped under body/data). Verified via the Block Data tree.
-- LIST bound: Scan Products, List field = <span class="fr-expr">Fetch Cart Result → products</span> (renders as the chip "Fetch Cart Result -> products").
-- CURRENT ITERATION ITEM: inside a List Iterator, Expression Editor > Variables tab > FLOW CONTEXT offers BOTH "Current Iteration Item" AND "Current Iteration Number" (plus the flow's variables). Current Iteration Item is the WHOLE element; its fields bind (->price, ->title, ->total all resolved). -> reference follow-up: list-iterator.yaml should note Current Iteration Number is offered too, and repeating.md's removed "(and List Iterator)" claim is actually TRUE.
-- STEP-IN: hovering a loop reveals Expand; banner "Block 'Scan Products'"; RETURN top-left exits; a just-expanded loop opens EMPTY.
-- ACCUMULATE (the running total): Set Variables "Add To Total": Cart Total = <span class="fr-expr">Cart Total</span><span class="fr-expr">+</span><span class="fr-expr">Current Iteration Item → total</span>. CRITICAL GOTCHA: a LITERAL "+" between two references is STRING CONCATENATION (Cart Total became "0 + 149.95 + 29.98 + ..."); the editor's PLUS OPERATOR token <span class="fr-expr">+</span> (renders as a GREEN chip) does numeric ADDITION. Fixed by replacing the literal + with the <span class="fr-expr">+</span> operator.
-- MOST EXPENSIVE: Condition "Priciest so far?" = Current Iteration Item->price (DOUBLE) GREATER THAN Top Price; Yes -> Set Variables "Update Top" (Top Price = Current Iteration Item->price, Top Item = Current Iteration Item->title); No -> pass ends. The Condition's numeric comparison is correct (Update Top fired exactly on the 3 rising maxima).
-- SEED (before the loop): Set Variables "Seed Summary" -> Cart Total 0, Top Price 0, Top Item empty.
-- RUN-PROVEN (instance E2935CA8, COMPLETED): 6 products; Add To Total 6x, Priciest so far? 6x, Update Top 3x (29.99 -> 39.99 -> 1099.99). Final: Cart Total RAW = 5944.7699999999995 (floating-point tail from summing decimals; page shows this true value + rounding note); Top Item = "Lenovo Yoga 920", Top Price = 1099.99.
-- ITERATION-SCOPING driven on THIS flow: a Set Variables AFTER the loop offered the PRE-loop "Fetch Cart Result" but NOT the inner Condition's "Priciest so far? Result" (inner results do not survive), while all three Data Bucket variables DID survive; Flow Context offered no Current Iteration Item/Number outside the loop. Scratch block deleted; saved flow matches the run-proof.
-- BREAK inside a List Iterator ends the walk (V-real in break.yaml) - covered CONCEPTUALLY here (Mark: when/why only, no example, no in-flow Break shot).
-- CHIP CONVENTION (Mark, 2026-07-13): Expression-Editor pills are CHIPPED [Current Iteration Item, List], not backticked. Data Bucket variables stay bold pending Mark's word.
-- REWRITES 1-3 (Mark reviews, 2026-07-13): (1) redone concept-first (List Iterator handles ANY array from anywhere; cart is illustration). (2) named the block for step-in, fixed the Expand+Return round-trip, SHOWED Current Iteration Item (new shot), re-shot accumulate with context, informative titles. (3) RESTRUCTURED around the general mechanic Mark named - a loop RUNS THE SAME STEPS ON EVERY ELEMENT, and what those steps do is open (most walks just handle each element on its own, nothing to build up). §2 "Run the same steps on every element" is now the heart; totalling/finding are DEMOTED to §3 "Carry a result out of the loop" as two examples of one concept (per-pass results vanish; use a variable), not the spine.
-- 6 shots: collections-list (List = the fetched products array), listiterator-expand (Scan Products hovered, Expand tooltip+icon - added at §2 step-in), collections-item (Current Iteration Item under Flow Context, reaching a product's price), collections-accumulate (Add To Total config panel - Cart Total = Cart Total <span class="fr-expr">+</span> Current Iteration Item->total), collections-body (the loop body), collections-payoff (final Top Item Lenovo Yoga 920). Pixels read against the prose.
-- CART JSON (§1): the raw GET https://dummyjson.com/carts/28 response was re-fetched to author the §1 code block. Object root has id/products/total(5944.77)/discountedTotal/userId/totalProducts(6)/totalQuantity(23); each product also carries discountPercentage/discountedTotal/thumbnail (TRIMMED in the block, signalled in prose). ACCURACY: the API itself returns the Black & Brown Slipper's total as 99.94999999999999 (a float tail in the raw data) - shown EXACT, not rounded, per the no-false-stored-value rule; it also foreshadows the §3 Cart Total float note.
-- REWRITE 4 (Mark's 5-point round, 2026-07-14): (1) added the cart JSON block before the §1 image; (2) cut the "most walks handle each element on its own" filler; (3) "To work on an element... handed to them fresh" -> "To access the current element... you pick it" (de-folksy); (4) §3 opener rewritten to teach iteration-reset scoping accurately (each pass = clean slate; a step's value does not survive to the next pass; only a Data Bucket variable carries across passes and out); (5) "A running total is the plainest version" generalized to the seed->update->read pattern (total/list/count/find are instances). Open Q surfaced to Mark: is calling a List Iterator a "loop" acceptable (page uses it throughout)?
--->
-
 <p>Flows are full of collections. A database query comes back as rows, an uploaded file parses into
 records, an AI step or an <a class="fr-block" data-preview="" href="../../reference/http-request.html">HTTP Request</a> returns a list,
 and sometimes you assemble one yourself earlier in the run. Whenever you are holding an array like
@@ -4619,8 +4617,6 @@ and <strong>Top Item</strong> to this entry's price and title. Each pass keeps t
 <code>5944.77</code> before showing it to anyone).</p>
 <p><a class="glightbox" href="../../images/build/collections-total.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The step that records the total" src="../../images/build/collections-total.png" /></a></p>
 <h2 id="stop-before-you-reach-the-end">Stop before you reach the end<a class="headerlink" data-preview="" href="#stop-before-you-reach-the-end" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: conceptual "when to reach for Break" - no UI walkthrough, covered on the Break reference -->
-
 <p>You do not always need to walk the whole collection. When a pass finds what you came for, or hits a
 case that makes the rest pointless, a <a class="fr-block" data-preview="" href="../../reference/break.html">Break</a> inside the loop ends
 it at once and the flow carries on after the loop, leaving the remaining entries untouched. Reach for

@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4278,8 +4278,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4303,9 +4301,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4319,14 +4316,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4340,6 +4331,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4348,14 +4365,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4549,8 +4566,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <li>or you launch one by hand with <strong>Run <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr></strong> (see <a data-preview="" href="testing.html">Testing</a>).</li>
 </ul>
 <p>A flow can begin from any of these - it is not tied to a trigger. Each instance is independent: it carries its own data, gets its own execution id, and several can run at once without waiting on each other.</p>
-<!-- doclint: no-shot: conceptual list of the ways a run starts; no single screen depicts them -->
-
 <h2 id="watching-the-runs">Watching the runs<a class="headerlink" data-preview="" href="#watching-the-runs" title="Permanent link">&para;</a></h2>
 <p>Every run a live flow produces is listed on the <span class="fr-control"><abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></span> tab: its name, when it started and finished, how long it took, whether it hit an error, and its status. Filter by date range or by status to find the runs you care about.</p>
 <p><a class="glightbox" href="../images/run/running-flows-instances.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Instances tab listing two completed runs of the flow, each with a start and finish time, a total time, no error, and a status of COMPLETED." src="../images/run/running-flows-instances.png" /></a></p>
@@ -4558,10 +4573,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <p>Open a run to see exactly what it did. The flow is drawn with the path that run took, each block ticked as it executed, and the panel below gives the whole picture: the <span class="fr-control"><abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr> Summary</span> - its timing, status, and the <abbr title="The data passed to a flow when a run is started - for example the payload of an API call that launches it. It is available to expressions as Initial Data. (When a trigger starts the flow instead, the trigger's data belongs to the trigger block, not to Initial Data.)">Initial Data</abbr> it started with - and, block by block, the <span class="fr-control">Input</span> each step received and the <span class="fr-control">Output</span> it produced.</p>
 <p><a class="glightbox" href="../images/run/running-flows-instance-detail.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="An opened instance: the flow with each executed block check-marked, and below it the Instance Summary (timing, status Completed, Initial Data) and a block's Input and Output." src="../images/run/running-flows-instance-detail.png" /></a></p>
 <h2 id="stopping-and-replacing-a-live-flow">Stopping and replacing a live flow<a class="headerlink" data-preview="" href="#stopping-and-replacing-a-live-flow" title="Permanent link">&para;</a></h2>
-<p>While a version is live, <strong>stop</strong> takes it out of LIVE and hands it back as an editable draft, so nothing new starts and you can work on it again. <strong>pause</strong> holds the live version without taking it down.</p>
+<p>While a version is live, <strong>stop</strong> takes it out of LIVE and hands it back as an editable draft, so nothing new starts and you can work on it again. <strong>pause</strong> holds the live version without taking it down: its status becomes On hold, and while it is on hold the version answers nothing - an API call to it is refused exactly as if no version were live. <span class="fr-control">Resume flow</span> takes the place of pause in the toolbar and puts the version back to LIVE.</p>
+<p><a class="glightbox" href="../images/run/running-flows-onhold-toolbar.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The toolbar of a paused flow: the breadcrumb reads Order Lookup / Version 1, the first toolbar icon is a play button with the tooltip Resume flow, and the status badge on the right reads On hold in amber." src="../images/run/running-flows-onhold-toolbar.png" /></a></p>
 <p>To roll out a change, you do not edit the live version in place - you make a <strong>new</strong> version live instead. Clone the live version, change and test the copy, then Start flow on it: the copy becomes the LIVE version and the previous one steps aside, since only one is ever live. See <a data-preview="" href="../manage/flows.html">Flows</a> for cloning and versions.</p>
-<!-- verified in-product 2026-07-13 (Documentation Flows): version status chip READY / LIVE. Verified going live on the safe, inert "Testing Demo" flow (no schedule/trigger, starts with an action, so going live does not auto-run): Start flow (tooltip-verified label) took status Ready -> Live and swapped in pause (lucide-pause) + stop (lucide-square); stop took it Live -> Ready and back to an editable /edit view. Restored Testing Demo to Ready (no net change). Instances tab (Order Poller, 2 real COMPLETED instances): columns Instance Name / Start Time / Finish Time / Total Time / Has Error / Status / Compliance / Missed Goal, with date-range + status filters (ALL / Only With SLA Violations / Only With Errors). Opening an instance shows the flow with each executed block check-marked, an Instance Summary (timing, status, Initial Data e.g. orderId A-1099), and per-block Input/Output. Toolbars cropped from Order Poller (Ready) and Order Approval (Live); no personal data (UUIDs + timestamps only; sidebar/footer excluded). Start paths + one-live-version + executionId + parallel cross-checked against learn/concepts/flows-and-instances.md and legacy content/flow-execution/overview.md. Did NOT verify pause's exact semantics (named only). -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a data-preview="" href="testing.html">Testing</a> - trying a flow before it goes live</li>

@@ -44,7 +44,7 @@ log what went wrong, fall back to a default, alert someone, or retry. See
 
 - [AI Router](../../reference/ai-router.md){.fr-block} - route a run on a decision only an AI can make,
   like free-text intent or an image.
-- [Triggers](../../learn/concepts/triggers.md) - what starts a flow, such as an outside event.
+- [Triggers](../../learn/concepts/triggers.md) - what starts a run of a flow, such as an outside event.
 - [Scheduling](../../reference/flow-scheduling-concept.md) - run a flow on a timetable.
 - [Subflows](../../learn/concepts/subflows.md) and [Call Flow](../../reference/call-flow.md){.fr-block} -
   hand a stretch of work to another flow.

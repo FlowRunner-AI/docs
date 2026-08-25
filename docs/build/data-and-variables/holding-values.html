@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4292,8 +4292,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4317,9 +4315,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4333,14 +4330,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4354,6 +4345,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4362,14 +4379,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4551,8 +4568,6 @@ built up over several steps, survive a loop, or be read under one name whichever
 page is about when to reach for one and the shapes that keep coming up. For what a variable is, and how to
 write, read, and clear one, see <a data-preview="" href="../../learn/concepts/variables.html">Variables &amp; <abbr title="A named container for a flow's variables during a single run. Each value has its own label, so a step can store something under a name and a later step can read it back. A Data Bucket resets when the run ends - for state that has to survive between runs, use Shared Memory instead.">Data Buckets</abbr></a>.</p>
 <h2 id="when-you-need-a-variable">When you need a variable<a class="headerlink" data-preview="" href="#when-you-need-a-variable" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: a decision list, not a screen; the loop blocks are named only as where the need arises and each is pictured on its own page -->
-
 <p>Reach for one when any of these is true:</p>
 <ul>
 <li><strong>The value changes as the run goes.</strong> A running total, a count, a list you keep adding to. A block
@@ -4571,8 +4586,6 @@ write, read, and clear one, see <a data-preview="" href="../../learn/concepts/va
 <p>If none of those apply, skip the variable and read the block's result directly. It is one less thing to
 keep in your head.</p>
 <h2 id="building-a-value-up-as-the-run-goes">Building a value up as the run goes<a class="headerlink" data-preview="" href="#building-a-value-up-as-the-run-goes" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: the two accumulation idioms are shown step by step, with shots, on Working Through a List and the List Iterator reference -->
-
 <p>Accumulating always has the same shape: set the variable <strong>before</strong> the loop, update it on each pass, and
 read it after. What differs is the block that does the updating, and picking the wrong one is the usual
 mistake.</p>

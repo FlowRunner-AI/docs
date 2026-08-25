@@ -37,7 +37,7 @@ A failed run arrives flagged everywhere you might look for it. In the ((Instance
 
 ![The Instances list with an errored run: the row marked TERMINATED, its Has Error column filled, above it the status filter and the Only With Errors checkbox.](../images/run/monitoring-error-list.png)
 
-The same run lands in the [Dashboard's](monitoring.md#dashboard---the-flow-at-a-glance) Problematic Instances shortlist, where clicking the row opens it:
+The same run lands in the [Dashboard's](monitoring.md#dashboard-the-flow-at-a-glance) Problematic Instances shortlist, where clicking the row opens it:
 
 ![The Problematic Instances panel with the errored run listed: the row marked TERMINATED with its Has Error column filled.](../images/run/monitoring-problematic.png)
 

@@ -101,5 +101,10 @@ gate, then claimed it "belonged in the gate" - a contradiction he rightly caught
       the dependency sequence already taught; it introduces, then links, each new term.
 - [ ] **Adversarial review pass.** A separate reviewer read the page against this list
       with the job of FINDING violations, and returned none open.
+- [ ] **Every evidence pointer resolves, and every "fixed" claim is verifiable in the artifact.** Before
+      handoff, grep each verdict/ledger pointer's target (a "Round N block" must exist in the file the
+      pointer names) and re-grep the page for each edit the ledger claims (a silent no-op replace is how a
+      "fixed" claim and the artifact diverge - it happened on Call Flow, five recurrences of dangling
+      pointers before the rule was written, 2026-08-24). Assert on every programmatic text replacement.
 - [ ] **Reported honestly.** "Done" is claimed only after all the above — Mark is not
       the one who finds the holes.

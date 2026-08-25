@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4292,8 +4292,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4317,9 +4315,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4333,14 +4330,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4354,6 +4345,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4362,14 +4379,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4550,15 +4567,11 @@ need does not exist, you do not have to fall back to hand-built API calls for th
 you can add to the blocks available to you. Check what is already there first, then work down the ways to
 add something, because the first that fits is nearly always the least work.</p>
 <h2 id="first-check-what-already-exists">First, check what already exists<a class="headerlink" data-preview="" href="#first-check-what-already-exists" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: an ordering of the options, not a screen; the built-in categories are pictured on the Blocks concept page -->
-
 <p>A large library of <strong>Extensions</strong> ships with FlowRunner - blocks for outside services like Acumatica,
 Airtable, Apollo, Asana, Slack, Stripe, and many more - with nothing to install. Beyond those, a
 <strong>Marketplace</strong> offers pre-built actions you can install into your workspace. Before building anything,
 check whether the capability you need is already covered. See <a data-preview="" href="../../learn/concepts/blocks.html">Blocks</a>.</p>
 <h2 id="add-a-services-tools-with-an-mcp-server">Add a service's tools with an <abbr title="A Model Context Protocol server that exposes tools an AI Agent can call. Register one to give your agent extra capabilities beyond the built-in blocks.">MCP server</abbr><a class="headerlink" data-preview="" href="#add-a-services-tools-with-an-mcp-server" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: routes to the MCP Servers page, which pictures registration, the tools, and attaching them to an agent -->
-
 <p>If the service publishes tools through the Model Context Protocol, registering its server once brings its
 whole catalog in. Those tools then appear as blocks you drop into a flow, and they are simultaneously
 available to your <a class="fr-block" data-preview="" href="../../reference/ai-agent.html">AI Agent</a> blocks as tools an agent can call on
@@ -4571,8 +4584,6 @@ other flows, so a routine becomes a reusable step without writing anything new. 
 of extension because you get it the moment the flow exists. See
 <a data-preview="" href="running-another-flow.html">Running Another Flow</a>.</p>
 <h2 id="build-your-own-action">Build your own action<a class="headerlink" data-preview="" href="#build-your-own-action" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: the authoring experience is being rebuilt and is not documented yet; the Custom Cloud Code screens are on its reference page -->
-
 <p>When nothing above fits - a proprietary system, a piece of logic that has to run as one unit - you can
 package your own block. For a one-off piece of code inside a single flow, a
 <a class="fr-block" data-preview="" href="../../reference/custom-cloud-code.html">Custom Cloud Code</a> block runs what you write without

@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4275,8 +4275,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4300,9 +4298,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4316,14 +4313,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4337,6 +4328,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4345,14 +4362,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4516,8 +4533,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 
-<!-- GENERATED FILE - do not edit. Source: block-knowledge/flows-as-agent-tools-concept.yaml. Regenerate: make refgen -->
-<!-- doclint: allow-unlinked: Flows as Agent Tools -->
 <h1 id="flows-as-agent-tools">Flows as Agent Tools<a class="headerlink" data-preview="" href="#flows-as-agent-tools" title="Permanent link">&para;</a></h1>
 <p>An <a class="fr-block" data-preview="" href="ai-agent.html">AI Agent</a> can use your own flows as tools - as many as a task needs. From a short description you write on each flow, the agent decides on its own when to call it and what to pass, then uses whatever the flow returns. Because the agent runs the whole flow and waits for the result, a flow tool can do real work a single model call cannot - including waiting on a person.</p>
 <h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>
@@ -4528,9 +4543,6 @@ flow. Add as many as the work needs.</p>
 <p>The agent runs whatever the flow's current LIVE version is - which is what the "Execute ... flow
 (LIVE version)" line on each entry means. A flow you have built but not yet set LIVE will not do
 anything when the agent calls it.</p>
-<!-- verified in-product 2026-07-09 (Block Captures, Manage AI Agent Capabilities -> Flows): every flow entry reads 'Execute "<name>" flow (LIVE version)', so the agent invokes the flow's LIVE version; a flow with no LIVE version cannot be invoked (parity with call-flow.md: "only a published flow can be started; a draft in the list cannot actually be invoked"). -->
-<!-- doclint: no-shot: the LIVE-version text is visible in the attach screenshot above (flow-tool-attach.png). -->
-
 <p>The agent never sees the flow's inner blocks. It decides whether to call a flow, and what to pass,
 from two descriptions you write on the flow's own <span class="fr-control">Flow Settings</span> panel:</p>
 <ul>
@@ -4554,13 +4566,10 @@ runs. A quick lookup is back in a moment; a flow that waits - on an approval, a 
 system, a person - keeps the agent suspended with it, for minutes, hours, or days<sup id="fnref:plan"><a class="footnote-ref" href="#fn:plan">1</a></sup>. The agent
 resumes the instant the flow returns.</p>
 <h2 id="when-to-use-it">When to use it<a class="headerlink" data-preview="" href="#when-to-use-it" title="Permanent link">&para;</a></h2>
-<p>Reach for a flow tool when the agent needs work you have already built as a flow, or work that is more than a single model call can do: a lookup against your own data, a multi-step process with branches, an action that waits on the outside world. When a one-shot built-in action is all you need, attach that instead. And when you want one flow to call another directly - with no agent deciding when - use <a class="fr-block" data-preview="" href="call-flow.html">Call Flow</a> instead of a flow tool. <!-- doclint: no-shot: conceptual guidance on when to choose a flow tool; Call Flow is named only as the escape hatch and is shown on its own reference page --> <!-- doclint: allow-unlinked: Call Flow --></p>
+<p>Reach for a flow tool when the agent needs work you have already built as a flow, or work that is more than a single model call can do: a lookup against your own data, a multi-step process with branches, an action that waits on the outside world. When a one-shot built-in action is all you need, attach that instead. And when you want one flow to call another directly - with no agent deciding when - use <a class="fr-block" data-preview="" href="call-flow.html">Call Flow</a> instead of a flow tool.  </p>
 <h2 id="putting-a-human-in-the-loop">Putting a human in the loop<a class="headerlink" data-preview="" href="#putting-a-human-in-the-loop" title="Permanent link">&para;</a></h2>
 <p>A flow tool is how an agent waits for a person without parking the rest of your automation. Build a flow that gets a human decision - send an email, or a Slack, Telegram, or WhatsApp message with an approve/decline choice, or open a task for a reviewer - and then waits for the answer. The answer usually comes back the way the request went out: as a trigger (the person's reply email or chat message) or through an <a class="fr-block" data-preview="" href="external-callback.html">External Callback</a>. Describe the flow by what it achieves - for example "get a manager's approval for a refund over $100" - with an input described as "the refund amount and the reason".</p>
 <p>When the agent decides it needs sign-off, it calls the flow and suspends. The request goes out, and the agent waits - an hour, a day, however long the person takes. It does not poll and does not give up; it is parked until the flow returns. The moment the person responds, the agent wakes up and acts on the decision: issue the refund, or decline and explain why. The judgment stays with the person; the agent handles everything around it.</p>
-<!-- doclint: no-shot: conceptual pattern - a waiting flow used for human sign-off; the attach and description surfaces it relies on are shown under How it works, and the flow-building blocks (triggers, External Callback) live on their own reference pages -->
-<!-- verified 2026-06-18 (product owner): a waiting flow tool holds the agent suspended until it returns; for human-in-the-loop the response typically comes back as a trigger (reply email or Slack/Telegram/WhatsApp message) or an External Callback. Max suspension depends on the pricing plan. -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a data-preview="" href="ai-agent.html">AI Agent</a></li>

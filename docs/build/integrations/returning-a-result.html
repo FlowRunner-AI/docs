@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4303,8 +4303,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4328,9 +4326,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4344,14 +4341,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4365,6 +4356,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4373,14 +4390,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4574,8 +4591,6 @@ inside.</p>
 <p>Not every flow needs one. A flow that files a record or sends a notification may have nothing to hand
 back, and it runs to completion without a Return Result.</p>
 <h2 id="who-reads-what-you-return">Who reads what you return<a class="headerlink" data-preview="" href="#who-reads-what-you-return" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: names the caller blocks only to say who reads the value; each is pictured on its own reference page -->
-
 <ul>
 <li>a <a class="fr-block" data-preview="" href="../../reference/call-flow.html">Call Flow</a> block in another flow, which reads it through that
   block's own alias - a parent step reads <span class="fr-expr">Issue Token Result → token</span>;</li>
@@ -4585,7 +4600,7 @@ back, and it runs to completion without a Return Result.</p>
   <a data-preview="" href="../../reference/flows-as-agent-tools-concept.html">Flows as Agent Tools</a>;</li>
 <li>a system calling the flow over the REST API on the blocking endpoint, which gets the composed result as
   the response body. See
-  <a href="../../api/call-flow.html#calling-a-flow-that-returns-a-value">Calling a flow that returns a value</a>.</li>
+  <a href="../../api/call-flow-blocking.html#response">Call Flow (Blocking)</a>.</li>
 </ul>
 <h2 id="compose-the-answer">Compose the answer<a class="headerlink" data-preview="" href="#compose-the-answer" title="Permanent link">&para;</a></h2>
 <p>Put a Return Result at the end of the path the run will take, and decide two things: <span class="fr-control">Content Type</span> sets
@@ -4599,17 +4614,17 @@ so you hand back exactly the object you meant to. With it off, the block returns
 that reaches one composes its answer and ends there. Put it where that path's work is genuinely finished -
 anything else the path has to do belongs before it.</p>
 <h2 id="when-more-than-one-can-run">When more than one can run<a class="headerlink" data-preview="" href="#when-more-than-one-can-run" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: a design decision about the returned shape; the envelope's structure is documented on the Return Result reference -->
-
 <p>It is normal to put a Return Result on each branch of a
-<a class="fr-block" data-preview="" href="../../reference/condition.html">Condition</a>, and that changes the shape the caller sees. Reach
-more than one and the caller no longer gets a plain object - it gets an envelope holding the first result,
-every result that ran tagged with the block name that produced it, and an overall status.</p>
+<a class="fr-block" data-preview="" href="../../reference/condition.html">Condition</a>: a run takes one branch, reaches one Return Result,
+and the caller still gets a plain object. What changes the shape is a run that reaches more than one -
+parallel branches that each end in a Return Result - or none at all. Then the caller no longer gets a plain
+object; it gets an envelope holding the first result, every result that ran tagged with the block name that
+produced it, and an overall status (the exact shape is on <a href="../../api/call-flow-blocking.html#response">Call Flow (Blocking)</a>).</p>
 <p>So make it a deliberate choice:</p>
 <ul>
-<li><strong>Want the caller to read a simple object?</strong> Keep to one Return Result on any path a run can take.</li>
-<li><strong>Several genuinely can run?</strong> Expect the envelope, and name those blocks meaningfully, because the
-  caller picks its result out by the producing block's name.</li>
+<li><strong>Want the caller to read a simple object?</strong> Make sure a run can reach only one Return Result.</li>
+<li><strong>Several genuinely can run in the same pass?</strong> Expect the envelope, and name those blocks meaningfully,
+  because the caller picks its result out by the producing block's name.</li>
 </ul>
 <h2 id="design-the-answer-for-the-caller">Design the answer for the caller<a class="headerlink" data-preview="" href="#design-the-answer-for-the-caller" title="Permanent link">&para;</a></h2>
 <p>The result is your flow's contract with whoever calls it, so treat it like one:</p>

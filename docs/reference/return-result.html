@@ -428,7 +428,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4322,8 +4322,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4347,9 +4345,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4363,14 +4360,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4384,6 +4375,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4392,14 +4409,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4596,20 +4613,18 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 
-<!-- GENERATED FILE - do not edit. Source: block-knowledge/return-result.yaml. Regenerate: make refgen -->
-<!-- doclint: allow-unlinked: Return Result -->
 <h1 id="return-result">Return Result<a class="headerlink" data-preview="" href="#return-result" title="Permanent link">&para;</a></h1>
 <p>This block lets you decide exactly what a caller sees back from a flow. You name the properties to return and give each a value, and the caller reads back only that object - the id, the token, the status you chose to expose - while everything the flow did to produce it stays hidden inside.</p>
 <h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>
 <p>A flow can do a lot of work, but a caller does not need to see all of it - it needs an answer.
 <span class="fr-block">Return Result</span> is where you compose that answer. Its <span class="fr-control">Content Type</span> sets the format the caller
-receives - <span class="fr-control">JSON</span>, <span class="fr-control">XML</span>, or <span class="fr-control">Plain Text</span> - and the <span class="fr-control">Compose Result</span> toggle decides how
+receives - <span class="fr-control">JSON</span>, <span class="fr-control">XML</span>, or <span class="fr-control">Plain Text</span>. Under JSON, the <span class="fr-control">Compose Result</span> toggle decides how
 you build it. With it on, you compose an object from a list of <span class="fr-control">Property</span> and <span class="fr-control">Value</span> rows,
 each row a name paired with an <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr>: you assemble the exact shape you want to hand back -
 say { token, expiresAt } - from values the flow worked out along the way, and nothing else leaks
-out. With it off, the block hands back a single value from one <span class="fr-control">Result</span> <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr> instead, for
-when the answer is just one thing. Either way, the caller reads back only what you returned and
-never sees the rest.</p>
+out. With it off - and always under XML and Plain Text - the block hands back a single value from one
+<span class="fr-control">Result</span> <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr> instead, for when the answer is just one thing. Either way, the caller reads back
+only what you returned and never sees the rest.</p>
 <p>The block is also terminal: it has no outbound <abbr title="A wiring point on a block's edge where you draw the line to the next block. A block can expose several - for example a Condition's Yes and No, or one per branch on a router.">connector</abbr>, so nothing can be wired after it. When a
 path of the flow reaches it, the object is composed and that path ends there. The composed object is
 what a <a class="fr-block" data-preview="" href="call-flow.html">Call Flow</a> block waiting on this flow, or a <a class="fr-block" data-preview="" href="subflow.html">SubFlow</a> block running it, reads back as its
@@ -4620,10 +4635,13 @@ named Issue Token, a later step in the parent reads a returned property as
 <p>Reach for it - it lives in the block list's Utils group - at the end of any flow that another flow runs and reads back from: a flow invoked by a <span class="fr-block">Call Flow</span> block, or the steps inside a <span class="fr-block">SubFlow</span> block. Those callers only get back what a <span class="fr-block">Return Result</span> hands them, so this is how you decide what they see: the new record's id, a token, a status object, rather than the flow's whole internal workings. A flow with no <span class="fr-block">Return Result</span> still runs to completion, but it gives its caller nothing structured to read, so add this block whenever the caller needs an answer.</p>
 <h2 id="returning-more-than-one-result">Returning more than one result<a class="headerlink" data-preview="" href="#returning-more-than-one-result" title="Permanent link">&para;</a></h2>
 <p>A flow does not always have a single way out. Put a <span class="fr-block">Return Result</span> on each branch of a
-<a class="fr-block" data-preview="" href="condition.html">Condition</a> and a run will reach one or another depending on which way it forked - and a flow
-can even hit more than one <span class="fr-block">Return Result</span> before it finishes. When that happens, the caller
-does not get back a single plain object. It gets back an envelope that wraps up everything
-that was returned:</p>
+<a class="fr-block" data-preview="" href="condition.html">Condition</a> and a run reaches one or the other depending on which way it forked. That is still
+one result per run, and the caller reads back the plain composed object from whichever
+block the run reached.</p>
+<p>What changes the shape is how many results a single run produces. When a run reaches more
+than one <span class="fr-block">Return Result</span> - two parallel branches that each end in one, say - or none at all, the
+caller does not get back a single plain object. It gets back an envelope that wraps up
+everything the run returned:</p>
 <ul>
 <li>the <strong>first result</strong> - the object from the first <span class="fr-block">Return Result</span> the run reached, so a caller
   that only wants "the answer" has one to read;</li>
@@ -4632,10 +4650,17 @@ that was returned:</p>
   about;</li>
 <li>an overall <strong>status</strong> for the run.</li>
 </ul>
-<p>So a single-Return-Result flow and a multi-Return-Result flow hand back different shapes. When
-you want the caller to read a simple object directly, keep to one <span class="fr-block">Return Result</span> on the path it
-will take; when several can run, expect the envelope and read the result you want out of it by
-the block name that produced it.</p>
+<p>So the shape depends on the run, not on how many <span class="fr-block">Return Result</span> blocks the flow contains. When
+you want the caller to read a simple object directly, make sure a run can reach only one
+<span class="fr-block">Return Result</span>; when several can run in the same pass, expect the envelope and read the result
+you want out of it by the block name that produced it. The exact envelope is shown on
+<a href="../api/call-flow-blocking.html#response">Call Flow (Blocking)</a>.</p>
+<p>Switching on <span class="fr-control">Release Caller</span> changes when the caller hears back rather than what: the moment
+the run reaches that block, the caller receives that block's composed value and is released,
+while the run carries on with whatever else it still has to do. Its help text puts it as
+"the flow sends the <span class="fr-block">Return Result</span> output back to the caller immediately and continues
+executing. Applies only to synchronous calls." Leave it off when the caller should wait for the
+whole run.</p>
 <h2 id="example">Example<a class="headerlink" data-preview="" href="#example" title="Permanent link">&para;</a></h2>
 <p>Suppose you build a <span class="fr-block">SubFlow</span> named Issue Token that authenticates against a service and gets back an access token and how long it stays valid. Earlier steps in that subflow have already landed those two values - the token sits in a <abbr title="A named container for a flow's variables during a single run. Each value has its own label, so a step can store something under a name and a later step can read it back. A Data Bucket resets when the run ends - for state that has to survive between runs, use Shared Memory instead.">Data Bucket</abbr> variable named accessToken, and the expiry in expiresAt. You want the parent flow that runs this subflow to read both back, and nothing else.</p>
 <p>Add a <span class="fr-block">Return Result</span> block at the end of the subflow. Leave <span class="fr-control">Content Type</span> on JSON, then add two rows to <span class="fr-control">Compose Result</span> - one property per row, each pairing a <span class="fr-control">Property</span> name with a <span class="fr-control">Value</span> <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr>:</p>
@@ -4667,6 +4692,10 @@ the block name that produced it.</p>
 <td>Compose Result</td>
 <td>The properties of the returned object. Each row is a property name paired with an <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr> that supplies its value. Together the rows make up the object the caller reads back.</td>
 </tr>
+<tr>
+<td>Release Caller</td>
+<td>Off by default. When on, the caller receives this block's value as soon as the run reaches it and is released, while the run continues; when off, a waiting caller hears back only once the run finishes. Applies to synchronous callers, such as the blocking <span class="fr-block">Call Flow</span> API.</td>
+</tr>
 </tbody>
 </table>
 <p><strong>Common settings</strong> (available on most blocks):</p>
@@ -4695,7 +4724,7 @@ the block name that produced it.</p>
 <h2 id="things-to-watch-for">Things to watch for<a class="headerlink" data-preview="" href="#things-to-watch-for" title="Permanent link">&para;</a></h2>
 <ul>
 <li>This block is terminal: it has no outbound <abbr title="A wiring point on a block's edge where you draw the line to the next block. A block can expose several - for example a Condition's Yes and No, or one per branch on a router.">connector</abbr>, so nothing can be wired after it. The path that reaches it ends there - put it where that path's work is finished.</li>
-<li>If a flow has more than one <span class="fr-block">Return Result</span> block - for example one on each branch of a <span class="fr-block">Condition</span> - the caller does not get a single plain object. Instead it gets back a structure that holds the result from the first <span class="fr-block">Return Result</span> a run reaches, plus a list of every <span class="fr-block">Return Result</span> that ran, each tagged with the name of the block it came from, and an overall status. When you need the caller to read a simple object directly, keep to a single <span class="fr-block">Return Result</span> on the path it will take.</li>
+<li>The shape the caller reads back depends on how many <span class="fr-block">Return Result</span> blocks a single run reaches, not on how many the flow contains. One reached (for example one branch of a <span class="fr-block">Condition</span>) - the plain composed object. None, or more than one in the same run - an envelope holding the first result, a list of every result tagged with the block name that produced it, and the run's status. When you need the caller to read a simple object directly, make sure a run can reach only one <span class="fr-block">Return Result</span>.</li>
 </ul>
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>

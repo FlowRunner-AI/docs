@@ -428,7 +428,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4322,8 +4322,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4347,9 +4345,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4363,14 +4360,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4384,6 +4375,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4392,14 +4409,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4596,8 +4613,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 
-<!-- GENERATED FILE - do not edit. Source: block-knowledge/shared-memory-read.yaml. Regenerate: make refgen -->
-<!-- doclint: allow-unlinked: Shared Memory: Read -->
 <h1 id="shared-memory-read"><abbr title="A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.">Shared Memory</abbr>: Read<a class="headerlink" data-preview="" href="#shared-memory-read" title="Permanent link">&para;</a></h1>
 <p>This block reads back state that an earlier run left behind. <abbr title="A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.">Shared Memory</abbr> is the flow's own key/value store, and what you saved into it is still there next time the flow runs - so you can pick up a counter, a cursor, or a last-seen value where the previous run left off. Name the key and the block hands you what is stored, with a default to fall back on the first time round.</p>
 <h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>

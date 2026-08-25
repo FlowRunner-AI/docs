@@ -260,3 +260,73 @@ def test_split_sections_counts_intro_plus_headings():
 def test_heading_in_code_is_not_a_section():
     secs = split_sections(PAGE + "## Real\n\n```\n## fake\n```\n")
     assert [s.title for s in secs] == ["(intro)", "Real"]
+
+
+# --- dead-anchor -------------------------------------------------------------------
+
+def test_dead_anchor_same_page_and_inline_code_headings():
+    from tools.doclint.lint import heading_slugs, anchor_violations
+    md = ("# T\n\nlede\n\n## Endpoint (`GET` or `POST`)\n\n"
+          "[bad](#endpoint) [ok](#endpoint-get-or-post)\n")
+    assert heading_slugs(md) == {"t", "endpoint-get-or-post"}
+    vs = anchor_violations(md, "x.md")
+    assert [v.rule for v in vs] == ["dead-anchor"] and "#endpoint'" in vs[0].message
+
+
+def test_dead_anchor_dash_run_collapses_like_toc():
+    # "Dashboard - the flow" renders as one dash run; authored "---" is dead
+    from tools.doclint.lint import anchor_violations
+    md = "# T\n\nlede\n\n## Dashboard - the flow\n\n[a](#dashboard---the-flow)\n"
+    assert len(anchor_violations(md, "x.md")) == 1
+    md_ok = md.replace("#dashboard---the-flow", "#dashboard-the-flow")
+    assert anchor_violations(md_ok, "x.md") == []
+
+
+def test_dead_anchor_cross_page(tmp_path):
+    from tools.doclint.lint import anchor_violations
+    (tmp_path / "other.md").write_text("# O\n\n## Real Section\n", encoding="utf-8")
+    md = "# T\n\nlede\n\n[ok](other.md#real-section) [bad](other.md#gone) [ext](https://x.com#frag)\n"
+    vs = anchor_violations(md, str(tmp_path / "page.md"))
+    assert len(vs) == 1 and "other.md" in vs[0].message and "#gone" in vs[0].message
+
+
+# --- flow-vs-instance, verb form ---------------------------------------------------
+
+def test_flow_runtime_verb_flags_completed_progress_only():
+    from tools.doclint.lint import lint_text
+    bad = "# T\n\nlede\n\nA flow that never reaches a Return Result gets the envelope.\n"
+    hits = [v for v in lint_text(bad, "x.md", block_names=()) if v.rule == "flow-vs-instance"]
+    assert len(hits) == 1
+    # the idiomatic present-tense design description stays unflagged (owner decision, not a defect)
+    ok = "# T\n\nlede\n\nWhen the flow reaches this block, it waits.\n"
+    assert not [v for v in lint_text(ok, "x.md", block_names=()) if v.rule == "flow-vs-instance"]
+    # a possessive already makes the run the subject
+    poss = "# T\n\nlede\n\nIt does not mean the called flow's run has finished.\n"
+    assert not [v for v in lint_text(poss, "x.md", block_names=()) if v.rule == "flow-vs-instance"]
+
+
+def test_expression_tokens_are_not_block_mentions():
+    from tools.doclint.lint import block_link_violations
+    authored = "# T\n\nBuild it as {{HTTP Request Result->status}} in the editor.\n"
+    assert block_link_violations(authored, ["HTTP Request"]) == []
+    rendered = '# T\n\nBuilt as <span class="fr-expr">HTTP Request Result → status</span>.\n'
+    assert block_link_violations(rendered, ["HTTP Request"]) == []
+    # a real prose mention still errors
+    prose = "# T\n\nAdd an HTTP Request to the flow.\n"
+    assert len(block_link_violations(prose, ["HTTP Request"])) == 1
+
+
+# --- split-list -------------------------------------------------------------------
+
+def test_split_list_catches_image_and_leadin_glue_but_not_prose():
+    from tools.doclint.lint import lint_text
+    def hits(md):
+        return [v for v in lint_text(md, "x.md", block_names=()) if v.rule == "split-list"]
+    # round-22 defect: an image at column 0 ends the list, the next bullet is swallowed
+    assert len(hits("# T\n\nlede\n\n- one\n\n![a](x.png)\n- two\n")) == 1
+    # round-19 defect: a lead-in ending in ':' with no blank line before the bullets
+    assert len(hits("# T\n\nlede\n\nThese controls decide:\n- one\n- two\n")) == 1
+    # a wrapped prose clause that happens to start with a dash is not a list
+    assert hits("# T\n\nlede\n\nRandom returns a number between 0 and 1\n- a seed for sampling.\n") == []
+    # a correctly separated list is fine
+    assert hits("# T\n\nlede\n\nThese controls decide:\n\n- one\n- two\n") == []

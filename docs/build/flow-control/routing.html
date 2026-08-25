@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4292,8 +4292,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4317,9 +4315,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4333,14 +4330,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4354,6 +4345,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4362,14 +4379,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4545,18 +4562,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="routing-on-a-value">Routing on a Value<a class="headerlink" data-preview="" href="#routing-on-a-value" title="Permanent link">&para;</a></h1>
-<!-- product-exploration log (2026-07-10, Documentation Flows workspace; flows "Order Router" BF2B546C + "Route by Credit Score" 694282BC, both built clean this session; shots captured from them)
-- Value Router lives in palette UTILS. Fresh dropped: shows only the block + error badge, NO named connectors (like the Condition's exits) until branches are added. Verified.
-- Config panel: Name / Value to Evaluate (expression, required) / a built-in "Everything Else" branch (name only) / "Add Branch" button / Reference Result Data As (CHECKED by default -> alias "Value Router Result"). Note "At least one successor block must be assigned" until a branch is wired.
-- A new branch = Branch Name + Value Mode (dropdown) + value(s). Each branch name renders as its own OUTPUT CONNECTOR on the node (New/Paid/Shipped/Closed/Everything Else radiate from the block). Everything Else is the built-in LAST catch-all, cannot be removed.
-- VALUE MODES verified (5, NOT the 3 the yaml lists - yaml is STALE, fix reference separately): Single Value (one exact), Single List (value must be a list), Collection of Values (list of values, matches any; entered as multiple value fields + "+"), Range of Values (From:/To: numeric band), Quick Range (single value field). Page teaches the 3 Mark named (Single Value deep, Collection of Values + Range of Values shown) and routes Single List / Quick Range to the reference.
-- RANGE inclusivity: product's own Value help tooltip (verbatim): "In this mode you will specify a range of values. If the 'Value to Evaluate' is in the specified range (both 'From' and 'To' are included into the range), the flow will follow the branch." -> both bounds inclusive, authoritative source.
-- ROUTING behavior RUN-PROVEN (real API instances on Order Router, LIVE): status "paid" -> Paid connector -> Start Fulfillment executed; status "backordered" (no match) -> Everything Else -> Flag for Review; status "cancelled" -> Closed (Collection match on cancelled|refunded) -> Archive Order. Block checks branches top-to-bottom, first match wins.
-- Value Router stores its result ("Value Router Result" = the value it routed on) by default, but routing is the point; page won't lean on the alias.
-- FOLLOW-UP: value-router.yaml (reference) lists only 3 modes; update to 5 (Single Value, Single List, Collection of Values, Range of Values, Quick Range) + regenerate.
-- 4 shots captured fresh: routing-branch (Value to Evaluate=status + a Single Value branch), routing-collection (Collection of Values: cancelled/refunded), routing-range (Range of Values on credit score, From 670 To 739), routing-paths (the wired canvas: Route by Status -> 5 named connectors -> handling blocks). Pixels read against prose.
--->
-
 <p>A flow often needs to send each case down its own path - a new order gets a welcome, a
 paid order goes to fulfillment, a shipped order gets its tracking. The
 <a class="fr-block" data-preview="" href="../../reference/value-router.html">Value Router</a> reads one value and sends the
@@ -4607,8 +4612,6 @@ somewhere to go instead of stopping the flow. The <abbr title="A wiring point on
 decision - a paid order takes the <code>Paid</code> path and nothing else.</p>
 <p><a class="glightbox" href="../../images/build/routing-paths.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Value Router on the canvas with five named connectors - New, Paid, Shipped, Closed, Everything Else - each running to its own handling block." src="../../images/build/routing-paths.png" /></a></p>
 <h2 id="value-router-condition-or-ai-router">Value Router, Condition, or AI Router?<a class="headerlink" data-preview="" href="#value-router-condition-or-ai-router" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: decision table comparing three blocks, not a walkthrough of one block's UI -->
-
 <p>Three blocks send a flow different ways, and the value you are routing on tells you which
 to reach for:</p>
 <table>

@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://docs.flowrunner.ai/api/activating-a-trigger.html">
       
       
-        <link rel="prev" href="call-flow.html">
+        <link rel="prev" href="call-flow-nonblocking.html">
       
       
         <link rel="next" href="block-results.html">
@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="index.html" class="md-tabs__link">
+        <a href="call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4173,8 +4173,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4201,9 +4199,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
   
   
   <span class="md-ellipsis">
@@ -4217,14 +4214,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
@@ -4238,6 +4229,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4246,14 +4263,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="call-flow.html" class="md-nav__link">
+      <a href="call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4334,10 +4351,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-the-address" class="md-nav__link">
+  <a href="#endpoint" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Get the address
+        Endpoint
       
     </span>
   </a>
@@ -4345,10 +4362,65 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#make-the-call" class="md-nav__link">
+  <a href="#calling-with-post" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Make the call
+        Calling with POST
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calling-with-get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calling with GET
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to use it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-the-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get the address
       
     </span>
   </a>
@@ -4382,17 +4454,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <span class="md-ellipsis">
       
         Where the execution id comes from
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#when-a-call-is-refused" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        When a call is refused
       
     </span>
   </a>
@@ -4481,10 +4542,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-the-address" class="md-nav__link">
+  <a href="#endpoint" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Get the address
+        Endpoint
       
     </span>
   </a>
@@ -4492,10 +4553,65 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#make-the-call" class="md-nav__link">
+  <a href="#calling-with-post" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Make the call
+        Calling with POST
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calling-with-get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calling with GET
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to use it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-the-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get the address
       
     </span>
   </a>
@@ -4536,17 +4652,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#when-a-call-is-refused" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        When a call is refused
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4575,6 +4680,230 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="activating-an-external-callback">Activating an External Callback<a class="headerlink" href="#activating-an-external-callback" title="Permanent link">&para;</a></h1>
+<p>An <a class="fr-block" data-preview="" href="../reference/external-callback.html">External Callback</a> block gives one point in a flow its own
+URL. Calling that URL either starts a new run of the flow, when the block is the first step, or lets a run
+that is paused at the block continue. The call accepts <code>GET</code> or <code>POST</code>, carries whatever data the flow
+needs, and answers with the id of the run it started or continued.</p>
+<h2 id="endpoint">Endpoint<a class="headerlink" href="#endpoint" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>https://api.flowrunner.ai/{workspace-id}/{api-key}/automation/flow/{flow-id}/trigger/{block-id}/activate
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Value</th>
+<th>Where it comes from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{workspace-id}</code></td>
+<td>The workspace the flow belongs to</td>
+<td><strong>Workspace Settings ▸ General</strong>, Credentials section</td>
+</tr>
+<tr>
+<td><code>{api-key}</code></td>
+<td>The workspace's API key</td>
+<td>Same section, beside the Workspace ID</td>
+</tr>
+<tr>
+<td><code>{flow-id}</code></td>
+<td>The flow that contains the block</td>
+<td>Filled in for you - see below</td>
+</tr>
+<tr>
+<td><code>{block-id}</code></td>
+<td>This particular External Callback block</td>
+<td>Filled in for you - see below</td>
+</tr>
+</tbody>
+</table>
+<p>You never assemble this address yourself. Every External Callback block shows its complete URL, all four
+segments filled in, in its <strong>Callback URL</strong> field - see <a href="#get-the-address">Get the address</a>. Every block
+has its own URL; they are not interchangeable.</p>
+<h2 id="calling-with-post">Calling with POST<a class="headerlink" href="#calling-with-post" title="Permanent link">&para;</a></h2>
+<p>The data you send becomes the block's data, read by later steps under the alias set on the block. With
+<code>POST</code> it goes in the body, sent with <code>Content-Type: application/json</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>--request<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--url<span class="w"> </span><span class="s2">&quot;&lt;Callback URL&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>--header<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>--data<span class="w"> </span><span class="s1">&#39;{</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="s1">    &quot;event&quot;: &quot;payment.succeeded&quot;,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="s1">    &quot;orderId&quot;: &quot;ORD-9001&quot;,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="s1">    &quot;amount&quot;: 4999</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="s1">  }&#39;</span>
+</code></pre></div>
+<p>The body becomes the block's data, whole. A call with no data at all - the bare address - is valid. On a
+<code>POST</code>, query parameters are ignored, with one exception: <code>execution</code> picks which waiting run to continue
+(<code>executionId</code> is accepted as an alias). It is required when the block sits after the first step, and
+ignored when the block is the first step - see
+<a href="#when-more-than-one-run-is-waiting">When more than one run is waiting</a>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>--request<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--url<span class="w"> </span><span class="s2">&quot;&lt;Callback URL&gt;?execution=4CE29875-0BD4-4AE4-B75C-60FCC55F4436&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--header<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--data<span class="w"> </span><span class="s1">&#39;{</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="s1">    &quot;event&quot;: &quot;payment.succeeded&quot;,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="s1">    &quot;orderId&quot;: &quot;ORD-9001&quot;,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="s1">    &quot;amount&quot;: 4999</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="s1">  }&#39;</span>
+</code></pre></div>
+<h2 id="calling-with-get">Calling with GET<a class="headerlink" href="#calling-with-get" title="Permanent link">&para;</a></h2>
+<p>With <code>GET</code>, the same data goes in the query string, and no headers are needed:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span><span class="s2">&quot;&lt;Callback URL&gt;?event=payment.succeeded&amp;orderId=ORD-9001&amp;amount=4999&quot;</span>
+</code></pre></div>
+<p>Every query parameter except <code>execution</code> becomes one field of the block's data, under its own name. The
+<code>execution</code> parameter works exactly as on a POST. Any fetch of the URL is a real call - a chat
+link preview or an uptime monitor included - so share a Callback URL as text, never a clickable link.</p>
+<h2 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h2>
+<p>An accepted call returns HTTP 200 with the id of the run it started or continued:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;executionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4CE29875-0BD4-4AE4-B75C-60FCC55F4436&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>With <code>execution=all</code>, <code>executionId</code> lists every run that continued, comma-separated. With <code>execution=all</code>
+and nothing waiting, the call still succeeds and the id is <code>null</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;executionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>A call can also be accepted and still do nothing. A callback block can carry a condition deciding whether
+an incoming call counts; when the condition is false the call returns HTTP 200 and no run starts or
+continues. If a call appears to succeed but the flow does not move, check that condition first.</p>
+<h2 id="errors">Errors<a class="headerlink" href="#errors" title="Permanent link">&para;</a></h2>
+<p>A refused call comes back as HTTP 400 with an error <code>code</code> and a message:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">28056</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Your trigger activation request format can be used only for a flow that starts with a trigger. Consider adding \&quot;execution\&quot; parameter to activate a \&quot;middle of the flow\&quot; trigger.&quot;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>The call did not identify a waiting run</strong></p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>What FlowRunner tells you</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>28056</code></td>
+<td>The request format can be used only for a flow that starts with a trigger; consider adding the <code>execution</code> parameter to activate a middle-of-the-flow trigger</td>
+<td>You called a callback that sits later in a flow. Add <code>execution</code></td>
+</tr>
+<tr>
+<td><code>28059</code></td>
+<td>Pending trigger was not found. Ensure that passed execution ID is valid and flow execution is waiting on this trigger</td>
+<td>The id is wrong, or that run is not sitting at this block</td>
+</tr>
+<tr>
+<td><code>28060</code></td>
+<td>Pending trigger was not found. Ensure that flow execution is waiting on this trigger</td>
+<td>You used <code>execution=any</code> and nothing was waiting</td>
+</tr>
+<tr>
+<td><code>28100</code></td>
+<td>Execution with that ID already exists</td>
+<td>This run has already been let through this callback. A run passes a given block once; a later callback in the same flow is a separate wait with its own activation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The flow or the block cannot be reached</strong></p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>What FlowRunner tells you</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>28010</code></td>
+<td>Trigger with that flow element ID is not found in that flow; ensure the flow and trigger names are correct and that the flow has a live version (or a paused one, when the trigger sits mid-flow)</td>
+<td>Re-copy the Callback URL - the block's Callback URL field carries the trigger's own id, which is not the id shown elsewhere for the block - and start the version so it is LIVE</td>
+</tr>
+<tr>
+<td><code>28011</code></td>
+<td>Trigger with that name is not found in that flow; same advice</td>
+<td>As above</td>
+</tr>
+<tr>
+<td><code>28042</code></td>
+<td>The flow version is not enabled, so its trigger cannot be executed</td>
+<td>Set the version LIVE</td>
+</tr>
+<tr>
+<td><code>28093</code></td>
+<td>Available only when the flow is in the LIVE state</td>
+<td>Start the version you are calling so it is LIVE - see <a data-preview="" href="../run/running-flows.html#ready-then-live">Running Flows</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The run is no longer there</strong></p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>What FlowRunner tells you</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>28068</code></td>
+<td>Execution context with that id not found</td>
+<td>The id is wrong, or the run finished and was cleared</td>
+</tr>
+<tr>
+<td><code>28136</code></td>
+<td>That execution is already terminated</td>
+<td>The run ended before your call arrived</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The caller is not allowed</strong></p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>What FlowRunner tells you</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>28025</code></td>
+<td>Unable to execute the callback. User is missing required security role(s)</td>
+<td>Call with a user token carrying the required role</td>
+</tr>
+<tr>
+<td><code>28061</code></td>
+<td>The user token is invalid</td>
+<td>Obtain a fresh token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The request itself, or too many calls</strong></p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>9000</code></td>
+<td>No workspace with that id - re-copy the Callback URL</td>
+</tr>
+<tr>
+<td><code>999</code> / <code>997</code> / <code>995</code> / <code>998</code></td>
+<td>A rate limit (per second / minute / day / in-flight) - back off and retry</td>
+</tr>
+<tr>
+<td><code>28083</code> / <code>28087</code> / <code>28132</code> / <code>28086</code></td>
+<td>A plan limit (actions, concurrent runs, executions, active flows) - wait for capacity or raise the plan (see <a data-preview="" href="../manage/billing.html">Billing</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="when-to-use-it">When to use it<a class="headerlink" href="#when-to-use-it" title="Permanent link">&para;</a></h2>
 <p>An external callback is useful in two scenarios:</p>
 <ol>
 <li>Your flow may need to start in response to an external event - a payment provider announcing a charge,
@@ -4582,11 +4911,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <li>Your flow may need to wait for something outside it to finish before it resumes - a user approves a
    transaction, confirms email copy, and so on.</li>
 </ol>
-<p>The <a class="fr-block" data-preview="" href="../reference/external-callback.html">External Callback</a> block is the way to enable these
-types of behavior. Place it at the beginning of your flow or in the middle, depending on the use case. The
-block gets its own address (a URL). Whoever calls it either starts or resumes your flow.</p>
-<p>This page is about making that call. Building the flow around it is covered in
-<a data-preview="" href="../build/flow-control/external-callbacks.html">Waiting on an External System</a>.</p>
+<p>The External Callback block is the way to enable these types of behavior. Place it at the beginning of your
+flow or in the middle, depending on the use case. This page is about making the call. Building the flow
+around it is covered in <a data-preview="" href="../build/flow-control/external-callbacks.html">Waiting on an External System</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">This is the callback block, not every trigger</p>
 <p>Other triggers in FlowRunner come from the services they belong to, and are activated by those services
@@ -4596,38 +4923,17 @@ in their own way. This page applies to the External Callback block, which is Flo
 <p>Select the External Callback block. Its <span class="fr-control">Callback URL</span> field holds the whole address, with a copy button
 beside it. Copy it and give it to whichever system needs to activate the trigger in the flow.</p>
 <p><a class="glightbox" href="../images/learn/quickstart-callback-url.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The External Callback block selected, its settings showing the generated Callback URL with a copy button." src="../images/learn/quickstart-callback-url.png" /></a></p>
-<p>The URL automatically includes identifiers for the workspace, the flow and for this particular block:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>https://api.flowrunner.ai/{workspace-id}/{api-key}/automation/flow/{flow-id}/trigger/{block-id}/activate
-</code></pre></div>
-<p>Every External Callback block has its own URL. They are not interchangeable.</p>
-<p>For real traffic, a version of the flow has to be <strong>LIVE</strong>. Call the address when nothing is published and
+<p>For real traffic, a version of the flow has to be LIVE. Call the address when no version is LIVE and
 you get error <code>28010</code> - not because your request was malformed, but because there is nothing live to
-receive it.</p>
+receive it. Starting a version is covered in <a data-preview="" href="../run/running-flows.html#ready-then-live">Running Flows</a>.</p>
 <p>While you are building, two things make the URL answer without the flow being LIVE:</p>
 <ul>
 <li><strong><span class="fr-control">Learning Mode</span></strong> captures one sample request and records its shape, so the fields become pickable in
   later steps.</li>
 <li><strong><span class="fr-control">Run Block</span></strong> on the callback starts a debug execution that waits for your call.</li>
 </ul>
-<h2 id="make-the-call">Make the call<a class="headerlink" href="#make-the-call" title="Permanent link">&para;</a></h2>
-<p>The Callback URL accepts either <code>GET</code> or <code>POST</code>, and nearly every call carries data with it - the event
-that happened, the record it happened to, whatever the flow needs in order to carry on.</p>
-<p>Whatever you send becomes <strong>this block's data</strong>, read by later steps under the alias set on the block.</p>
-<p>With <code>POST</code>, send it as a JSON body:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>--request<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--url<span class="w"> </span><span class="s2">&quot;&lt;Callback URL&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>--header<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>--data<span class="w"> </span><span class="s1">&#39;{&quot;event&quot;:&quot;payment.succeeded&quot;,&quot;orderId&quot;:&quot;ORD-9001&quot;,&quot;amount&quot;:4999}&#39;</span>
-</code></pre></div>
-<p>With <code>GET</code>, send it as query parameters:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span><span class="s2">&quot;&lt;Callback URL&gt;?event=payment.succeeded&amp;orderId=ORD-9001&amp;amount=4999&quot;</span>
-</code></pre></div>
-<p>On a <code>POST</code>, query parameters are ignored - apart from <code>execution</code>, which the rest of this page is about.</p>
-<p>If there is nothing to send, the address on its own is a valid call:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span><span class="s2">&quot;&lt;Callback URL&gt;&quot;</span>
-</code></pre></div>
 <h2 id="starting-a-run-or-continuing-one">Starting a run, or continuing one<a class="headerlink" href="#starting-a-run-or-continuing-one" title="Permanent link">&para;</a></h2>
-<p>Both scenarios from the top of this page make the same call. What differs is what the call finds.</p>
+<p>Both scenarios make the same call. What differs is what the call finds.</p>
 <p><strong>If the callback is the first step</strong>, there is no run yet. Your call creates one, and it begins with the
 data you sent.</p>
 <p><strong>If the callback sits further along</strong>, the run was already under way - started by whatever starts that
@@ -4640,8 +4946,8 @@ its own payment to clear. By mid-morning three runs are sitting at that same blo
 different order.</p>
 <p>Now a payment clears and the provider calls your address. Which of those three should continue?</p>
 <p>The address cannot answer that on its own - it names the flow and the block, not the run. So the call says
-which one, using the <code>execution</code> query parameter (<code>executionId</code> is accepted too):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>POST  &lt;Callback URL&gt;?execution={execution-id}
+which one, using the <code>execution</code> query parameter:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>POST  &lt;Callback URL&gt;?execution={execution-id}
 </code></pre></div>
 <p>Which value you use depends on whether the waiting runs are worth telling apart:</p>
 <table>
@@ -4670,12 +4976,6 @@ which one, using the <code>execution</code> query parameter (<code>executionId</
 </tr>
 </tbody>
 </table>
-<p>The response names the run that continued, or lists them comma-separated for <code>all</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;executionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4CE29875-0BD4-4AE4-B75C-60FCC55F4436&quot;</span><span class="w"> </span><span class="p">}</span>
-</code></pre></div>
-<p>With <code>execution=all</code> and nothing waiting, the call still succeeds - HTTP 200, null id:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;executionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="p">}</span>
-</code></pre></div>
 <h2 id="where-the-execution-id-comes-from">Where the execution id comes from<a class="headerlink" href="#where-the-execution-id-comes-from" title="Permanent link">&para;</a></h2>
 <p>A run's id exists only once the run is under way, so it cannot be written into anything in advance. It
 reaches the caller one of three ways.</p>
@@ -4685,139 +4985,14 @@ that calls the outside system composes the return address from the Callback URL 
 Whatever comes back points at this run.</p>
 <p><a class="glightbox" href="../images/build/externalcallback-url-reference.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Expression Editor of a step before the callback: an External Callback URL reference under External Callback URLs, and Execution ID under Flow Context, joined into one return address." src="../images/build/externalcallback-url-reference.png" /></a></p>
 <p><strong>The caller started the run and was told.</strong> A system that started the run through the
-<a href="call-flow.html">Call Flow</a> API received <code>executionId</code> in the response, and can quote it back.</p>
+<a href="call-flow-nonblocking.html">Call Flow (Non-Blocking)</a> API received <code>executionId</code> in the response, and can quote it back.</p>
 <p><strong>Nobody can carry a per-run address.</strong> A <abbr title="A URL you hand to an outside service so it can call your flow when something happens, passing data along in the request.">webhook</abbr> configured once in a vendor's dashboard posts to one
 fixed URL and cannot append anything. Use <code>execution=any</code> on it.</p>
 <p><a data-preview="" href="../build/flow-control/external-callbacks.html">Waiting on an External System</a> works all three through with
 diagrams.</p>
-<h2 id="when-a-call-is-refused">When a call is refused<a class="headerlink" href="#when-a-call-is-refused" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: an error reference, not a screen; each row carries the message FlowRunner returns and the fix -->
-
-<p>A refused call comes back as HTTP 400 with an error <code>code</code> and a message:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">28056</span><span class="p">,</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Your trigger activation request format can be used only for a flow that starts with a trigger. Consider adding \&quot;execution\&quot; parameter to activate a \&quot;middle of the flow\&quot; trigger.&quot;</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">}</span>
-</code></pre></div>
-<p><strong>The call did not identify a waiting run</strong></p>
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>What FlowRunner tells you</th>
-<th>What to do</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>error <code>28056</code></td>
-<td>The request format can be used only for a flow that starts with a trigger; consider adding the <code>execution</code> parameter to activate a middle-of-the-flow trigger</td>
-<td>You called a callback that sits later in a flow. Add <code>execution</code></td>
-</tr>
-<tr>
-<td>error <code>28059</code></td>
-<td>Pending trigger was not found. Ensure that passed execution ID is valid and flow execution is waiting on this trigger</td>
-<td>The id is wrong, or that run is not sitting at this block</td>
-</tr>
-<tr>
-<td>error <code>28060</code></td>
-<td>Pending trigger was not found. Ensure that flow execution is waiting on this trigger</td>
-<td>You used <code>execution=any</code> and nothing was waiting</td>
-</tr>
-<tr>
-<td>error <code>28099</code></td>
-<td>The trigger for this execution has already been activated</td>
-<td>This run has already been let through this callback. A run passes a given block once; a later callback in the same flow is a separate wait with its own activation</td>
-</tr>
-</tbody>
-</table>
-<p><strong>The flow or the block cannot be reached</strong></p>
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>What FlowRunner tells you</th>
-<th>What to do</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>error <code>28010</code></td>
-<td>Trigger with that flow element ID is not found in that flow; ensure the flow and trigger names are correct and that the flow has a live version</td>
-<td>Re-copy the Callback URL, and publish the version</td>
-</tr>
-<tr>
-<td>error <code>28011</code></td>
-<td>Trigger with that name is not found in that flow; same advice</td>
-<td>As above</td>
-</tr>
-<tr>
-<td>error <code>28042</code></td>
-<td>The flow version is not enabled, so its trigger cannot be executed</td>
-<td>Set the version LIVE</td>
-</tr>
-<tr>
-<td>error <code>28093</code></td>
-<td>Available only when the flow is in the LIVE state</td>
-<td>Publish the version you are calling</td>
-</tr>
-</tbody>
-</table>
-<p><strong>The run is no longer there</strong></p>
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>What FlowRunner tells you</th>
-<th>What to do</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>error <code>28068</code></td>
-<td>Execution context with that id not found</td>
-<td>The id is wrong, or the run finished and was cleared</td>
-</tr>
-<tr>
-<td>error <code>28136</code></td>
-<td>That execution is already terminated</td>
-<td>The run ended before your call arrived</td>
-</tr>
-</tbody>
-</table>
-<p><strong>The caller is not allowed</strong></p>
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>What FlowRunner tells you</th>
-<th>What to do</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>error <code>28025</code></td>
-<td>Unable to execute the callback. User is missing required security role(s)</td>
-<td>Call with a user token carrying the required role</td>
-</tr>
-<tr>
-<td>error <code>28061</code></td>
-<td>The user token is invalid</td>
-<td>Obtain a fresh token</td>
-</tr>
-</tbody>
-</table>
-<p>Codes that any call can return - bad credentials, a malformed request, rate and plan limits - are listed
-once on the <a href="index.html">API overview</a>.</p>
-<div class="admonition note">
-<p class="admonition-title">A call can also be accepted and still do nothing</p>
-<p>A callback block can carry a condition deciding whether an incoming call counts. When the condition is
-false the call is accepted - HTTP 200, no error - and nothing happens: no run starts, and a waiting run
-stays waiting. If a call appears to succeed but the flow does not move, check that condition first.</p>
-</div>
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="call-flow.html">Call Flow</a> - starting a run over the API, and the executionId it returns</li>
+<li><a href="call-flow-nonblocking.html">Call Flow (Non-Blocking)</a> - starting a run over the API, and the executionId it returns</li>
 <li><a class="fr-block" data-preview="" href="../reference/external-callback.html">External Callback</a> - the block itself, its Callback URL,
   conditions, and Learning Mode</li>
 <li><a data-preview="" href="../build/flow-control/external-callbacks.html">Waiting on an External System</a> - building the flow that
@@ -4861,7 +5036,7 @@ stays waiting. If a call appears to succeed but the flow does not move, check th
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="call-flow.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Call Flow">
+          <a href="call-flow-nonblocking.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Call Flow (Non-Blocking)">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -4871,7 +5046,7 @@ stays waiting. If a call appears to succeed but the flow does not move, check th
                 Previous
               </span>
               <div class="md-ellipsis">
-                Call Flow
+                Call Flow (Non-Blocking)
               </div>
             </div>
           </a>

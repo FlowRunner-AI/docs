@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -1053,10 +1053,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#start-a-flow-or-resume-one" class="md-nav__link">
+  <a href="#start-a-run-or-resume-one" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Start a flow, or resume one
+        Start a run, or resume one
       
     </span>
   </a>
@@ -4275,8 +4275,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4300,9 +4298,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4316,14 +4313,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4337,6 +4328,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4345,14 +4362,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4467,10 +4484,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#start-a-flow-or-resume-one" class="md-nav__link">
+  <a href="#start-a-run-or-resume-one" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Start a flow, or resume one
+        Start a run, or resume one
       
     </span>
   </a>
@@ -4527,9 +4544,9 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <li>a <strong>payment</strong> is received, or a <strong>new order</strong> is placed</li>
 <li>a <strong>new user</strong> signs up, a <strong>file</strong> is uploaded, or a <strong>call</strong> comes in</li>
 </ul>
-<p><a class="glightbox" href="../../images/learn/triggers-breadth.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The block palette searched for event triggers: extensions such as Airtable, Backendless, and Calendly each list their own triggers - On New Record, On New User Registered, On New Routing Form Submitted - one per kind of event that can start a flow." src="../../images/learn/triggers-breadth.png" /></a></p>
-<p>What all of these share is that the world acts and the flow responds. For a service without a ready-made extension, FlowRunner ships a built-in trigger, the <a data-preview="" href="../../reference/external-callback.html">External Callback</a>, that gives the flow a web address anything can call - so even a custom system can set a flow off by sending it a request. It is one trigger among many, not a special case.</p>
-<h2 id="start-a-flow-or-resume-one">Start a flow, or resume one<a class="headerlink" data-preview="" href="#start-a-flow-or-resume-one" title="Permanent link">&para;</a></h2>
+<p><a class="glightbox" href="../../images/learn/triggers-breadth.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The block palette searched for event triggers: extensions such as Airtable, Backendless, and Calendly each list their own triggers - On New Record, On New User Registered, On New Routing Form Submitted - one per kind of event that can start a run of a flow." src="../../images/learn/triggers-breadth.png" /></a></p>
+<p>What all of these share is that the world acts and the flow responds. For a service without a ready-made extension, FlowRunner ships a built-in trigger, the <a data-preview="" href="../../reference/external-callback.html">External Callback</a>, that gives the flow a web address anything can call - so even a custom system can start a run by sending it a request. It is one trigger among many, not a special case.</p>
+<h2 id="start-a-run-or-resume-one">Start a run, or resume one<a class="headerlink" data-preview="" href="#start-a-run-or-resume-one" title="Permanent link">&para;</a></h2>
 <p>Most often a trigger starts a fresh run: the event happens, and a new instance of the flow begins to handle it. But a trigger can also sit <em>inside</em> a running flow and pick it back up. A flow can reach a point, pause, and wait - for an approval, a customer's reply - and the trigger resumes it the moment that event arrives. Starting and resuming are the same idea: a place where the flow waits for the world and reacts.</p>
 <h2 id="the-event-brings-its-data">The event brings its data<a class="headerlink" data-preview="" href="#the-event-brings-its-data" title="Permanent link">&para;</a></h2>
 <p>A trigger does not only signal <em>that</em> something happened; it carries <em>what</em> happened. A new-email trigger hands the flow the sender, the subject, and the body; a payment trigger hands it the amount and the customer. That detail becomes the material the rest of the flow works on - the values its blocks read, branch on, and pass along - so the flow is not merely set off by the event but shaped by it.</p>
@@ -4538,7 +4555,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <li><a data-preview="" href="flows-and-instances.html">Flows and <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></a> - the run a trigger starts, and the <strong>LIVE</strong> state a flow needs before its triggers listen</li>
 <li><a data-preview="" href="../../reference/external-callback.html">External Callback</a> - the built-in <abbr title="A URL you hand to an outside service so it can call your flow when something happens, passing data along in the request.">webhook</abbr> trigger, and how it captures an incoming request</li>
 <li><a data-preview="" href="../../reference/triggers-group.html">Triggers Group</a> - waiting on several triggers at once and reacting to whichever fires</li>
-<li><a data-preview="" href="../../reference/flow-scheduling-concept.html">Flow Scheduling</a> - starting a flow on a timetable instead of an event</li>
+<li><a data-preview="" href="../../reference/flow-scheduling-concept.html">Flow Scheduling</a> - starting runs on a timetable instead of an event</li>
 </ul>
 
 

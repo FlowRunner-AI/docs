@@ -428,7 +428,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4311,8 +4311,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4336,9 +4334,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4352,14 +4349,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4373,6 +4364,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4381,14 +4398,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4574,8 +4591,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 
-<!-- GENERATED FILE - do not edit. Source: block-knowledge/call-flow.yaml. Regenerate: make refgen -->
-<!-- doclint: allow-unlinked: Call Flow -->
 <h1 id="call-flow">Call Flow<a class="headerlink" data-preview="" href="#call-flow" title="Permanent link">&para;</a></h1>
 <p>This block reuses a whole flow as a single step. A routine you have already built - creating a record, sending a notification, running a billing check - can be called from anywhere it is needed, so it lives in one place instead of being copied into every flow that uses it. You hand the called flow the values it needs to start, and choose whether to wait for its result or let it run on its own.</p>
 <h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>
@@ -4657,7 +4672,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <ul>
 <li>The dropdown lists every flow in your workspace, but the flow you call has to be LIVE (published) to run. If a call does nothing or errors, check that the target flow is published, not still in draft.</li>
 <li>What the block hands back depends on <span class="fr-control">Wait for completion</span>. With it on, the result is the value from the called flow's <span class="fr-block">Return Result</span> block, read downstream as <span class="fr-expr">Call Flow Result → </span> (or <span class="fr-expr">Call Flow Result → field</span> for one field). With it off, this flow does not pause for the run, so its result cannot be the called flow's output yet - it is only an executionId, an identifier for the run, not the work it produced. If a later step expects the called flow's output, leave <span class="fr-control">Wait for completion</span> on.</li>
-<li>If you are not waiting, the called flow runs on its own afterward, so this flow finishing does not mean the called flow has finished too.</li>
+<li>If you are not waiting, the called flow runs on its own afterward, so this run finishing does not mean the called flow's run has finished too.</li>
 </ul>
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>

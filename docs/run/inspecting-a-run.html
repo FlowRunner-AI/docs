@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4278,8 +4278,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4303,9 +4301,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4319,14 +4316,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4340,6 +4331,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4348,14 +4365,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4555,17 +4572,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <h2 id="finding-the-step-that-failed">Finding the step that failed<a class="headerlink" data-preview="" href="#finding-the-step-that-failed" title="Permanent link">&para;</a></h2>
 <p>A failed run arrives flagged everywhere you might look for it. In the <span class="fr-control"><abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></span> list, its row is marked <strong>TERMINATED</strong> with its <strong>Has Error</strong> column filled - and the <span class="fr-control">Only With Errors</span> filter above the list finds such runs fast.</p>
 <p><a class="glightbox" href="../images/run/monitoring-error-list.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Instances list with an errored run: the row marked TERMINATED, its Has Error column filled, above it the status filter and the Only With Errors checkbox." src="../images/run/monitoring-error-list.png" /></a></p>
-<p>The same run lands in the <a data-preview="" href="monitoring.html#dashboard---the-flow-at-a-glance">Dashboard's</a> Problematic <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr> shortlist, where clicking the row opens it:</p>
+<p>The same run lands in the <a data-preview="" href="monitoring.html#dashboard-the-flow-at-a-glance">Dashboard's</a> Problematic <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr> shortlist, where clicking the row opens it:</p>
 <p><a class="glightbox" href="../images/run/monitoring-problematic.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Problematic Instances panel with the errored run listed: the row marked TERMINATED with its Has Error column filled." src="../images/run/monitoring-problematic.png" /></a></p>
 <p>Open it and the trail continues: the <span class="fr-control"><abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr> Summary</span> reads <strong>Has Errors: Yes</strong>, and on the redrawn flow the block that broke carries a warning marker where the others carry ticks. Select it and its <strong>Output</strong> holds what the failure returned - for the retried call above, the <code>503</code> status the service kept answering with. From a run marked in the list, you are two clicks from the exact step that failed and what it answered.</p>
 <p><a class="glightbox" href="../images/run/monitoring-error-instance.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The errored run opened: the failing HTTP Request block carrying a warning marker on the canvas, the Instance Summary showing Has Errors Yes and TERMINATED, and the block's Element Execution Details - the Input it sent and the Output marked failed with the 503 the service returned." src="../images/run/monitoring-error-instance.png" /></a></p>
-<!-- Split out of run/monitoring.md 2026-08-15 per Mark's decision (page = one reader question; monitoring keeps the health views, this page owns the single-run drill-down). All content verified 2026-07-15 + re-driven 2026-08-14 - the full drive log lives in monitoring.md's comments and PLATFORM-REVIEW-LEDGER.md (Run & Monitor -> Monitoring & Analytics).
-SINGLE RUN: executed path ticked; Instance Summary (timing, Has Errors, Missed Goals, Initial Data); Element Execution Details Input/Output per selected block.
-LOOPS (re-driven 2026-08-14): expand icon (fa-expand) is HOVER-revealed on the loop block (captured hovered in monitoring-instance-detail.png); RETURN button top-left renders uppercase (DOM "Return" + text-transform); untaken Yes-branch Break carries an explicit not-executed (slash) marker. The "blocks on paths not taken stay unmarked" claim for the TOP level was removed as unverified (the poller's top level is linear).
-RETRIES (FR-2958, "Retry Demo" run E6775B29: postman-echo/status/503, 5XX policy, max 3, fixed 2s): "Retry attempts (N)" tab beside "Data"; one card per FAILED attempt that TRIGGERED a retry (3 failed attempts -> tab shows 2; the final attempt's outcome stays on Data). Cards: #n, 503 badge, timestamp, "Response:" body, "Waited 2s before next attempt". Retry Policy is HTTP-Request-only in this release (FR-2958 v1) - prose scoped accordingly. Network-error card variant and 503-then-success rendering not yet observed - prose stays within the driven evidence; follow-ups parked.
-ERRORS (verified live on E6775B29): Instances row TERMINATED + filled Has Error column (circled check icon); list filters Status ALL + "Only With SLA Violations" + "Only With Errors"; Problematic Instances populated + row click OPENED the run; failing block carries lucide-triangle-alert on the canvas where clean blocks carry lucide-check. Output phrasing scoped to the verified HTTP case. Handled-error row presentation (COMPLETED + Has Error?) not driven - prose scoped to outright failures.
-DEMO-DATA FIX (Mark approved 2026-08-15): Order Poller's Re-fetch Order re-pointed at an order-shaped response + relaunch with an Initial Data payload; monitoring-instance-detail.png and monitoring-loop-iteration.png recaptured accordingly. -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a data-preview="" href="monitoring.html">Monitoring &amp; Analytics</a> - the flow in aggregate: Dashboard, Performance, and Logs</li>

@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4273,8 +4273,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4298,9 +4296,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4314,14 +4311,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4335,6 +4326,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4343,14 +4360,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4528,8 +4545,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <h2 id="escalating-a-late-run">Escalating a late run<a class="headerlink" data-preview="" href="#escalating-a-late-run" title="Permanent link">&para;</a></h2>
 <p><span class="fr-control">Missing Target Rules</span> decide what happens as a run approaches or passes its target. Each rule fires an action - such as Send Email - on a condition: when the tracked time is <span class="fr-control">near to the target time by</span> a span you set, or <span class="fr-control">at or above the target time</span>. The goal in the screenshot sends an email 1 day 15 hours before the target, and another once the target is reached. Add as many rules as you need.</p>
 <p><a class="glightbox" href="../images/platform/sla-goals-rules.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Missing Target Rules section: one rule that sends an email when the tracked time is near the target by 1 day 15 hours, and a second that sends an email when the tracked time is at or above the target." src="../images/platform/sla-goals-rules.png" /></a></p>
-<!-- verified in-product 2026-07-10 (Calibrate workspace, Business plan, "Test Flow" -> SLA Goals tab): a goal "Support Issue Resolved" (Enabled) with Time Targets (Property = Default/Issue Resolved, Value = All Other Values, Calendar = DefaultCalendar, Target = 2 days), Time Tracking (Start = Flow Execution Starts, End = Property Value Set -> Issue Resolved = Yes), and two Missing Target Rules (near the target by 1d 15h -> Send Email; at or above -> Send Email). Selected Goal picker + Create/Clone/Delete + Add Target/Add Rule present. SLA Goals is available on the Business or Enterprise plan (per product owner); verified here on a Business-plan workspace. -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a data-preview="" href="compliance-and-security.html">Compliance &amp; Security</a> - where SLA Calendars, the working-hours calendars a goal measures against, are set up</li>

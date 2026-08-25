@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4314,8 +4314,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4339,9 +4337,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4355,14 +4352,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4376,6 +4367,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4384,14 +4401,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4589,61 +4606,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="ai-in-flows">AI in Flows<a class="headerlink" data-preview="" href="#ai-in-flows" title="Permanent link">&para;</a></h1>
-<!-- Product exploration log (2026-08-06, Documentation Flows workspace; scenario flows: Order Intake,
-Refund Check, Ticket Router, Draft Reply - all kept in the workspace; ZZ AI Scratch deleted).
-- API keys: sidebar Connections > API Keys; AI Providers / Custom tabs; per-provider ADD KEY; a saved
-  key is a "setup" (dialog: Label + API Key). No setups existed; Mark added Anthropic "Demo Key".
-- Model-first ordering verified on all four surfaces: the AI API Key field is disabled with
-  placeholder "Select model first" until a model is picked, then offers saved setups.
-- Model list grouped by provider: Anthropic, Open AI, Google Gemini AI, Mistral AI, Deep Seek,
-  Cohere, Groq, Kimi (each model with a one-line description).
-- AI Transform (Transform Data > Operation > Logic): fields Data / Instructions / AI Model / AI API
-  Key; picking the operation auto-renames the block "AI Transform Operation". LIVE RUN: extracted
-  10473 from the Dana Whitfield email. Success.
-- AI QUESTION (Condition): last operation for ALL SEVEN data types (STRING, INT, DOUBLE,
-  BOOLEAN/CHECKBOX, DATETIME, JSON OBJECT, JSON ARRAY - each list read in-product). Selecting it
-  adds Yes/No Question (expression field); AI Model + AI API Key appear once per block, shared by
-  all parts. Tooltips: AI Model "Choose the specific AI model grouped by provider (e.g., GPT-4,
-  Claude, Gemini)"; AI API Key "Enter your API key for authentication with the selected AI provider".
-  RUNTIME BUG FIXED (2026-08-07): the earlier "requires 6 arguments... received 5" failure is
-  gone. Both exits driven live in Refund Check: espresso-refund message -> Yes (Refund Question
-  succeeded, Flag For Refund Team ran, Mark As Routine skipped; Block Results Output
-  {"conditionResult": true}); K200-fit question -> No (Mark As Routine ran). Shot recaptured
-  showing the successful Yes run.
-- AI Router: panel AI Model, AI API Key, AI Decision Request (prompt) with helper text
-  ('...recommended to start the prompt with the word "Determine..."'), Decision Data rows, Expected
-  Decisions (+ adds rows with an x; Everything Else has NO x and silently reverts typed edits -
-  non-removable, non-renamable, verified). Each named decision = its own connector; exactly one
-  branch ran. LIVE RUN: billing complaint chose Billing; stored result is an OBJECT
-  {"decision": "Billing"} under the alias (reference example shows a bare string - follow-up filed).
-  Renaming the block auto-renames the alias.
-- AI Agent: palette AI group holds exactly AI Agent + AI Router (verified). Panel adds a Files
-  section (URL + MIME Type) not yet on the reference - follow-up. Manage Capabilities groups in this
-  workspace (no MCP server registered): Extensions 2549, Flows 28, Knowledge 4, Shared Memory 3,
-  Utils 4 - no MCP group appears without a registered server. Flow tool 'Call "Order Check" flow'
-  attached (Flows 1/32). LIVE RUN: user prompt bound to Initial Data->message resolved; agent
-  attempted the flow tool and replied; reply under Result Property: output.
-- Extensions: palette search shows Speech to Text from ElevenLabs AND OpenAI; Generate Image
-  (OpenAI); Moderate Content (OpenAI) - Moderate/STT are extension actions, not native blocks.
-- Extension-action auth VERIFIED (OpenAI Speech to Text dropped + inspected + removed): header
-  "OpenAI - Shared Extension" with a Configure button for the provider connection; params are
-  plain fields (File URL, Model [string], Language, Prompt, Temperature) - NOT the model/key
-  pattern. Hence the key section scopes its claim to blocks/operations and names the
-  Configure exception.
-- Draft Reply flow extended with consumer: "Send Reply" (HTTP Request, POST
-  https://helpdesk.example-shop.com/api/replies) wired after the agent; Body = bound pill
-  Draft Reply Result->output. The EE's "Select property" dialog listed the test run's real
-  properties - output with the recorded reply text - property picked from it (pixel evidence
-  the reply lives under output). Both blocks valid; shot recaptured with all three nodes.
-- Manage-Capabilities chip case: button textContent is "Manage Capabilities", displayed uppercase
-  via CSS text-transform - title-case chip kept, consistent with the approved AI Agent reference.
-- Marketplace link verified live (WebFetch): resolves, heading "AI & LLMs", 150 integrations /
-  2169 actions listed (Anthropic Claude, OpenAI, Google Gemini, Mistral, Groq, ...).
-- AI QUESTION originally shipped pending a runtime bug per Mark's explicit decision (2026-08-06,
-  "Write it as designed + you file the bug"); the fix landed and both exits were verified live
-  2026-08-07 - no open caveat remains.
-- AI Assistants palette category exists but is going away per Mark - deliberately not mentioned. -->
-
 <p>A flow can already move data, branch on a value, and work through a list. Real work also brings
 steps no fixed rule can decide: what is this customer actually asking for, is this message a refund
 request, what should the reply say. In FlowRunner™, AI makes those judgment calls as a step of the
@@ -4731,8 +4693,6 @@ instead; the <a class="fr-block" data-preview="" href="../reference/ai-router.ht
 <p>The steps above make one model call and hand back one answer. When the step has to decide what
 to do on its own - fetch knowledge, take an action, carry a conversation - reach for the
 <a class="fr-block" data-preview="" href="../reference/ai-agent.html">AI Agent</a> block.</p>
-<!-- doclint: allow-unlinked: Knowledge Bases -->
-<!-- (concept mention with glossary tooltip + concept-guide route below, not the KB action blocks) -->
 <p>You give the agent its instructions in <span class="fr-control">System Prompt</span> and <span class="fr-control">User Prompt</span>, and you grant it
 capabilities with <span class="fr-control">Manage Capabilities</span>:</p>
 <ul>

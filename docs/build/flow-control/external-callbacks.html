@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4364,8 +4364,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4389,9 +4387,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4405,14 +4402,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4426,6 +4417,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4434,14 +4451,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4689,63 +4706,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="waiting-on-an-external-system">Waiting on an External System<a class="headerlink" data-preview="" href="#waiting-on-an-external-system" title="Permanent link">&para;</a></h1>
-<!-- product-exploration log (2026-07-16, Documentation Flows workspace; flow "Payment Hand-off" A9FFD57D)
-SOURCES read first: `external-callback-trigger.md` (git show HEAD:docs/reference/external-callback-trigger.html)
-+ `external-callback.md` (V-real) + the in-product verifications below.
-
-ENDPOINT: POST|GET .../automation/flow/{FLOW-ID}/trigger/{TRIGGER-ID}/activate. You COPY the complete
-Callback URL from the block's properties - do not assemble it from ids. Start-of-flow trigger = new
-instance per call; mid-flow trigger = resume a paused instance.
-
-WAIT LIMIT (Mark, 2026-07-16): a paused run is NOT unlimited - it waits up to the workspace plan's max:
-30 days on Growth plans, 1 year on all other plans. (Corrected the earlier "no end time" claim.)
-
-LIVE (per reference + 28010): the trigger responds only while the flow is LIVE - for BOTH start and
-mid-flow use (a stopped flow -> 28010). Not a mid-flow-only rule.
-
-METHOD (VERIFIED): GET -> query params become the trigger data (C97487D6: ?event=payment.succeeded
-landed as External Callback Data->event). POST -> JSON body = trigger data; query params ignored except
-`execution`.
-
-EXECUTION PARAM (VERIFIED; name `execution` OR `executionId`): <id> resumes that run; `any` resumes ONE
-waiting run (FlowRunner picks which - woke 36B09CF9, the older, while 068C5A05 kept waiting); `all`
-resumes EVERY waiting run (comma-separated ids: 904EFDDC + 6BEDE8DE). Single/any -> {"executionId":"<id>"};
-all -> comma list; all with nothing waiting -> {"executionId":null} (200, NOT error).
-ERRORS (400 JSON): 28056 mid-flow no execution; 28010 not LIVE; 28059 bad/absent id; 28060 any-nothing-waiting.
-
-EXECUTION ID IS A RUNTIME VALUE (Mark, 2026-07-16): the id is assigned when the run starts and is unique
-per run - it does NOT exist at build time, so a caller cannot "type" it. The flow references it (Flow
-Context) and each run resolves the reference to its own id. The earlier "insert as a pill, not typed
-text" line was wrong-headed (an artifact of my automation) and is removed.
-
-INTEGRATION AXIS (Mark): dynamic-URL vs fixed-webhook. (a) system accepts a per-request callback address
--> the flow composes CallbackURL?execution=<Execution ID ref> and sends it. (b) system posts to ONE fixed
-webhook URL configured once -> can't take a per-run address; the id reaches it another way (email/link)
-and it appends ?execution=<id>, or the fixed URL carries ?execution=any. (c) caller started the run via
-the Call Flow API and got executionId in the response.
-
-CONDITIONS (VERIFIED): ADD A CONDITION -> Value to Check (expression) / Value Data Type / Operation /
-Value. Built event EQUALS payment.succeeded; event=refund call -> {"executionId":null}, run STAYED
-paused; payment.succeeded -> resumed. False condition accepted (200) but does not activate. (Removed after.)
-
-LEARNING MODE (VERIFIED 2026-07-16): purple callback icon on the hover toolbar turns it on; after a
-sample is learned the icon turns GREEN; clicking it opens a "Result Structure" popup listing
-every field with value + type (event/orderId/amount/currency/customer) + a "REACTIVATE LEARNING MODE"
-button. Convenience, not a gate - you can reference a field whose name you know without learning
-(reference: "reference fields by name instead of guessing").
-REFERENCING METHOD (Mark, 2026-07-16 - I kept teaching this WRONG): the ONLY way to reference a field,
-object, or list element is by PICKING it - find the data node (e.g. External Callback Data), navigate to
-what you need, and DOUBLE-CLICK or DRAG it in. You do NOT type the <span class="fr-expr">X → field</span> text - that is the
-inserted result, never the input method. (Same root as the executionId "pill" error.)
-CONDITION EXAMPLE (Mark): "event EQUALS payment.succeeded" is ONE illustration, not universal - gate on
-whatever field of the reader's OWN payload distinguishes the calls they want.
-
-SHOTS: config (panel + Callback URL), paused (run paused mid-flow), url-reference (predecessor picks the
-callback URL + Execution ID), learningmode, learned, resumed (composite: Value=External Callback
-Data->event + output payment.succeeded), addcondition (the ADD A CONDITION button), condition (the built
-condition). SCOPE (Mark): omit Execution Permissions/security and the user-token header.
--->
-
 <p>An <a class="fr-block" data-preview="" href="../../reference/external-callback.html">External Callback</a> trigger placed in the middle of
 a flow pauses the run until an outside system makes an HTTP request to a URL. Reach for it to hand work
 to something that takes its own time - a payment to clear, a document to finish processing, a person to

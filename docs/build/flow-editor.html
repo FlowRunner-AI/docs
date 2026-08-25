@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4367,8 +4367,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4392,9 +4390,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4408,14 +4405,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4429,6 +4420,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4437,14 +4454,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4697,75 +4714,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="the-flow-editor">The Flow Editor<a class="headerlink" data-preview="" href="#the-flow-editor" title="Permanent link">&para;</a></h1>
-<!-- product-exploration log (2026-07-24 / 2026-07-27, PRODUCTION app.flowrunner.ai, Documentation Flows workspace)
-SOURCES READ FIRST: legacy floweditor.md / workingwithblocks.md / blocknaming.md (notes in
-.cache/flow-editor-sources.md) + the sibling pages that own adjacent content (running-flows.md owns the
-toolbar/version status, testing.md owns the Test Monitor and links BACK here, blocks.md owns aliases,
-expressions.md owns the Expression Editor, parallel.md owns the link-icon wording). Full verification
-notes: .cache/flow-editor-verification.md.
-WORKED EXAMPLE: flow "Order Check" (BE9F178E), built by hand live: Get Order (HTTP Request) -> Check
-Total (Condition) -> Yes -> Flag Large Order (Set Variables). Every shot comes from it.
-VERIFIED: empty flow shows Start + a dashed "Drop a block from right panel here" target, and dropping
-there auto-wires to Start; dropping on open canvas leaves the block UNCONNECTED; palette Search works;
-link icon (React Flow handle) on hover drags a connection; hovering a connection shows an X to remove it;
-DELETE on a block raises a "Delete block confirmation" dialog; an incomplete block shows a red numeric
-badge whose tooltip lists its problems, and the version-status badge lists every problem grouped by block
-("URL is required", "Block should be connected with it's parent" [product's typo], "One of the Yes or No
-connection must be connected"); filling the last field flips Not Ready -> Ready instantly; the wand icon
-opens the Expression Editor and double-click inserts a field; "run block" issued the real request and
-returned Success into the Test Monitor, after which the block's result fields became pickable; a LIVE
-version opens read-only (first tab reads View, the palette is absent).
-STALE LEGACY - deliberately NOT documented: there is no Test Mode toggle and no Auto Save toggle in the
-current product (matches definitions.md). NOT REPRODUCED: legacy's "editing a previously LIVE version
-deletes its analytics data" confirmation - took the flow live, ran an instance, stopped, edited: no
-warning appeared. Left off the page rather than asserted.
-VERIFIED 2026-07-24 (round 2, closing the gate's verify-in-product gaps):
-- RENAMING: renamed Get Order -> Fetch Order; the auto-derived alias became "Fetch Order Result" AND the
-  downstream Check Total reference re-pointed itself. Version stayed Ready. Renamed back.
-- AUTOSAVE: renamed a block, navigated to another flow and back with NO save action - the change was
-  still there. There is no save control anywhere in the editor.
-- READY GATES GOING LIVE: with the URL cleared (Not Ready), the Start flow button is DISABLED
-  (button.disabled = true, cursor-not-allowed, opacity-60) and clicking does nothing.
-VERIFIED 2026-07-27 (round 3 - three claims I had WRITTEN WITHOUT OBSERVING; driven on throwaway CLONES
-of Order Check, all since deleted, leaving the flow at Version 1 / Ready as the shots show):
-- LINK ICON COLOUR: the chain icon takes the BLOCK's colour, not a fixed green (green on the HTTP
-  Request, gold on a List Iterator). The page said "the green chain icon" - wrong, and wrong on its own
-  core gesture since the example's Condition is pink. Colour is now off the page entirely (Mark: it does
-  not matter to the reader); the control is named by its own tooltip instead.
-- DELETING A BLOCK - OBSERVED, not inferred. Deleted the middle block on a clone: before = 3 nodes /
-  2 edges / Ready; after = 2 nodes / 0 EDGES / Not Ready. BOTH edges went, so the downstream block was
-  left parentless and badged 1 ("Flag Large Order - Block should be connected with it's parent"). The
-  UPSTREAM block was NOT flagged - it is still held by Start.
-- NO UNDO: Cmd+Z and Ctrl+Z after a real deletion restored nothing; Cmd+Z after a move did not revert it;
-  Cmd+Z with a name field focused does character-level text undo IN THAT FIELD ONLY; and no affordance
-  exists - block and canvas have NO context menu, and nothing in the DOM carries undo/redo in its title,
-  aria-label or class.
-VERIFIED 2026-07-27 (round 4, from Mark's review):
-- BLOCK ICON ROW, all four tooltips hovered: play = "Run in test mode"; lightning = "Run instance from
-  this element"; chain handle = "Drag to connect with another block"; the grey lower-left icon =
-  "Open SLA configuratior" [product's typo]. Toolbar cluster (5): "Fix errors before starting the flow"
-  (Start flow, disabled while Not Ready), Schedule, Clone, Export, "Run Instance is not available for
-  flows with errors".
-- MULTI-SELECT: Shift + drag draws a rectangle; every block inside it gains .selected, blocks outside do
-  not. Dragging one selected block moved BOTH by an identical delta (-108, +54) while the unselected one
-  stayed put. Delete or Backspace then raises "Delete blocks confirmation" - 'Do you want to delete
-  "Flag Large Order, Check Total" blocks?'. For ONE selected block, Delete and Backspace both raise the
-  singular "Delete block confirmation", same as the panel's DELETE.
-- REFERENCE RESULT DATA AS (Mark's correction - my "renaming also renames the alias" was unqualified):
-  it is a CHECKBOX, off by default, with a greyed field beneath showing the auto-derived "<Block Name>
-  Result". Ticked it, typed a custom alias "Big Order Check", then RENAMED the block Check Total ->
-  Total Gate: the canvas and Name field both changed and the alias STAYED "Big Order Check". So the alias
-  follows the block name only while it is auto-derived; a custom one is never overwritten.
-- The in-product decoration for a picked reference is a pill carrying the source block's icon
-  ("Get Order Result -> total"), which is what this documentation's own expression token mirrors.
-STILL UNVERIFIED (kept off the page): changing which block runs first; the palette Marketplace icon
-(no Marketplace affordance found beside Search - legacy claim appears stale). The lightning icon is named
-by its tooltip only - its run behaviour belongs to Testing / Running Flows and was not driven here.
-KNOWN EXCEPTION: the container section's shot (listiterator-expand.png) is from the Cart Summary flow,
-not Order Check - the palette drag became unreliable mid-session so a container could not be added to the
-worked example. The shot is an accurate picture of the Expand control; the continuity gap is logged.
--->
-
 <p>A process you can describe out loud - fetch the order, check the total, flag anything over $100 - becomes
 something FlowRunner runs, and the editor is where you build it. You place each step on the canvas, draw
 the path between them, fill in what each one needs, and try a step right there to see what it produces

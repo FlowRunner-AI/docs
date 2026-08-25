@@ -67,6 +67,15 @@ _TRAILING_PAREN = re.compile(r"\s*\([^)]*\)\s*$")
 # is not a "mention" and cannot carry a link.
 _COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
 
+# An authored expression token, `{{Initial Data->orderId}}`, renders as an .fr-expr pill - it is a
+# value reference, not prose, so a block name inside one is not a linkable "mention" (same reason
+# code spans and image alt text are excluded).
+_EXPR_TOKEN = re.compile(
+    r"\{\{.*?\}\}"                                    # authored form on narrative pages
+    r"|<span class=\"fr-expr\">.*?</span>",             # rendered form on generated pages
+    re.DOTALL,
+)
+
 # A FlowRunner flow can start with ANYTHING (an API call, a schedule, a manual launch,
 # a trigger) - never frame the start as trigger-based (a product differentiator Mark
 # has corrected repeatedly). High-precision phrasings only; the adversarial review
@@ -88,6 +97,36 @@ _FRBLOCK = re.compile(r"\{\.fr-block\}|class=\"fr-block\"")
 # Author's conscious "this section needs no screenshot, and here's why" opt-out. Visible
 # in the diff, so a shot-less section is a decision on record, never an unnoticed gap.
 _NO_SHOT = re.compile(r"<!--\s*doclint:\s*no-shot:", re.IGNORECASE)
+
+
+# An API call, trigger, event, or schedule starts an INSTANCE (a run) - the flow itself is
+# "started" only in the Start-flow/LIVE sense (Mark, 2026-08-24: "A flow MUST BE started in
+# order for Call Flow to work. The API starts an instance. It is an important distinction").
+# Keyed on an actor word so legitimate "start the flow" (the Start flow action) never flags.
+# Runtime verbs belong to the RUN, not the flow: "a flow that never reaches a Return Result"
+# (gate round 18) is the same correction in a verb form the actor-keyed pattern below cannot see.
+# Deliberately narrow: only forms where the FLOW is the subject of one execution's completed or
+# negated progress ("a flow that never reaches ...", "the flow has finished", "the flow terminated").
+# The present-tense design description common in block references ("when the flow reaches this
+# block") is NOT flagged - that is a corpus-wide house-style question for the product owner.
+_FLOW_RUNTIME_VERB = re.compile(
+    r"\bflows?\b(?!['’]s\s+run)(?![^.\n]{0,30}\bversions?\b)"
+    r"[^.\n]{0,25}?\b(?:never|already|has|have|had)\b[^.\n]{0,15}?"
+    r"\b(?:reach(?:es|ed)|finish(?:es|ed)|terminat(?:es|ed))\b",
+    re.IGNORECASE,
+)
+
+_FLOW_VS_INSTANCE = re.compile(
+    r"\b(?:request|call|api|endpoint|trigger|event|schedule|timer|webhook|activation|fetch)\b"
+    r"[^.\n]{0,60}?\bstart(?:s|ing)?\s+(?:the|a|an|your)\s+flows?\b",
+    re.IGNORECASE,
+)
+
+# A bullet list interrupted by a block-level image or paragraph at column 0: markdown ends the
+# list there, and the bullets that follow the interruption are swallowed into that block's
+# paragraph - they ship as a literal "- " line, not an <li>. Round 19 and round 22 both shipped
+# this on the same page; doclint saw nothing because the source "looks" like a list.
+_BULLET = re.compile(r"^[-*+]\s+\S")
 
 SEVERITY_ERROR = "error"
 SEVERITY_WARN = "warn"
@@ -174,6 +213,7 @@ def block_link_violations(md: str, block_names) -> list[Violation]:
     code, image alt text, or headings do not count (they cannot carry a prose link)."""
     coded = _strip_code(md)                                   # blank code, keep length
     coded = _COMMENT.sub(_blank_same_len, coded)              # comments are not prose
+    coded = _EXPR_TOKEN.sub(_blank_same_len, coded)           # expression pills are not prose
     link_spans = [(m.start(1), m.end(1)) for m in _LINK_TEXT.finditer(coded)]
 
     search = _IMAGE.sub(_blank_same_len, coded)               # alt text is not prose
@@ -207,6 +247,85 @@ def block_link_violations(md: str, block_names) -> list[Violation]:
     return out
 
 
+
+
+# --- dead anchors: an authored #fragment must match a real heading slug ---------------
+# Mark's 2026-08-24 Endpoint retitle ("Endpoint" -> "Endpoint (`GET` or `POST`)") changed
+# the heading's slug and silently killed every authored [.](#endpoint) link on the page.
+# This check recomputes each heading's slug the way the site does (python-markdown's
+# default toc slugify - the config sets no custom slugify) and errors on any authored
+# same-page `#fragment`, or cross-page `page.md#fragment` when the target file is
+# readable, that no heading produces.
+_MD_LINK = re.compile(r"(?<!\!)\[(?:[^\]]|\](?!\())*\]\(([^)\s]+)\)")
+
+
+def _toc_slug(title: str) -> str:
+    """python-markdown's default toc slugify (the renderer this site uses)."""
+    import unicodedata
+    value = unicodedata.normalize("NFKD", title).encode("ascii", "ignore").decode("ascii")
+    value = re.sub(r"[^\w\s-]", "", value).strip().lower()
+    return re.sub(r"[-\s]+", "-", value)
+
+
+def heading_slugs(md: str) -> set[str]:
+    """Every anchor the rendered page owns, with toc's _1 dedup suffixes."""
+    slugs: set[str] = set()
+    seen: dict[str, int] = {}
+    # detect headings on code-stripped text (a "#" inside a fence is not a heading),
+    # but slug from the ORIGINAL line - inline code in a heading keeps its content
+    for raw, safe in zip(md.splitlines(), _strip_code(md).splitlines()):
+        if not re.match(r"^#{1,6}\s+\S", safe):
+            continue
+        m = re.match(r"^#{1,6}\s+(.*?)\s*(?:\{[^}]*\})?\s*$", raw)
+        if not m:
+            continue
+        title = re.sub(r"`([^`]*)`", r"\1", m.group(1))
+        title = re.sub(r"\[((?:[^\]]|\](?!\())*)\]\([^)]+\)", r"\1", title)  # link text only
+        base = _toc_slug(title)
+        n = seen.get(base, 0)
+        seen[base] = n + 1
+        slugs.add(base if n == 0 else f"{base}_{n}")
+    return slugs
+
+
+def anchor_violations(md: str, path: str = "<page>") -> list[Violation]:
+    """ERROR on authored fragments that no heading slug matches. Cross-page fragments
+    are checked when the linked file can be read relative to `path`; unreadable or
+    non-.md targets are left to the site build."""
+    import os
+    coded = _COMMENT.sub(_blank_same_len, _strip_code(md))
+    own = heading_slugs(md)
+    cache: dict[str, set[str] | None] = {}
+    out: list[Violation] = []
+    for m in _MD_LINK.finditer(coded):
+        url = m.group(1)
+        if "#" not in url or url.startswith(("http://", "https://", "mailto:")):
+            continue
+        target, frag = url.split("#", 1)
+        if not frag:
+            continue
+        if target == "":
+            slugs = own
+        elif target.endswith(".md") and os.path.isfile(os.path.join(os.path.dirname(path), target)):
+            if target not in cache:
+                try:
+                    with open(os.path.join(os.path.dirname(path), target), encoding="utf-8") as fh:
+                        cache[target] = heading_slugs(fh.read())
+                except OSError:
+                    cache[target] = None
+            slugs = cache[target]
+        else:
+            continue
+        if slugs is not None and frag not in slugs:
+            line = md[:m.start()].count("\n") + 1
+            where = "this page" if target == "" else target
+            out.append(Violation(SEVERITY_ERROR, line, "dead-anchor",
+                f"link fragment '#{frag}' matches no heading on {where} - the heading "
+                f"may have been retitled (slugs there: check `## ...` lines); fix the "
+                f"fragment or the heading"))
+    return out
+
+
 def lint_text(md: str, path: str = "<page>", block_names=None) -> list[Violation]:
     """Return all violations for one page's markdown."""
     out: list[Violation] = []
@@ -226,6 +345,15 @@ def lint_text(md: str, path: str = "<page>", block_names=None) -> list[Violation
             out.append(Violation(SEVERITY_ERROR, i + 1, "structure",
                                  "heading deeper than h3; split the page instead"))
 
+    # --- chip-marker collision: "(((" renders a chip whose label swallows the adjacent paren ---
+    for i, l in enumerate(safe.splitlines()):
+        if "(((" in l:
+            out.append(Violation(SEVERITY_ERROR, i + 1, "chip-paren-collision",
+                                 "'(((' in source: a parenthesis abutting a ((chip)) marker is swallowed "
+                                 "into the rendered chip label - restructure so '(' never touches '((' "
+                                 "(Mark's Call Flow split, 2026-08-24: '(((Run Instance))' rendered a chip "
+                                 "reading '(Run Instance')"))
+
     # --- em-dash ---
     for i, l in enumerate(safe.splitlines()):
         if _EMDASH.search(l):
@@ -237,6 +365,39 @@ def lint_text(md: str, path: str = "<page>", block_names=None) -> list[Violation
         for m in _BANNED.finditer(l):
             out.append(Violation(SEVERITY_WARN, i + 1, "banned-word",
                                  f"banned filler/marketing word: '{m.group(0)}'"))
+
+    # --- split list (error): a bullet glued to the block above it is not a list item ---
+    # python-markdown needs a blank line before a list that follows a paragraph or an image.
+    # Without one, the bullet is swallowed into that block and ships as a literal "- " line.
+    prev = ""
+    # comments are author notes markdown never renders - a bullet inside one is not a list item
+    listsafe = _COMMENT.sub(_blank_same_len, safe)
+    for i, l in enumerate(listsafe.splitlines()):
+        glued = (prev.strip() and not _BULLET.match(prev) and not prev[:1].isspace()
+                 and (_IMAGE.match(prev.strip()) or prev.rstrip().endswith(":")))
+        if _BULLET.match(l) and glued:
+            out.append(Violation(SEVERITY_ERROR, i + 1, "split-list",
+                "this bullet is glued to the line above it, so markdown folds it into that block "
+                "and it ships as a literal '- ' instead of a list item. Put a blank line before the "
+                "list (or indent the interrupting image two spaces to keep it inside the bullet)"))
+        prev = l
+
+    # --- flow-vs-instance (warn): a call/trigger/event starts an INSTANCE, not "the flow" ---
+    for i, l in enumerate(safe.splitlines()):
+        m = _FLOW_VS_INSTANCE.search(l)
+        if m:
+            out.append(Violation(SEVERITY_WARN, i + 1, "flow-vs-instance",
+                f"'{m.group(0).strip()}': an API call, trigger, event, or schedule starts an "
+                f"INSTANCE (a run) of the flow - the flow itself is started only in the "
+                f"Start-flow/LIVE sense. Write 'starts an instance' / 'starts a run'"))
+
+    # --- flow-vs-instance, verb form (warn): a RUN reaches/finishes/terminates, not the flow ---
+    for i, l in enumerate(safe.splitlines()):
+        m = _FLOW_RUNTIME_VERB.search(l)
+        if m:
+            out.append(Violation(SEVERITY_WARN, i + 1, "flow-vs-instance",
+                f"'{m.group(0).strip()}': reaching a block, finishing, and terminating are things one RUN "
+                f"(instance) does - the flow is the definition. Make the run the subject"))
 
     # --- trigger-start framing (warn): a flow can start with anything, not a trigger ---
     if "trigger" not in path.lower() and not _TRIGGER_ALLOW.search(md):
@@ -280,7 +441,8 @@ def lint_text(md: str, path: str = "<page>", block_names=None) -> list[Violation
             ))
         elif imgs == 0:
             # No marked controls, but plain prose may still point at the screen.
-            hit = _PROSE_UI.search(_strip_code(sec.body))
+            # author notes are not reader-facing prose
+            hit = _PROSE_UI.search(_COMMENT.sub(_blank_same_len, _strip_code(sec.body)))
             if hit:
                 out.append(Violation(
                     SEVERITY_WARN, sec.start_line, "screenshot-coverage-prose",
@@ -305,6 +467,9 @@ def lint_text(md: str, path: str = "<page>", block_names=None) -> list[Violation
     # --- block-link coverage: first mention of a block links to its reference ---
     names = load_block_names() if block_names is None else block_names
     out.extend(block_link_violations(md, names))
+
+    # --- dead anchors: authored #fragments must match real heading slugs ---
+    out.extend(anchor_violations(md, path))
 
     out.sort(key=lambda v: (v.line, 0 if v.severity == SEVERITY_ERROR else 1))
     return out

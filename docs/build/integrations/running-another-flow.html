@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4303,8 +4303,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4328,9 +4326,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4344,14 +4341,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4365,6 +4356,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4373,14 +4390,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4566,15 +4583,12 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 
-<!-- doclint: allow-unlinked: Wait -->
 <h1 id="running-another-flow">Running Another Flow<a class="headerlink" data-preview="" href="#running-another-flow" title="Permanent link">&para;</a></h1>
 <p>When the same handful of steps turns up in several places - refresh a token, create a record, send a
 notification the same way every time - build that work once and run it as a single step wherever it is
 needed. A fix then lands in one place instead of being copied around and forgotten in one of them. It is
 also how a flow that has grown hard to read gets shorter.</p>
 <h2 id="pick-the-right-route">Pick the right route<a class="headerlink" data-preview="" href="#pick-the-right-route" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: a choice between three routes; each block's panel is pictured below and on its own reference page -->
-
 <ul>
 <li><strong><a class="fr-block" data-preview="" href="../../reference/subflow.html">SubFlow</a></strong> - a named mini-flow that lives inside this flow.
   Place it as many times as you like within the flow; every placement runs the one shared definition, so
@@ -4611,8 +4625,6 @@ create it, and can edit them later from the subflow's entry in the Subflows list
 <p>Give the called flow the values it needs and nothing more. It is a contract, and a short one is easier to
 keep working.</p>
 <h2 id="read-what-comes-back">Read what comes back<a class="headerlink" data-preview="" href="#read-what-comes-back" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: how the returned value is read downstream; the Return Result panel is pictured on Returning a Result -->
-
 <p>The called flow decides what it hands back with a
 <a class="fr-block" data-preview="" href="../../reference/return-result.html">Return Result</a> block. That value comes back as the result of
 the Call Flow or SubFlow block that ran it, so you read it under the calling block's alias. Name that

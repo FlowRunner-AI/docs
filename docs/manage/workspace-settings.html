@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4267,8 +4267,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4292,9 +4290,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4308,14 +4305,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4329,6 +4320,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4337,14 +4354,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4512,8 +4529,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <p>A workspace's General settings are where you set what it is and what becomes of it: the name that tells it apart from your others, the credentials that let outside systems drive its flows, and the two ways it can end - handed to someone else, or deleted for good. You reach them from the General page, under Workspace settings in the left navigation.</p>
 <h2 id="name-and-credentials">Name and credentials<a class="headerlink" data-preview="" href="#name-and-credentials" title="Permanent link">&para;</a></h2>
 <p>A workspace's name is how you and your team tell it apart from the others you keep open - it is the label in the workspace switcher and across the app. Rename it when its purpose has drifted from its name: a "Test" space that quietly became production, a project that grew into a product. The name should still say what is inside. You change it in the <span class="fr-control">Workspace Info</span> section: edit the <span class="fr-control">Name</span> and click <span class="fr-control">RENAME</span>.</p>
-<p>A flow does not have to be started from the editor, and the <span class="fr-control">Credentials</span> section is what opens it up to the outside. It holds the two values another system needs to drive this workspace on its own - the <span class="fr-control">Workspace ID</span> that names it and the <span class="fr-control">API Key</span> that authorizes the caller. With them, a <a data-preview="" href="../reference/call-flow.html">Call Flow</a> invocation, a trigger activation, or any program you write can start your flows from anywhere, not only from inside FlowRunner™. Treat the key like a password: if it leaks, regenerate it with the refresh icon beside the field, and the old one stops working the moment you do.</p>
-<p><a class="glightbox" href="../images/manage/workspace-settings-identity.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The General page's Workspace Info and Credentials sections: a Name field with a RENAME button, and a Workspace ID and an API Key, each a read-only value with a copy button (the API Key also has a refresh icon to regenerate it)." src="../images/manage/workspace-settings-identity.png" /></a></p>
+<p>A flow's instances do not have to be launched from the editor, and the <span class="fr-control">Credentials</span> section is what opens them up to the outside. It holds the two values another system needs to drive this workspace on its own - the <span class="fr-control">Workspace ID</span> that names it and the workspace's <span class="fr-control">API Key</span>. With them, a <a data-preview="" href="../reference/call-flow.html">Call Flow</a> invocation, a trigger activation, or any program you write can start instances of your flows from anywhere, not only from inside FlowRunner™. The key is part of every URL you hand out, so treat those URLs like a password and keep them private. The refresh icon beside the field issues a new key; because the key belongs to the whole workspace, every URL built on the old one has to be rebuilt with the new key.</p>
+<p><a class="glightbox" href="../images/manage/workspace-settings-credentials.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The General page's Workspace Info and Credentials sections: a Name field with a RENAME button, and below it a Workspace ID field (showing a placeholder) with a copy button and a masked API Key field with Show API key, Regenerate key and Copy to Clipboard icons." src="../images/manage/workspace-settings-credentials.png" /></a></p>
 <h2 id="transferring-a-workspace-to-another-installation">Transferring a workspace to another installation<a class="headerlink" data-preview="" href="#transferring-a-workspace-to-another-installation" title="Permanent link">&para;</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Handing the workspace to another person?</p>
@@ -4525,8 +4542,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <h2 id="deleting-a-workspace">Deleting a workspace<a class="headerlink" data-preview="" href="#deleting-a-workspace" title="Permanent link">&para;</a></h2>
 <p>When a workspace's work is finished or abandoned, deleting it clears it out completely and frees its monthly execution allowance for the workspaces still earning their keep. It removes the workspace and everything in it - flows, forms, knowledge bases, connections - and the screen says so plainly: the operation is irreversible. <span class="fr-control">DELETE WORKSPACE</span> carries it out once you confirm, so reach for it only when you are certain nothing inside is still needed.</p>
 <p><a class="glightbox" href="../images/manage/workspace-settings-delete.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Delete the workspace section: a warning that removing the workspace is irreversible and all data will be deleted, with a red DELETE WORKSPACE button." src="../images/manage/workspace-settings-delete.png" /></a></p>
-<!-- verified in-product 2026-07-10 (Tests workspace, Workspace settings -> General, viewed only - nothing renamed/regenerated/transferred/deleted): the page has Workspace Info (Name field + RENAME), Credentials (Workspace ID + API Key, each read-only with copy; API Key has a regenerate control), Transfer Workspace (Generate ZIP + Generate Developer Signature, then import on the target), and "Delete the workspace" (marked irreversible, red DELETE WORKSPACE). Matches the page; existing screenshots depict the same sections. Corrected 2026-07-10 per Mark: Transfer Workspace is primarily a cross-INSTALLATION move (e.g. FlowRunner cloud -> self-hosted); the Developer Signature is the password for the generated ZIP; handing a workspace to another PERSON on the same installation is done via Transfer Ownership on the Team page, not this. -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a data-preview="" href="../platform/workspace.html">Workspace</a> - what a workspace is and the areas it holds</li>

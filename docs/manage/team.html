@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4256,8 +4256,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4281,9 +4279,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4297,14 +4294,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4318,6 +4309,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4326,14 +4343,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4498,8 +4515,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <p><a class="glightbox" href="../images/manage/team-transfer-ownership.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Transfer Ownership dialog: a &quot;Transfer app ownership to&quot; member selector above a warning that the new owner gets maximum permissions and that billing responsibility moves to them, with Cancel and Start Ownership Transfer buttons." src="../images/manage/team-transfer-ownership.png" /></a></p>
 <p>Transferring ownership also moves <strong>billing responsibility</strong>. The new owner is asked to add their own payment method, the subscription restarts under their billing, and you receive a prorated credit for the unused time in the current cycle.</p>
 <p>This is a person-to-person handoff within the same installation. To move the whole workspace to a different FlowRunner™ installation instead, see <a data-preview="" href="workspace-settings.html#transferring-a-workspace-to-another-installation">Workspace Settings</a>.</p>
-<!-- verified in-product 2026-07-10 (Tests workspace, Workspace settings -> Team, viewed only - nothing invited/removed/transferred): the Development Team roster lists each member with last login, a Permissions badge (Owner / All permissions / Mixed) and a Notifications badge, with "It's you" on your own row; the actions are Invite a team member, Delete selected, Remove me from the team, and Transfer ownership. Matches the page; existing screenshot depicts the same layout. Transfer Ownership dialog verified 2026-07-10 (opened, cancelled - nothing transferred): "Transfer app ownership to:" a chosen team member; the new owner gets maximum permissions/visibility over everyone incl. you; reversible only if the new owner transfers back; IMPORTANT - billing responsibility moves (new owner adds their card, subscription restarts under their billing, current owner gets a prorated credit for unused time). This is the in-place person-to-person handoff, distinct from Workspace Settings' cross-installation Transfer Workspace. Promoted to its own "## Transferring ownership" section 2026-07-10 (per Mark) so Workspace Settings can link to it. New screenshot team-transfer-ownership.png: captured in Tests, the three real teammates' names + emails redacted to Alex Rivera/Jordan Lee/Sam Patel @example.com via DOM before capture; dialog opened + cancelled, nothing transferred. -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a data-preview="" href="../platform/workspace.html">Workspace</a> - what a workspace is and the areas it holds</li>

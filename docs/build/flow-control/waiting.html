@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4281,8 +4281,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4306,9 +4304,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4322,14 +4319,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4343,6 +4334,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4351,14 +4368,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4523,15 +4540,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="adding-a-delay">Adding a Delay<a class="headerlink" data-preview="" href="#adding-a-delay" title="Permanent link">&para;</a></h1>
-<!-- product-exploration log (2026-07-15, Documentation Flows workspace; flows built via authored-JSON import, run-proven via the activate URL)
-- WAIT block: Utils palette. Config = Expression Mode (off/on) + Wait for. OFF: Days/Hours/Minutes/Seconds fields (stored as total seconds; delay expression = NUMBER seconds). ON: a single Seconds field that takes an EXPRESSION (dynamic, resolves to a number of seconds). Verified in-product.
-- DELAY PROVEN ("Paced Calls" 4077259E): Call One (HTTP) -> Wait 3s -> Call Two (HTTP). Instance 9FA331E3 total = 3s (two near-instant HTTP calls alone would be ~0-1s; the Wait added the 3s before Call Two).
-- HOLDS ONLY ITS BRANCH PROVEN ("Delay One Path" 3FECA0F9): Kickoff -> fans to [Wait 5s -> Delayed Note] and [Quick Note]. Instance C1BCA01B logs: Quick Note completed 09:54:2.380 (immediately after Kickoff at 2.254); Wait held 2.292 -> 7.634 (~5s); Delayed Note ran 7.660. So the Quick branch was NOT delayed by the Wait on the other branch. Total 5s = the waiting branch (like the Parallel page's concurrency).
-- EXPRESSION MODE UNIT verified = SECONDS (300 = five minutes). The expression is worked out at run time from flow data.
-- backoff-retry (Wait on a retry path) DEMOTED to a pointer per Mark - lives fully on Handling Errors (avoids forward-referencing Handle Error here).
-- 3 shots, pixel-checked: wait-config (Call One -> Wait 3s -> Call Two + duration panel), wait-branch (fan-out, Wait on one branch), wait-expression-mode (Expression Mode = single Seconds expression field).
--->
-
 <p>Not every step should fire the instant the one before it finishes. You might want to give a service
 a moment to recover before calling it again, space out a burst of calls so you stay under a
 provider's rate limit, or hold before a follow-up. A <a class="fr-block" data-preview="" href="../../reference/wait.html">Wait</a> block

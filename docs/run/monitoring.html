@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4267,8 +4267,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4292,9 +4290,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4308,14 +4305,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4329,6 +4320,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4337,14 +4354,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4551,15 +4568,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <li><span class="fr-control">Basic timestamps</span> - trade the full date on each line for a compact clock time.</li>
 </ul>
 <p><a class="glightbox" href="../images/run/monitoring-logs-narrowed.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The stream narrowed: the Log Source picker holding one run, the Show logging for picker it revealed, and a search for &quot;execution completed&quot; with Filter ticked - only the matching lines remain, the matched text highlighted." src="../images/run/monitoring-logs-narrowed.png" /></a></p>
-<!-- verified in-product 2026-07-15 (Documentation Flows, "Order Poller" v1, 3 real COMPLETED activations; status chip cropped out; sidebar/footer excluded; no personal data - instance UUIDs/timestamps only). Dashboard cards: SLA Compliance / Completion Rate / Error Rate / Total Runs / Active Instances. Run history: calendar heatmap; the Versions list has a per-version checkbox controlling which versions the Run history includes ("Across N selected version"); CLICKING an active day drills in -> a "<date> Flow Activations" list of that day's runs (time, source e.g. API, status COMPLETED) + the execution-source breakdown for it (here 100% API). Execution sources = Scheduled Runs / API / Trigger Event / Other. Block Transitions = per-path % on the flow diagram. Problematic Instances = errored/SLA-missed runs. Performance: per-element AVERAGE/MIN/MAX TIME IN STEP + ERROR RATE + COMPLIANCE, sortable. Corrections applied 2026-07-15 per Mark's 2/10 review: teach value not narrate; "workspace billing plan"; dropped the gratuitous flow-naming lede + filler cross-refs. History-retention-by-plan and SLA-on-Business/Enterprise are product-owner facts (Mark). -->
-<!-- RE-DRIVEN 2026-08-14 (post release 1.0.13; Order Poller's July runs had aged out of run history, so 5 fresh LIVE API activations were launched to repopulate; all shots recaptured at full width, nav rail collapsed):
-TABS + RANGE: tab row (View / Dashboard / Performance / Instances / SLA Goals / Logs / Version Admin - seven tabs; the lede scopes its frame and routes the rest) + the shared From/To window with "Past 30 days" preset + REFRESH captured in-frame in monitoring-dashboard.png; the same From/To bar re-observed on Performance and Instances (Logs has its own From/To row). REFRESH re-reads the view (clicked; no auto-refresh observed - worded as "re-reads them"). Run-history heatmap has an independent YEAR picker (2026) - prose separates the two ranges. The source chart carries NO on-screen heading; its axis labels (Scheduled Runs / API / Trigger Event / Other Execution) are verbatim - the prose lead-in is deliberately plain, not bolded as a label.
-DASHBOARD PANELS: Block Transitions % badges appear on the connections BETWEEN BLOCKS (the Start connection carries none - prose + alt phrased accordingly). Problematic Instances: verified POPULATED on the retry flow's dashboard (errored run E6775B29 listed; clicking the row OPENED the run); the Order Poller panel is legitimately empty (healthy flow) - the shot teaches the empty state.
-PERFORMANCE: recaptured same-day, full width, sorted by AVERAGE TIME IN STEP DESCENDING (arrow visible) - Poll Until Shipped (1s) tops the table with its inner blocks (Wait 1s / Re-fetch Order / Cancelled? / Update Order Status) NESTED beneath it, then the top-level blocks; the loop-container row's time (1s avg) covers the loop body (inner sum ≈ 1.05s per pass) - basis for the "loop tops the sort" reading note. 7 rows all whole; headers verbatim ELEMENT NAME / AVERAGE TIME IN STEP / MIN TIME IN STEP / MAX TIME IN STEP / ERROR RATE / COMPLIANCE STATUS / COMPLIANCE CONDITIONS.
-LOGS: re-verified with the fresh runs. Search+Filter keeps lines whose MESSAGE matches, with the match HIGHLIGHTED (monitoring-logs-narrowed.png); an execution id or block name as the term matches nothing (the filter reads the message segment only) - "filter to a single run" via search removed. Log Source picker (label "All Instances" until picked) scopes to one run: per-line "Execution Name:" prefix drops and the "Show logging for" picker appears (options All + each block name - a BLOCK filter, not severity; no severity/error filter exists on this tab). CLEAR LOG AREA clicked: empties the pane. Basic timestamps: ON = HH:MM:SS.mmm, OFF = full date string. Shorten IDs: visible in the shots but NOT documented - toggling produced NO visible change on these lines (full UUIDs both ways). MARK'S CALL 2026-08-15: it is a BUG; Mark files it in Jira himself; docs stay silent on the control until the fix lands. Now-tailing and Wrap-messages effects not separately exercised - prose names only verified controls.
-NOT re-driven: Active Instances beyond value 0 (prose stays label-level; the climbing-count sentence is arithmetic, not a product claim). Whether the Logs tab's horizon follows the same audit-trail retention as the other tabs was not verified - footnote 1 scopes to the three verified views.
-PAGE SPLIT: Mark decided 2026-08-15 - the single-run drill-down moved to run/inspecting-a-run.md; this page keeps the health views. Intro shot monitoring-tab-row.png is a crop of the same monitoring-dashboard.png capture (tab row + From/To + Past 30 days + REFRESH), placed where the lede names those controls. -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a data-preview="" href="inspecting-a-run.html">Inspecting a Single Run</a> - opening one run to see what it did with its data</li>

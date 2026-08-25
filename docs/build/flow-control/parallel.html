@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4292,8 +4292,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4317,9 +4315,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4333,14 +4330,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4354,6 +4345,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4362,14 +4379,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4545,19 +4562,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="running-steps-in-parallel">Running Steps in Parallel<a class="headerlink" data-preview="" href="#running-steps-in-parallel" title="Permanent link">&para;</a></h1>
-<!-- product-exploration log (2026-07-14, Documentation Flows workspace; built via authored-JSON import, all claims run-proven via the activate URL)
-- CANVAS FAN-OUT: a block's nextElementIds is an ARRAY; more than one entry = parallel branches. Flow "Parallel Enrichment" (280C5482): Set User Id -> fans to Get Profile / Get Orders / Get Activity (3 HTTP branches, dummyjson users|carts|posts with ?delay=1000|4000|2000) -> all converge on Synchronize -> Build Summary. PROVEN concurrent: instance 5FD4EC77 COMPLETED in 4s (= slowest branch, delay 4s), NOT the 7s sum. Serial would be >=7s.
-- SYNCHRONIZE: waits for every incoming branch, then releases ONE downstream path. Max Waiting Time (Days/Hours/Minutes/Seconds, or Expression Mode seconds). Build Summary ran after all 3 and read all 3. Element type SYNCHRONIZE, UTILS palette.
-- ACTIONS GROUP (flow "Enrichment Group" 1B52CCED): container runs inner actions in parallel. Outgoing Transition Mode = On Start | On Completion. ON_COMPLETION PROVEN parallel: instance D8C21967 = 4s (slowest), not 7s. GROUPS palette. (Structure gotcha ruled out per branching.md: my first authored group set metaInfo.firstElementId -> ran serial 7s; the real UI structure has NO group firstElementId -> parallel. The 7s was my artifact.)
-- ON START vs ON COMPLETION: On Completion makes inner results readable downstream (valid, read Emma/1/2). ON START makes them INACCESSIBLE - re-importing the same flow with ON_START turns Build Summary red: each reference to an inner result flags "Referenced block is not accessible from this block." So On Start = fire-and-forget; you cannot read the actions' results after it.
-- READING RESULTS: no combined result from a group or Synchronize; each parallel step's result read by its own alias. Build Summary: Customer = Get Profile Result->firstName ("Emma"), Order Count = Get Orders Result->total (1), Post Count = Get Activity Result->total (2).
-- PITFALL race (flow "Race Test" 1D814D7A): two branches (A finishes ~1s, B ~3s) both write Data Bucket var "Winner". All 3 runs: Final Winner = "Branch B" (the LATER writer). Both writes land, no error/merge; last-completing writer wins; unpredictable in general.
-- PITFALL timeout: V-real in synchronize.yaml (verified 2026-06-14, assertion timeout-proceeds: successor runs at timeout, slow branch dropped, its result unavailable downstream). My re-test (maxWait 2s, 4s branch) did not surface an instance in analytics - relying on the V-real reference for this one claim.
-- 6 shots, pixel-checked: parallel-fanout, parallel-actionsgroup-inside, parallel-actionsgroup-mode, parallel-synchronize, parallel-read-result, parallel-onstart-error.
-- MARK REVIEW (2026-07-14) verifications: CONNECTIONS are made with a LINK ICON on each block (purple chain-link at the corner on hover), not a "dot". MODE ICON: the Actions Group's outgoing connection carries an HOURGLASS icon whose fill reflects the mode (On Completion bottom-filled = waited; On Start top-filled = released at start). NO-SYNCHRONIZE: a step wired after N parallel branches runs N TIMES (once per incoming branch) - verified via "Join Test" (static downstream, exec-count badge = 3); Synchronize collapses the arrivals into one run. In the enrichment flow (downstream READS results), the early runs fire before other branches finish -> "No Sync Test" instance TERMINATED with an error. Expression Mode on Max Waiting Time = DYNAMIC cap from flow data at run time (in seconds), not just a static seconds entry.
--->
-<!-- reference follow-up (parked): actions-group.yaml should document the outgoing-line hourglass mode icon + that On Start makes inner results inaccessible downstream; synchronize.yaml could note that omitting it makes a downstream step run once per incoming branch. -->
-
 <p>Some of a flow's work does not have to happen one step at a time. Enriching a new signup might mean
 fetching their profile, their orders, and their recent activity from three different services, and
 none of those calls needs the others. Run one after another, the three calls take as long as all

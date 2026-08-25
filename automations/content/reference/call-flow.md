@@ -55,7 +55,7 @@ When the parent flow reaches this block, it starts a run of Create Beneficiary w
 
 - The dropdown lists every flow in your workspace, but the flow you call has to be LIVE (published) to run. If a call does nothing or errors, check that the target flow is published, not still in draft.
 - What the block hands back depends on <span class="fr-control">Wait for completion</span>. With it on, the result is the value from the called flow's <span class="fr-block">Return Result</span> block, read downstream as <span class="fr-expr">Call Flow Result → </span> (or <span class="fr-expr">Call Flow Result → field</span> for one field). With it off, this flow does not pause for the run, so its result cannot be the called flow's output yet - it is only an executionId, an identifier for the run, not the work it produced. If a later step expects the called flow's output, leave <span class="fr-control">Wait for completion</span> on.
-- If you are not waiting, the called flow runs on its own afterward, so this flow finishing does not mean the called flow has finished too.
+- If you are not waiting, the called flow runs on its own afterward, so this run finishing does not mean the called flow's run has finished too.
 
 ## Related
 

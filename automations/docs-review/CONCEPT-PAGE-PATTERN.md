@@ -48,6 +48,51 @@ Fix, every concept page, before drafting:
      the bar. Each main concept/action on the page gets a real shot of its real scenario.
    - **One concept per section.** Never combine two distinct concepts under one heading (e.g. don't merge
      "missing anchor" with "how long memory lasts"). Split them; title each for its own takeaway.
+   - **The lede states the ordinary contract and the transport, never an edge case (Mark, 2026-08-24,
+     3/10: "Not a word about GET or POST ... you go into the weeds ... of Release Caller (WHO CARES AT THIS
+     POINT????)").** An API lede names the method(s) the reader will send (one GET or POST request) and
+     gives the mental model in one breath ("turns a flow into a plain HTTP API ... same round trip").
+     Toggles, exceptions, and special modes NEVER appear in the lede - they live in their own sections.
+     When a review finds the lede's plain claim technically contradicted by an edge case, fix it by
+     wording the claim so it stays true ("returns the flow's answer as the response body"), never by
+     naming the edge case up top - precision repairs apply at the LOWEST possible altitude.
+   - **A call, trigger, event, or schedule starts an INSTANCE, never "the flow" (Mark, 2026-08-24:
+     "A flow MUST BE started in order for Call Flow to work. The API starts an instance. It is an
+     importan[t] distinction").** "Start the flow" is reserved for the ((Start flow)) action that makes a
+     version LIVE - the precondition. What an API request, trigger firing, or schedule tick starts is an
+     instance (a run) of the flow: write "starts an instance of the flow" / "starts a run". doclint warns
+     on actor + "starts the/a flow" (`flow-vs-instance`).
+   - **The lede TEACHES by linking the reader's artifact to the feature (Mark, 2026-08-24, second lede
+     round: "An educational approach would say this: 'if a flow has Return Result, to get it, use the
+     blocking call - the result returned by Return Result is what's delivered by this API'. Is it really
+     that hard????").** Open on the thing the reader BUILT and state the feature as the way to get/do
+     what they want with it: "If a flow has a Return Result block, the blocking Call Flow endpoint is how
+     your code gets that result." The product-level abstraction ("turns a flow into a plain HTTP API")
+     never leads - it follows as a consequence, or is dropped. Test: does sentence one name the reader's
+     artifact as its subject and answer their question about it?
+   - **An API page never makes the reader think about mechanics (Mark, 2026-08-24, Call Flow: "The
+     format makes reader think - this is a huge problem. Forcing someone to think brings useability
+     down.")** Three concrete bans that follow: (1) **never base-URL + relative-path** - every endpoint is
+     shown as ONE full copy-ready URL, and every example is complete and runnable as pasted; (2) **one
+     call shape per section** - GET and POST each get their own section with their own complete example
+     and their own data rules; never interleave "on a GET ... / on a POST ..." conditionals in shared
+     prose or an "applies to" column; (3) **no swiss-army pages** - one page per call/use case (blocking
+     and non-blocking are separate pages); a page that forces a mid-read choice between calls gets split.
+   - **A section index that only routes is a hop, not a page (Mark, 2026-08-24: api/index.md "is
+     excessive and may cause confusion").** The nav labels and each page's lede already do the routing; a
+     "which page do I need" hub duplicates them and adds a click. Kill the hub and make every page in the
+     section fully self-contained - shared fragments (an error-code table, a credentials pointer) are
+     duplicated into each page or moved to their one canonical home, never parked on an index the reader
+     must detour through.
+   - **The ToC is a navigation surface with a BUDGET (Mark, 2026-08-24, Call Flow: "the TOC has 30
+     entries ... impossible to navigate").** Headings exist for the reader scanning the ToC, so a page
+     carries roughly a dozen ToC entries (h2 + h3), never dozens. Reserve h3 for a genuine reader
+     destination ("what happens on timeout?"); a mechanism, a parameter group, an example, or an error
+     group inside a section is a **bold run-in** (`**Headers.** ...`), not a heading. When a reviewer
+     asks for "an anchor per idea" and the ToC would exceed the budget, the budget wins — and if the
+     content genuinely needs more destinations than the budget allows, that is the page-split signal
+     (§0i), not a license for a 30-entry ToC. One-concept-per-section (above) is about not MERGING two
+     concepts under one title; it is not a mandate to promote every paragraph to a heading.
    - **Verify every UI location IN-PRODUCT; never guess where a control lives.** ("gear in the editor
      toolbar" was wrong twice — the Flow Memory settings are the right-hand panel's ⚙ Settings tab.)
      Drive the product and look; the product owner's word also counts. See [[flowrunner-flow-memory-settings]].

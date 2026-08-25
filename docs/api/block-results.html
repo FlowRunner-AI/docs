@@ -424,7 +424,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="index.html" class="md-tabs__link">
+        <a href="call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4171,8 +4171,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4199,9 +4197,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
   
   
   <span class="md-ellipsis">
@@ -4215,14 +4212,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
@@ -4236,6 +4227,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4244,14 +4261,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="call-flow.html" class="md-nav__link">
+      <a href="call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4360,6 +4377,28 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoint
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#in-the-meantime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In the meantime
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4413,6 +4452,28 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoint
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#in-the-meantime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In the meantime
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4442,13 +4503,13 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 <h1 id="retrieving-block-results">Retrieving Block Results<a class="headerlink" href="#retrieving-block-results" title="Permanent link">&para;</a></h1>
 <p>Reading back what the individual blocks of a run produced - not just the flow's final answer, but the input
-and output of each step along the way - is new functionality.</p>
-<div class="admonition note">
-<p class="admonition-title">Not yet available</p>
-<p>This is not released yet, so there is nothing to call. This page will be written once the feature ships
-to production.</p>
-</div>
-<p>Until then, block-by-block input and output is available inside FlowRunner rather than over the API:</p>
+and output of each step along the way - is new functionality. It has no endpoint to call yet.</p>
+<h2 id="endpoint">Endpoint<a class="headerlink" href="#endpoint" title="Permanent link">&para;</a></h2>
+<p>Not released. This section will carry the method, path, parameters, and response once the feature ships to
+production; until then there is nothing to call, and the other API pages describe everything that can be
+called today.</p>
+<h2 id="in-the-meantime">In the meantime<a class="headerlink" href="#in-the-meantime" title="Permanent link">&para;</a></h2>
+<p>Block-by-block input and output is available inside FlowRunner rather than over the API:</p>
 <ul>
 <li><strong>While you are building</strong>, the Test Monitor shows what each block took in and gave back as you run it.
   See <a data-preview="" href="../run/testing.html">Testing</a>.</li>
@@ -4457,7 +4518,7 @@ to production.</p>
 </ul>
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="call-flow.html">Call Flow</a> - starting a run, and the <code>executionId</code> that identifies it</li>
+<li><a href="call-flow-nonblocking.html">Call Flow (Non-Blocking)</a> - starting a run, and the <code>executionId</code> that identifies it</li>
 <li><a href="activating-a-trigger.html">Activating an External Callback</a> - letting a paused run continue</li>
 <li><a data-preview="" href="../run/testing.html">Testing</a> - reading block input and output while you build</li>
 </ul>

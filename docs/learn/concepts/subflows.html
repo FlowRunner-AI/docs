@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4297,8 +4297,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4322,9 +4320,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4338,14 +4335,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4359,6 +4350,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4367,14 +4384,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4563,7 +4580,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <h1 id="subflows">Subflows<a class="headerlink" data-preview="" href="#subflows" title="Permanent link">&para;</a></h1>
 <p>A subflow is a piece of a flow you build once and reuse. You take a handful of steps that you would otherwise rebuild or copy from spot to spot - refreshing a token, formatting a record, writing a row and reading back its id - and keep them as one named unit. From then on you drop that unit into your flow as a single step, hand it the values it should work on, and read back what it produces. The work lives in one place, so a fix made there lands everywhere the subflow runs.</p>
 <h2 id="what-a-subflow-is">What a subflow is<a class="headerlink" data-preview="" href="#what-a-subflow-is" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: conceptual - defines the idea; the build / pass-in / return-value shots follow in the sections below -->
 <p>Think of a subflow as a named, self-contained mini-flow. It has its own steps inside it, the same kinds of steps any flow has. What makes it a subflow is that you do not run it on its own - you place it inside another flow as a single <a class="fr-block" data-preview="" href="../../reference/subflow.html">SubFlow</a> step, and when the flow reaches that step the mini-flow runs as one unit, then hands its result back to the step that ran it.</p>
 <p>That gives you two things at once. The flow that uses the subflow stays short, because a whole routine collapses into a single step. And the routine itself lives in exactly one definition, so when the work needs to change you change it once rather than hunting down every copy.</p>
 <p>One boundary to know from the start: a subflow belongs to the flow it was built in. You can reuse it as many times as you like within that flow, but it is not shared with other flows. When the same logic needs to run from a different flow, use the <a class="fr-block" data-preview="" href="../../reference/call-flow.html">Call Flow</a> block, or pick the flow from the <strong>Flows as Actions</strong> palette - either one runs a whole separate flow as a step.</p>
@@ -4591,15 +4607,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <h2 id="when-to-factor-logic-into-a-subflow">When to factor logic into a subflow<a class="headerlink" data-preview="" href="#when-to-factor-logic-into-a-subflow" title="Permanent link">&para;</a></h2>
 <p>The signal is reuse. When the same handful of steps shows up in more than one spot and you find yourself about to rebuild or copy them, that is the moment to factor them out. Refreshing an access token before two different calls, or formatting a record the same way across several branches, are the everyday cases. Keeping that work as one reusable unit means a change lands everywhere it runs, instead of being fixed in one place and forgotten in another.</p>
 <p>Reuse aside, a subflow earns its keep just by shortening a flow. A routine that would sprawl across a dozen blocks collapses into one named step, and the flow reads as the high-level shape of what it does rather than every low-level detail of how.</p>
-<!-- exercised in-product 2026-07-06 (ZZ Block Catalog Scratch, Return Result block; Get New Token subflow located in FBB GetCustomerMatches, subFlowId E65D307E):
-  Return Result full surface, every state driven:
-  - Content Type dropdown: exactly three options - "JSON", "XML", "Plain Text".
-  - Compose Result toggle ON -> a repeatable "Property" / "Value" row list (compose an object from named properties).
-  - Compose Result toggle OFF -> a single "Result" expression field (return one value directly, not a named object). Tooltip on the toggle: "Toggle single expression input".
-  - Also present: a "Release Caller" toggle (External Callback / release-the-waiting-caller pattern - out of scope for this concept page) and standard Logging.
-  - Both toggle states captured from the same Return Result block (header visible for identity): subflow-return-on.png (Compose Result on -> Property "token" = fetched token) after the "on" bullet; subflow-return-off.png (Compose Result off -> single "Result" field) after the "off" bullet. Captured live, not saved.
-  - SubFlow vs Call Flow: SUBFLOW element references a subflow by subFlowId (intra-flow reuse); Call Flow = ACTION with operation CALL_FLOW referencing another top-level flow by flowId (cross-flow). Confirmed via flow-definition API. -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a class="fr-block" data-preview="" href="../../reference/subflow.html">SubFlow</a> - the block itself, with the full walkthrough of creating one, declaring inputs, and editing its steps</li>

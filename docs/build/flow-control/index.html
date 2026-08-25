@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4190,8 +4190,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4215,9 +4213,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4231,14 +4228,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4252,6 +4243,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4260,14 +4277,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4454,10 +4471,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="flow-control">Flow Control<a class="headerlink" data-preview="" href="#flow-control" title="Permanent link">&para;</a></h1>
-<!-- Section index / map (2026-07-18). Conceptual intro + a reader-question map + cross-routes. No
-screenshots: this page operates no controls; every concept is taught (and verified) on its child page.
-Depth ceiling: name the work + route to the child page; no block names/config/modes on this page. -->
-
 <p>Real work rarely runs in a straight line. A paid order goes one way and an unpaid one another; a list has
 to be worked item by item; three lookups can run at once; a step waits for a payment to clear; a call to a
 flaky service has to survive a hiccup. Flow control is how you shape a run's path to fit the work - the
@@ -4481,12 +4494,10 @@ its slowest step, not the sum of them all. See <a data-preview="" href="parallel
 log what went wrong, fall back to a default, alert someone, or retry. See
 <a data-preview="" href="error-handling.html">Handling Errors</a>.</p>
 <h2 id="related-outside-flow-control">Related, outside Flow Control<a class="headerlink" data-preview="" href="#related-outside-flow-control" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: cross-route link list, not a scenario; each destination shows its own screens -->
-
 <ul>
 <li><a class="fr-block" data-preview="" href="../../reference/ai-router.html">AI Router</a> - route a run on a decision only an AI can make,
   like free-text intent or an image.</li>
-<li><a data-preview="" href="../../learn/concepts/triggers.html">Triggers</a> - what starts a flow, such as an outside event.</li>
+<li><a data-preview="" href="../../learn/concepts/triggers.html">Triggers</a> - what starts a run of a flow, such as an outside event.</li>
 <li><a data-preview="" href="../../reference/flow-scheduling-concept.html">Scheduling</a> - run a flow on a timetable.</li>
 <li><a data-preview="" href="../../learn/concepts/subflows.html">Subflows</a> and <a class="fr-block" data-preview="" href="../../reference/call-flow.html">Call Flow</a> -
   hand a stretch of work to another flow.</li>

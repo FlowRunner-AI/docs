@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4314,8 +4314,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4339,9 +4337,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4355,14 +4352,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4376,6 +4367,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4384,14 +4401,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4589,34 +4606,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="yesno-branching">Yes/No Branching<a class="headerlink" data-preview="" href="#yesno-branching" title="Permanent link">&para;</a></h1>
-<!-- product-exploration log (2026-07-10, Documentation Flows workspace, flows "Order Approval" 289E710C + "Order Intake" 7DE04FDB + scratch A4F020C4)
-- Condition verified in palette UTILS. Placed on the empty canvas's drop zone -> auto-connects to Start. Unconfigured block shows an error badge until the part is complete.
-- Config panel driven: Value to Check (expression field) / Value Data Type (dropdown) / Operation (dropdown) / Value (appears for comparison ops). Reference Result Data As is an opt-in checkbox (alias tracks the block name).
-- Value Data Type list enumerated: STRING, INT, DOUBLE, BOOLEAN / CHECKBOX, DATETIME, JSON OBJECT, JSON ARRAY. Legacy IMAGE type is GONE.
-- INT operations enumerated: EQUALS, DOES NOT EQUAL, GREATER THAN, LESS THAN, GREATER OR EQUAL, LESS OR EQUAL, AI QUESTION. BOOLEAN ops: IS NULL, IS NOT NULL, IS TRUE, IS NOT TRUE, IS FALSE, IS NOT FALSE, AI QUESTION. AI QUESTION exists per type (fields: Yes/No Question, AI Model, AI API Key) - it moved from legacy's IMAGE-only home.
-- Expression editor driven: pills insert on a double mouse press; Initial Data inserts with the property arrow ready; property typed inside the token. Live Preview renders the reference as a pill (not a run value), before and after runs.
-- Type-mismatch hint verified (hover tooltip): "The selected data type does not match the detected type. Detected type: INT" - fires when the selected type disagrees with the type detected in observed run data.
-- Yes/No exits: separate source handles (Yes right, No left); edges get Yes/No label chips. Unwired exit VALIDATES (flow Ready); run-proven: condition false with No unwired -> instance COMPLETED 197ms, no error, run ends at the exit (scratch flow).
-- RUNS (real instances via the flow's activate URL, typed JSON):
-  - single check (orderTotal INT GREATER THAN 1000): {1480} -> Yes path, Notify Manager executed; {240} -> No path, Process Order executed. Condition emits {"conditionResult": true|false}; inspector shows resolved per-part inputs.
-  - two parts A OR B (B = firstOrder IS TRUE): {1480,f} -> Yes via A; {240,t} -> Yes via B; {240,f} -> No.
-  - three parts A OR (B AND C) (C = express IS TRUE): {1480,f,f} -> Yes; {240,t,t} -> Yes; {240,f,t} -> No.
-  - WRONG grouping (A OR B) AND C run-proven: {1480,f,f} -> No path (the $1,480 order skipped the manager).
-- Multi-part UI driven: "+" adds parts; Part A/B/C headings appear at 2+ parts; the AND/OR between parts toggles when pressed; magnifier opens the expanded editor; parenthesis marks before/after parts place brackets when pressed; pressing a placed bracket removes it; unmatched bracket shows "Condition is not valid".
-- Trigger filter driven (External Callback, "Order Intake"): "Add a Condition" button adds the identical card; filter built on External Callback Data->orderTotal INT GREATER THAN 1000; LIVE behavior: POST 240-order to the Callback URL -> {"executionId":null} (did not fire); 1480-order -> real executionId.
-- LIVE version cannot be edited (toast verified); edits require stopping the version first.
-
-MARK REVIEW ROUND 2026-07-10 (corrections applied):
-- (Mark 1) A freshly dropped block shows NO exits until selected/connected -> prose warns the reader.
-- (Mark 2) Config panel (Value to Check field + expression icon) now SHOWN at first reference (branching-fields.png), before the editor shot.
-- (Mark 3) No-path block changed Set Variables -> HTTP Request "Submit Order" (Set Variables cannot "process an order").
-- (Mark 4) "connector" collides with a glossary/snippet term -> reworded to "the AND/OR between the parts".
-- (Mark 5) The BOOLEAN type-mismatch warning was a CONTAMINATED-FLOW artifact, NOT a product bug. Mark's clean flow shows none. My earlier "bug" claim was wrong (retracted). To keep the exemplar shot clean and warning-free, the multi-part example now uses all-INT fields: Part B = itemCount INT GREATER THAN 20 (no warning), Part C = discountPercent INT GREATER THAN 15. Rebuilt on fresh flow "Order Approval Clean" (ADDC6191); both parts warning-free (verified).
-- (Mark 6) The "adding a part resets connectors to AND" is a BUG Mark is fixing -> removed from the page and this log; prose assumes connectors persist.
-- Recaptured this round on the clean flow: branching-fields, branching-paths (Notify Manager + Submit Order, both HTTP), branching-parts-or (orderTotal + itemCount, no warnings). Brackets shot reused (generic Part labels, field-agnostic).
-- Default grouping (AND before OR) remains run-proven from the earlier session; it is field-independent.
--->
-
 <p>Most flows reach a point where one case needs different handling from another. In an
 order flow, an order over $1,000 needs a manager's approval; the rest can process
 automatically. The <a class="fr-block" data-preview="" href="../../reference/condition.html">Condition</a> block is the
@@ -4698,7 +4687,7 @@ trigger, click <span class="fr-control">Add a Condition</span> on the trigger an
 difference. A trigger's payload is its own data, not <abbr title="The data passed to a flow when a run is started - for example the payload of an API call that launches it. It is available to expressions as Initial Data. (When a trigger starts the flow instead, the trigger's data belongs to the trigger block, not to Initial Data.)">Initial Data</abbr>, so the check points
 at the trigger's reference, which lives on the <span class="fr-control">Block Data</span> tab of the editor:
 <code>External Callback Data</code>, the <code>orderTotal</code> field, <code>INT</code>, <code>GREATER THAN</code>, <code>1000</code>. An
-order under $1,000 now never starts the flow.</p>
+order under $1,000 now never starts a run.</p>
 <p><a class="glightbox" href="../../images/build/branching-trigger-filter.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The External Callback trigger beside its settings: the Callback URL, and a condition checking the trigger's orderTotal field with GREATER THAN 1000." src="../../images/build/branching-trigger-filter.png" /></a></p>
 
 

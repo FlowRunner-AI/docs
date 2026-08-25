@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4308,8 +4308,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4333,9 +4331,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4349,14 +4346,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4370,6 +4361,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4378,14 +4395,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4582,8 +4599,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 
-<!-- GENERATED FILE - do not edit. Source: block-knowledge/flow-memory-concept.yaml. Regenerate: make refgen -->
-<!-- doclint: allow-unlinked: Agent Memory -->
 <h1 id="agent-memory">Agent Memory<a class="headerlink" data-preview="" href="#agent-memory" title="Permanent link">&para;</a></h1>
 <p>A support chat can pick up the thread instead of asking the customer to repeat themselves, and a multi-step helper can build on a decision it made a few turns ago - once the <a class="fr-block" data-preview="" href="ai-agent.html">AI Agent</a> can remember its recent exchanges. Turning on <span class="fr-control">Messages History</span> is what gives it that memory.</p>
 <h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>
@@ -4609,9 +4624,6 @@ ones fall off the back. Each exchange is two messages - the prompt and the reply
 keeps roughly the last ten back-and-forths.</p>
 <p>Underneath, that history lives in <abbr title="A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.">Shared Memory</abbr> - the flow's own key/value store that holds values
 between runs - so it survives from one run to the next the same way anything in <abbr title="A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.">Shared Memory</abbr> does.</p>
-<!-- verified 2026-07-09: Messages History Limit maximum is 20; the field's default is 15 (AI Agents with Messages History never enabled - e.g. the Retry Logic flow's agent - carry messagesHistoryLimit=15). Each run appends the user prompt + the agent reply = 2 messages. -->
-<!-- doclint: no-shot: conceptual - Shared Memory / Shared Memory: Delete are named as the backing store and a consequence; they are shown on their own reference pages -->
-
 <h2 id="when-to-use-it">When to use it<a class="headerlink" data-preview="" href="#when-to-use-it" title="Permanent link">&para;</a></h2>
 <p>Turn <span class="fr-control">Messages History</span> on when each run continues the same conversation - a chat assistant that should remember what the customer just said, a multi-step helper that refers back to an answer it gave a few turns ago. Leave it off when every run stands alone, like a classifier that rates one item at a time; carrying history it will never use only adds cost. When it is on, keep the limit only as wide as the conversation needs - every remembered message makes the prompt longer and the call dearer.</p>
 <h2 id="giving-each-caller-their-own-memory">Giving each caller their own memory<a class="headerlink" data-preview="" href="#giving-each-caller-their-own-memory" title="Permanent link">&para;</a></h2>
@@ -4623,8 +4635,6 @@ between runs - so it survives from one run to the next the same way anything in 
 <h2 id="example">Example<a class="headerlink" data-preview="" href="#example" title="Permanent link">&para;</a></h2>
 <p>Picture a support chat backed by an <span class="fr-block">AI Agent</span>, where each message from the customer is one run of the block. On the first run the customer writes "Hi, I'm Dana and order 10473 still has not arrived." The agent answers, and that exchange is saved to its history.</p>
 <p>On the next run the customer writes only "So when will it get here?" - no name, no order number. With <span class="fr-control">Messages History</span> on, the agent still has the earlier turn in view: it knows the customer is Dana and the order in question is 10473, so it answers about that order without asking again. With it off, this second run would have no idea what "it" refers to and would have to ask the customer to repeat themselves.</p>
-<!-- doclint: no-shot: a two-run conversation scenario, not a UI surface; the Messages History toggle it turns on is shown under How it works -->
-
 <h2 id="configuration">Configuration<a class="headerlink" data-preview="" href="#configuration" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -4642,7 +4652,7 @@ between runs - so it survives from one run to the next the same way anything in 
 </table>
 <h2 id="things-to-watch-for">Things to watch for<a class="headerlink" data-preview="" href="#things-to-watch-for" title="Permanent link">&para;</a></h2>
 <ul>
-<li>The agent's memory lives in the flow's <abbr title="A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.">Shared Memory</abbr>, so clearing that store clears the conversation too - a <a class="fr-block" data-preview="" href="shared-memory-delete.html"><abbr title="A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.">Shared Memory</abbr>: Delete</a> with <span class="fr-control">All</span> on wipes the agent's history along with everything else, which is easy to forget when you reset a flow's store for unrelated reasons. <!-- doclint: no-shot: conceptual - Shared Memory: Delete is shown on its own reference page --></li>
+<li>The agent's memory lives in the flow's <abbr title="A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.">Shared Memory</abbr>, so clearing that store clears the conversation too - a <a class="fr-block" data-preview="" href="shared-memory-delete.html"><abbr title="A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.">Shared Memory</abbr>: Delete</a> with <span class="fr-control">All</span> on wipes the agent's history along with everything else, which is easy to forget when you reset a flow's store for unrelated reasons. </li>
 </ul>
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>

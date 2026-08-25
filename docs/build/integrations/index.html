@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4190,8 +4190,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4215,9 +4213,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4231,14 +4228,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4252,6 +4243,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4260,14 +4277,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4443,10 +4460,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="integrations-io">Integrations &amp; I/O<a class="headerlink" data-preview="" href="#integrations-io" title="Permanent link">&para;</a></h1>
-<!-- Section index / map. Conceptual intro + a reader-question map + cross-routes. No screenshots:
-this page operates no controls; every technique is taught (and verified) on its child page.
-Depth ceiling: name the job + route to the page that does it; no block config on this page. -->
-
 <p>Few flows are self-contained. A flow reaches out to the systems your business already runs on, hands work
 to other flows, and returns an answer to whatever called it. This section covers a flow's edges: what it
 calls out to, what it gives back, and how you add new blocks when the built-in ones do not cover what you
@@ -4468,8 +4481,6 @@ as its own flow and call it from the others. See <a data-preview="" href="runnin
 connect an <abbr title="A Model Context Protocol server that exposes tools an AI Agent can call. Register one to give your agent extra capabilities beyond the built-in blocks.">MCP server</abbr> whose tools become blocks, or package your own. See
 <a data-preview="" href="custom-actions.html">Custom &amp; Marketplace Actions</a>.</p>
 <h2 id="related-outside-integrations-io">Related, outside Integrations &amp; I/O<a class="headerlink" data-preview="" href="#related-outside-integrations-io" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: cross-route link list, not a scenario; each destination shows its own screens -->
-
 <ul>
 <li><a data-preview="" href="../../platform/mcp-servers.html">MCP Servers</a> - register a server once and its tools become blocks in
   flows and tools for your agents.</li>

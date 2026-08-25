@@ -111,7 +111,7 @@ docs:
   gotchas:
     - "The dropdown lists every flow in your workspace, but the flow you call has to be LIVE (published) to run. If a call does nothing or errors, check that the target flow is published, not still in draft."
     - "What the block hands back depends on ((Wait for completion)). With it on, the result is the value from the called flow's Return Result block, read downstream as {{Call Flow Result->}} (or {{Call Flow Result->field}} for one field). With it off, this flow does not pause for the run, so its result cannot be the called flow's output yet - it is only an executionId, an identifier for the run, not the work it produced. If a later step expects the called flow's output, leave ((Wait for completion)) on."
-    - "If you are not waiting, the called flow runs on its own afterward, so this flow finishing does not mean the called flow has finished too."
+    - "If you are not waiting, the called flow runs on its own afterward, so this run finishing does not mean the called flow's run has finished too."
   cross_refs: [subflow, return-result, synchronize]
   terminology: [Call Flow, Initial Data, Wait for completion, executionId]
 

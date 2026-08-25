@@ -132,6 +132,6 @@ trigger, click ((Add a Condition)) on the trigger and build the same card - with
 difference. A trigger's payload is its own data, not Initial Data, so the check points
 at the trigger's reference, which lives on the ((Block Data)) tab of the editor:
 `External Callback Data`, the `orderTotal` field, `INT`, `GREATER THAN`, `1000`. An
-order under $1,000 now never starts the flow.
+order under $1,000 now never starts a run.
 
 ![The External Callback trigger beside its settings: the Callback URL, and a condition checking the trigger's orderTotal field with GREATER THAN 1000.](../../images/build/branching-trigger-filter.png)

@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4278,8 +4278,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4303,9 +4301,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4319,14 +4316,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4340,6 +4331,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4348,14 +4365,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4533,8 +4550,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <h1 id="flows">Flows<a class="headerlink" data-preview="" href="#flows" title="Permanent link">&para;</a></h1>
 <p>Every automation you build in FlowRunner™ is a <strong>flow</strong>. This page is about managing the flows themselves - creating them, keeping versions of them, moving them in and out as files, and removing them. Building what a flow does happens in the <a data-preview="" href="../build/flow-editor.html">Flow Editor</a>; running and watching flows is covered under <a data-preview="" href="../run/running-flows.html">Run &amp; Monitor</a>.</p>
 <p>Your flows are listed in the left navigation under <strong>Automate → Flows</strong>. Each one is a row that opens the flow in the editor, and each row has a <strong>⋯</strong> menu holding the actions that apply to the whole flow. That list is shown under <a data-preview="" href="#renaming-and-deleting-a-flow">Renaming and deleting a flow</a> below.</p>
-<!-- doclint: no-shot: conceptual orientation; the flow list is shown in the Renaming and deleting a flow section -->
-
 <h2 id="creating-a-flow">Creating a flow<a class="headerlink" data-preview="" href="#creating-a-flow" title="Permanent link">&para;</a></h2>
 <p>The <strong>+</strong> beside the Flows heading opens the <span class="fr-control">Create a New Flow</span> dialog. Give the flow a <span class="fr-control">Name</span>, optionally add a <span class="fr-control">Description</span>, and click <span class="fr-control">CREATE</span> to open it in the editor. You can also start from a file: <span class="fr-control">BROWSE...</span> under <span class="fr-control">Import a Flow Version</span> picks an exported flow file, and the new flow is created from it.</p>
 <p><a class="glightbox" href="../images/manage/flows-create.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Create a New Flow dialog: a Name field, an Import a Flow Version file picker with a Browse button, an optional Description, and Cancel and Create buttons." src="../images/manage/flows-create.png" /></a></p>
@@ -4563,8 +4578,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <h2 id="moving-and-backing-up-flows">Moving and backing up flows<a class="headerlink" data-preview="" href="#moving-and-backing-up-flows" title="Permanent link">&para;</a></h2>
 <p>On the Version Admin tab, <strong>Start Export</strong> downloads the current version as a <code>.json</code> file - a portable copy you can keep as a backup or import again, into this workspace or another. You bring a file back in two ways: as a new flow, through <strong>Import a Flow Version</strong> in the Create a New Flow dialog; or as a new version of an existing flow, through <strong>Import version</strong> on that flow's ⋯ menu. Importing as a new flow in the same workspace is how you make a separate copy of a flow.</p>
 <p>To move an entire workspace - every flow at once - to another FlowRunner installation, use Transfer Workspace on <a data-preview="" href="workspace-settings.html">Workspace Settings</a> instead.</p>
-<!-- verified in-product 2026-07-10 (Documentation Flows workspace; Mark authorized create/modify/delete here): flows list in the sidebar under Automate -> Flows; the "+" beside the Flows heading opens "Create a New Flow" (Name / Import a Flow Version [Browse] / Description / Create). Each flow row's ellipsis menu = Import version, Rename flow, Delete flow (delete removes the whole flow + all versions). Renamed "Order Approval Clean" -> "Order Approval" via Rename flow (worked). A flow opens to tabs Edit / Dashboard / Performance / Instances / SLA Goals / Logs / Version Admin, with a version selector in the breadcrumb + toolbar (Start flow / Schedule / Clone / Export / Run Instance). Version Admin sections: Flow Schedule (Configure Schedule), Clone Flow Version (CLONE -> created Version 2, appeared in sidebar/selector), Export Flow Version (Start Export -> downloaded "Order Approval Flow (version 1).json"), Delete Flow Version (irreversible; recommends export backup). (Is Sample Flow section is being deprecated per Mark 2026-07-10 - removed from prose and DOM-hidden before recapturing the screenshot.) Import path confirmed by the product's own Export text ("import ... as a new flow during creation or as a new version of an existing flow"). Start flow / Run Instance / Schedule belong to Run & Monitor - cross-linked, not covered here. Screenshots cropped to exclude the sidebar's personal footer. -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a data-preview="" href="../build/flow-editor.html">Building a flow</a> - assembling what a flow does</li>

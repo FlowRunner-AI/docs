@@ -114,8 +114,8 @@ nav:
  # - 'Extend':
  #   - 'About Custom Actions': extend/custom-actions.md
   - 'API':
-    - api/index.md
-    - 'Call Flow': api/call-flow.md
+    - 'Call Flow (Blocking)': api/call-flow-blocking.md
+    - 'Call Flow (Non-Blocking)': api/call-flow-nonblocking.md
     - 'Activating an External Callback': api/activating-a-trigger.md
     - 'Retrieving Block Results': api/block-results.md
 
@@ -146,6 +146,7 @@ extra_javascript:
 # Render ((UI Component)) markers as .fr-control chips on hand-authored pages
 # (the generated Block Reference already has its chips baked in - no-op there).
 hooks:
+  - hooks/strip_html_comments.py
   - hooks/control_chips.py
 
 theme:

@@ -424,7 +424,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="api/index.html" class="md-tabs__link">
+        <a href="api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4177,8 +4177,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4202,9 +4200,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4218,14 +4215,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4239,6 +4230,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4247,14 +4264,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="api/call-flow.html" class="md-nav__link">
+      <a href="api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4447,16 +4464,12 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <p>You build that orchestration as <strong>flows</strong>. Here is one that runs on its own - it sorts incoming form submissions, using an <a class="fr-block" data-preview="" href="reference/ai-router.html">AI Router</a> to read each request and route it to the right team: Billing, Engineering, or a general inbox.</p>
 <p><a class="glightbox" href="images/welcome/welcome-flow.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="A flow on the FlowRunner canvas: a Form Submitted Trigger feeds a Submission Intent AI Router that branches three ways - Billing to a Submit Inquiry to Billing Dept step, Technical to Route to Engineering via Slack, and Everything Else to Send a General Inquiry Email through Gmail." src="images/welcome/welcome-flow.png" /></a></p>
 <h2 id="what-is-a-flow">What is a flow?<a class="headerlink" data-preview="" href="#what-is-a-flow" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: overview section; the hero above shows a real flow, and Blocks carries the detailed shots -->
-
 <p>A flow is a business process laid out as steps, and each step is a block with one job. An <a class="fr-block" data-preview="" href="reference/http-request.html">HTTP Request</a> calls a service; a <a class="fr-block" data-preview="" href="reference/transform-data.html">Transform Data</a> reshapes a value; a <a class="fr-block" data-preview="" href="reference/condition.html">Condition</a> asks a yes-or-no question and forks the flow two ways; a <a class="fr-block" data-preview="" href="reference/list-iterator.html">List Iterator</a> runs a set of steps over every item in a list. You add blocks from a wide palette and connect them, and the wiring is rarely a straight line: it branches, loops, runs steps in parallel, and rejoins.</p>
 <p>Alongside the built-in blocks, a large library of connectors for outside services - Airtable, Stripe, Slack, and many more - is there with nothing to install. Your own flows appear as blocks too, so you build a piece once and call it from anywhere. <a data-preview="" href="learn/concepts/blocks.html">Blocks</a> covers the block library and how one block's result feeds the next.</p>
 <h2 id="how-a-flow-runs">How a flow runs<a class="headerlink" data-preview="" href="#how-a-flow-runs" title="Permanent link">&para;</a></h2>
 <p>A flow starts when something sets it off, and the data it begins with is its <strong><abbr title="The data passed to a flow when a run is started - for example the payload of an API call that launches it. It is available to expressions as Initial Data. (When a trigger starts the flow instead, the trigger's data belongs to the trigger block, not to Initial Data.)">Initial Data</abbr></strong> - the form submission, the API payload, the record that triggered the run. From there the blocks run in the order you wired them. Each block produces a <strong>result</strong>, and that result does not disappear when the block finishes: it joins a growing pool of values the run carries - every result so far, the <abbr title="The data passed to a flow when a run is started - for example the payload of an API call that launches it. It is available to expressions as Initial Data. (When a trigger starts the flow instead, the trigger's data belongs to the trigger block, not to Initial Data.)">Initial Data</abbr>, and any shared memory - that any later block can read through the <a data-preview="" href="learn/concepts/expressions.html"><abbr title="The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.">Expression Editor</abbr></a>.</p>
 <p>Every run is an <strong>instance</strong> of the flow: its own execution, with its own data, independent of every other run. If fifty tickets arrive at once, fifty instances run side by side, each handling its own ticket. You test a flow before it goes live, watch its instances as they run, and open any one to see the exact path it took and the data it carried. <a data-preview="" href="learn/concepts/flows-and-instances.html">Flows and <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr></a> goes into this.</p>
 <h2 id="agents-and-people-inside-the-flow">Agents and people, inside the flow<a class="headerlink" data-preview="" href="#agents-and-people-inside-the-flow" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: conceptual; the agent-and-human shape is pictured in the hero above, with detail on the AI in Flows and callback pages -->
-
 <p>Say a flow handles an incoming support ticket. An <a class="fr-block" data-preview="" href="reference/ai-agent.html">AI Agent</a> reads the ticket and drafts a reply, drawing on a knowledge base of your own help articles to get the details right. Because the reply is going to a customer, the flow does not send it straight away - it pauses and waits for a support lead. If the lead approves, the flow sends the reply and closes the ticket; if it needs work, the agent revises and the lead takes another look.</p>
 <p>That flow leans on two capabilities worth understanding early:</p>
 <ul>
@@ -4465,8 +4478,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </ul>
 <p>Everything either kind of block does is recorded, so a finished instance is a record you can review and audit.</p>
 <h2 id="the-flexibility-to-model-any-process">The flexibility to model any process<a class="headerlink" data-preview="" href="#the-flexibility-to-model-any-process" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: differentiators overview; each capability is deep-linked to the block reference that shows it -->
-
 <p>Real processes are not tidy, and a flow does not force them to be. A handful of capabilities let a flow match the shape of the work, however involved it gets.</p>
 <ul>
 <li><strong>Start with any block.</strong> A flow does not have to begin with a trigger. Any block can be its first step - a plain action you run on demand, a scheduled job, a form, an incoming API call - and the data it starts with arrives as its <abbr title="The data passed to a flow when a run is started - for example the payload of an API call that launches it. It is available to expressions as Initial Data. (When a trigger starts the flow instead, the trigger's data belongs to the trigger block, not to Initial Data.)">Initial Data</abbr>. You are never forced to model a process around one kind of starting event.</li>
@@ -4476,8 +4487,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <li><strong>Bring in any service through MCP.</strong> Register a Model Context Protocol server once, and its whole catalog of tools becomes blocks you drop into flows and tools your agents can call on their own - no building, no hosting, no glue code.</li>
 </ul>
 <h2 id="build-with-no-code-or-with-code">Build with no code, or with code<a class="headerlink" data-preview="" href="#build-with-no-code-or-with-code" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: short conceptual section; the Custom Cloud Code shots live on its reference page -->
-
 <p>Most of a flow you build without writing anything - add blocks, fill in their fields, wire the path. Where a step needs more than the blocks provide, a <a class="fr-block" data-preview="" href="reference/custom-cloud-code.html">Custom Cloud Code</a> block runs code you write, and you can package your own blocks as <a href="extend/custom-actions.html">custom actions</a> that appear alongside the built-in ones. A single flow can mix both freely.</p>
 <h2 id="start-here">Start here<a class="headerlink" data-preview="" href="#start-here" title="Permanent link">&para;</a></h2>
 <ul>

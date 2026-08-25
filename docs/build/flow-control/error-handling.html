@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4309,8 +4309,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4334,9 +4332,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4350,14 +4347,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4371,6 +4362,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4379,14 +4396,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4579,40 +4596,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="handling-errors">Handling Errors<a class="headerlink" data-preview="" href="#handling-errors" title="Permanent link">&para;</a></h1>
-<!-- product-exploration log (2026-07-17, Documentation Flows workspace)
-SOURCES: reference/error-handling-concept.md + handle-error.yaml + snippets/errorhandling.md + in-product runs.
-DEFAULT: a flow stops the moment a block fails; nothing after it runs. VERIFIED (§1): "Unhandled Failure
-Demo" (AI Agent, no handler, flow 1D2156E7) -> instance 32CBA2DD TERMINATED, Has Errors: Yes.
-CATCH: a Handle Error is wired via the guarded block's metaInfo.onFailElemId -> the handler id; the block
-keeps its own nextElementIds as the success path. VERIFIED (§2): "Error Catch Demo" (flow 567E06CD, AI
-Agent -onFail-> Handle Error -> Set Variables) -> instance 84DABAE0 COMPLETED (562ms). The failure diverted
-down the recovery path; the run did NOT terminate. Recovery path = the handler's own successors (does not
-rejoin the original success path).
-ERROR OBJECT: message + source ALWAYS; code SOMETIMES. VERIFIED (§3): the caught AI Agent error =
-{ code: 28063, source: "AI Agent", message: "401 ... authentication_error ..." }. code is a FlowRunner
-numeric code (28063), NOT an HTTP status; a cloud-code throw carries none (owner-verified 2026-06-23).
-Read a field by PICKING Handle Error Result (not typed) -> <span class="fr-expr">Handle Error Result → message</span>.
-Note: with Claude the message is a raw provider JSON blob; with OpenAI it reads "401 Incorrect API key
-provided: DEMO KEY..." (could switch the demo agent to OpenAI for a cleaner message shot).
-RETRY (§4): there IS a built-in per-block RETRY POLICY (new; on dev.flowrunner.ai, walked through by Mark
-2026-07-17 on an HTTP Request block). VERIFIED on dev: Retry Policy toggle -> "Retry on status codes"
-(accepts specific codes e.g. 429 + ranges 4XX/5XX), "Retry on network errors" (connection refused, DNS,
-TLS, timeouts), "Max attempts" (includes the initial; 3 = 1 original + 2 retries), "Backoff strategy" =
-Fixed (same delay) OR "Exponential with jitter" (delay grows by a Multiplier, jitter picks a random wait
-in the upper half; fields: Initial delay + Multiplier). Warning shown: retrying non-idempotent requests
-(POST) may cause duplicate side effects. Shot: errorhandling-retrypolicy (HTTP Request Retry Policy).
-MANUAL RETRY (the advanced alternative, still valid): "Retry Logic" (flow BC1713EE): Set Variables (result
-var OUTSIDE the loop) -> Repeat (Max Iteration Count 5) { AI Agent -onFail-> Handle Error -> Wait; success
--> Set Variables -> Break } -> cloud-code reads the var. Break ends the REPEAT on success. Shot:
-errorhandling-retry. RESOLVED 2026-08-14: the built-in Retry Policy shipped to prod in release 1.0.13
-(2026-08-10, FR-2958); prod UI re-verified in Documentation Flows ("Retry Demo" flow) - fields match the
-dev walkthrough (incl. Multiplier, default 2), a 503 run retried 3 attempts with 2s fixed waits, and the
-run-history Element Execution Details gained a "Retry attempts" tab with per-attempt cards.
-PALETTE: Handle Error is in UTILS. SHOTS: errorhandling-terminated (§1), -catch (§2), -read (§3), -retry (§4).
-TODO before final: re-pan §2 (labels clipped); consider OpenAI for a cleaner §3 message; add a §4 run/Logs
-shot (retry passes + Waits, then exhaust); a shot of the Set Variables PICKING Handle Error Result.
--->
-
 <p>A step that fails leaves a flow with one of two outcomes:</p>
 <ul>
 <li><strong>Unhandled</strong> - the run stops there, and nothing after it runs.</li>
@@ -4655,8 +4638,6 @@ the message in a log, or in the body of an alert.</p>
 FlowRunner code, not an HTTP status. Because of that, build recovery on message and source, which
 are always there; see <a data-preview="" href="#things-to-watch-for">Things to watch for</a>.</p>
 <h2 id="retry-after-a-back-off">Retry after a back-off<a class="headerlink" data-preview="" href="#retry-after-a-back-off" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: the built-in Retry Policy is shown on the HTTP Request reference; the manual loop below carries this section's shot -->
-
 <p>Catching a failure runs your recovery once - it is not the same as trying the step again. Retry suits a
 <strong>transient</strong> failure: a service that comes back too busy, then recovers. A permanent failure (a bad key,
 invalid input) fails the same way every time, so a retry only burns through the attempts.</p>
@@ -4685,8 +4666,6 @@ loop creates the result variable, empty. Then the loop does four things:</p>
 </ol>
 <p><a class="glightbox" href="../../images/build/errorhandling-retry.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The manual retry loop inside a Repeat: the step's failure path leads to a Handle Error then a Wait, while its success path leads to a Set Variables then a Break." src="../../images/build/errorhandling-retry.png" /></a></p>
 <h2 id="things-to-watch-for">Things to watch for<a class="headerlink" data-preview="" href="#things-to-watch-for" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: gotchas list, no single on-screen scenario -->
-
 <ul>
 <li><strong>An unhandled failure ends the run.</strong> Guard the steps that can fail - a call to an outside service
   most of all, since that is where failures you cannot control come from.</li>

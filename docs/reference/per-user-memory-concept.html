@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4308,8 +4308,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4333,9 +4331,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4349,14 +4346,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4370,6 +4361,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4378,14 +4395,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4590,7 +4607,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <h2 id="how-the-anchor-scopes-memory">How the anchor scopes memory<a class="headerlink" data-preview="" href="#how-the-anchor-scopes-memory" title="Permanent link">&para;</a></h2>
 <p>The <strong>Memory Anchor</strong> is a value pulled from the data an instance starts with. FlowRunner uses it to pick which store that instance reads and writes: instances with the same anchor value share one store, and a different value gets its own. Anchor on a value that identifies the caller - a customer id, a chat session id, the id of the system calling in - and each caller's memory is kept apart automatically, for every instance that runs for that caller. The anchor works underneath the Put, Read, and Delete blocks, deciding which store their keys land in for the instance at hand.</p>
 <h2 id="setting-the-anchor">Setting the anchor<a class="headerlink" data-preview="" href="#setting-the-anchor" title="Permanent link">&para;</a></h2>
-<!-- doclint: allow-unlinked: Flow Memory -->
 <p>To split memory by caller, you point the anchor at a value that identifies them. The <strong>Memory Anchor</strong> lives in the flow's <strong>Flow Memory</strong> settings, on the <strong>Flow Settings</strong> tab (the gear at the top of the right-hand panel). Its field opens the <strong>Memory Anchor Selection</strong> dialog, where two choices do the whole job:</p>
 <ul>
 <li><span class="fr-control">Anchor Source</span> - where the identifying value comes from. <strong><abbr title="The data passed to a flow when a run is started - for example the payload of an API call that launches it. It is available to expressions as Initial Data. (When a trigger starts the flow instead, the trigger's data belongs to the trigger block, not to Initial Data.)">Initial Data</abbr></strong> reads it from the data the flow was started with; <strong>Initial Trigger</strong> reads it from the event that started the flow; <strong>Flow Memory</strong>, the default, means no per-caller split at all - every instance shares one store.</li>
@@ -4610,7 +4626,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <p>The <span class="fr-control">Memory Expiration Policy</span> decides how long a store is kept once nothing has touched it. <span class="fr-control">Never</span>, the default, keeps it for good. <span class="fr-control">1 hour after last run activity</span>, <span class="fr-control">12 hours after last run activity</span>, or <span class="fr-control">24 hours after last run activity</span> clear the store automatically once that much idle time has passed; <span class="fr-control">Custom</span> sets an exact idle span in days, hours, minutes, and seconds. It is worth setting when each anchor value is a short-lived session you have no reason to keep forever.</p>
 <p><a class="glightbox" href="../images/learn/sm-expiration-options.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Memory Expiration Policy dropdown open, listing Never, 1 hour after last run activity, 12 hours after last run activity, 24 hours after last run activity, and Custom." src="../images/learn/sm-expiration-options.png" /></a></p>
 <h2 id="per-caller-agent-conversations">Per-caller agent conversations<a class="headerlink" data-preview="" href="#per-caller-agent-conversations" title="Permanent link">&para;</a></h2>
-<!-- doclint: no-shot: conceptual - the anchor's reach over an agent's Messages History; the anchor and its Flow Memory panel are shown above -->
 <p>The anchor scopes more than the keys your Put and Read blocks use. It also covers an <a class="fr-block" data-preview="" href="ai-agent.html">AI Agent</a>'s <strong>Messages History</strong> - the running conversation an agent remembers - because that history is kept in the same <abbr title="A key/value store that belongs to the flow and keeps its values between separate runs, so one run can read what an earlier run saved. Unlike a Data Bucket - which resets every run - Shared Memory remembers. Use it for state that has to outlive a single run, like a running counter or a cursor marking how far you got last time.">Shared Memory</abbr> store. So with a per-customer anchor, one agent holds a separate, independently expiring conversation with every customer - one assistant serving them all from a single flow, each conversation kept private.</p>
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>

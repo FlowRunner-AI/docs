@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4284,8 +4284,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4309,9 +4307,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4325,14 +4322,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4346,6 +4337,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4354,14 +4371,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4537,19 +4554,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="api-keys">API Keys<a class="headerlink" data-preview="" href="#api-keys" title="Permanent link">&para;</a></h1>
-<!-- verified in-product 2026-08-06 (Documentation Flows workspace): sidebar Connections > API Keys;
-h1 "API Keys", subtitle "Manage your API keys for different AI providers and services."; THREE tabs
-My Keys / AI Providers / Custom + an ADD A CUSTOM KEY button. AI Providers rows: OpenAI, Anthropic,
-Google AI (Gemini), Cohere, Mistral AI, Groq, DeepSeek, Kimi, Voyage AI ("for embedding models") -
-each with ADD KEY; a provider holding a key shows "1 key added" and sorts onto My Keys. Create
-OpenAI Setup dialog: Provider banner, Label, API Key (eye reveal). My Keys: provider card expands
-to each setup (label, provider, Created date, EDIT/DELETE). Custom tab empty state: "Store an API
-key or secret for a provider or service that isn't in the built-in AI providers list."; Add Custom
-API Key dialog: Provider Name (e.g. LangSmith), Key Name, Secret Value. Block-side: AI API Key
-field disabled ("Select model first") until a model is picked, then offers saved setups
-("Saved API Key Setups" list) - and typing a raw key surfaces a "Save as Setup" affordance (re-driven
-today on the Refund Question block). All six screenshots captured fresh today and read back. -->
-
 <p>Every AI block and operation in FlowRunner™ - the <a class="fr-block" data-preview="" href="../reference/ai-agent.html">AI Agent</a>,
 the <a class="fr-block" data-preview="" href="../reference/ai-router.html">AI Router</a>, and the rest - calls a model hosted by an
 outside provider such as OpenAI, Anthropic, or Google, and each provider authenticates that call

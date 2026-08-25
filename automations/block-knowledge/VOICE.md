@@ -257,6 +257,234 @@ Generalizable rules extracted from review feedback, newest first. STANDING PROCE
 correction Mark gives is extrapolated into a general rule here (or into the Content standard above) in
 the same turn - a one-off fix without a written rule is treated as an incomplete response.
 
+### 2026-08-24 - Call Flow gate red-team - four new rules (pending Mark's confirmation)
+- **An error table's "What to do" is applied verbatim in the failure moment - it must be safe standalone.**
+  Advice that only fits the NEXT call ("raise the timeout") reads as "re-send now" and can cause the very
+  hazard the page warns about (a duplicate run). Lead the remedy with the standing fact, then mark
+  next-call advice as such.
+- **When a GET has side effects, name the side effect where the URL is handed out.** "Keep it private"
+  does not cover accidental fetches - link unfurlers, browser prefetch, uptime monitors all start real
+  runs. Say so at the point the copyable URL appears; every number in a worked example must likewise be
+  derivable from what the page shows or states.
+- **A maxim distilled from one worked scenario must hold on every path of the example flow, or be
+  scoped.** "On means the caller gets only that block's value" is false for a run that never reaches the
+  block - scope it ("a run that reaches the block ...").
+- **When a page warns of a failure state, hand the reader the manual recovery its own facts imply.**
+  "You hold no id for it" reads as unrescuable when the Instances tab shows the id two sections later -
+  close the loop in the same sentence.
+
+### 2026-08-24 - blocking Call Flow lede, Mark 3/10 - two rules
+- **A lede names the transport and the ordinary contract; edge cases never surface there.** "One GET or
+  POST request starts the flow, waits, and returns the flow's answer" - the reader must know what they
+  will SEND from sentence one. Release Caller (or any toggle/mode) belongs only in its own section.
+- **Precision repairs apply at the lowest possible altitude.** When a reviewer flags a plain lede claim
+  as technically contradicted by an edge case, reword the claim so it stays true - do NOT promote the
+  edge case upward. (The 3/10 lede was reviewer-induced: a gate round's "scope the maxim" fix pushed
+  Release Caller into the lede. Same failure family as the 30-entry ToC.)
+
+### 2026-08-24 - Call Flow round-11 red-team - two rules (pending Mark's confirmation)
+- **Two outcome rules whose intersection is reachable must have that case answered.** "One Return Result
+  reached -> its value" and "a failed run -> the TERMINATED envelope" collide on a run that reaches one and
+  then fails - drive the intersection and state the precedence (driven: the reached Return Result wins).
+- **A page that sets its own evidentiary retention bar applies it uniformly.** If undriven rows are dropped
+  "until driven", no undriven row survives a content fold; anything kept on catalog lineage carries a
+  provenance line in the page comment. Alt text may only use framings the visible prose establishes.
+
+### 2026-08-24 - api/index.md removed - no routing hubs
+- **A section index whose content is routing + shared fragments is excessive** (Mark: "it may cause
+  confusion"). Nav labels and page ledes route; shared error codes were folded into each endpoint page's
+  own Errors table; the credentials section moved to its canonical page (Workspace Settings). Pages stay
+  self-contained; a reader never detours through a hub.
+
+### 2026-08-24 - Call Flow split gates - four rules (pending Mark's confirmation)
+- **A screenshot's redaction must never falsify prose built on that image.** If a shot blanks a live
+  value (credentials -> YOUR_WORKSPACE_ID), the prose at the shot declares it ("blanked in these
+  screenshots") so claims like "the URL is live as written" stay true.
+- **Sibling endpoint pages cover crossover mistakes and shared contracts symmetrically.** If page A says
+  "the name does not work here", page B says the mirror; a safety warning (accidental GET starts a run)
+  lives on BOTH pages that hand out the URL; shared facts ({} body valid) match verbatim or are cut from
+  both.
+- **'(((': never let a parenthesis touch a ((chip)) marker** - the paren is swallowed into the rendered
+  chip label. Now a doclint ERROR (chip-paren-collision).
+- **INTERIM, for Mark to confirm: in a shot-less reference table (an Errors table's "What to do" cell), a
+  control the reader acts on stays BOLD, not chipped.** VOICE says chip every control you act on; doclint
+  hard-gates any chip in a section without a screenshot - the deadlock made reviewers flag the same rows
+  in four consecutive gate rounds. Options for Mark: (a) bless this interim rule; (b) relax doclint to
+  accept an explicit per-section opt-out so the chips can land. Until he rules, bold + this note is the
+  convention.
+
+### 2026-08-24 - Call Flow endpoints - copy-ready, one call shape per section, no swiss-army pages
+- **"Forcing someone to think brings useability down"** (Mark, verbatim). On API pages: show every
+  endpoint as one FULL URL (never base + relative path the reader concatenates); give GET and POST each
+  a self-contained section with a complete pasteable example (never interleaved "on a GET / on a POST"
+  rules); and document one call per page - Mark: "If needed create blocking page and non-blocking page.
+  If needed, create section for GET and one for POST." Applied: call-flow.md split into
+  call-flow-blocking.md + call-flow-nonblocking.md.
+
+### 2026-08-24 - Call Flow ToC - heading budget
+- **A page's ToC stays scannable: ~a dozen entries, h3 only for a real reader destination.** The
+  spec-first Call Flow rewrite ended up with 29 ToC entries after successive review rounds each
+  promoted run-ins to h3 "for anchors"; Mark: "impossible to navigate ... the TOC has 30 entries."
+  Sub-parts of a section (Headers/Body, an error group, a dialog tab) are bold run-ins, not
+  headings. More destinations than the budget = split the page, never inflate the ToC.
+
+### 2026-08-24 - Call Flow gate round 24 red-team - four rules (pending Mark's confirmation)
+- **An API page states which version of the versioned artifact its address binds to, and what moves that
+  binding.** The blocking URL carries no version segment: it runs whichever version is LIVE, so a colleague
+  starting a clone silently changes what a shipped integration executes, with no URL change and no error.
+- **A page may withhold a known bug's cosmetics, but the reader's most likely error must still appear in
+  the failure map.** Malformed JSON returns HTTP 500; the Errors intro asserted 415/405 were the only
+  non-400s. The condition is now documented without documenting the stack trace.
+- **A row a client handles programmatically states its detection signal, not only its remedy.**
+- **When two controls on one row compose, the bullet recommending the second says what the first does to
+  its output.** The dialog's per-value JSON editor is recommended for objects while the green A icon, on by
+  default, escapes exactly those objects.
+
+### 2026-08-24 - Call Flow gate rounds 22-23 red-team - four rules (pending Mark's confirmation)
+- **A remedy removed for safety must be swept out of every pointer that carries it.** Round 21 deleted the
+  regenerate-the-key advice from the security paragraph; it still shipped in the Related bullet on both API
+  pages and in the linked page's own prose. A link's description is a recommendation.
+- **A security note names the endpoint's OWN distinguishing capability as part of the exposure.** A leaked
+  blocking URL does not merely spend executions - it returns the flow's composed answer. Generic sibling
+  wording understated it.
+- **A bullet glued to an image or a ":" lead-in is not a list item.** It ships as a literal "- " inside that
+  block. This shipped twice with doclint green; now a `split-list` ERROR.
+- **Never hedge about our own product's enum.** "Handle an unrecognised value rather than assuming these are
+  the only two" reads as the documentation guessing about the product; scope the fact instead ("this call
+  answers only after the run has finished, so these are the two states it reports").
+
+### 2026-08-24 - Call Flow gate round 21 red-team - four rules (pending Mark's confirmation)
+- **A page may omit a known enforcement gap, but it may NEVER ship a remedy that gap makes ineffective.**
+  The page told readers to regenerate the API key after a leak while our own log records that the key
+  segment is not checked - the remedy would have left them believing a leaked URL was dead. Removed.
+- **Deleting an unproven guarantee is not a fix when the reader still has to act - give the defensive
+  practice instead.** Dropping the `blockName` uniqueness claim left the client with no way to key on it;
+  the page now says to name every Return Result before building on it.
+- **A "costs nothing" claim must survive the page's own limit table.** "A larger timeout costs nothing"
+  sat above a table charging for in-flight calls (`998`).
+- **A hazard attached to the URL rather than the method repeats in every self-contained method section.**
+  The accidental-fetch warning lived only under GET, though POST hands out the same live URL.
+
+### 2026-08-24 - Call Flow gate round 20 red-team - four rules (pending Mark's confirmation)
+- **Never write a counted lead-in above a list ("Three things follow from that:").** Later rounds add
+  bullets and the count silently goes false. Use a countless lead-in.
+- **A field prescribed as a client's lookup key needs its STABILITY stated, not just its uniqueness.**
+  `blockName` is the block's editable Name field: renaming a Return Result breaks every client keyed on it,
+  the same hazard the page already warns about for the flow name in the URL.
+- **A remediation the page tells a reader to perform must state what else it breaks.** "Regenerate the API
+  key" is workspace-wide: it invalidates the call URL of every flow in the workspace.
+- **Where the product generates the same call the page hand-writes, say where the generated form differs
+  in OUTCOME.** The dialog's cURL sends `"1042"` as a string, so it returns the GET-shaped answer the POST
+  section teaches readers to avoid - a difference in bytes that is a difference in results.
+- **A "not driven" note is a claim too - check it before repeating it.** "Fan-out unwireable via
+  automation" was carried for two rounds while the page's own screenshots showed a wired fan-out; the
+  gesture just needed a different angle. Retest the obstacle before letting it excuse an undriven claim.
+
+### 2026-08-24 - Call Flow gate round 19 red-team - three rules (pending Mark's confirmation)
+- **A sweeping simplifier on an API page must survive every other section of the same page.** "Everything
+  else you send becomes Initial Data", "whatever the timeout", "cannot fetch it afterwards", "always
+  application/json" - each was contradicted by the page's own later text or by a drive. Before shipping a
+  word like everything / whatever / cannot / always, read the rest of the page against it.
+- **When a page tells a client to key off a field, state that field's uniqueness guarantee.** `blockName`
+  was prescribed as the lookup key with nothing said about how many entries can carry it.
+- **When a per-block toggle can be set on several blocks and the example has several, answer the
+  multi-toggle case.** Release Caller's three consequence bullets covered every direction except the one a
+  builder creates by accident (the toggle on two Return Results).
+
+### 2026-08-24 - Call Flow gate round 18 red-team - three rules (pending Mark's confirmation)
+- **A remedy attaches to the general condition it fixes, not only to the extreme case that motivated
+  it - and when a failure destroys a value the product already produced, say so.** The Release Caller
+  remedy sat under "Runs longer than the maximum wait", so it read as >300s-only; and the timeout bullets
+  never said the composed answer is discarded and unfetchable, which is the consequence a builder cares
+  about.
+- **A scoping repair must not contradict the mechanism it scopes.** Round 17's "in its original shape,
+  before the Audit Copy branch" named the one topology that CANNOT host the observation, because the page
+  itself teaches that a Return Result ends its path. Name a shape that could actually produce the result.
+- **A non-deterministic response field carries the warning on its OWN row.** Documenting the
+  non-determinism on a neighbouring field does not inoculate the convenient singular field a client will
+  actually reach for (`result` vs `results`).
+
+### 2026-08-24 - Call Flow gate round 17 red-team - three rules (pending Mark's confirmation)
+- **A blocking-API page states the response's TIMING contract, not only its body.** The page said what
+  comes back and when it times out, but never when the response is sent relative to the run - the very
+  thing that makes the default timeout expire. Say it plainly ("sent when the run finishes; Release
+  Caller answers earlier"), and derive the timeout advice from it.
+- **When a running example's topology mutates across sections, every anecdote says which shape it ran
+  on.** The failed-run story was driven on the branchless Order Lookup but read against the Audit Copy
+  branch introduced two sections earlier, where it appears to contradict the page's own two-results rule.
+- **Adaptation instructions carry the CONSTRAINTS of the swapped part, not just its location.** "Put your
+  values in place of orderId=1042" without "query values are URL-encoded" breaks on the first value with
+  a space or `&`.
+
+### 2026-08-24 - Call Flow gate round 16 red-team - four rules (pending Mark's confirmation)
+- **Sweep every above/below/described-earlier pointer after a page split or section move.** A pointer that
+  was true on the old layout can survive as a self-link (the dialog section's "described above" anchored
+  to its own containing section). doclint's dead-anchor check cannot catch it - the anchor exists.
+- **A driven page-level claim must not absorb undriven carried rows by framing.** "Most errors come back
+  as HTTP 400..." silently extended a driven claim over the carried rate-limit rows (limiters commonly
+  answer 429). Scope the claim to the rows it was driven on; let carried rows stand on codes alone.
+- **A client-side recipe must work for every response shape the page itself teaches.** The
+  test-for-executionId discriminator assumed JSON while the page teaches XML/Plain-Text composed values;
+  the always-valid discriminator (the Content-Type header) went unstated.
+- **Adaptation instructions name every example-specific part to swap.** "Put your flow's name in place of
+  Order%20Lookup" left `orderId=1042` to land as a stray property in the reader's flow.
+
+### 2026-08-24 - Call Flow gate round 15 red-team - two rules (pending Mark's confirmation)
+- **A toggle that overrides a page's organizing rule is stated in BOTH reachable directions.** The
+  Response section's counting frame (how many Return Results the run reached) is overridden by Release
+  Caller; the page only closed the direction the worked example shows (toggle on the FIRST block). The
+  driven other direction (toggle on the LATER block -> that block's value alone, not the envelope) left a
+  careful reader applying the frame wrong. State the override for every direction the reader can reach.
+- **When a surface displays data in a shape different from the wire format, say so.** The dialog's JSON
+  Editor shows values under an `initialData` wrapper that the endpoint does NOT unwrap (driven: it lands
+  as a literal property). Readers copy what they see - name the displayed shape as display-only and show
+  what to send.
+
+### 2026-08-24 - Call Flow gate round 14 red-team - four rules (pending Mark's confirmation)
+- **Copy-readiness must survive a literal paste.** A code fence is a paste promise: a URL wrapped across
+  indented lines inside a ```text block fails the one reader sent to build from it. Route such readers
+  through a complete runnable example instead, or keep the block single-line and let it scroll.
+- **A page's evidence log must be reconciled with the contract the prose ships.** Two of the author's own
+  driven observations contradicting each other (XML body "= the Result value" vs "arrives JSON-quoted")
+  is shipped doubt whichever side the prose picks - reconcile the log, and point at the recorded decision.
+- **An error table's framing noun must be true of every row it covers.** "Refusals" over a table holding
+  28118 (an accepted request whose run is executing) primes exactly the duplicate-run mistake the page
+  warns against. "Errors" is the honest noun.
+- **Every "must" on an API page is a claim about a refusal - drive the refusal or don't promise it.**
+  "The body must be a JSON object" was false as a refusal: [1,2,3] and "x" are accepted (200, run starts,
+  nothing lands in Initial Data by name). State what happens, not an unenforced rule.
+
+### 2026-08-24 - Flow vs instance: what the API starts (Mark)
+- **The API starts an INSTANCE; the flow must already be started (LIVE).** Mark, on "one GET or POST
+  request starts the flow": "a reader who pays attention, will be confused. A flow MUST BE started in
+  order for Call Flow to work. The API starts an instance. It is an importan[t] distinction which you
+  messed up here." "Start the flow" is only ever the ((Start flow))/LIVE action; a request, trigger,
+  event, or schedule starts an instance (a run). Swept docs-wide (both API ledes, workspace-settings,
+  flow-control index, branching, triggers page + heading, triggers-group.yaml + regen); now a doclint
+  warn (`flow-vs-instance`, actor-keyed so legitimate Start-flow uses never flag).
+
+### 2026-08-24 - Blocking lede, second round (Mark) - lede links the reader's artifact to the feature
+- **"If a flow has X, this is how you get Y."** Mark, on the rewritten lede ("turns a flow into a plain
+  HTTP API ..."): "That's no educational enough. An educational approach would say this: 'if a flow has
+  Return Result, to get it, use the blocking call - the result returned by Return Result is what's
+  delivered by this API'. Is it really that hard????" Sentence one names the artifact the reader built
+  (the Return Result block) as its SUBJECT and presents the feature as the way to get its value; the
+  product abstraction follows as a consequence, never leads. Same family as the mechanics-first lede
+  corrections on Expression Editor (2026-06-29 / 07-01): frame from the reader's side, not the product's.
+
+### 2026-08-24 - Call Flow gate round 12 - three rules (pending Mark's confirmation)
+- **Author notes never reach readers.** HTML comments (verification logs, security notes,
+  doclint markers) shipped verbatim into the built pages' view-source - including a finding
+  deliberately kept out of the docs. Now stripped at build (`hooks/strip_html_comments.py`,
+  fence-aware, before the chip hook); any new build path must keep that guarantee.
+- **A URL that embeds credentials is taught as a credential.** Every endpoint whose address
+  carries the workspace id/key states so where the URL is handed out, with handling guidance
+  (server-side only, regenerate on exposure) - without documenting any enforcement gap.
+- **A retitled heading invalidates its authored anchors.** Mark's Endpoint retitle silently
+  killed every `#endpoint` link; doclint now recomputes heading slugs the way the site does and
+  ERRORs on dead fragments, same-page and cross-page (`dead-anchor`; first sweep caught a live
+  one on inspecting-a-run.md, confirmed against the built HTML).
+
 ### 2026-08-06 - ai-in-flows gate red-team - two new rules (pending Mark's confirmation)
 - **A proven-failing feature never ships as a silent worked example.** If the author's own
   verification shows a feature hard-fails, the page may only teach it as designed after the

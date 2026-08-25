@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../../api/index.html" class="md-tabs__link">
+        <a href="../../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4314,8 +4314,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4339,9 +4337,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4355,14 +4352,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4376,6 +4367,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4384,14 +4401,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../../api/call-flow.html" class="md-nav__link">
+      <a href="../../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4589,35 +4606,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="repeating-steps">Repeating Steps<a class="headerlink" data-preview="" href="#repeating-steps" title="Permanent link">&para;</a></h1>
-<!-- product-exploration log (2026-07-11, Documentation Flows workspace, flow "Order Poller" 228C17CD, built clean this session; run-proven via the activate URL)
-- Repeat verified in palette UTILS. Dropped -> auto-wires to the previous block; unconfigured shows an error badge until the condition is set.
-- Repeat config panel driven: Name / Current Iteration (a starting-value field, default 0 - NOT documented on the page to avoid colliding with the Current Iteration Number pill) / Maximum Iteration Count (default 10000) / Condition (identical Value to Check + Value Data Type + Operation + Value fields as the Condition block). Condition help tooltip is authoritative: Maximum Iteration Count = "Set the maximum iteration limit to interrupt the Repeat While loop. Useful for preventing endless loops if the logic does not exit as expected." (so Repeat IS a while-loop; failsafe verified via product tooltip + config default). Current Iteration field help is still the "TODO: Create a help text here" placeholder (known unwritten-help item).
-- STRING operations enumerated: EQUALS, DOES NOT EQUAL, CONTAINS, DOES NOT CONTAIN, STARTS WITH, DOES NOT START WITH, ENDS WITH, DOES NOT END WITH, IS EMPTY, IS NOT EMPTY, IS NULL, IS NOT NULL, AI QUESTION. Exact operator label is DOES NOT EQUAL (not "not equals").
-- Step-in gesture: hovering a loop reveals an Expand icon (bottom-right of the node); a banner reads Block "Poll Until Shipped" (edit adds ". Iteration #0" -> the counter is 0-based). RETURN (top-left) exits. A just-expanded loop opens EMPTY (only a Start + drop placeholder) - §0j warn.
-- Break verified in UTILS (offered inside the loop). Config = ONLY Name + Notes (no result alias). Sits on a Condition's Yes/then path. Ends the nearest enclosing loop.
-- NESTING: a Repeat dropped INSIDE the loop body was accepted (no rejection) -> Repeat-in-Repeat supported. Deleted the test block. The specific runtime behavior "an inner Break leaves the outer loop running" was NOT driven on this page (only nesting-accepted + single-loop Break exit were run); the page therefore does not assert it and defers nested-Break behavior to the Break reference, where it is V-real (break.yaml: "ends only the inner loop and the outer loop keeps going").
-- SCOPE (Expression Editor, driven on real blocks):
-  - Inner block (Update Order Status): Variables tab -> VARIABLES: Default - Order Status (top-level variable readable inside); FLOW CONTEXT includes Current Iteration Number. Block Data tab -> Re-fetch Order Result (a predecessor's result readable inside).
-  - Seed block (OUTSIDE any loop): FLOW CONTEXT has NO Current Iteration Number -> the pill is loop-scoped (offered only to blocks inside Repeat / List Iterator).
-  - Post-loop block (After Poll): sees Default - Order Status (variable survives) but NOT Re-fetch Order Result / any loop-body result, and no Current Iteration Number -> loop-body results do NOT survive outside; a top-level Variable is the way out.
-- CURRENT ITERATION NUMBER pill: exact label confirmed (yaml's "Current Iteration" is STALE -> parked reference fix). Lives in Expression Editor > Variables tab, FLOW CONTEXT group.
-- RUNS (real instances via activate URL; inspected in the instance viewer):
-  - Normal exit (body writes Order Status = "shipped"): instance COMPLETED 2s, no error. Top-level counts Seed 1 / Poll Until Shipped 1 / After Poll 1 (flow CONTINUES after the loop). Body counts each 1, Break 0. Repeat's Element Execution Details: Input Value to Check "shipped" DOES NOT EQUAL "shipped" -> false -> exit; Output = Empty Object (Repeat hands back NO useful result, matches yaml).
-  - Break early-exit (body writes Order Status = "cancelled", Cancelled? EQUALS cancelled -> Yes -> Break): instance COMPLETED 1s, no error. Body counts each 1 INCLUDING Break 1; After Poll ran (flow resumes after Break). Repeat condition only saw "processing" at entry -> loop exited via Break, not the block condition. Restored the body to "shipped" for the clean saved flow.
-- Failsafe overrun NOT run as a dedicated instance; relied on the authoritative in-product tooltip + verified default 10000 / set 20.
-- 5 shots captured fresh: repeating-config (Condition + Max Iteration Count 20), repeating-body (the loop body Start -> Wait -> Re-fetch Order -> Update Order Status -> Cancelled? -> Break; §2 prose signposts the Cancelled?/Break preview and matches the Wait-first order), repeating-failsafe (the Maximum Iteration Count field on the Repeat block with its help tooltip open - shows block identity + the authoritative "interrupt the Repeat While loop" text; recaptured after the gate flagged the earlier bare crop), repeating-break (Break on the Yes path + its Name/Notes panel), repeating-current-iteration (the Current Iteration Number pill in an inner block's Expression Editor). Pixels read against the prose.
-- DELIBERATE OMISSION: the Repeat's own "Current Iteration" config field (a starting-value field, default 0) is left undocumented to avoid colliding with the Current Iteration Number pill; both shots (repeating-config, repeating-failsafe) put the field on screen. Accepted.
-
-MARK REVIEW ROUND 2026-07-13 (corrections applied):
-- (Mark 1) Loop-exit precision: the condition is evaluated BEFORE each iteration; a false result means that pass never runs and the Repeat is done (not "the loop stops mid-flight"). Reworded §1.
-- (Mark 2) "the status" -> "Order Status" (the actual variable). ADDED an admonition: the checked value can change from ANYWHERE in the instance, not only inside Repeat - a parallel branch could change Order Status independently. (Product-owner authoritative.)
-- (Mark 3) The Cancelled? Condition's No path is unconnected; made explicit that a Condition branch left unconnected ends the pass there, then the loop re-checks at the top. (Reader can't infer this from the shot alone.)
-- (Mark 4) §5 title "What a step inside the loop can read" -> "Accessing flow data inside the loop".
-- (Mark 5) "set outside the loop" -> "declared outside the loop".
-- (Mark 6) §6 title "Pass a result out with a top-level variable" -> "Returning data from the loop".
-- (Mark 7) CORRECTED an inaccuracy: block results are scoped to a single ITERATION, not "the loop". A later pass cannot see an earlier pass's block result; only values written to a top-level variable carry from one pass to the next and out of the loop. Reworded §6. -> Reference follow-up: repeat.yaml / list-iterator.yaml should teach iteration-scoping this way.
--->
-
 <p>A flow often needs to keep doing something until it is done - checking an order until it
 ships, retrying a call until it goes through, collecting results until there are enough.
 The <a class="fr-block" data-preview="" href="../../reference/repeat.html">Repeat</a> block runs a set of steps over and over

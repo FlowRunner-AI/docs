@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4284,8 +4284,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4309,9 +4307,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4325,14 +4322,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4346,6 +4337,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4354,14 +4371,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4580,8 +4597,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <p>Every form also has its own dedicated URL, and that URL is how the form is used outside the FlowRunner console. The <span class="fr-control">VIEW</span> button in the builder's toolbar opens the form at that URL:</p>
 <p><a class="glightbox" href="../images/platform/forms-view-button.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Forms builder's top toolbar for &quot;TestForm&quot;: the form-name dropdown, save, duplicate, edit, and delete icons, and a VIEW button that opens the form at its dedicated public URL." src="../images/platform/forms-view-button.png" /></a></p>
 <p>That dedicated URL is what you hand to respondents. They open it and fill the form in directly, with no FlowRunner sign-in of their own. As they move through it, their answers travel to the flows you wired its pages to, and the final submission to the flow that closes the loop.</p>
-<!-- verified in-product 2026-07-10 (Tests workspace, "TestForm" in the Forms builder, viewed only): builder tabs Designer / Preview / Themes / Logic / JSON Editor all present; the toolbox carries the full question-type range (Single-Line Input, Long Text, Multiple Textboxes, Radio Button Group, Checkboxes, Dropdown, Multi-Select, Yes/No, Image Picker, Ranking, Rating, Slider, File Upload, Matrix, Panel, and more); the form's General settings include Custom CSS URL + Custom JS URL; a selected page carries an Intermediate Request (URL/Method/Headers); Form Submission Settings sends the completed form to a flow (URL/Method/Headers); the form's View link is a public URL (/api/public/app/<appId>/form/<formId>, opened in a new tab with no FlowRunner sign-in). Screenshots depict a purpose-built "Refund Approval" form - same builder UI, different example, no recapture needed. NOT verified in the builder this pass (runtime navigation contract, prose-only): the moveToPageName / extendNextPageData properties the form reads from a flow's Return Result - documented behavior, product-owner-sourced. -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a class="fr-block" data-preview="" href="../reference/call-flow.html">Call Flow</a> - the flow endpoint a form's pages and final submission send their answers to</li>

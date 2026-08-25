@@ -20,7 +20,7 @@ back, and it runs to completion without a Return Result.
   [Flows as Agent Tools](../../reference/flows-as-agent-tools-concept.md);
 - a system calling the flow over the REST API on the blocking endpoint, which gets the composed result as
   the response body. See
-  [Calling a flow that returns a value](../../api/call-flow.md#calling-a-flow-that-returns-a-value).
+  [Call Flow (Blocking)](../../api/call-flow-blocking.md#response).
 
 ## Compose the answer
 
@@ -43,15 +43,17 @@ anything else the path has to do belongs before it.
 <!-- doclint: no-shot: a design decision about the returned shape; the envelope's structure is documented on the Return Result reference -->
 
 It is normal to put a Return Result on each branch of a
-[Condition](../../reference/condition.md){.fr-block}, and that changes the shape the caller sees. Reach
-more than one and the caller no longer gets a plain object - it gets an envelope holding the first result,
-every result that ran tagged with the block name that produced it, and an overall status.
+[Condition](../../reference/condition.md){.fr-block}: a run takes one branch, reaches one Return Result,
+and the caller still gets a plain object. What changes the shape is a run that reaches more than one -
+parallel branches that each end in a Return Result - or none at all. Then the caller no longer gets a plain
+object; it gets an envelope holding the first result, every result that ran tagged with the block name that
+produced it, and an overall status (the exact shape is on [Call Flow (Blocking)](../../api/call-flow-blocking.md#response)).
 
 So make it a deliberate choice:
 
-- **Want the caller to read a simple object?** Keep to one Return Result on any path a run can take.
-- **Several genuinely can run?** Expect the envelope, and name those blocks meaningfully, because the
-  caller picks its result out by the producing block's name.
+- **Want the caller to read a simple object?** Make sure a run can reach only one Return Result.
+- **Several genuinely can run in the same pass?** Expect the envelope, and name those blocks meaningfully,
+  because the caller picks its result out by the producing block's name.
 
 ## Design the answer for the caller
 

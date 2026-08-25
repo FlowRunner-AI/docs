@@ -2,7 +2,7 @@
 <!-- doclint: allow-unlinked: Triggers Group -->
 # Triggers Group
 
-This block lets you hold several triggers together and start the flow on whichever one fires first, or hold the flow back until a whole set of them has fired within a time window you set. One trigger on its own can only react to one kind of event; a <span class="fr-block">Triggers Group</span> lets a single point in the flow wait on several at once and choose how their arrivals release it.
+This block lets you hold several triggers together and start a run on whichever one fires first, or hold the flow back until a whole set of them has fired within a time window you set. One trigger on its own can only react to one kind of event; a <span class="fr-block">Triggers Group</span> lets a single point in the flow wait on several at once and choose how their arrivals release it.
 
 ## How it works
 

@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4297,8 +4297,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4322,9 +4320,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4338,14 +4335,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4359,6 +4350,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4367,14 +4384,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4560,8 +4577,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 
-<!-- GENERATED FILE - do not edit. Source: block-knowledge/error-handling-concept.yaml. Regenerate: make refgen -->
-<!-- doclint: allow-unlinked: Error Handling -->
 <h1 id="error-handling">Error Handling<a class="headerlink" data-preview="" href="#error-handling" title="Permanent link">&para;</a></h1>
 <p>Error handling is how a flow copes with a step that fails instead of dying on the
 first thing that goes wrong. A service is down, a database write is rejected, a piece
@@ -4609,9 +4624,6 @@ through no fault of your flow. Ask of every such step: if this fails, do I want 
 whole run to stop, or do I want to recover. Wherever the answer is recover, connect that step
 to a <span class="fr-block">Handle Error</span>. The steps that only move data around, on the other
 hand, rarely need one.</p>
-<!-- doclint: no-shot: conceptual - guidance on which steps deserve a Handle Error; the block's wiring is shown in How it works -->
-<!-- verified: default-stop behavior (a failing block ends the run) and divert-and-continue confirmed via the legacy error-handler.md + the captured AI Agent failure (code 28063) used on this page; source names the failing block (product owner, 2026-06-23). -->
-
 <h2 id="reacting-to-different-errors">Reacting to different errors<a class="headerlink" data-preview="" href="#reacting-to-different-errors" title="Permanent link">&para;</a></h2>
 <p>Different failures deserve different responses, and the <strong>code</strong> is what lets you tell them
 apart. Inside the recovery path, send the flow through a <a class="fr-block" data-preview="" href="condition.html">Condition</a> that branches on the code:</p>
@@ -4630,9 +4642,6 @@ name which block failed and why.</p>
 <li>Not every failure has one. Branch on code only for failures that provide it, and fall back
   on source and message, which are always there.</li>
 </ul>
-<!-- doclint: no-shot: the Block-Data read is shown by handle-error-read.png under How it works; this section is the conceptual branch-on-code strategy -->
-<!-- verified 2026-06-23 (product owner): code is a FlowRunner numeric code, NOT an HTTP status; a Custom Cloud Code throw yields no code while an HTTP/service failure does. -->
-
 <h2 id="retrying-a-failing-step">Retrying a failing step<a class="headerlink" data-preview="" href="#retrying-a-failing-step" title="Permanent link">&para;</a></h2>
 <p>A <span class="fr-block">Handle Error</span> catches a failure and runs your recovery path once - but catching a
 failure is not the same as trying the step again. To actually retry, you wrap the step
@@ -4644,10 +4653,6 @@ the canvas above) creates the variable that will hold the answer, starting empty
 outside the loop on purpose: the loop writes to it, and it has to outlive the loop so a later
 step can still read it. A <a class="fr-block" data-preview="" href="repeat.html">Repeat</a> block then wraps the risky step; its <span class="fr-control">Maximum Iteration
 Count</span> caps how many attempts it gets - five here. The block after the loop reads the answer.</p>
-<!-- verified 2026-07-09 from the Retry Logic flow version definition (Documentation Flows): "Create AI Response Variable" is a Set Variables block (type DATA_BUCKET, block data-bucket) - the same block type as the in-loop Set Variables, just renamed. Structure: data-bucket "AI Response"='' -> Repeat (maxIterations 5) { AI Agent -onFail-> Handle Error -> Wait 60s; success -> Set Variables (AI Response = AI Agent Result->output) -> Break } -> Custom Cloud Code reads Default.'AI Response'. -->
-<!-- "Maximum Iteration Count" is the UI label for the Repeat cap (schema key maxIterations); it is documented with its verbatim product tooltip on the Repeat block reference (block-knowledge/repeat.yaml -> content/reference/repeat.md), and the Retry Logic flow sets it to 5 (maxIterations=5 above). -->
-<!-- doclint: no-shot: the retry flow's top level and loop internals are both shown by the two images in this section -->
-
 <p>Inside the loop is where the retry happens:</p>
 <p><a class="glightbox" href="../images/learn/retry-loop.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Inside the Repeat loop: an AI Agent whose success exit leads down to a Set Variables block and then a Break that ends the loop, and whose error exit leads right to a Handle Error block followed by a Wait. On success the loop breaks out with the answer; on failure it is caught, paused, and the loop comes around to run the agent again." src="../images/learn/retry-loop.png" /></a></p>
 <p>The <span class="fr-block">AI Agent</span> is connected to a <span class="fr-block">Handle Error</span>, so a failure diverts instead of ending the run.
@@ -4677,8 +4682,6 @@ caught error, so a person learns which block failed and why without digging thro
 <p><strong>Hand off to another flow.</strong> For recovery logic you reuse across flows, the recovery path
 can run another flow built to handle the failure with a <a class="fr-block" data-preview="" href="call-flow.html">Call Flow</a> block, keeping the messy
 part in one place.</p>
-<!-- doclint: no-shot: conceptual catalogue of recovery-path shapes; the blocks named (Wait, Condition, Call Flow) are shown on their own reference pages, and the retry shape is shown in full above -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a data-preview="" href="handle-error.html">Handle Error</a></li>

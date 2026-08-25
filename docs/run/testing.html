@@ -426,7 +426,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4311,8 +4311,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4336,9 +4334,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4352,14 +4349,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4373,6 +4364,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4381,14 +4398,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4646,8 +4663,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </ul>
 <h2 id="testing-does-not-cost-an-execution">Testing does not cost an execution<a class="headerlink" data-preview="" href="#testing-does-not-cost-an-execution" title="Permanent link">&para;</a></h2>
 <p>Running blocks and stepping through a draft cost nothing - they do not count against your monthly allowance. An execution is spent only when a LIVE flow produces a real instance. See <a data-preview="" href="../manage/billing.html">Billing</a> for what does and does not count.</p>
-<!-- verified in-product 2026-07-13 (Documentation Flows, Mark's "Testing Demo" flow, editable v1): pipeline = Get Order (HTTP GET dummyjson.com/carts/<span class="fr-expr">Initial Data → cartId</span>) -> Extract Properties From Product List (Transform -> bare trimmed array) -> Set Products back to Order (Transform, Set Property Value: Object=order, Property Name=products, Value=trimmed array -> order with products replaced, totals intact) -> Get Top Item Total (Custom Cloud Code -> {topItem, topItemTotal}) -> Is Top Item Total Greater than 1000? (Condition, Value to Check = <span class="fr-expr">Custom Cloud Code Result → topItemTotal</span> GREATER THAN 1000 -> conditionResult true) -> Send for Approval via Slack / Auto Approve. All block-result screenshots recaptured with current names. Flow Context tab = exactly Instance ID / Flow ID / Flow Version ID (corrected from an earlier wrong claim that it holds flow data). Each block has a play icon (Run Block) + a lightning icon; the lightning = "Run instance from this element" -> "Launch Flow Instance" dialog (Previous Instance selector to reuse a past instance's config incl. real LIVE instances; Initial Data; GET/cURL URL "Only available for flows with LIVE status"). API key + workspace id redacted (YOUR_API_KEY / YOUR_WORKSPACE_ID) in that screenshot. The Output is an editable Ace code editor (edit-then-successors-use-it confirmed by Mark; the field is editable in-product). Did NOT run Slack/Auto Approve (side effects) nor launch a full instance. Test runs free; Run Instance on LIVE billable. -->
-
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a data-preview="" href="../manage/billing.html">Billing</a> - what counts as an execution, and what testing does not</li>

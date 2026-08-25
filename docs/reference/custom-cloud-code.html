@@ -428,7 +428,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
     
       <li class="md-tabs__item">
-        <a href="../api/index.html" class="md-tabs__link">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
           
   
   
@@ -4344,8 +4344,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     
       
         
-          
-        
       
         
       
@@ -4369,9 +4367,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/index.html" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -4385,14 +4382,8 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
@@ -4406,6 +4397,32 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4414,14 +4431,14 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   
   
     <li class="md-nav__item">
-      <a href="../api/call-flow.html" class="md-nav__link">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Call Flow
+    Call Flow (Non-Blocking)
   
 
     
@@ -4640,8 +4657,6 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 
-<!-- GENERATED FILE - do not edit. Source: block-knowledge/custom-cloud-code.yaml. Regenerate: make refgen -->
-<!-- doclint: allow-unlinked: Custom Cloud Code -->
 <h1 id="custom-cloud-code">Custom Cloud Code<a class="headerlink" data-preview="" href="#custom-cloud-code" title="Permanent link">&para;</a></h1>
 <p>This block runs a snippet of JavaScript as a step in your flow. You pass values in as named arguments, write your logic, and the value you return becomes the block's result.</p>
 <h2 id="how-it-works">How it works<a class="headerlink" data-preview="" href="#how-it-works" title="Permanent link">&para;</a></h2>
@@ -4702,9 +4717,6 @@ features are all there, and a set of familiar globals comes with them:</p>
 <p>These globals are everything the runtime provides - anything they do not cover still
 comes into the flow through blocks. What is deliberately not here is Node.js itself; the
 exact list is under Limitations below.</p>
-<!-- verified in-product 2026-08-14 (Documentation Flows "Runtime Probe", post release 1.0.13 / FR-3102): present = fetch, Buffer, crypto (randomUUID/getRandomValues/subtle - SHA-256 digest verified), setTimeout/setInterval/clearTimeout (real 300ms delay), queueMicrotask, TextEncoder/TextDecoder, atob/btoa, structuredClone, URL/URLSearchParams, AbortController/AbortSignal. fetch verified live: GET api.github.com 200 + JSON; POST postman-echo with plain-object headers + string body echoed both. Absent = require, process, dynamic import ("A dynamic import callback was not specified"), Blob, File, FormData, Headers, Request, Response, ReadableStream/WritableStream/TransformStream/CompressionStream, WebSocket, EventTarget, MessageChannel, BroadcastChannel, performance/Performance, Crypto/SubtleCrypto constructors. -->
-<!-- doclint: no-shot: a runtime capability list; the Code Editor itself is shown in the example above -->
-
 <h2 id="as-an-ai-agent-tool">As an AI Agent tool<a class="headerlink" data-preview="" href="#as-an-ai-agent-tool" title="Permanent link">&para;</a></h2>
 <p><span class="fr-block">Custom Cloud Code</span> can also be given to an <a class="fr-block" data-preview="" href="ai-agent.html">AI Agent</a> as a tool, so the agent runs a snippet
 on its own when it decides it needs to - to do a calculation or reshape some data mid-task.
@@ -4723,8 +4735,6 @@ override it.</p>
   type, this is how the agent knows what to pass, and when to reach for the tool.</li>
 </ul>
 <p>As an ordinary block step, none of this appears: an argument is just a name and a value.</p>
-<!-- attach flow re-verified in-product 2026-08-14 (Documentation Flows, post 1.0.13 / FR-3227): Manage Capabilities -> Utils lists exactly Assign Instance Name / Custom Cloud Code ("Runs a JavaScript snippet with typed arguments. Anything left empty is filled in by the agent.") / File Reader / HTTP Request, each with a + to add. Added tool shows in the agent node's "Tools" row; clicking it opens a config panel headed "Custom Cloud Code / AI Tool" with Name, OPEN CODE EDITOR, Notes, and the helper text verbatim: "Leave the code or an argument value empty to let the agent provide it at runtime. Filled values are locked - the agent cannot see or override them." The old "tools drawer" phrasing was replaced with these verified surfaces. -->
-
 <p><a class="glightbox" href="../images/reference/custom-cloud-code-agent-tool.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Code Editor's Arguments panel for a Custom Cloud Code tool: an argument's name and value fields above a Prepare for AI Agent section with a Value Type dropdown and a Description field that tell the agent what to pass." src="../images/reference/custom-cloud-code-agent-tool.png" /></a></p>
 <h2 id="configuration">Configuration<a class="headerlink" data-preview="" href="#configuration" title="Permanent link">&para;</a></h2>
 <table>
