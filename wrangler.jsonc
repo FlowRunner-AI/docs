@@ -1,0 +1,11 @@
+// Cloudflare Workers deployment of the built docs site.
+// The site is built locally with `mkdocs build` (automations/mkdocs.yml writes to ../docs)
+// and committed, so Cloudflare only pulls the repo and serves the docs/ folder as static assets.
+{
+  "name": "docs",
+  "compatibility_date": "2026-09-09",
+  "assets": {
+    "directory": "./docs",
+    "not_found_handling": "404-page"
+  }
+}
