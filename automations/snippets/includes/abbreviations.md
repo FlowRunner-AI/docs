@@ -50,3 +50,5 @@
     A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.
 *[expressions]:
     A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.
+*[Placeholder Data]:
+    The section of a flow's Flow Settings tab where its placeholders are declared and given values.

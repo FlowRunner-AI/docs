@@ -18,6 +18,7 @@ nav:
       - 'Triggers': learn/concepts/triggers.md
       - 'Blocks': learn/concepts/blocks.md
       - 'Variables & Data Buckets': learn/concepts/variables.md
+      - 'Placeholders': learn/concepts/placeholders.md
       - 'Expression Editor': learn/concepts/expressions.md
       - 'Subflows': learn/concepts/subflows.md
       - 'Shared Memory': learn/concepts/shared-memory.md
@@ -27,6 +28,7 @@ nav:
     - 'API Keys': platform/api-keys.md
     - 'Compliance & Security': platform/compliance-and-security.md
     - 'SLA Goals': platform/sla-goals.md
+    - 'Notifications': platform/notifications.md
     - 'Concept Guides':
       # BEGIN generated concept nav
       - 'Agent Memory': reference/flow-memory-concept.md
@@ -111,12 +113,30 @@ nav:
       - 'Value Router': reference/value-router.md
       - 'Wait': reference/wait.md
     # END generated reference nav
- # - 'Extend':
- #   - 'About Custom Actions': extend/custom-actions.md
+  - 'Extend':
+    - 'Custom Extensions': extend/index.md
+    - 'Let AI Build It': extend/ai-assisted.md
+    - 'Write It Yourself': extend/getting-started.md
+    - 'The FlowRunner CLI': extend/cli.md
+    - 'Service Structure': extend/service-structure.md
+    - 'Parameters & Types': extend/parameters-and-types.md
+    - 'Actions': extend/actions.md
+    - 'Dictionaries': extend/dictionaries.md
+    - 'Triggers': extend/triggers.md
+# OAuth2 is written but held out of the nav: FR-3477 means no customer can
+# currently complete an OAuth connection for a custom extension. Restore this
+# line when that ships, then re-drive the flow against the GitHub app.
+#    - 'OAuth2': extend/oauth.md
+    - 'HTTP Requests': extend/http-requests.md
+    - 'Storing Files': extend/files.md
+    - 'Testing': extend/testing.md
+    - 'Deploying & Managing': extend/deploying.md
+    - 'Troubleshooting': extend/troubleshooting.md
   - 'API':
     - 'Call Flow (Blocking)': api/call-flow-blocking.md
     - 'Call Flow (Non-Blocking)': api/call-flow-nonblocking.md
     - 'Activating an External Callback': api/activating-a-trigger.md
+    - "Checking a Run's Status": api/execution-status.md
     - 'Retrieving Block Results': api/block-results.md
 
 docs_dir: content

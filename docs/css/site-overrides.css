@@ -381,3 +381,25 @@
   border-color: rgba(212, 167, 106, 0.55);
   box-shadow: none;
 }
+
+/* ---------- SEARCH TYPEAHEAD ALIGNMENT ----------
+
+   With `search.suggest` on, Material draws the completion in
+   `.md-search__suggest`, an overlay sharing the input's exact box. The two
+   only line up while they share text metrics.
+
+   flowrunner-mkdocs.css restyles `.md-search__input` (JetBrains Mono,
+   letter-spacing 0.05em) but not the overlay, so the overlay kept inheriting
+   `.md-header`'s Inter Tight at letter-spacing 0.15em - 2.16px against the
+   input's 0.96px. Same box, different tracking and face, so the ghost text
+   drifted across the typed text and both became unreadable.
+
+   Mirror the input's metrics onto the overlay. Keep these three declarations
+   identical to the `.md-search__input` rule in flowrunner-mkdocs.css; if that
+   rule changes, change this one with it. */
+
+.md-search__suggest {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}

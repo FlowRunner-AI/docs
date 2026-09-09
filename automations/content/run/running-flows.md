@@ -52,8 +52,10 @@ To roll out a change, you do not edit the live version in place - you make a **n
 <!-- verified in-product 2026-07-13 (Documentation Flows): version status chip READY / LIVE. Verified going live on the safe, inert "Testing Demo" flow (no schedule/trigger, starts with an action, so going live does not auto-run): Start flow (tooltip-verified label) took status Ready -> Live and swapped in pause (lucide-pause) + stop (lucide-square); stop took it Live -> Ready and back to an editable /edit view. Restored Testing Demo to Ready (no net change). Instances tab (Order Poller, 2 real COMPLETED instances): columns Instance Name / Start Time / Finish Time / Total Time / Has Error / Status / Compliance / Missed Goal, with date-range + status filters (ALL / Only With SLA Violations / Only With Errors). Opening an instance shows the flow with each executed block check-marked, an Instance Summary (timing, status, Initial Data e.g. orderId A-1099), and per-block Input/Output. Toolbars cropped from Order Poller (Ready) and Order Approval (Live); no personal data (UUIDs + timestamps only; sidebar/footer excluded). Start paths + one-live-version + executionId + parallel cross-checked against learn/concepts/flows-and-instances.md and legacy content/flow-execution/overview.md. PAUSE SEMANTICS DRIVEN 2026-08-24 (Order Lookup, LIVE): pause -> status badge "On hold" and the toolbar's
      first icon becomes "Resume flow" (tooltip; full row Resume flow | Stop | Schedule | Clone | Export | Run
      Instance, so Run Instance is present in both states); while On hold the blocking Call Flow API answered
-     400/28047 "Flow with name 'Order Lookup' and status 'LIVE' is not found"; Resume flow restored LIVE and
-     the API returned 200 again. Shot running-flows-onhold-toolbar.png (breadcrumb + tooltip + badge, read
+     400/28047 "Flow with name 'Order Lookup' and status 'LIVE' is not found" [SUPERSEDED by FR-3408,
+     re-driven 2026-08-31: the code is now 28053 on BOTH Call Flow endpoints and the message reads "Flow with
+     ID or name ..." - the page body cites no code, so nothing here needed changing]; Resume flow restored
+     LIVE and the API returned 200 again. Shot running-flows-onhold-toolbar.png (breadcrumb + tooltip + badge, read
      back). -->
 
 ## Related

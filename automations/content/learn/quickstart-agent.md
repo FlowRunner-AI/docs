@@ -203,11 +203,17 @@ canvas the block itself grows a ((Tools)) strip naming what it has been given.
 
 Close the Manage Capabilities window by clicking ((X)) in the upper right corner. Select the agent block to see the selected tools in the block's drawer.
 
-!!! note "A known issue: the flow may still report an error"
-    Attached tools are not yet taken into account when a flow is validated, so the flow can keep reporting
-    itself as not ready even after everything is filled in. It does not affect this guide - running blocks
-    from the Test Monitor works normally - but a flow that reports errors cannot be set LIVE until the
-    fix ships. This is a known issue and has been reported.
+<!-- 2026-08-27: the "known issue: attached tools are not taken into account when a flow is validated"
+     admonition that stood here has been REMOVED. Re-driven on the current build in Documentation Flows:
+     cloned Draft Reply to a throwaway Version 2, attached HTTP Request and Assign Instance Name (the exact
+     pair this guide attaches) to its AI Agent, and the flow chip stayed Ready with no error marker on the
+     block - first with the HTTP Request tool's URL left empty, then with Assign Instance Name added too.
+     Version 2 was deleted afterwards; Draft Reply is back to Version 1, Ready.
+     Jira corroborates rather than substitutes for the drive: FR-3335 (Assign Instance Name as an AI Agent
+     tool not validated correctly) and FR-3339 (ensure AI Agent tool configs are validated) shipped in
+     v1.0.13 on 2026-08-10, and FR-3345 (server does not validate HTTP Request in AI Agent correctly)
+     shipped in v1.0.14 on 2026-08-18 - all Closed/Implemented. The note predated those releases.
+     Nothing is asserted here beyond what was observed: the guide no longer warns about it. -->
 
 ### Pin the input that has to be exact
 

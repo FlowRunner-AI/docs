@@ -85,8 +85,8 @@ decides what a call does:
 - **In the middle of a flow** - the run pauses when it reaches the trigger, and a call resumes a paused
   instance. That is the case this page covers.
 
-At a mid-flow trigger the run pauses and stays an active instance - status **RUNNING**, the steps after
-the trigger pending - until a call arrives. The wait is not unlimited: a run holds at the callback for up
+At a mid-flow trigger the run pauses and stays an active instance - status **PENDING** on the flow's
+Instances tab, the steps after the trigger not yet run - until a call arrives. The wait is not unlimited: a run holds at the callback for up
 to the workspace plan's maximum, 30 days on Growth plans and one year on the others.
 
 ![The run paused at the External Callback: Request Payment done, the callback still waiting, Store Payment Result not yet run.](../../images/build/externalcallback-paused.png)

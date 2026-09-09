@@ -52,7 +52,7 @@ Real processes are not tidy, and a flow does not force them to be. A handful of 
 ## Build with no code, or with code
 <!-- doclint: no-shot: short conceptual section; the Custom Cloud Code shots live on its reference page -->
 
-Most of a flow you build without writing anything - add blocks, fill in their fields, wire the path. Where a step needs more than the blocks provide, a [Custom Cloud Code](reference/custom-cloud-code.md){.fr-block} block runs code you write, and you can package your own blocks as [custom actions](extend/custom-actions.md) that appear alongside the built-in ones. A single flow can mix both freely.
+Most of a flow you build without writing anything - add blocks, fill in their fields, wire the path. Where a step needs more than the blocks provide, a [Custom Cloud Code](reference/custom-cloud-code.md){.fr-block} block runs code you write, and you can package your own blocks as [custom extensions](extend/index.md) that appear in the palette with the rest. A single flow can mix both freely.
 
 ## Start here
 

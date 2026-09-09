@@ -98,10 +98,10 @@ docs:
         Required. The model that makes the decision, chosen from one list grouped by provider
         (Claude, GPT, Gemini, and others); the provider is implied by the model you pick.
     - field: AI API Key
-      type: dropdown
+      type: key picker
       description: >
-        Required. The saved key that authorizes the model call, chosen from the same keys
-        you register for the AI Agent block.
+        Required. The key that authorizes the model call. Pick one you have already saved, or
+        type a new one right here - the same control, and the same store, as the AI Agent block.
     - field: AI Decision Request
       type: expression
       description: >

@@ -27,7 +27,25 @@ When a workspace's work is finished or abandoned, deleting it clears it out comp
 
 ![The Delete the workspace section: a warning that removing the workspace is irreversible and all data will be deleted, with a red DELETE WORKSPACE button.](../images/manage/workspace-settings-delete.png)
 
-<!-- verified in-product 2026-07-10 (Tests workspace, Workspace settings -> General, viewed only - nothing renamed/regenerated/transferred/deleted): the page has Workspace Info (Name field + RENAME), Credentials (Workspace ID + API Key, each read-only with copy; API Key has a regenerate control), Transfer Workspace (Generate ZIP + Generate Developer Signature, then import on the target), and "Delete the workspace" (marked irreversible, red DELETE WORKSPACE). Matches the page; existing screenshots depict the same sections. Corrected 2026-07-10 per Mark: Transfer Workspace is primarily a cross-INSTALLATION move (e.g. FlowRunner cloud -> self-hosted); the Developer Signature is the password for the generated ZIP; handing a workspace to another PERSON on the same installation is done via Transfer Ownership on the Team page, not this. -->
+<!-- verified in-product 2026-07-10 (Tests workspace, Workspace settings -> General, viewed only - nothing renamed/regenerated/transferred/deleted): the page has Workspace Info (Name field + RENAME), Credentials (Workspace ID + API Key, each read-only with copy; API Key has a regenerate control), Transfer Workspace (Generate ZIP + Generate Developer Signature, then import on the target), and "Delete the workspace" (marked irreversible, red DELETE WORKSPACE). Matches the page; existing screenshots depict the same sections. Corrected 2026-07-10 per Mark: Transfer Workspace is primarily a cross-INSTALLATION move (e.g. FlowRunner cloud -> self-hosted); the Developer Signature is the password for the generated ZIP; handing a workspace to another PERSON on the same installation is done via Transfer Ownership on the Team page, not this.
+     RE-DRIVEN 2026-08-31 on dev.flowrunner.ai (Documentation Flows), for FR-3386 and FR-3426 - all three
+     actions EXERCISED, not just viewed:
+     RENAME (FR-3386, "Workspace Name can be edited in UI but not on server") is FIXED. ((RENAME)) stays
+     disabled until the ((Name)) field is edited, then enables; clicking it succeeds and the app moves to the
+     new workspace path (/app/Documentation%20Flows%20RENAMETEST/... and back). The page's procedure - edit
+     the Name, click RENAME - is correct as written. NEW FACT the page does not state: the workspace name is
+     part of the console URL, so a rename changes every /app/{name}/... address.
+     REGENERATE API KEY (FR-3426, 404 + "REST key" copy) is FIXED on both counts. The control is the
+     fa-sync icon beside the field. Its confirmation dialog now reads "Confirmation required / Are you sure
+     you want to regenerate the API key? / Any client application using the API Key WILL STOP WORKING when
+     the key is regenerated. / Cancel | Yes" - no "REST key" leftover anywhere. Confirming issued a new key
+     with no error.
+     THE API KEY IS NOW ENFORCED - the previously known, reported, undocumented defect (any key value
+     started a flow) is gone. Driven straight after regenerating, against a LIVE TD Sandbox: new key -> 200;
+     the just-replaced old key -> 400 `{"code":2027,"message":"API key is invalid"}`; a garbage key -> the
+     same 2027; a bad workspace id -> 9000. So this page's sentence "every URL built on the old one has to be
+     rebuilt with the new key" is now VERIFIED TRUE rather than merely intended. Error 2027 was added to the
+     error tables on api/call-flow-blocking.md and api/call-flow-nonblocking.md. -->
 
 ## Related
 

@@ -1,0 +1,5725 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter.">
+      
+      
+      
+        <link rel="canonical" href="https://docs.flowrunner.ai/extend/testing.html">
+      
+      
+        <link rel="prev" href="files.html">
+      
+      
+        <link rel="next" href="deploying.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Testing - FlowRunner™ User Guide</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+  
+  
+  
+  
+  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M15%2020a1%201%200%200%200-1-1h-1v-2h4a2%202%200%200%200%202-2V5a2%202%200%200%200-2-2H7a2%202%200%200%200-2%202v10a2%202%200%200%200%202%202h4v2h-1a1%201%200%200%200-1%201H2v2h7a1%201%200%200%200%201%201h4a1%201%200%200%200%201-1h7v-2zm-8-5V5h10v10zm4.95-9c-.78%200-1.4.18-1.88.5-.46.39-.69.9-.68%201.6l.01.03h1.71c.01-.27.09-.48.25-.63.14-.12.36-.19.59-.19.27%200%20.5.09.66.25.16.17.24.4.24.66%200%20.28-.07.53-.21.73-.14.21-.31.38-.54.55-.45.28-.76.55-.93.79-.17.21-.28.6-.28%201.04h1.78c0-.27.03-.49.11-.65.08-.18.22-.32.46-.47.4-.21.73-.47.98-.82.28-.36.4-.72.4-1.17%200-.67-.24-1.22-.72-1.61-.48-.41-1.13-.61-1.95-.61m-1.06%206.22V14h1.78v-1.78z%22/%3E%3C/svg%3E');}</style>
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter Tight";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/style.css">
+    
+      <link rel="stylesheet" href="../css/chat-widget.css">
+    
+      <link rel="stylesheet" href="../css/flowrunner-mkdocs.css">
+    
+      <link rel="stylesheet" href="../css/site-overrides.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Testing - FlowRunner™ User Guide" />
+<meta property="og:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="og:image" content="https://docs.flowrunner.ai/assets/images/social/extend/testing.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://docs.flowrunner.ai/extend/testing.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Testing - FlowRunner™ User Guide" />
+<meta property="twitter:description" content="FlowRunner is the orchestration layer for production AI agents with a human in the loop on the decisions that matter." />
+<meta property="twitter:image" content="https://docs.flowrunner.ai/assets/images/social/extend/testing.png" />
+ <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#testing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="FlowRunner™ User Guide" class="md-header__button md-logo" aria-label="FlowRunner™ User Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet">
+<g transform="translate(0.000000,1536.000000) scale(0.100000,-0.100000)"
+fill="currentColor" stroke="none">
+<path d="M4650 11485 c-343 -58 -654 -215 -909 -460 -170 -163 -286 -333 -379
+-555 -56 -134 -74 -204 -137 -555 -31 -170 -94 -512 -140 -760 -46 -247 -109
+-585 -139 -750 -31 -165 -78 -419 -106 -565 -104 -557 -104 -558 -90 -575 23
+-28 65 -18 116 28 433 382 988 684 1468 797 233 55 197 54 1134 57 l874 4 -7
+-23 c-16 -56 -109 -229 -155 -290 -65 -86 -202 -219 -283 -276 -135 -95 -314
+-169 -512 -213 -95 -21 -134 -22 -740 -29 -692 -8 -693 -8 -900 -68 -319 -93
+-582 -252 -808 -492 -305 -324 -483 -717 -592 -1310 -20 -107 -64 -338 -97
+-512 -33 -174 -58 -324 -55 -332 3 -8 17 -22 31 -31 22 -15 39 -15 213 0 483
+41 784 111 1068 250 451 219 785 583 970 1056 77 196 107 320 175 729 17 102
+33 193 36 203 5 16 26 17 262 17 383 0 561 23 808 105 520 172 946 601 1098
+1107 48 159 106 442 106 518 0 77 105 71 -1221 67 -1161 -3 -1186 -3 -1311
+-25 -310 -53 -631 -158 -908 -297 l-92 -46 6 28 c3 15 17 93 31 173 15 80 50
+273 80 430 48 254 99 530 196 1060 35 188 63 280 121 395 62 124 125 213 215
+302 228 226 462 339 775 372 99 11 2629 16 2640 6 8 -8 -28 -183 -57 -279
+-118 -387 -432 -677 -836 -772 -65 -15 -161 -18 -819 -24 -715 -6 -748 -7
+-810 -27 -158 -50 -260 -120 -333 -231 -64 -96 -86 -157 -113 -322 -13 -80
+-35 -206 -48 -280 -14 -74 -21 -138 -18 -141 4 -3 79 2 167 12 88 10 197 18
+242 19 75 0 84 2 96 23 8 12 27 94 41 182 32 189 50 229 116 263 l44 22 691 0
+c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
+44 254 55 317 17 94 18 118 7 140 l-12 26 -1670 1 c-1307 2 -1686 -1 -1745
+-11z m-564 -4855 c-60 -379 -142 -619 -289 -847 -196 -305 -546 -528 -934
+-597 -18 -3 -33 -4 -33 -2 0 1 14 73 30 160 53 272 125 500 220 691 102 208
+229 369 398 505 101 82 305 188 423 220 89 24 191 39 201 30 4 -3 -3 -75 -16
+-160z"/>
+</g>
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FlowRunner™ User Guide
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Testing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+  
+    
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13a9 9 0 0 0 9 9 9 9 0 0 0-9-9m9 9a9 9 0 0 0 9-9 9 9 0 0 0-9 9m6-19v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V3c.74 0 1.47.12 2.16.39.55.23 1.04.57 1.45 1L12 2l2.39 2.39c.41-.43.9-.77 1.45-1A5.9 5.9 0 0 1 18 3"/></svg>
+    
+  
+  Welcome
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../definitions.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Platform
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../manage/flows.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Manage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../build/flow-editor.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Build
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../run/testing.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Run & Monitor
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../reference/ai-agent.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Block Reference
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Extend
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api/call-flow-blocking.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="FlowRunner™ User Guide" class="md-nav__button md-logo" aria-label="FlowRunner™ User Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet">
+<g transform="translate(0.000000,1536.000000) scale(0.100000,-0.100000)"
+fill="currentColor" stroke="none">
+<path d="M4650 11485 c-343 -58 -654 -215 -909 -460 -170 -163 -286 -333 -379
+-555 -56 -134 -74 -204 -137 -555 -31 -170 -94 -512 -140 -760 -46 -247 -109
+-585 -139 -750 -31 -165 -78 -419 -106 -565 -104 -557 -104 -558 -90 -575 23
+-28 65 -18 116 28 433 382 988 684 1468 797 233 55 197 54 1134 57 l874 4 -7
+-23 c-16 -56 -109 -229 -155 -290 -65 -86 -202 -219 -283 -276 -135 -95 -314
+-169 -512 -213 -95 -21 -134 -22 -740 -29 -692 -8 -693 -8 -900 -68 -319 -93
+-582 -252 -808 -492 -305 -324 -483 -717 -592 -1310 -20 -107 -64 -338 -97
+-512 -33 -174 -58 -324 -55 -332 3 -8 17 -22 31 -31 22 -15 39 -15 213 0 483
+41 784 111 1068 250 451 219 785 583 970 1056 77 196 107 320 175 729 17 102
+33 193 36 203 5 16 26 17 262 17 383 0 561 23 808 105 520 172 946 601 1098
+1107 48 159 106 442 106 518 0 77 105 71 -1221 67 -1161 -3 -1186 -3 -1311
+-25 -310 -53 -631 -158 -908 -297 l-92 -46 6 28 c3 15 17 93 31 173 15 80 50
+273 80 430 48 254 99 530 196 1060 35 188 63 280 121 395 62 124 125 213 215
+302 228 226 462 339 775 372 99 11 2629 16 2640 6 8 -8 -28 -183 -57 -279
+-118 -387 -432 -677 -836 -772 -65 -15 -161 -18 -819 -24 -715 -6 -748 -7
+-810 -27 -158 -50 -260 -120 -333 -231 -64 -96 -86 -157 -113 -322 -13 -80
+-35 -206 -48 -280 -14 -74 -21 -138 -18 -141 4 -3 79 2 167 12 88 10 197 18
+242 19 75 0 84 2 96 23 8 12 27 94 41 182 32 189 50 229 116 263 l44 22 691 0
+c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
+44 254 55 317 17 94 18 118 7 140 l-12 26 -1670 1 c-1307 2 -1686 -1 -1745
+-11z m-564 -4855 c-60 -379 -142 -619 -289 -847 -196 -305 -546 -528 -934
+-597 -18 -3 -33 -4 -33 -2 0 1 14 73 30 160 53 272 125 500 220 691 102 208
+229 369 398 505 101 82 305 188 423 220 89 24 191 39 201 30 4 -3 -3 -75 -16
+-160z"/>
+</g>
+</svg>
+
+    </a>
+    FlowRunner™ User Guide
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../index.html" class="md-nav__link ">
+              
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13a9 9 0 0 0 9 9 9 9 0 0 0-9-9m9 9a9 9 0 0 0 9-9 9 9 0 0 0-9 9m6-19v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V3c.74 0 1.47.12 2.16.39.55.23 1.04.57 1.45 1L12 2l2.39 2.39c.41-.43.9-.77 1.45-1A5.9 5.9 0 0 1 18 3"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Welcome
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Starts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quick Starts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/quickstart.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Contact Us Form (no-code)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/quickstart-code.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Contact Us Form (code JS)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/quickstart-agent.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation with an AI Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Platform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../definitions.html" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2zm0 2h2v2H3m12-.5V9a2 2 0 0 0-2-2H9v10h4a2 2 0 0 0 2-2v-1.5a1.54 1.54 0 0 0-1.5-1.5 1.54 1.54 0 0 0 1.5-1.5M13 15h-2v-2h2zm0-4h-2V9h2m6-2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-1h-2v1h-2V9h2v1h2V9a2 2 0 0 0-2-2Z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/workspace.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/concepts/flows-and-instances.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flows & Instances
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/concepts/triggers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triggers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/concepts/blocks.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blocks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/concepts/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Variables & Data Buckets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/concepts/placeholders.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Placeholders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/concepts/expressions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Expression Editor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/concepts/subflows.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Subflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/concepts/shared-memory.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shared Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/forms.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/mcp-servers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Servers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/oauth-connections.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OAuth Connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/api-keys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/compliance-and-security.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compliance & Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/sla-goals.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SLA Goals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform/notifications.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notifications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_10" id="__nav_2_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concept Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concept Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/flow-memory-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/error-handling-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Error Handling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/flows-as-agent-tools-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flows as Agent Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/knowledge-bases-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Bases (RAG stores)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/per-user-memory-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Per-User Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Manage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manage/flows.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manage/workspace-settings.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manage/team.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Team
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manage/billing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Billing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-editor.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Flow Editor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../build/data-and-variables/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data & Variables
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data & Variables
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/data-and-variables/passing-data.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Passing Data Between Blocks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/data-and-variables/holding-values.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Holding Values in Variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/data-and-variables/reshaping-data.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reshaping Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/data-and-variables/across-runs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sharing Data Across Runs & Flows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../build/flow-control/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flow Control
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Flow Control
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/branching.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Yes/No Branching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/routing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routing on a Value
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/repeating.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repeating Steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/collections.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working Through a List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/parallel.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running Steps in Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/waiting.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a Delay
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/external-callbacks.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Waiting on an External System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/flow-control/error-handling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handling Errors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with AI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Working with AI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/ai-in-flows.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI in Flows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../build/integrations/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrations & I/O
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integrations & I/O
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/calling-a-service.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calling an External Service
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/returning-a-result.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Returning a Result
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/running-another-flow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running Another Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/integrations/custom-actions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom & Marketplace Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run & Monitor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Run & Monitor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run/testing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run/running-flows.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running Flows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/flow-scheduling-concept.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run/monitoring.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring & Analytics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run/inspecting-a-run.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspecting a Single Run
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Block Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Block Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/ai-agent.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/ai-router.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Router
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Actions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Actions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/assign-instance-name.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Assign Instance Name
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/call-flow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/custom-cloud-code.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Cloud Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/http-request.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP Request
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/knowledge-base-add-document.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Base: Add Document
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/knowledge-base-delete-document.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Base: Delete Document
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/knowledge-base-delete-by-filter.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Base: Delete by Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/knowledge-base-list-documents.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Base: List Documents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/shared-memory-delete.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shared Memory: Delete
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/shared-memory-put.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shared Memory: Put
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/shared-memory-read.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shared Memory: Read
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/start-scheduled-runs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Scheduled Runs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/stop-scheduled-runs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stop Scheduled Runs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Groups
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Groups
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/actions-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Actions Group
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/triggers-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triggers Group
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Subflows
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Subflows
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/subflow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SubFlow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triggers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Triggers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/external-callback.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Callback
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utils
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Utils
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/break.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Break
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/condition.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Condition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/handle-error.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handle Error
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/list-iterator.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    List Iterator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/repeat.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repeat
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/return-result.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Return Result
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/set-variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set Variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/synchronize.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synchronize
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/transform-data.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transform Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/value-router.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Value Router
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/wait.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wait
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extend
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Extend
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ai-assisted.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Let AI Build It
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting-started.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Write It Yourself
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cli.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The FlowRunner CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="service-structure.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Service Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="parameters-and-types.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parameters & Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="actions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dictionaries.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dictionaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="triggers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Triggers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="http-requests.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP Requests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storing Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="testing.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-in-the-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is in the project
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is in the project">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#upgrading-the-harness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrading the harness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-five-exports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The five exports
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-http-mock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The HTTP mock
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The HTTP mock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-history-record" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The history record
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-a-suite-is-laid-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How a suite is laid out
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-a-dictionary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing a dictionary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-a-polling-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing a polling trigger
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-not-to-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What not to do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="deploying.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploying & Managing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="troubleshooting.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-blocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/call-flow-nonblocking.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Call Flow (Non-Blocking)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/activating-a-trigger.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Activating an External Callback
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/execution-status.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checking a Run's Status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/block-results.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieving Block Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-in-the-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is in the project
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is in the project">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#upgrading-the-harness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrading the harness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-five-exports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The five exports
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-http-mock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The HTTP mock
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The HTTP mock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-history-record" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The history record
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-a-suite-is-laid-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How a suite is laid out
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-a-dictionary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing a dictionary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-a-polling-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing a polling trigger
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-not-to-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What not to do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h1>
+<p><code>flowrunner init</code> puts a test harness in your project. It runs your extension through the <strong>real</strong> runtime
+with HTTP intercepted at the socket, so a test asserts what the pod would have sent - the URL, the headers,
+the query, the body - and nothing leaves the process.</p>
+<p>There is no live-API test here: checking against the real vendor means deploying and running a flow.</p>
+<h2 id="what-is-in-the-project">What is in the project<a class="headerlink" href="#what-is-in-the-project" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>jest.config.js               the runner
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>jest.setup.js                silences console output during a run
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>sandbox/
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  index.js                   the five exports below
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  service.js                 runServiceMethod, getServiceConfigItems, getServiceDefinition
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  nock-mock.js               createNockMock - wire-level intercept plus a history of every call
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  files-mock.js              createFilesSandbox
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>services/&lt;id&gt;/tests/&lt;id&gt;.test.js     you create this - init does not
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>npm<span class="w"> </span><span class="nb">test</span><span class="w">                              </span><span class="c1"># every suite</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>npx<span class="w"> </span>jest<span class="w"> </span>services/tmdb/tests<span class="w">          </span><span class="c1"># one extension</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>npx<span class="w"> </span>jest<span class="w"> </span>services/tmdb/tests<span class="w"> </span>-t<span class="w"> </span><span class="s1">&#39;discoverMovies&#39;</span>
+</code></pre></div>
+<p>The harness is <strong>copied</strong> into the project, not linked, so it is yours to edit, and <code>flowrunner init</code> never
+overwrites it. An SDK that opens its own sockets rather than going through <code>http</code> is invisible to the mock;
+add a shim for it in <code>nock-mock.js</code> - the harness is copied in precisely so you can.</p>
+<div class="admonition note">
+<p class="admonition-title">Create the tests folder yourself</p>
+<p><code>init</code> writes <code>sandbox/</code> and the jest config but does not create <code>services/&lt;id&gt;/tests/</code>, so <code>npm test</code>
+on a fresh project reports no tests found. Add the folder and your first suite by hand.</p>
+</div>
+<h3 id="upgrading-the-harness">Upgrading the harness<a class="headerlink" href="#upgrading-the-harness" title="Permanent link">&para;</a></h3>
+<p>Because the harness is copied and never overwritten, upgrading the CLI does not upgrade it. After
+<code>npm install -D flowrunner-cli@latest</code>, copy the current files over yours:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cp<span class="w"> </span>node_modules/flowrunner-cli/project-files/sandbox/*.js<span class="w"> </span>sandbox/
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>cp<span class="w"> </span>node_modules/flowrunner-cli/project-files/jest.*.js<span class="w"> </span>.
+</code></pre></div>
+<p>then re-apply any shim you added to <code>nock-mock.js</code>. The harness that shipped before 0.0.7 took <code>appConfigs</code>
+and <code>sharedConfigs</code>; the current one takes a single <code>configs</code> bag, and a suite still passing <code>appConfigs</code>
+runs every method with an empty configuration.</p>
+<h2 id="the-five-exports">The five exports<a class="headerlink" href="#the-five-exports" title="Permanent link">&para;</a></h2>
+<p><code>runServiceMethod</code> loads the module, builds the definition and invokes one method per call, so a suite
+holds no state between tests.</p>
+<table>
+<thead>
+<tr>
+<th>Export</th>
+<th>For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>runServiceMethod(data)</code></td>
+<td>run one method the way the platform invokes it</td>
+</tr>
+<tr>
+<td></td>
+<td><code>configs</code> for what the workspace filled in, <code>executionContext</code> for <code>{ accessToken }</code> on an OAuth extension, <code>createFiles</code> for a file backend</td>
+</tr>
+<tr>
+<td><code>createNockMock()</code></td>
+<td>intercept and record HTTP at the socket</td>
+</tr>
+<tr>
+<td><code>getServiceConfigItems(id, entryPoint)</code></td>
+<td>the published config descriptions</td>
+</tr>
+<tr>
+<td><code>getServiceDefinition(id, entryPoint)</code></td>
+<td>the built model - everything the platform can invoke</td>
+</tr>
+<tr>
+<td><code>createFilesSandbox()</code></td>
+<td>a file backend for extensions that use one</td>
+</tr>
+</tbody>
+</table>
+<p><code>runServiceMethod</code> resolves the method in the built definition and assembles its input <strong>by declared param
+name</strong>, exactly as the platform does:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">runServiceMethod</span><span class="p">({</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nx">serviceId</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceEntryPointPath</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nx">configs</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;test-api-key&#39;</span><span class="w"> </span><span class="p">},</span><span class="w">   </span><span class="c1">// what the workspace filled in</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nx">methodName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;getMovieDetails&#39;</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nx">methodData</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">movieId</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;693134&#39;</span><span class="w"> </span><span class="p">},</span><span class="w">        </span><span class="c1">// keyed by PARAM NAME</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">})</span>
+</code></pre></div>
+<p>Because it maps by name, a suite catches a param whose declared name disagrees with what the handler reads:
+the value arrives <code>undefined</code> rather than arriving in the wrong slot. A method name that is not in the
+definition throws, listing the ones that are, since a method the platform cannot invoke is one no
+flow can reach.</p>
+<h2 id="the-http-mock">The HTTP mock<a class="headerlink" href="#the-http-mock" title="Permanent link">&para;</a></h2>
+<p>Because the intercept is at the socket rather than around a client, a bundled SDK's requests are recorded
+exactly as <code>Flowrunner.Request</code> ones are.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">let</span><span class="w"> </span><span class="nx">httpMock</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nx">beforeAll</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">httpMock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createNockMock</span><span class="p">()</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nx">afterEach</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">reset</span><span class="p">()</span><span class="w"> </span><span class="p">})</span><span class="w">     </span><span class="c1">// drops recorded calls and handlers</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nx">afterAll</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">dispose</span><span class="p">()</span><span class="w"> </span><span class="p">})</span><span class="w">    </span><span class="c1">// un-patches http - see below</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="nx">url</span><span class="p">).</span><span class="nx">reply</span><span class="p">({</span><span class="w"> </span><span class="nx">items</span><span class="o">:</span><span class="w"> </span><span class="p">[]</span><span class="w"> </span><span class="p">})</span><span class="w">                       </span><span class="c1">// 200 plus body</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onPost</span><span class="p">(</span><span class="nx">url</span><span class="p">).</span><span class="nx">reply</span><span class="p">(</span><span class="nx">body</span><span class="p">,</span><span class="w"> </span><span class="mf">201</span><span class="p">,</span><span class="w"> </span><span class="nx">headers</span><span class="p">)</span><span class="w">                 </span><span class="c1">// explicit status and headers</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onPut</span><span class="w"> </span><span class="err">·</span><span class="w"> </span><span class="nx">onPatch</span><span class="w"> </span><span class="err">·</span><span class="w"> </span><span class="nx">onDelete</span><span class="w"> </span><span class="err">·</span><span class="w"> </span><span class="nx">onHead</span><span class="w"> </span><span class="err">·</span><span class="w"> </span><span class="nx">onOptions</span><span class="w">       </span><span class="c1">// the other verbs</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nx">httpMock</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;propfind&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">url</span><span class="p">).</span><span class="nx">reply</span><span class="p">(</span><span class="nx">xml</span><span class="p">)</span><span class="w">                        </span><span class="c1">// anything else</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="nx">url</span><span class="p">).</span><span class="nx">replyWith</span><span class="p">(</span><span class="nx">call</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="err">…</span><span class="w"> </span><span class="p">}))</span><span class="w">                 </span><span class="c1">// dynamic, receives the history record</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onPost</span><span class="p">(</span><span class="nx">url</span><span class="p">).</span><span class="nx">replyWithError</span><span class="p">({</span><span class="w"> </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Nope&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="mf">422</span><span class="p">)</span><span class="w">  </span><span class="c1">// an error RESPONSE</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="nx">url</span><span class="p">).</span><span class="nx">replyWithNetworkError</span><span class="p">(</span><span class="s1">&#39;ECONNRESET&#39;</span><span class="p">)</span><span class="w">        </span><span class="c1">// a TRANSPORT failure</span>
+</code></pre></div>
+<p>Handlers match in registration order, first one wins. A URL registered without a query string matches
+whatever query your code added; one registered with a query string matches only that exact query.</p>
+<div class="admonition warning">
+<p class="admonition-title"><code>dispose()</code> is not optional</p>
+<p>nock patches the shared <code>http</code> module when it activates, and jest gives every test file its own copy of
+nock but one <code>http</code>. A suite that skips <code>dispose()</code> leaves its activation stacked for the rest of the
+worker, and the layers corrupt each other - request bodies vanishing from <code>history</code>, errors with empty
+stacks. The damage lands on whichever suite runs <strong>next</strong>, which is why the symptom is "passes alone,
+fails in a full run".</p>
+</div>
+<h3 id="the-history-record">The history record<a class="headerlink" href="#the-history-record" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nx">expect</span><span class="p">(</span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">history</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nx">method</span><span class="w">       </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;get&#39;</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nx">url</span><span class="w">          </span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/movie/693134`</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nx">canonicalUrl</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/movie/693134`</span><span class="p">,</span><span class="w">    </span><span class="c1">// scheme, host and path</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="nx">fullUrl</span><span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/movie/693134?api_key=test-api-key`</span><span class="p">,</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="nx">headers</span><span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">…</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">  </span><span class="nx">query</span><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">api_key</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;test-api-key&#39;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="nx">body</span><span class="w">         </span><span class="o">:</span><span class="w"> </span><span class="kc">undefined</span><span class="p">,</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">  </span><span class="nx">formData</span><span class="w">     </span><span class="o">:</span><span class="w"> </span><span class="kc">undefined</span><span class="p">,</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">  </span><span class="nx">contentType</span><span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="kc">undefined</span><span class="p">,</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">  </span><span class="nx">contentLength</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">  </span><span class="nx">timeout</span><span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="kc">undefined</span><span class="p">,</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="p">}])</span>
+</code></pre></div>
+<p>Compare the whole record on the first test of each method: that is what catches the field you did not know
+your extension was sending. Later tests in the same group can assert one field.</p>
+<p>Three things the wire flattens, all of them assertion traps:</p>
+<ul>
+<li><strong><code>query</code> values are re-typed by shape</strong>, because a query string carries no types. <code>?limit=100&amp;flag=true</code>
+  reads back as <code>{ limit: 100, flag: true }</code>, and an id sent as the string <code>'123'</code> reads back as <code>123</code>.
+  Assert the coerced value.</li>
+<li><strong>Header names come back in conventional casing.</strong> The client lowercases them on the way out and the mock
+  re-derives them, so <code>X-API-KEY</code> reads back as <code>X-Api-Key</code>.</li>
+<li><strong><code>contentLength</code> is not guessable.</strong> Write the assertion, run it, and take the real number from the diff.</li>
+</ul>
+<p>For a multipart request the mock parses the parts into <code>formData</code> and leaves <code>body</code> undefined:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nx">formData</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">_fields</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;title&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Holiday photo&#39;</span><span class="p">,</span><span class="w">                    </span><span class="nx">filename</span><span class="o">:</span><span class="w"> </span><span class="kc">undefined</span><span class="p">,</span><span class="w">  </span><span class="nx">contentType</span><span class="o">:</span><span class="w"> </span><span class="kc">undefined</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;photo&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="nx">Buffer</span><span class="p">.</span><span class="kr">from</span><span class="p">([</span><span class="mh">0x89</span><span class="p">,</span><span class="w"> </span><span class="mh">0x50</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4e</span><span class="p">,</span><span class="w"> </span><span class="mh">0x47</span><span class="p">]),</span><span class="w"> </span><span class="nx">filename</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;shot.png&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">contentType</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;image/png&#39;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Text parts arrive as strings, numbers included; binary parts as byte-exact Buffers carrying the filename and
+content type you passed. Assert the bytes literally rather than a length, and match <code>contentType</code> with
+<code>expect.stringMatching(...)</code> because the boundary is random per request. <strong>An empty <code>_fields</code> array</strong> is the
+assertion that catches a request built with <code>.form(data)</code> and then <code>.send()</code>-ed, which goes out with no body
+at all.</p>
+<h2 id="how-a-suite-is-laid-out">How a suite is laid out<a class="headerlink" href="#how-a-suite-is-laid-out" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="s1">&#39;use strict&#39;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createNockMock</span><span class="p">,</span><span class="w"> </span><span class="nx">getServiceConfigItems</span><span class="p">,</span><span class="w"> </span><span class="nx">runServiceMethod</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../../sandbox&#39;</span><span class="p">)</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="kd">const</span><span class="w"> </span><span class="nx">API_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;test-api-key&#39;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="kd">const</span><span class="w"> </span><span class="nx">BASE</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;https://api.themoviedb.org/3&#39;</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;TMDB Service&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">serviceId</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;tmdb&#39;</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">serviceEntryPointPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">&#39;../src/index.js&#39;</span><span class="p">)</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">configs</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="nx">API_KEY</span><span class="p">,</span><span class="w"> </span><span class="nx">language</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;en-US&#39;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">httpMock</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">runMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">methodName</span><span class="p">,</span><span class="w"> </span><span class="nx">methodData</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">runServiceMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">serviceId</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceEntryPointPath</span><span class="p">,</span><span class="w"> </span><span class="nx">configs</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">methodName</span><span class="p">,</span><span class="w"> </span><span class="nx">methodData</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">  </span><span class="nx">beforeAll</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">httpMock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createNockMock</span><span class="p">()</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">  </span><span class="nx">afterEach</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">reset</span><span class="p">()</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">  </span><span class="nx">afterAll</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">dispose</span><span class="p">()</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="w">  </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;service config items&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">getServiceConfigItems</span><span class="p">(</span><span class="nx">serviceId</span><span class="p">,</span><span class="w"> </span><span class="nx">serviceEntryPointPath</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">([</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="w">      </span><span class="p">{</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="w">        </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;apiKey&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;API Key&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="w">        </span><span class="nx">required</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nx">shared</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="w">        </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Your TMDB v3 API key, from Settings -&gt; API&#39;</span><span class="p">,</span>
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a><span class="w">      </span><span class="err">…</span>
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="w">    </span><span class="p">])</span>
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a><span class="w">  </span><span class="p">})</span>
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a><span class="w">  </span><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;Actions&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a><span class="w">    </span><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;discoverMovies&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a><span class="w">      </span><span class="kd">function</span><span class="w"> </span><span class="nx">runDiscoverMoviesMethod</span><span class="p">(</span><span class="nx">methodData</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">runMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">methodName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;discoverMovies&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">methodData</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>
+<a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a><span class="w">      </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;sends the genre and the default sort, and hands back the page whole&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a><span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">total_pages</span><span class="o">:</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="nx">results</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">693134</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Dune: Part Two&#39;</span><span class="w"> </span><span class="p">}]</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a>
+<a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a><span class="w">        </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/discover/movie`</span><span class="p">).</span><span class="nx">reply</span><span class="p">(</span><span class="nx">page</span><span class="p">)</span>
+<a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a>
+<a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="nx">expect</span><span class="p">(</span><span class="nx">runDiscoverMoviesMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">genreId</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;878&#39;</span><span class="w"> </span><span class="p">})).</span><span class="nx">resolves</span><span class="p">.</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">page</span><span class="p">)</span>
+<a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a>
+<a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a><span class="w">        </span><span class="nx">expect</span><span class="p">(</span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">history</span><span class="p">[</span><span class="mf">0</span><span class="p">].</span><span class="nx">query</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">({</span>
+<a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a><span class="w">          </span><span class="nx">with_genres</span><span class="o">:</span><span class="w"> </span><span class="mf">878</span><span class="p">,</span><span class="w"> </span><span class="nx">sort_by</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;popularity.desc&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">api_key</span><span class="o">:</span><span class="w"> </span><span class="nx">API_KEY</span><span class="p">,</span><span class="w"> </span><span class="nx">language</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;en-US&#39;</span><span class="p">,</span>
+<a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a><span class="w">        </span><span class="p">})</span>
+<a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a><span class="w">      </span><span class="p">})</span>
+<a id="__codelineno-8-51" name="__codelineno-8-51" href="#__codelineno-8-51"></a>
+<a id="__codelineno-8-52" name="__codelineno-8-52" href="#__codelineno-8-52"></a><span class="w">      </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;reads the key from config rather than a hardcoded one&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-53" name="__codelineno-8-53" href="#__codelineno-8-53"></a><span class="w">        </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/discover/movie`</span><span class="p">).</span><span class="nx">reply</span><span class="p">({</span><span class="w"> </span><span class="nx">results</span><span class="o">:</span><span class="w"> </span><span class="p">[]</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-8-54" name="__codelineno-8-54" href="#__codelineno-8-54"></a>
+<a id="__codelineno-8-55" name="__codelineno-8-55" href="#__codelineno-8-55"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="nx">runDiscoverMoviesMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">genreId</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;878&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">configs</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;other-key&#39;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-8-56" name="__codelineno-8-56" href="#__codelineno-8-56"></a>
+<a id="__codelineno-8-57" name="__codelineno-8-57" href="#__codelineno-8-57"></a><span class="w">        </span><span class="nx">expect</span><span class="p">(</span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">history</span><span class="p">[</span><span class="mf">0</span><span class="p">].</span><span class="nx">query</span><span class="p">.</span><span class="nx">api_key</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;other-key&#39;</span><span class="p">)</span>
+<a id="__codelineno-8-58" name="__codelineno-8-58" href="#__codelineno-8-58"></a><span class="w">      </span><span class="p">})</span>
+<a id="__codelineno-8-59" name="__codelineno-8-59" href="#__codelineno-8-59"></a>
+<a id="__codelineno-8-60" name="__codelineno-8-60" href="#__codelineno-8-60"></a><span class="w">      </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;rejects with the message the API sent when the key is refused&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-61" name="__codelineno-8-61" href="#__codelineno-8-61"></a><span class="w">        </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/discover/movie`</span><span class="p">)</span>
+<a id="__codelineno-8-62" name="__codelineno-8-62" href="#__codelineno-8-62"></a><span class="w">          </span><span class="p">.</span><span class="nx">replyWithError</span><span class="p">({</span><span class="w"> </span><span class="nx">status_code</span><span class="o">:</span><span class="w"> </span><span class="mf">7</span><span class="p">,</span><span class="w"> </span><span class="nx">status_message</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Invalid API key.&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="mf">401</span><span class="p">)</span>
+<a id="__codelineno-8-63" name="__codelineno-8-63" href="#__codelineno-8-63"></a>
+<a id="__codelineno-8-64" name="__codelineno-8-64" href="#__codelineno-8-64"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="nx">expect</span><span class="p">(</span><span class="nx">runDiscoverMoviesMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">genreId</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;878&#39;</span><span class="w"> </span><span class="p">})).</span><span class="nx">rejects</span><span class="p">.</span><span class="nx">toThrow</span><span class="p">(</span><span class="s1">&#39;TMDB 401: Invalid API key.&#39;</span><span class="p">)</span>
+<a id="__codelineno-8-65" name="__codelineno-8-65" href="#__codelineno-8-65"></a><span class="w">      </span><span class="p">})</span>
+<a id="__codelineno-8-66" name="__codelineno-8-66" href="#__codelineno-8-66"></a>
+<a id="__codelineno-8-67" name="__codelineno-8-67" href="#__codelineno-8-67"></a><span class="w">      </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;rejects when the connection drops&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-68" name="__codelineno-8-68" href="#__codelineno-8-68"></a><span class="w">        </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/discover/movie`</span><span class="p">).</span><span class="nx">replyWithNetworkError</span><span class="p">(</span><span class="s1">&#39;ECONNRESET&#39;</span><span class="p">)</span>
+<a id="__codelineno-8-69" name="__codelineno-8-69" href="#__codelineno-8-69"></a>
+<a id="__codelineno-8-70" name="__codelineno-8-70" href="#__codelineno-8-70"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="nx">expect</span><span class="p">(</span><span class="nx">runDiscoverMoviesMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">genreId</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;878&#39;</span><span class="w"> </span><span class="p">})).</span><span class="nx">rejects</span><span class="p">.</span><span class="nx">toThrow</span><span class="p">()</span>
+<a id="__codelineno-8-71" name="__codelineno-8-71" href="#__codelineno-8-71"></a><span class="w">      </span><span class="p">})</span>
+<a id="__codelineno-8-72" name="__codelineno-8-72" href="#__codelineno-8-72"></a><span class="w">    </span><span class="p">})</span>
+<a id="__codelineno-8-73" name="__codelineno-8-73" href="#__codelineno-8-73"></a><span class="w">  </span><span class="p">})</span>
+<a id="__codelineno-8-74" name="__codelineno-8-74" href="#__codelineno-8-74"></a><span class="p">})</span>
+</code></pre></div>
+<p>The nesting is fixed: the extension, then the group, then the method, then the tests. Groups come from what
+a thing <strong>is</strong>, never from subject matter, and there are seven: <code>Actions</code>, <code>Dictionaries</code>,
+<code>Polling Triggers</code>, <code>RealTime Triggers</code>, <code>DynamicResults</code>, <code>DynamicParams</code> and <code>OAuth</code>.</p>
+<p><strong>Test both failure kinds.</strong> An error response reaches your code as a <code>ResponseError</code> carrying <code>status</code> and
+<code>body</code>; a dropped connection has neither.</p>
+<p><strong>Pass a different <code>configs</code> and assert what went on the wire.</strong> That is how you prove a credential is
+read from configuration and not hardcoded.</p>
+<p><strong>Send the blanks the editor sends.</strong> The flow editor delivers every untouched field as an explicit <code>null</code>,
+so a test that passes <code>{ genreId: '878', year: null, sortBy: null }</code> and asserts the query proves that your
+optional fields and defaults behave when a flow builder leaves them alone.</p>
+<h2 id="testing-a-dictionary">Testing a dictionary<a class="headerlink" href="#testing-a-dictionary" title="Permanent link">&para;</a></h2>
+<p>A dictionary takes <code>{ search, cursor, criteria }</code> wrapped in a single <code>payload</code>. Cover the mapping, a
+case-insensitive search, and then the two cases that look alike and are not:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;Dictionaries&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">runDictionaryMethod</span><span class="p">(</span><span class="nx">methodName</span><span class="p">,</span><span class="w"> </span><span class="nx">payload</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">runMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">methodName</span><span class="p">,</span><span class="w"> </span><span class="nx">methodData</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">payload</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">runGetGenresDictionaryMethod</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">runDictionaryMethod</span><span class="p">(</span><span class="s1">&#39;getGenresDictionary&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">payload</span><span class="p">)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">runGetSeasonsDictionaryMethod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">runDictionaryMethod</span><span class="p">(</span><span class="s1">&#39;getSeasonsDictionary&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">payload</span><span class="p">)</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;filters on the typed text without regard to case&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/genre/movie/list`</span><span class="p">).</span><span class="nx">reply</span><span class="p">(</span><span class="nx">GENRES</span><span class="p">)</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">expect</span><span class="p">(</span><span class="nx">runGetGenresDictionaryMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">search</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;SCIENCE&#39;</span><span class="w"> </span><span class="p">})).</span><span class="nx">resolves</span><span class="p">.</span><span class="nx">toEqual</span><span class="p">({</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">      </span><span class="nx">items</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Science Fiction&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;878&#39;</span><span class="w"> </span><span class="p">}],</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">      </span><span class="nx">cursor</span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="p">})</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">  </span><span class="p">})</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">  </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;answers an unmatched search with an empty list&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">    </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/tv/999999`</span><span class="p">).</span><span class="nx">replyWithError</span><span class="p">({</span><span class="w"> </span><span class="nx">status_message</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Not found.&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="mf">404</span><span class="p">)</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">expect</span><span class="p">(</span><span class="nx">runGetSeasonsDictionaryMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">criteria</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">tvId</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;999999&#39;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}))</span>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="w">      </span><span class="p">.</span><span class="nx">resolves</span><span class="p">.</span><span class="nx">toEqual</span><span class="p">({</span><span class="w"> </span><span class="nx">items</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"> </span><span class="nx">cursor</span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="w">  </span><span class="p">})</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">  </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;does not answer a rejected key with an empty list&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="w">    </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/tv/95396`</span><span class="p">).</span><span class="nx">replyWithError</span><span class="p">({</span><span class="w"> </span><span class="nx">status_message</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Invalid API key.&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="mf">401</span><span class="p">)</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">expect</span><span class="p">(</span><span class="nx">runGetSeasonsDictionaryMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">criteria</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">tvId</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;95396&#39;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">})).</span><span class="nx">rejects</span><span class="p">.</span><span class="nx">toThrow</span><span class="p">()</span>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="w">  </span><span class="p">})</span>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="p">})</span>
+</code></pre></div>
+<p>If the second fails because your dictionary swallows the error, that is a finding to fix in the extension,
+not a test to rewrite into agreement with it.</p>
+<h2 id="testing-a-polling-trigger">Testing a polling trigger<a class="headerlink" href="#testing-a-polling-trigger" title="Permanent link">&para;</a></h2>
+<p><code>runServiceMethod</code> can only invoke what the built definition exposes, and a trigger's <code>fetch</code> is not in it.
+The platform reaches <code>fetch</code> through a SYSTEM method, and so does the harness - which matters, because the
+mapping in between is the part most likely to be wrong. The payload goes one level down, under <code>invocation</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;Polling Triggers&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">SEEDED_PAGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="nx">release_date</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;2024-03-01&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">release_date</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;2024-02-01&#39;</span><span class="w"> </span><span class="p">}]</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">NEW_RELEASE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="nx">release_date</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;2024-04-01&#39;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">runHandleTriggerPollingForEventMethod</span><span class="p">(</span><span class="nx">invocation</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">runMethod</span><span class="p">({</span><span class="w"> </span><span class="nx">methodName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;handleTriggerPollingForEvent&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">methodData</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">invocation</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;onMovieReleased&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;emits nothing on the first poll, and remembers where it got to&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">      </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/discover/movie`</span><span class="p">).</span><span class="nx">reply</span><span class="p">({</span><span class="w"> </span><span class="nx">results</span><span class="o">:</span><span class="w"> </span><span class="nx">SEEDED_PAGE</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">runHandleTriggerPollingForEventMethod</span><span class="p">({</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">        </span><span class="nx">eventName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;onMovieReleased&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">triggerData</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">genreId</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;878&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nx">state</span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">      </span><span class="p">})</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">      </span><span class="nx">expect</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">events</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([])</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">    </span><span class="p">})</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="w">    </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;emits only the releases past the remembered marker&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">seeded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">runHandleTriggerPollingForEventMethod</span><span class="p">({</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="w">        </span><span class="nx">eventName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;onMovieReleased&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">triggerData</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">genreId</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;878&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nx">state</span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="w">      </span><span class="p">})</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a>
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="w">      </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">reset</span><span class="p">()</span>
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">      </span><span class="nx">httpMock</span><span class="p">.</span><span class="nx">onGet</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">BASE</span><span class="w"> </span><span class="si">}</span><span class="sb">/discover/movie`</span><span class="p">).</span><span class="nx">reply</span><span class="p">({</span><span class="w"> </span><span class="nx">results</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">NEW_RELEASE</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="nx">SEEDED_PAGE</span><span class="p">]</span><span class="w"> </span><span class="p">})</span>
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a>
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">runHandleTriggerPollingForEventMethod</span><span class="p">({</span>
+<a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="w">        </span><span class="nx">eventName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;onMovieReleased&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">triggerData</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">genreId</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;878&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nx">state</span><span class="o">:</span><span class="w"> </span><span class="nx">seeded</span><span class="p">.</span><span class="nx">state</span><span class="p">,</span>
+<a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="w">      </span><span class="p">})</span>
+<a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a>
+<a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a><span class="w">      </span><span class="nx">expect</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">events</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([</span><span class="nx">NEW_RELEASE</span><span class="p">])</span>
+<a id="__codelineno-10-33" name="__codelineno-10-33" href="#__codelineno-10-33"></a><span class="w">    </span><span class="p">})</span>
+<a id="__codelineno-10-34" name="__codelineno-10-34" href="#__codelineno-10-34"></a><span class="w">  </span><span class="p">})</span>
+<a id="__codelineno-10-35" name="__codelineno-10-35" href="#__codelineno-10-35"></a><span class="p">})</span>
+</code></pre></div>
+<p>Group by trigger, never by SYSTEM method. The groups are the things a flow builder picks from a list.</p>
+<p>Polling is about state, so the pair above - the seeding poll emits nothing, the next emits only what is new
+- is the minimum worth having. A third test that pins the query is what catches a watermark reading a field
+the API can hand back out of order.</p>
+<h2 id="what-not-to-do">What not to do<a class="headerlink" href="#what-not-to-do" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>require()</code> the entry file, or touch <code>global.Flowrunner</code></td>
+<td>Behaviour unreachable through a method call is not your extension's contract</td>
+</tr>
+<tr>
+<td><code>jest.mock</code> a transport, or hand-write a fake client</td>
+<td>The socket-level mock records what your code <em>sent</em>; a fake records what you expected it to send</td>
+</tr>
+<tr>
+<td><code>it.each</code>, or <code>expect</code> inside a loop</td>
+<td>N results collapse into one unreadable failure</td>
+</tr>
+<tr>
+<td>A catch-all handler</td>
+<td>Every method under test calls a known URL; a catch-all only hides a wrong one</td>
+</tr>
+<tr>
+<td>Test that the vendor's API returns correct data</td>
+<td>That is what deploying and running a flow is for</td>
+</tr>
+<tr>
+<td>Change the extension to make a test pass</td>
+<td>A green test asserting a bug reads as "this is correct"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="actions.html">Actions</a> - what a handler receives and returns</li>
+<li><a href="dictionaries.html">Dictionaries</a> - the empty-list rule these tests pin</li>
+<li><a href="triggers.html">Triggers</a> - the SYSTEM methods a trigger is driven through</li>
+<li><a href="http-requests.html">HTTP Requests</a> - what the mock is recording</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="files.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Storing Files">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Storing Files
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="deploying.html" class="md-footer__link md-footer__link--next" aria-label="Next: Deploying &amp; Managing">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Deploying & Managing
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Midnight Coders, Inc.
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["announce.dismiss", "search.suggest", "search.highlight", "search.share", "navigation.footer", "content.tabs.link", "content.tooltips", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.follow", "content.code.copy", "content.code.annotate", "navigation.indexes"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../js/chat-widget.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

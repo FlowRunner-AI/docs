@@ -68,16 +68,15 @@ docs:
     - field: Flow
       type: dropdown
       description: >
-        Required. The flow whose scheduled runs you want to turn back on. Note that the ((Flow))
-        dropdown currently lists every flow in the workspace, not only the ones that already have a
-        schedule, so pick the target flow carefully.
+        Required. The flow whose scheduled runs you want to turn back on. The dropdown offers the
+        flows that have a schedule; when no flow in the workspace has one it is disabled, with a
+        tooltip saying so.
   produces_result: true
   data_in: The target flow you select in the ((Flow)) field.
   data_out: Only an acknowledgement that the start was carried out - no schedule data or run detail worth reading.
   gotchas:
     - "The target flow has to already have a schedule defined on it. This block only turns an existing schedule back on - it does not create one, so if the flow was never scheduled there is nothing here to start."
     - "Defining a flow's schedule and turning that schedule on or off are two different things. The schedule (how often the flow runs) is set up separately on the flow itself; this block controls whether that schedule is active. Use it to resume scheduled runs, not to set their timing."
-    - "The ((Flow)) dropdown currently lists every flow in the workspace, including flows that have no schedule at all. Selecting an unscheduled flow does not start anything, so make sure the flow you choose is one that actually has a schedule."
   cross_refs: [stop-scheduled-runs, flow-scheduling-concept, call-flow]
   terminology: [Scheduled Runs, Schedule, Flow]
 

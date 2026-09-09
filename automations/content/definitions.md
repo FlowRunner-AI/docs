@@ -17,11 +17,17 @@ This chapter defines the key terms used throughout the FlowRunner™ documentati
 
 - **Block** - The building unit of a flow. Blocks are grouped by the kind of work they do - triggers, actions, AI steps, flow-control utilities, groups, and subflows. See [Blocks](learn/concepts/blocks.md).
 
-- **Trigger** - How a flow reacts to an event in the outside world - a form submission, an incoming webhook, a scheduled time. A trigger either starts a new run of the flow or resumes one that was waiting. See [Triggers](learn/concepts/triggers.md).
+- **Trigger** - A block that waits for something to happen outside FlowRunner™ - a form submission, an incoming webhook, a new record appearing. A trigger can sit anywhere in a flow: first, where it starts an instance, or in the middle, where the flow reaches it and waits for the event before carrying on. See [Triggers](learn/concepts/triggers.md).
 
 - **Action** - A block that performs a task within a flow - calling a service, sending a message, running custom code. An action reads its input, does its work, and exposes a result that later blocks can read.
 
+- **Custom Extension** - An integration you write yourself in JavaScript and deploy to one workspace. It provides its own actions and triggers, which appear in the flow editor under **Local Extensions**, and it gets its own page under **Custom Extensions** in the workspace navigation. See [Custom Extensions](extend/index.md).
+
+- **Extension** - An integration that ships with FlowRunner™ and is available in every workspace - Airtable, Acumatica, AWS Bedrock and hundreds more. Its actions and triggers appear in the flow editor under **Extensions**. You configure it in your workspace; you do not deploy it.
+
 - **[Transform Data](reference/transform-data.md)** - A utility block that reshapes a value as it moves through a flow - extracting fields, converting formats, sorting or filtering a list.
+
+- **[Placeholder](learn/concepts/placeholders.md)** - A named value declared on a flow version and read through an expression by the fields that need it. Set once when the flow is configured, it holds for every run of that version - the channel a flow reports to, a threshold it applies, or any other setting kept in one list instead of inside the blocks that use it.
 
 - **[Condition](reference/condition.md)** - A utility block that creates branching logic: the flow takes one of two paths depending on whether its test evaluates to true or false.
 

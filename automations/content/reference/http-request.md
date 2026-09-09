@@ -70,10 +70,10 @@ Drop that reference into a Send Email block's body, or feed the whole list into 
 
 | Field | Description |
 | --- | --- |
-| URL | Required. The full web address to send the request to. It can be a fixed address or an expression that builds the address from earlier values. |
+| URL | Required. The full web address to send the request to. It can be a fixed address or an expression that builds the address from earlier values. A URL that already carries a query string is sent as you wrote it, so a ready-made address - an S3 pre-signed URL, whose signature lives in the query string - works pasted straight in. |
 | HTTP Method | What you want to do at that address: GET reads, POST creates, PUT and PATCH update, DELETE removes, HEAD checks. Defaults to POST. |
 | Body | The data you are sending with the request, usually JSON. Used by methods that write, such as POST, PUT, and PATCH; a GET typically has none. |
-| Query | Extra parameters appended to the URL, such as a search term, a page number, or a filter the service understands. |
+| Query | Extra parameters appended to the URL, such as a search term, a page number, or a filter the service understands. They are added to whatever the URL already carries, so you can paste an address with a query string and still add parameters here. |
 | Headers | Named values sent alongside the request, each a Name and a Value. Most often used for authentication (an API key, a Bearer token, or Basic credentials) and to declare the content type. |
 
 **Common settings** (available on most blocks):

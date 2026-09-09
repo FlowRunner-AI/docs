@@ -72,6 +72,11 @@ value never appears in the block. If you instead type a new key straight into th
 ((Save as Setup)) option that appears writes it to this store under a label, so the next block,
 and the next flow, can select it. Both paths leave the secret in this one place.
 
+A flow can also record which of these keys it uses as part of its own configuration: declare a
+[placeholder](../learn/concepts/placeholders.md) of type `API KEY` and choose a saved setup as its value.
+The flow then stores your choice of setup rather than the secret. No block reads a key from a placeholder
+yet, so the AI block's own field above is still how a key reaches a model call.
+
 ## Managing keys
 
 The **My Keys** tab shows each provider you hold keys with; expand a provider to its setups. A

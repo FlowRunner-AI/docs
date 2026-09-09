@@ -2,370 +2,446 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.flowrunner.ai/index.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/definitions.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/api/activating-a-trigger.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/api/block-results.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/api/call-flow-blocking.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/api/call-flow-nonblocking.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/api/execution-status.html</loc>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/ai-in-flows.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/flow-editor.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/data-and-variables/index.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/data-and-variables/across-runs.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/data-and-variables/holding-values.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/data-and-variables/passing-data.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/data-and-variables/reshaping-data.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/flow-control/index.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/flow-control/branching.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/flow-control/collections.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/flow-control/error-handling.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/flow-control/external-callbacks.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/flow-control/parallel.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/flow-control/repeating.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/flow-control/routing.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/flow-control/waiting.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/integrations/index.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/integrations/calling-a-service.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/integrations/custom-actions.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/integrations/returning-a-result.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/build/integrations/running-another-flow.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
-         <loc>https://docs.flowrunner.ai/extend/custom-actions.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://docs.flowrunner.ai/extend/index.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/actions.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/ai-assisted.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/cli.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/deploying.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/dictionaries.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/files.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/getting-started.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/http-requests.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/oauth.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/parameters-and-types.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/service-structure.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/testing.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/triggers.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/extend/troubleshooting.html</loc>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/learn/quickstart-agent.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/learn/quickstart-code.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/learn/quickstart.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/learn/tutorials.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/learn/concepts/blocks.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/learn/concepts/expressions.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/learn/concepts/flows-and-instances.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/learn/concepts/placeholders.html</loc>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/learn/concepts/shared-memory.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/learn/concepts/subflows.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/learn/concepts/triggers.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/learn/concepts/variables.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/manage/billing.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/manage/flows.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/manage/team.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/manage/workspace-settings.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/platform/api-keys.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/platform/compliance-and-security.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/platform/forms.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/platform/knowledge-bases.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/platform/mcp-servers.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/platform/notifications.html</loc>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/platform/oauth-connections.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/platform/sla-goals.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/platform/workspace.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/actions-group.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/ai-agent.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/ai-router.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/assign-instance-name.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/break.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/call-flow.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/condition.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/custom-cloud-code.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/error-handling-concept.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/external-callback.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/flow-memory-concept.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/flow-scheduling-concept.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/flows-as-agent-tools-concept.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/handle-error.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/http-request.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/knowledge-base-add-document.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/knowledge-base-delete-by-filter.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/knowledge-base-delete-document.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/knowledge-base-list-documents.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/knowledge-bases-concept.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/list-iterator.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/per-user-memory-concept.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/repeat.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/return-result.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/set-variables.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/shared-memory-delete.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/shared-memory-put.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/shared-memory-read.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/start-scheduled-runs.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/stop-scheduled-runs.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/subflow.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/synchronize.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/transform-data.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/triggers-group.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/value-router.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/reference/wait.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/run/inspecting-a-run.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/run/monitoring.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/run/running-flows.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/run/testing.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://docs.flowrunner.ai/training-plan/COMPANION-SITE-BRIEF.html</loc>
-         <lastmod>2026-08-25</lastmod>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/training-plan/FLOWLAND-PLAYBOOK.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flowrunner.ai/training-plan/TUTORIAL-MAP.html</loc>
+         <lastmod>2026-09-09</lastmod>
     </url>
 </urlset>

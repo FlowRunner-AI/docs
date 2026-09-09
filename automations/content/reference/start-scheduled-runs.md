@@ -32,7 +32,7 @@ The payoff: from the moment the <span class="fr-block">Start Scheduled Runs</spa
 
 | Field | Description |
 | --- | --- |
-| Flow | Required. The flow whose scheduled runs you want to turn back on. Note that the <span class="fr-control">Flow</span> dropdown currently lists every flow in the workspace, not only the ones that already have a schedule, so pick the target flow carefully. |
+| Flow | Required. The flow whose scheduled runs you want to turn back on. The dropdown offers the flows that have a schedule; when no flow in the workspace has one it is disabled, with a tooltip saying so. |
 
 **Common settings** (available on most blocks):
 
@@ -48,7 +48,6 @@ The payoff: from the moment the <span class="fr-block">Start Scheduled Runs</spa
 
 - The target flow has to already have a schedule defined on it. This block only turns an existing schedule back on - it does not create one, so if the flow was never scheduled there is nothing here to start.
 - Defining a flow's schedule and turning that schedule on or off are two different things. The schedule (how often the flow runs) is set up separately on the flow itself; this block controls whether that schedule is active. Use it to resume scheduled runs, not to set their timing.
-- The <span class="fr-control">Flow</span> dropdown currently lists every flow in the workspace, including flows that have no schedule at all. Selecting an unscheduled flow does not start anything, so make sure the flow you choose is one that actually has a schedule.
 
 ## Related
 

@@ -114,7 +114,9 @@ docs:
       type: expression
       description: >
         Required. The full web address to send the request to. It can be a fixed address or
-        an expression that builds the address from earlier values.
+        an expression that builds the address from earlier values. A URL that already carries
+        a query string is sent as you wrote it, so a ready-made address - an S3 pre-signed
+        URL, whose signature lives in the query string - works pasted straight in.
     - field: HTTP Method
       type: dropdown
       description: >
@@ -129,7 +131,8 @@ docs:
       type: expression
       description: >
         Extra parameters appended to the URL, such as a search term, a page number, or a
-        filter the service understands.
+        filter the service understands. They are added to whatever the URL already carries,
+        so you can paste an address with a query string and still add parameters here.
     - field: Headers
       type: repeatable Name/Value
       description: >

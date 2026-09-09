@@ -28,7 +28,7 @@ A field's value does not have to be a single reference. You assemble the express
 - the run's **Flow Context** - its **Initial Data**, the **Execution ID** and **Flow ID** of this run, the **Workspace ID**, and its [Shared Memory](shared-memory.md);
 - **Operators** - `and`, `or`, the arithmetic `+ - * /`, the comparisons `< <= > >= equals not equals`, and parentheses to group them;
 - **Common Values** - ready-made constants to drop in: an empty list, object, or text; today's date or the current time; a fresh UUID; a random number; `Yes`, `No`, `Null`, `Math PI`, and a line break;
-- and, depending on what the flow sets up, its **Placeholder Data**.
+- and, if the flow declares any, its [Placeholder Data](placeholders.md) - the values set once on the flow version, listed in a group of their own below Flow Context.
 
 ![The Expression Editor's Variables tab: the flow's variables, the run's Flow Context values, the operators, and the common values you can drop into an expression.](../../images/learn/ee-variables.png)
 

@@ -144,6 +144,8 @@ docs:
     - "The Yes path runs when the test is true and the No path runs when it is false. Both paths leave the block; if you build steps on only one of them, the other case quietly leaves the flow with nothing to do."
     - "The comparisons offered depend on the ((Value Data Type)) you choose, so set the type to match the value. Checking a number as a STRING, for example, compares it character by character rather than by size, which can give a surprising answer."
     - "With several parts, the AND or OR connector between them can be switched, and the brackets decide which parts are grouped. With a mix of AND and OR, the grouping changes the outcome, so set the brackets deliberately rather than leaving the default."
+    - "The block will not validate until at least one of its Yes or No connections is wired: until then it carries an error badge reading \"One of the ((Yes)) or ((No)) connection must be connected\", and ((Run Block)) stays disabled."
+    - "A null value does not fail the block. When ((Value to Check)) resolves to null, the comparison comes out false and the run carries on down the No path, so a value that is sometimes missing needs no guard ahead of the block. Note that this makes IS EMPTY answer false for a null value as well - it reports on an empty value, not a missing one."
   cross_refs: [value-router, ai-router, expression-editor]
   terminology: [Condition, Value to Check, Value Data Type, Operation, Part]
 
@@ -173,5 +175,5 @@ training:
 
 provenance:
   confidence: V-real
-  evidence: "FBB 'Application Processor' v4 — multiple Conditions (e.g. 'Is HSA Checking?': Initial Data.product_hsa_checking, BOOLEAN / CHECKBOX, IS TRUE). notes.md + screenshot 47."
-  verified_on: 2026-06-14
+  evidence: "FBB 'Application Processor' v4 — multiple Conditions (e.g. 'Is HSA Checking?': Initial Data.product_hsa_checking, BOOLEAN / CHECKBOX, IS TRUE). notes.md + screenshot 47. [NOTE: this citation is a non-authorized (NDA) workspace - flagged to Mark for the pending provenance remediation, not rewritten unprompted.] || FR-3352 DRIVEN 2026-08-31, Documentation Flows on dev.flowrunner.ai, TD Sandbox: a Condition with Value to Check bound to the Expression Editor's Null common value, Value Data Type JSON OBJECT. Operation HAS KEY with Key orderId -> Block Results shows Input 'Value to Check: null' and Output Success {\"conditionResult\": false}. Operation IS EMPTY on the same null -> Success {\"conditionResult\": false} as well. Neither failed the block, which is the FR-3352 fix (previously a null input failed the block for every check). Also observed: the block will not validate until a Yes or No connection is wired (\"One of the \\\"Yes\\\" or \\\"No\\\" connection must be connected\") and Run Block is disabled until then; the Operation list for JSON OBJECT is IS EMPTY / HAS KEY / HAS KEY WITH VALUE / HAS SPECIFIC TYPE / AI QUESTION; the Value Data Type list is STRING / INT / DOUBLE / BOOLEAN / CHECKBOX / DATETIME / JSON OBJECT / JSON ARRAY."
+  verified_on: 2026-08-31

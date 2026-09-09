@@ -14,7 +14,22 @@
     "ask": []
   },
   "enabledMcpjsonServers": [
-    "playwright"
+    "playwright",
+    "flowrunner-dev"
   ],
-  "enableAllProjectMcpServers": true
+  "enableAllProjectMcpServers": true,
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "mcp__flowrunner-dev__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/automations/qa/mcp-flow-builder/tools/record-hook.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
 }

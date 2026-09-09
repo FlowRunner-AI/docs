@@ -1,0 +1,9 @@
+{
+  "name": "mcp-flow-builder-replay",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Replays a recorded FlowRunner MCP Flow Builder session (JSONL from record-hook.sh) against a live endpoint.",
+  "scripts": { "replay": "node replay.mjs" },
+  "dependencies": { "@modelcontextprotocol/sdk": "^1.17.0" }
+}

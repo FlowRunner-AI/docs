@@ -316,7 +316,22 @@ All three were already complete, well-written pages (line count undersold them -
 - [x] Billing: Growth $45/12,000, Professional $299/75,000, Business $999/250,000, Enterprise (custom); CURRENT PLAN + UPGRADE. Exact match to the prices/allowances on the page.
 - [x] Dated verification notes added to each; doclint 0/0.
 
+### Parameters & Types (content/extend/parameters-and-types.md) - 2026-09-09
+- Gate: `concept-page-review` run once -> **major-rework** (docs-review/verdicts/parameters-and-types.md, 24 items). One consolidated pass applied; the gate was NOT re-run (standing rule: one net per revision). Mark decides ship.
+- [x] Shots (all read back from pixels): `discover-params-panel.png` (Genre required in red, ? icon on Minimum Rating, two empty number inputs, empty Sort By, expression switches on the three non-string fields), `discover-sortby-labels.png` (dropdown open: Most popular / Newest first / Highest rated), `discover-run-invalid.png` (Test Monitor Block Results, Input nulls + minRating 11, Error line verbatim, truncated at the panel edge - alt says so). `param-widgets.png` NOT recaptured; table and alt rewritten to its pixels (List = single expression box).
+- [x] Driven 2026-09-09 on dev: blank optionals -> Success; minRating 11 -> the quoted error; Sort By default fires (harness, sort_by on the wire); config-tab validation + masking (service-structure shots).
+- [ ] NOT driven, stated in the handoff: dynamicParams (declaration table kept, source-derived); polling-trigger params leniency (actions.md claim); `.example()` on a param; a `z.union()` param deployed; `.nullable()` / `.nullish()` through the harness; trigger object/list param rendering.
+- Decisions for Mark: (1) default not pre-filled in the editor - documented as behaviour with the `.describe('Defaults to …')` practice; file as a defect only on his call. (2) Section-wide register: reader-seat lead sentence now on this page only; Actions / Service Structure open on mechanism. (3) ™ once per Extend page or not.
+
+### EXTEND section - FR-2973 subtask sweep (2026-09-09, Mark's request)
+- [x] Read all 33 FR-2973 subtasks in full; mapped FR-3383/3384/3387/3410/3412/3420/3425/3471/3472/3473/3474/3475/3477/3537/3538/3543/3547/3553 against content/extend/*. Pulled the console repo (docs/guides/flow-extensions-custom + param-schemes) and flowrunner-cli 0.0.10's packed ai-docs as the originals.
+- [x] DRIVEN on dev.flowrunner.ai / Documentation Flows with flowrunner-cli 0.0.10: TMDB rewritten to `.optional()` / `.labels()` / `.default()` / `.secret()` / `z.number().min(0)` config, 4 harness tests green (blank nulls -> absence, default fires, `«Genre» is required`, config '200' -> 200); deployed 9c62d40f5cc6; Configuration tab shows masked key + reveal, number input, `«Minimum Vote Count» must be at least 0` after Save, Save disabled + "Fix all invalid inputs first"; blank API Key is accepted (`''` is a value); Discover Movies in TD Sandbox runs with year/minRating/sortBy sent as null (Success) and fails with `[flow-extension:tmdb] invalid params ... «Minimum Rating» must be at most 10` on 11. TD Sandbox restored to 3 nodes / 2 edges.
+- [x] NOT on dev yet, docs unchanged: FR-3384 (deploy of a second filevault action did not appear in the open editor - reload rule stays), FR-3474 (palette still reads LOCAL EXTENSIONS).
+- [x] BLOCKED, docs hold their warning: FR-3420 Files API - `saveDocument` from Execute returned `getaddrinfo ENOTFOUND fr-automation` while a TMDB action from the same pod succeeded; commented on FR-3420. FR-3477 OAuth - LOGIN opens GitHub's sign-in form, which needs Mark's GitHub credentials; oauth.md stays out of nav.
+- [x] Pages changed: parameters-and-types (rewritten), service-structure (config section + 2 new shots), actions, index, triggers, troubleshooting, testing (`configs`, harness upgrade), getting-started, cli, files (filesScope + scope rule), oauth (`.shared()` correction, `.secret()`). doclint 15/0.
+
 ### Billing + Payment Profiles (2026-07-10, folding per Mark)
+- [x] 2026-09-09 (Mark's review, dev.flowrunner.ai Documentation Flows, viewed only): billing-plan-cards.png recaptured in light mode - the 08-31 shot had the notifications drawer's backdrop over it. "Payment Profiles" -> "Payment Methods" applied to the page (heading, chips, prose, trial sentence); new billing-payment-methods.png (Link + Visa rows, email/workspace names redacted) replaces billing-payment-profiles.png. Orphan billing.png removed. Trial plan corrected to Professional (Mark, 2026-09-09; the ticket body had said Growth). New "Manage Subscription" button on the Billing page documented as far as driven (opens Stripe customer-portal login in a new tab; portal contents after sign-in not driven).
 - [x] Inspected Account -> Payment Profiles (/account/payment-profiles) and re-inspected workspace Billing (viewed only - nothing upgraded, no payment method added, stayed off the live Stripe Checkout that "Add a payment profile" opens). Ignored System Developer Panel per instruction.
 - [x] Folded Payment Profiles into billing.md (Mark's call). Page now covers: the allowance is a per-plan selector (Growth 12,000/30,000/60,000); Enterprise via a Contact us link + See detailed comparison; the payment-profile requirement (UPGRADE buttons DISABLED until a workspace has a payment profile, free credit covers meanwhile); the account-level Payment Profiles page (payment methods via a secure Stripe checkout + a Workspaces overview: plan / assigned payment profile / renewal date, plan changed in Workspace Settings > Billing).
 - [x] Recaptured billing.png (current plan cards incl. the Growth allowance selector + disabled upgrades + Contact us/comparison; account-specific credit banner cropped out). New billing-payment-profiles.png (Payment Profiles section; personal email -> you@example.com and workspace name -> My Workspace redacted via DOM before capture). Dated verification note on-page. doclint 0/0; plain-style self-check clean.
@@ -546,3 +561,70 @@ Reader question: "How do I put AI to work in a flow?" Five manifestations (Mark'
 - [ ] MARK (decision): 28039 / 28061 (user-token errors) were DROPPED from call-flow.md as undriven; the `user-token` header is documented nowhere (Mark scoped it out of the callback page on 2026-07-16). Decision: leave undocumented, or drive + document the header and restore the rows?
 - [ ] FOLLOW-UP: reference/return-result.md's shot (return-result-config.png) is a panel-only crop that matches neither its Issue Token example nor the new Release Caller control; recapture when that page is next touched.
 - [ ] FOLLOW-UP: 28107 remains undriven (carried over; needs a LIVE subflow). 28094 was DRIVEN and disproved for External Callback-first flows (row removed). 28093 / 28127 / 28039 / 28061 were DROPPED from the page (undriven, remedies not actionable) — restore when driven; listed in the page comment.
+
+## Placeholders  (content/learn/concepts/placeholders.md)
+
+New page. Mark named it **Placeholders** (2026-08-25) because FR-3257 makes placeholders the configuration
+manifest a published flow declares. Mark's framing correction (2026-08-26): the page must explain *that*
+purpose, not a use case of the author's invention — the lede and closing section now lead with it, with
+the Catalog named in future tense.
+
+**Running example:** a support-triage flow. The ticket arrives per run; `escalateAbove` (8) and
+`notifyWebhook` (`https://hooks.example.com/triage/T29F4B1`) are its configuration, and **both are read by
+the flow** — a Condition "Urgent enough to escalate?" compares `Initial Data → urgency` GREATER THAN
+`escalateAbove`, and its Yes branch is an HTTP Request "Post escalation summary" that posts to
+`notifyWebhook` with a body carrying `Initial Data → urgency`. Round 17 removed a third placeholder,
+`notifyOnWeekends`, because nothing consumed it; round 19 (Mark's Option A) replaced `notifyChannel` with
+`notifyWebhook` so the placeholder is the value that is genuinely per-deployment and secret, instead of
+the webhook URL being hard-coded into the block.
+
+**Definition of done**
+
+- [x] Lede leads with the concept's purpose - a flow states what it needs from **whoever sets it up**
+      (round 10 corrected "whoever runs it", which names the one person who cannot supply a value) - and
+      the configuration-vs-run-input line, on both start paths.
+- [x] No section opens on the UI.
+- [x] ToC within budget — eight h2 entries after the round-24 subtraction pass and the round-25 repair.
+- [ ] **Nine screenshots, each re-opened and described from its pixels on 2026-08-26.**
+      `placeholders-panel.png` — gear tab active in the three-icon strip; notifyWebhook [string] = https://hooks.example.com/triage/T29F4B1, escalateAbove [int] = 8, plus below.
+      `placeholders-new-dialog.png` — the declaration dialog reopened on escalateAbove through its gear, Data Type list open with INT ticked, covering the CLOSE/SAVE row.
+      `placeholders-no-value.png` — one frame: greyed play control, Not Ready chip, red "1" badge on the Condition, and the red escalateAbove field with "The placeholder \"escalateAbove\" has no value".
+      `placeholders-launch-dialog.png` — Initial Data urgency with an empty value box; Placeholder Data pre-filled with escalateAbove 8 and notifyWebhook, both editable.
+      `placeholders-expression-editor.png` — PLACEHOLDER DATA holds exactly notifyWebhook and escalateAbove.
+      `placeholders-in-request-body.png` — HTTP Request "Post escalation summary": URL is a notifyWebhook token, POST, Body carries Initial Data → urgency.
+      `placeholders-live-view-mode.png` — Live chip, first tab View, entirely empty right-hand side.
+      `placeholders-imported-prefilled.png` — "Triage (from Ops)", Ready chip, both values inherited.
+      `placeholders-renamed-break.png` — **restored in round 31 and recaptured in round 33 on the
+      canonical Ticket Triage flow** (the round-31 capture carried the imported copy's breadcrumb, which
+      broke example continuity): breadcrumb Ticket Triage, greyed play control, Not Ready chip, red "1"
+      badge on the Condition, and the red escalateAbove field with "The placeholder data item is not
+      available".
+      **Retired and deleted:** `bound-in-block`, `condition-result`, `description-tooltip` (round 24,
+      with the sections that carried them).
+      **Box stays unchecked until a `ship` run confirms it.**
+- [x] Every product claim driven or cut. **Round 29 reversed one:** deleting a placeholder and
+      re-declaring the same name DOES re-bind the fields (independent of type) — the page had implied the
+      opposite. Round 31 also cut two claims that were inference rather than drive (the API-key secrecy
+      remedy, and crediting the placeholder for ((Value Data Type))'s work). Type tags (all eight, B891988E); type preservation; loop scope;
+      LIVE view mode has no tab strip (CD3F8A0B); launch-dialog section is inert (101CDF04 / DE79A5E2);
+      gear reopens with name+type editable; trash confirms; rename breaks bindings; **unfilled placeholder
+      blocks Start** (A47E6D2B); **export carries placeholder values and import restores them** (9F1B9B1F
+      → D4AB6992).
+- [x] Nothing asserted that the page's NOT-DRIVEN list contradicts — SubFlow scope is not claimed.
+- [x] Glossary defect fixed: the bare `*[Placeholder]:` / `*[Placeholders]:` entries fired retroactively on
+      both quickstarts, where the word means `{email}` markers. Removed; `Placeholder Data` kept.
+- [x] Siblings reconciled: `api-keys.md` (its API-KEY-in-a-header recipe was impossible per FR-3443),
+      `definitions.md`, `expressions.md`.
+- [x] doclint 0 / 0; site builds `--strict`.
+- [ ] **Gate verdict `ship` on disk.** Latest run wf_664ee969-306 (round 30) → `major-rework`, four
+      blockers, cleared in round 31. Round 28 (wf_0933c636-b62) reached `revise`. Current shape:
+      **9 h2 sections, 9 screenshots, ~190 body lines.** See the verdict file's "The pattern". This box gates handoff. See
+      `docs-review/verdicts/placeholders.md` for the round-by-round record.
+
+**Tickets this page produced:** FR-3443 (no block consumes an API KEY placeholder), FR-3442 (Flow Settings
+crashes on a LIVE flow via `/edit`), FR-3460 (launch dialog's Placeholder Data section is inert),
+FR-3461 (the launch dialog sends numeric Initial Data as a string, so a run fails that the dialog's own
+generated GET URL succeeds at). None
+gates the page.
+
+**MARK — decisions owed:** none.

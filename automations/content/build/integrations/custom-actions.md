@@ -33,12 +33,15 @@ of extension because you get it the moment the flow exists. See
 [Running Another Flow](running-another-flow.md).
 
 ## Build your own action
-<!-- doclint: no-shot: the authoring experience is being rebuilt and is not documented yet; the Custom Cloud Code screens are on its reference page -->
+<!-- doclint: no-shot: routes to the two build options, each pictured on its own page; the Custom Cloud Code screens are on its reference page -->
 
 When nothing above fits - a proprietary system, a piece of logic that has to run as one unit - you can
-package your own block. For a one-off piece of code inside a single flow, a
-[Custom Cloud Code](../../reference/custom-cloud-code.md){.fr-block} block runs what you write without
-packaging anything at all.
+package your own block as a [custom extension](../../extend/index.md). There are two ways to get one, and
+they end in the same place: [let AI build it](../../extend/ai-assisted.md) from a description you write in
+plain language, or [write it yourself](../../extend/getting-started.md). Neither requires the other.
+
+For a one-off piece of code inside a single flow, nothing needs packaging at all - a
+[Custom Cloud Code](../../reference/custom-cloud-code.md){.fr-block} block runs what you write, in place.
 
 ## Related
 
@@ -46,4 +49,4 @@ packaging anything at all.
 - [MCP Servers](../../platform/mcp-servers.md) - registering a server and attaching its tools to an agent
 - [Calling an External Service](calling-a-service.md) - reaching a service that has no block of its own
 - [Custom Cloud Code](../../reference/custom-cloud-code.md){.fr-block} - running your own code as a step
-- [About Custom Actions](../../extend/custom-actions.md) - building and publishing your own blocks
+- [Custom Extensions](../../extend/index.md) - the two ways to build your own blocks, and how they deploy

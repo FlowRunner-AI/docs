@@ -6,8 +6,8 @@
      self-contained section per method (Calling with GET / Calling with POST).
      Verified in-product 2026-08-18 (Documentation Flows workspace, curl against api.flowrunner.ai; full log in
      .cache/api-spec/verification-2026-08-18.md; example flow "Order Lookup" 07E7DA91, kept LIVE):
-     activate-blocking takes the flow NAME only (id -> 28047), matching the URL the Launch Flow Instance
-     dialog writes; a run that reaches ONE Return Result (of two, on Condition branches) -> the composed
+     activate-blocking took the flow NAME only (id -> 28047), matching the URL the Launch Flow Instance
+     dialog writes [SUPERSEDED by FR-3408 - see the 2026-08-31 re-drive at the end of this block]; a run that reaches ONE Return Result (of two, on Condition branches) -> the composed
      object as the body; none reached, or two reached in one run (parallel branches) -> the envelope
      {executionId,status,result,results[{blockName,contentType,data}],apiCallerReleased};
      Release Caller on -> the caller gets that block's value the moment it is reached while the run goes on
@@ -18,8 +18,8 @@
      -> 400/28064; GET query values arrive as strings, POST JSON keeps types; POST body without
      Content-Type: application/json -> HTTP 415 (charset=utf-8 fine, text/plain refused); POST with no body
      -> 200; PUT -> HTTP 405; every refusal body carries details:{}; the flow name is case-sensitive
-     (order%20lookup -> 28047); renaming the flow -> old-name URL 28047, new name 200; a paused version
-     ("On hold") -> 28047; error 9000 = unknown workspace id; Content Type dropdown = JSON | XML | Plain Text
+     (order%20lookup -> 28047 [code now 28053, FR-3408]); renaming the flow -> old-name URL 28047 [now 28053],
+     new name 200; a paused version ("On hold") -> 28047 [now 28053]; error 9000 = unknown workspace id; Content Type dropdown = JSON | XML | Plain Text
      (read open, in the log); XML -> application/xml, Plain Text -> text/plain, and in BOTH the body arrives
      as a JSON-quoted string of the Result value - the reported quirk (KNOWN below; STATEMENT OF RECORD: the page ships
      option (b) - it states the quoting outright, in the bullets and the paragraph below them. Mark's (a)/(b)
@@ -60,6 +60,10 @@
      lineage says 'action allowance' - flagged with the rate-limit confirm item). 2026-08-24 drive: POST
      body [1,2,3] and "x" (valid JSON, not an object) -> 200 on activate-blocking (Missing Order ID's value:
      no orderId arrived) AND on activate (executionId) - not refused, nothing lands in Initial Data by name.
+     SUPERSEDED 2026-08-25 by FR-3372 (v1.0.14): a non-object body ALONE is still 200 (driven), but a
+     non-object body SENT WITH QUERY PARAMS is now 400/28064 "Query parameters cannot be merged into the
+     request body because the body is not a JSON object."; same-key-in-both is 28064 with a different
+     message ("Query parameters conflict with the request body keys: 'orderId'"). Both driven 2026-08-25.
      AUTHOR EXCEPTION ON RECORD: the segment-per-line Endpoint template is Mark's hand-authored format
      (2026-08-24); the single-line sibling templates await his nod to mirror it (open MARK item) - the
      asymmetry is deliberate until he rules. Instances-tab-lists-runs-with-start-times is pictured on
@@ -146,7 +150,41 @@
      api/index.md shared table (Mark-reviewed 2026-08-06 lineage), not driven; 8007/8008 dropped (no required
      parameter on this endpoint can produce them). KNOWN, REPORTED TO MARK, NOT DOCUMENTED: the API key segment
      is not checked (any value starts an instance); malformed JSON returns HTTP 500 with a stack trace.
-     (The XML / Plain Text JSON-quoting is no longer on this list - since round 19 the page DOCUMENTS it.) -->
+     (The XML / Plain Text JSON-quoting is no longer on this list - since round 19 the page DOCUMENTS it.)
+
+     RE-DRIVEN 2026-08-31 for FR-3408 (Documentation Flows workspace on dev.flowrunner.ai - host
+     dev-api.flowrunner.ai; flow "TD Sandbox" C24408A2, published LIVE for the test and returned to Ready;
+     full log in the session evidence file). FR-3408 unified the two endpoints, so THREE facts on this page
+     changed and are corrected above:
+     (1) IDENTIFIER - activate-blocking now accepts the flow ID **or** the flow NAME, over GET and POST.
+     All eight combinations (activate | activate-blocking x id | name x GET | POST) returned HTTP 200.
+     The NAME-only rule and the "the id belongs to the non-blocking call" sentence are gone.
+     (2) ERROR CODE - both endpoints now answer 28053, never 28047. Driven three ways: unknown id, unknown
+     name, and a good identifier with the flow stopped. 28047 was not produced by any call. The server's
+     message is now "Flow with ID or name 'X' and status 'LIVE' is not found." - it states the unified
+     contract itself.
+     (3) RENAME - no longer a property of the endpoint: an id URL survives a rename, a name URL does not.
+     Also re-confirmed: the name is case-sensitive (td%20sandbox -> 28053) and must be percent-encoded
+     (TD+Sandbox -> 28053; a `+` is not decoded to a space in a path segment).
+     The Launch Instance dialog writes the ID form of the non-blocking URL
+     (https://{host}/{workspaceId}/{apiKey}/automation/flow/{flowId}/activate) - unchanged by FR-3408.
+
+     FR-3427 (SECURITY: the API key segment is not validated) VERIFIED FIXED on dev 2026-09-01. The key is
+     now enforced on every route driven: activate, activate-blocking, GET .../execution/{id} and
+     GET .../execution/{id}/block/result all answer HTTP 401 {"code":2027,"message":"API key is invalid"}
+     to a garbage key - which matches the contract Andriy Konoz gave on the ticket. Check ORDER was driven
+     too: with the flow stopped, a garbage key returns 2027 while a good key returns 28053, so the key is
+     checked BEFORE the LIVE lookup; a bad workspace id with a garbage key returns 9000, so the workspace
+     is checked before the key. Rotation was driven end to end: regenerating the workspace key made the
+     just-replaced key answer 2027 immediately.
+     CONSEQUENCE FOR THIS PAGE: FR-3427's description states the rotate-on-exposure remedy was REMOVED from
+     the Call Flow pages because it could not remediate a leak while the key was unchecked, and asks for the
+     doc question to be reopened once the key is enforced. It is enforced, so the remedy is RESTORED above -
+     but written as a choice between two moves with different blast radius (regenerate = every URL on that
+     key, Stop = this flow only), not as the blanket advice that was removed. The NOT-ENFORCED caveat is
+     retired from the memory file as well. Error 2027 is now a row in the error table.
+     NOT DRIVEN: the External Callback trigger URL, the third route named on FR-3427 - the sandbox flow used
+     here has no callback trigger. Reported as untested rather than assumed. -->
 # Call Flow (Blocking)
 
 If a flow has a [Return Result](../reference/return-result.md){.fr-block} block, the blocking Call Flow
@@ -164,7 +202,7 @@ https://api.flowrunner.ai/
             {workspace-id}/
             {api-key}/
             automation/flow/
-            {flow-name}/
+            {flow}/
             activate-blocking?waitResponseTimeoutSeconds={time-in-sec}
 ```
 
@@ -172,29 +210,33 @@ https://api.flowrunner.ai/
 | --- | --- | --- |
 | `{workspace-id}` | The workspace the flow belongs to | **Workspace Settings ▸ General ▸ Credentials** - see [Workspace Settings](../manage/workspace-settings.md#name-and-credentials) |
 | `{api-key}` | The workspace's API key | Same place |
-| `{flow-name}` | The flow's name, URL-encoded (`Order%20Lookup`) | The name in the breadcrumb at the top of the flow, and in the flows list in the sidebar - see [Flows](../manage/flows.md). Names are unique within a workspace, so one name always means one flow. The name is case-sensitive, and renaming the flow changes this URL |
+| `{flow}` | The flow's **id**, or its **name** URL-encoded (`Order%20Lookup`) - either one works | The id is the segment after `/flow/` in the address bar while the flow is open. The name is in the breadcrumb at the top of the flow and in the flows list in the sidebar - see [Flows](../manage/flows.md). Names are unique within a workspace, so one name always means one flow. Both forms are case-sensitive. An id URL survives a rename; a name URL does not |
 | `{time-in-sec}` | How long the call waits for the run to finish, in seconds. Optional - the default is `5` and the maximum is `300` | You pick it - see [How long the call waits](#how-long-the-call-waits) |
 
 What you send with the call becomes the run's Initial Data.
 
-**Flows without a Return Result.** The **Launch Flow Instance** dialog does not write this URL for them -
-it writes the non-blocking one, built on the flow's id - so build this call by hand: take the
-[Calling with GET](#calling-with-get) or [Calling with POST](#calling-with-post) example, put your flow's
-name in place of `Order%20Lookup`, and drop `orderId=1042` or replace it with what your flow reads. The
-answer is the [run envelope](#no-answer-or-more-than-one-the-run-envelope).
+**Flows without a Return Result.** The **Launch Flow Instance** dialog writes the non-blocking URL, not
+this one, so build this call by hand: take the [Calling with GET](#calling-with-get) or
+[Calling with POST](#calling-with-post) example, put your flow's id or name in place of
+`Order%20Lookup`, and drop `orderId=1042` or replace it with what your flow reads. The answer is the
+[run envelope](#no-answer-or-more-than-one-the-run-envelope).
 
 **The flow has to be LIVE.** The endpoint answers only while a version of the flow is LIVE - the state a
 version enters when you start it (see [Running Flows](../run/running-flows.md#ready-then-live)); otherwise
-the call is refused with error `28047`. The address carries no version, so it always runs whichever version
+the call is refused with error `28053`. The address carries no version, so it always runs whichever version
 is live now: making a different version live changes what this URL executes, without changing the URL.
 
 **The URL is a credential.** It embeds your workspace's id and API key, so anyone who has it can start runs
 of this flow, read whatever the Return Result returns - the order data in this example - and spend your
 workspace's execution allowance. Keep it server-side, out of client code and untrusted configs. If one does
-get out, take the version out of LIVE - **Stop** or **Pause** in the flow's toolbar - and every copy of that
-URL answers `28047` at once (see
-[Running Flows](../run/running-flows.md#stopping-and-replacing-a-live-flow)). The key itself belongs to the
-whole workspace, not to this flow: see
+get out you have two ways to close it, and they differ in blast radius. Regenerating the workspace's API key
+kills every URL built on the old key at once - the leaked one included, which then answers `2027` - but it
+also breaks every other call your systems make with that key, so they all have to be rebuilt with the new
+one. Taking this version out of LIVE - **Stop** or **Pause** in the flow's toolbar - is the narrower move:
+every copy of this flow's URL answers `28053` at once and nothing else is disturbed (see
+[Running Flows](../run/running-flows.md#stopping-and-replacing-a-live-flow)). Reach for the key when you do
+not know how far the exposure goes, and for Stop when you do. The key belongs to the whole workspace, not to
+this flow, which is why it is the blunter of the two: see
 [Workspace Settings](../manage/workspace-settings.md#name-and-credentials).
 
 You do not have to assemble the URL by hand - [FlowRunner writes it for you](#let-flowrunner-write-the-call-for-you).
@@ -202,7 +244,7 @@ You do not have to assemble the URL by hand - [FlowRunner writes it for you](#le
 ## Calling with GET
 
 Copy, fill in the two credential placeholders, and run - the flow's values travel in the query string.
-For your own flow, put its name in place of `Order%20Lookup` and its values in place of `orderId=1042`:
+For your own flow, put its id or name in place of `Order%20Lookup` and its values in place of `orderId=1042`:
 
 ```bash
 curl "https://api.flowrunner.ai/{workspace-id}/{api-key}/automation/flow/Order%20Lookup/activate-blocking?waitResponseTimeoutSeconds=30&orderId=1042"
@@ -219,7 +261,7 @@ document or a chat, paste it as plain text, never as a clickable link.
 ## Calling with POST
 
 Copy, fill in the two credential placeholders, and run - the flow's values travel in a JSON body. For your
-own flow, put its name in place of `Order%20Lookup` and its own properties in place of `orderId`:
+own flow, put its id or name in place of `Order%20Lookup` and its own properties in place of `orderId`:
 
 ```bash
 curl --request POST \
@@ -232,9 +274,14 @@ curl --request POST \
 
 A `POST` body is a JSON object, sent with `Content-Type: application/json` (a `charset` parameter is
 fine; any other media type is refused with HTTP 415). Each top-level property becomes one value in the run's
-Initial Data, with its JSON type kept: `{"orderId": 1042}` reaches the flow as the number `1042`. Query parameters other than
-`waitResponseTimeoutSeconds` still work on a `POST` and land in the same Initial Data - a key sent both ways
-is refused with error `28064`. `waitResponseTimeoutSeconds` is read from the query string only: sent as a
+Initial Data, with its JSON type kept: `{"orderId": 1042}` reaches the flow as the number `1042`.
+
+When a `POST` carries both a body and query parameters, FlowRunner merges the query parameters into the
+body object. Two rules follow from that, and both are refusals rather than silent surprises: a key sent
+both ways is refused with `28064`, and a body that is valid JSON but **not an object** - an array, a bare
+string - is refused with `28064` too, because there is no object to merge into. A non-object body on its
+own, with no query parameters, is still accepted: the run starts with nothing for Initial Data to pick up
+by name. `waitResponseTimeoutSeconds` is read from the query string only: sent as a
 body property it does not set the wait: the call falls back to the five-second default, and the property
 lands in Initial Data like any other. Put it in the query string. The URL is the
 same one a `GET` answers, so any fetch of it - a link preview, a browser prefetch, an uptime monitor - starts
@@ -479,25 +526,26 @@ after its answer. If even the answer takes longer than 300 seconds, or the run p
 
 Most errors come back as HTTP 400 with a JSON `code`, a `message`, and a `details` object that is empty on
 every refusal in the table below - read the `code`; a wrong media type or
-method is refused at the HTTP level (415 / 405) with no code. This is what a name with no LIVE version
-behind it returns - here Order Lookup while its version was paused; the message echoes the name you sent:
+method is refused at the HTTP level (415 / 405) with no code. This is what an identifier with no LIVE
+version behind it returns - here Order Lookup while its version was paused; the message echoes what you
+sent:
 
 ```json
 {
-  "code": 28047,
+  "code": 28053,
   "details": {},
-  "message": "Flow with name 'Order Lookup' and status 'LIVE' is not found."
+  "message": "Flow with ID or name 'Order Lookup' and status 'LIVE' is not found."
 }
 ```
 
-Sending the flow's id instead of its name gets this same refusal - the id belongs to the
-[non-blocking call](call-flow-nonblocking.md).
+The id and the name are interchangeable here, and a wrong one of either kind returns this same refusal.
 
 | Code | What it means | What to do |
 | --- | --- | --- |
-| `28047` | No LIVE flow with that name | Check the name is spelled and cased exactly as FlowRunner shows it and then URL-encoded (`Order%20Lookup`), and that a version is LIVE - a paused version (On hold) answers this too, so put it back with **Resume flow** in the flow's toolbar (see [Running Flows](../run/running-flows.md#stopping-and-replacing-a-live-flow)). Renaming the flow changes this URL; the old name answers `28047` |
+| `28053` | No LIVE flow with that id or name | Check the identifier is spelled and cased exactly as FlowRunner shows it - a name also has to be URL-encoded (`Order%20Lookup`), and a `+` is not read as a space - and that a version is LIVE. A paused version (On hold) answers this too, so put it back with **Resume flow** in the flow's toolbar (see [Running Flows](../run/running-flows.md#stopping-and-replacing-a-live-flow)). Renaming the flow breaks a name URL - the old name answers `28053` - but leaves an id URL working |
+| `2027` | The API key is not this workspace's key | Re-copy the API Key from **Workspace Settings ▸ General ▸ Credentials**. Regenerating the key invalidates every URL built on the old one |
 | `9000` | No workspace with that id | Re-copy the Workspace ID from **Workspace Settings ▸ General ▸ Credentials** |
-| `28064` | The same key was sent as a query parameter and in the body, or `waitResponseTimeoutSeconds` is above 300 | Read the `message` - it names the duplicated key, or the rejected timeout value. Send each value once, and keep the timeout at 300 or below |
+| `28064` | Query parameters could not be merged into the body (the same key was sent both ways, or the body is valid JSON but not an object), or `waitResponseTimeoutSeconds` is above 300 | Read the `message` - it names the duplicated key, says the body is not an object, or names the rejected timeout. Send each value once, make the body an object whenever you also send query parameters, and keep the timeout at 300 or below |
 | `28118` | The run did not finish within `waitResponseTimeoutSeconds` | The run is still going - do not re-send the call (see [How long the call waits](#how-long-the-call-waits)). For the next call, raise the timeout (up to 300), or use the [non-blocking call](call-flow-nonblocking.md) and let the flow deliver its answer |
 | `28045` | The flow can be called only by its schedule | Turn off **Allow only scheduled flow instances** in the **Flow Execution Policy** checkboxes of the **Configure Flow Schedule** popup - see [Flow Scheduling](../reference/flow-scheduling-concept.md#the-flow-execution-policy), which pictures it |
 | HTTP 415 | A `POST` body sent without `Content-Type: application/json` | Send that header |
@@ -519,7 +567,7 @@ codes:
 
 Open the flow and click ((Run Instance)) in the toolbar at the top of the flow - the last icon in the row.
 Its own note says the URL is only available for flows with LIVE status, but it writes the URL on a paused
-(On hold) version too - and that URL answers `28047` until the version is running again. The same toolbar shows **Start flow** while the version is Ready and
+(On hold) version too - and that URL answers `28053` until the version is running again. The same toolbar shows **Start flow** while the version is Ready and
 **Resume flow** while it is On hold (see
 [Running Flows](../run/running-flows.md#ready-then-live)). The screenshot below shows the toolbar of a LIVE
 flow with the tooltip open.

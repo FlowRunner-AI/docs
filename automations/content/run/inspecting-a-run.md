@@ -13,6 +13,40 @@ The example the shots follow is a flow that polls an order until it ships.
 
 ![An opened run: the flow with each executed block ticked, the hovered loop block showing its expand icon, a block selected with its configuration on the right, and the Instance Summary and that block's Input and Output below.](../images/run/monitoring-instance-detail.png)
 
+## Finding the run you want
+
+A row of coloured circles sits above the list, one per state, in this order: **Running**, **Pending**,
+**Completed**, **Terminated**. Each shows only a number, and hovering names it - "Terminated - 11
+instances". Read them to answer "is anything stuck or dying right now?" without going through the table.
+
+Clicking a circle filters the list to that state, and clicking it again clears the filter. The
+((Status)) dropdown above sets the same filter, and the two always agree - filter by one and the other
+follows.
+
+The counts follow the rest of the filter context - the date window, the search, and the two checkboxes
+behind the ((...)) control, ((Only With SLA Violations)) and ((Only With Errors)). The status filter
+itself does not narrow them, because the circles are the status overview.
+
+![The Instances tab: a filter row with From and To dates, a Past 30 days selector, a refresh control, a Search box, a Status dropdown set to ALL, a "..." control and a download icon. Below it four count circles reading 0, 0, 0 and 11, and under those the run table with columns Instance Name, Start Time, Finish Time, Total Time, Has Error, Status, Compliance and Missed Goal - eleven rows, each with a red TERMINATED status chip and "No Missed Goals".](../images/run/instances-filters-and-counts.png)
+
+## Taking the list away as CSV
+
+The download icon beside the filters - its tooltip reads ((Export instances to CSV)) - writes a CSV of
+**everything matching the current filters**, not just the page you are looking at. Set the filters you
+want first, then export: what the list is showing, including every page it would take you through, is
+what the file holds.
+
+One row per run, with a column for the instance name, the execution id, the flow name and version, the
+status, the start and finish times, the total time in milliseconds, the error flag and handled-error
+detail, and the SLA compliance and missed goals. The execution id is kept as its own column even when a
+run has a friendly name, so an exported row still lines up with the API and with a support conversation.
+
+The export runs on the server rather than in the page, so a large result does not block you - you can
+keep working or leave the screen. The finished file is delivered by a link sent to the address on your
+account.
+
+![The same filter row with the pointer on the download icon at its right end, the icon highlighted and a tooltip above it reading "Export instances to CSV". The four count circles - 0, 0, 0, 11 - sit below.](../images/run/instances-export-csv.png)
+
 ## Stepping through a loop's passes
 
 A [Repeat](../reference/repeat.md){.fr-block} or [List Iterator](../reference/list-iterator.md){.fr-block} runs the same inner steps many times, and a bug usually lives in one pass. Hover the loop block and click the expand icon that appears on it. The loop's inner blocks are drawn with their own markers: a tick on each block the pass executed, a not-executed marker on any branch it skipped. The ((Iteration #)) field then walks the run pass by pass - jump to the one iteration of forty where a value went wrong and inspect every block on that pass. ((RETURN)), at the top left, steps back out to the whole flow.
@@ -53,6 +87,28 @@ ERRORS (verified live on E6775B29): Instances row TERMINATED + filled Has Error 
 DEMO-DATA FIX (Mark approved 2026-08-15): Order Poller's Re-fetch Order re-pointed at an order-shaped response + relaunch with an Initial Data payload; monitoring-instance-detail.png and monitoring-loop-iteration.png recaptured accordingly. -->
 
 [^1]: How far back the list reaches is set by the workspace billing plan's audit-trail retention. [Billing](../manage/billing.md) covers the plans.
+
+<!-- FR-3394 / FR-3395 DRIVEN 2026-08-31, Documentation Flows on dev.flowrunner.ai, TD Sandbox v1
+     Instances tab, 11 real instances from that day's API drives.
+     FR-3395 count circles: FOUR, in this on-screen order - Running, Pending, Completed, Terminated.
+     They carry only a number; the label comes from the aria-label/tooltip, verbatim
+     "Terminated - 11 instances". Clicking the Terminated circle set the Status dropdown to TERMINATED
+     and the table to 11 rows; clicking it again returned the dropdown to ALL - so circle and dropdown
+     are one filter, driven both ways. The two checkboxes the counts also follow (Only With SLA
+     Violations / Only With Errors) live behind the "..." control beside Status - opened and read.
+     FR-3394 export: the control is a DOWNLOAD ICON, not a labelled "Export" button as the ticket
+     describes; its tooltip reads "Export instances to CSV" (pictured). Clicking it fires
+     POST /api/app/{ws}/automation/flow/{flowId}/version/{versionId}/analytics/instances/export/csv
+     and the server answers 200 - verified twice in the network log.
+     NOT OBSERVED, REPORTED TO MARK: the ticket promises a confirmation message on click and TWO
+     notification-panel entries (export started / file ready). Neither appeared - no toast was caught
+     and the notification panel's count stayed at 23 across both exports, with no export entry in it.
+     The emailed link could not be checked from here. The page therefore describes the filter-scoped
+     CSV and the server-side delivery, and does NOT claim the notification-panel messages.
+     COLUMN LIST is carried from the ticket, not driven - no CSV file was opened.
+     SHOT CAVEAT: all 11 rows are TERMINATED because TD Sandbox's Get Order block fails (28105), so
+     the circles read 0/0/0/11 rather than a mix. A mixed-status shot needs a demo flow that completes;
+     flagged to Mark as a follow-up, not silently accepted. -->
 
 ## Related
 

@@ -717,6 +717,11 @@ narrative sections (not the generated reference), but most are good prose rules 
   surrounding context (the subflow RETURN bar, etc.), and tell the reader what they are about to look at
   in the sentence before the image. Crop hygiene: a dialog over the dark canvas bleeds its rounded
   corners / backdrop at the edges, so trim to the last fully-clean row. (Mark)
+- **No overlay tint in a shot (2026-09-09, Billing)** - a capture taken while the notifications drawer
+  (or any dialog backdrop) is open comes out uniformly grey; Mark: "a screenshot on the /manage/billing
+  page is too dark". Before capturing, confirm no drawer or backdrop is open (the notifications drawer
+  puts "Unread only" in the page text); when reading a shot back, a uniformly dim frame means an overlay,
+  so close it and recapture rather than ship it. (Mark)
 - **SubFlow argument model (verified live, label was wrong in the record)** - a SubFlow block passes
   inputs via its **Initial Params** list (the record had said "Input parameters"); each Initial Params
   name becomes a field in the subflow's **Initial Data**, read inside as `{{Initial Data->name}}` - the

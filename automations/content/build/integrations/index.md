@@ -46,4 +46,4 @@ connect an MCP server whose tools become blocks, or package your own. See
   resuming a flow.
 - [Waiting on an External System](../flow-control/external-callbacks.md) - pausing a run until an outside
   system reports back.
-- [About Custom Actions](../../extend/custom-actions.md) - building and publishing your own blocks.
+- [Custom Extensions](../../extend/index.md) - writing your own blocks in JavaScript and deploying them.

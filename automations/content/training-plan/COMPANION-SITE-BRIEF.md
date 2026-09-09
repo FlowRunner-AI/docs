@@ -1,4 +1,4 @@
-# FlowRunner Training Companion Site - Build Brief (v4)
+# FlowRunner Training Companion Site - Build Brief (v5)
 
 **Working name:** Flowland Seed Co. - a small fictional online seed shop (flower and vegetable seeds). Keep the name a single constant. Theme rationale: seed/flower imagery is abundant as stock photography with no copyright friction. Product images are supplied separately by the owner; build against `/public/img/products/` with the naming convention `{sku}.jpg` and a neutral placeholder for missing files.
 
@@ -8,7 +8,7 @@
 
 **Stack (decided):** pure HTML/JS front end (no framework, no build step) on Cloudflare Pages + Pages Functions for all dynamic behavior. Durable Objects for per-sandbox state and delayed callbacks (DO alarms). Verify current free-plan limits for DO/SQLite before finalizing; if a feature requires a paid plan, say so in the README rather than silently depending on it.
 
-**Site structure:** two zones. The **shop** (storefront, product pages, cart/checkout, contact, return request, reviews) - what a customer would see. The **back office** (Approvals Desk, External Systems Console, Inventory Service Console, Order Replayer) - where the learner plays shop staff or an external system. Both zones share the Tutorial Assets panel (Section 2.2).
+**Site structure:** three zones. The **shop** (storefront, product pages, cart/checkout, contact, return request, reviews) - what a customer would see. The **back office** (Approvals Desk, External Systems Console, Inventory Service Console, Order Replayer) - where the learner plays shop staff or an external system. The **Map** (Section 3.11) - the program's navigation layer and the site's landing page: the full curriculum rendered as an explorable progression map with learner-driven check-off. The shop and back office share the Tutorial Assets panel (Section 2.2).
 
 ---
 
@@ -39,7 +39,7 @@ A collapsible panel rendered in the same position on every page (shop and back o
 
 If the learner triggers an action while a required URL is missing, do not silently fail: expand the panel, focus the field, explain, and run the action after they save.
 
-`localStorage` keys: `fr_sandbox_token`, `fr_url_contact_trigger`, `fr_url_checkout_trigger`, `fr_url_shipping_quote`, `fr_url_support_agent`, `fr_url_returns_trigger`, `fr_url_review_trigger`, `fr_url_events_callback`.
+`localStorage` keys: `fr_sandbox_token`, `fr_url_contact_trigger`, `fr_url_checkout_trigger`, `fr_url_shipping_quote`, `fr_url_support_agent`, `fr_url_returns_trigger`, `fr_url_review_trigger`, `fr_url_events_callback`, `fr_map_checked` (array of checked node codes; see 3.11).
 
 ### 2.3 Common conventions
 - Outbound calls to learner URLs: `Content-Type: application/json`, 10 s timeout (30 s for the two blocking calls: shipping quote, support chat), no redirects.
@@ -59,6 +59,7 @@ Each scenario: **Story** (how the page and the learner's tutorial flow interact)
 **Page spec.**
 - Realistic shop contact page. Form fields: Name (text, required), Email (email, required), Topic (select: `order`, `product`, `growing-advice`, `wholesale`, `other`), Message (textarea, required).
 - Tutorial Assets panel: connect field bound to `fr_url_contact_trigger`; **Send test submission** button; a small set of canned example messages selectable for AI-classification recipes (a wholesale lead, an angry complaint, a vague question).
+- **Demo mode ("see it work first"):** a control that submits the form to a house-hosted demo flow (a fixed FlowRunner endpoint configured at deploy time, not a learner URL) and renders the automated reply on the page within seconds - proof of the whole mechanic for a visitor who has not created anything yet. Clearly labeled as the demo; the Tutorial Assets panel shows the exchange like any other call. Rate-limited like all outbound endpoints.
 - Submit success state: "Sent - your flow received it (HTTP 200 in 340 ms)". Failure states distinguish timeout, connection refused, non-2xx (status + body excerpt).
 
 **API spec.** Outbound only:
@@ -248,9 +249,36 @@ Expected (not enforced) response: `{ "label": "USPS Ground", "amount_cents": 599
 
 **API spec.** Outbound only; same `order.created` envelope as 3.4, payloads fixed in the repo.
 
+### 3.11 The Map - program navigation (site landing page)
+
+**Story.** The learner's home. The Map renders the training as one explorable landscape, Civ-style: the learner clicks a node to see what it teaches and jump three ways - watch the lesson, open the Flowland page it uses, read the docs behind it - and checks nodes off themselves as they complete them. No verification, no awards, no accounts: the Map guides and remembers, the learner decides. It is a syllabus with memory, not a game.
+
+**Granularity follows release (the empty-map rule).** Released courses show full lesson detail. An unreleased course renders as a single larger course-node ("Working with Data - coming next"), which unfolds into its lessons the day it releases - so early on, the Map is a small living garden with a few course-sized waypoints ahead, never a field of ghost lessons. A quiet "recently planted" line (latest additions, with dates) signals that the garden is growing. The Map becomes the site's landing page only once enough territory is live (around training Phase 2); before that it exists but is linked, not led with, and Quick Win recipe pages are self-contained destinations that never present themselves as part of a larger program.
+
+**Visual design.** The Map must be beautiful and inviting - a place learners want to return to, not a diagram they consult. The design language is the shop's own: a garden growing from left to right.
+
+- **The garden metaphor, carried precisely.** Each lesson node is a small rounded card styled like a seed packet; its state is a growth stage. *Not yet started:* the packet, muted, with a faint seed glyph. *Checked off:* the packet blooms - a small flower fills the corner, the card warms to its lane color, the connecting vine behind it turns from pencil-grey to living green. *Coming soon* (course not yet released): the packet rendered as a soft outline with a "planting soon" tag - visible territory, clearly future. The metaphor stays subtle: one glyph and one color shift per state, never clip-art.
+- **Layout.** A horizontal pan/zoom canvas (SVG; drag to pan, wheel/pinch to zoom, keyboard accessible), progressing left to right by prerequisite depth. Horizontal swimlanes, one per course (FR-101 through FR-106), each lane washed in a pale tint of its course color with the course name set vertically at the lane head - the same lane grammar as a mission map. Curved vine-like edges (smooth cubic curves, never elbows) connect lessons in sequence and across lanes where a course feeds another.
+- **Milestone gates.** Where a course completes, a slim vertical divider spans the lanes it unlocks - a trellis rather than a wall - labeled with the milestone ("Foundations complete", "Ready for the outside world"). Gates are decorative waypoints, not locks: everything remains clickable.
+- **The Playbook orchard.** PB recipe nodes hang below the ladder as a distinct row of slightly smaller cards, clustered after the gate of their prerequisite tier, visually lighter so the ladder reads as the spine and recipes as fruit along it.
+- **The developer lane.** FR-210 runs as its own express lane along the bottom edge, styled apart - graphite background, monospace lesson titles, straight taut edges instead of vines. It should look like a rail line running beside a garden: same map, different pace. One clear crossover link where it joins the shared territory (MCP/agents).
+- **The finale.** Run the Shop sits at the far right spanning all lanes: a larger illustrated node - the greenhouse - toward which every vine converges. It is the visual destination of the whole map.
+- **Palette and type.** The site's own palette: deep green anchor (the brand family), cream canvas, one pale tint per course lane, graphite for the developer lane. Generous whitespace; a serif or humanist display face for lane names and the map title, the site's UI face for node text. Node cards carry the lesson code as a small chip (FR-103.4.2) - the tracking language made visible.
+- **Motion, sparingly.** CSS-only: a soft settle when the map loads, a ~300 ms bloom when a node is checked, gentle lift on hover. No looping animation anywhere - the map should feel alive when touched and calm when read.
+- **First visit.** A single gentle affordance: the FR-101.1.1 packet pulses once and a small tag says "start here." No tour, no modal.
+- **Overview.** A slim minimap in the corner for orientation on small screens; below a width breakpoint the canvas falls back to a vertical scrolling outline grouped by course - same data, same check-off - rather than a cramped canvas.
+
+**Page spec.**
+- Node click opens a side panel (the Map's own version of Tutorial Assets): lesson title, one-line objective, three link buttons (Lesson video - URL slot filled as lessons publish; Flowland page it uses; docs pages), and the check-off toggle. Module-level "check all" in the panel when a whole module is done.
+- Check-off state in `localStorage` (`fr_map_checked`, array of node codes). **Export/import:** a "Save my progress" control downloads a small JSON (or copies a compact code string); import restores it. No server round-trip.
+- Header shows quiet progress per lane ("Foundations 9/13") - counts, not percentages, no celebration UI.
+- Unreleased lessons render in coming-soon state with links disabled except docs (which may already exist).
+
+**Data spec.** The Map renders from a single generated file, `map-data.json`, produced from `TUTORIAL-MAP.md` (which already carries every lesson code, title, prerequisite, docs sources, and site surfaces) by a build-time script in the repo. The map is never hand-authored: when the curriculum changes, the matrix changes, and the map follows. Node fields: `code`, `title`, `objective`, `lane`, `prereqs[]`, `status` (`available|coming-soon`), `links {video?, page?, docs[]}`.
+
 ## 4. Repo and deployment
 
-- MIT license. Root: `README.md` (what it is, one-click **Deploy to Cloudflare** button, local dev via `wrangler pages dev`), `TUTORIAL-MAP.md`, `CONTRIBUTING.md`, `wrangler.toml`, `/public` (static pages; `/public/img/products/` per naming convention), `/functions` (Pages Functions), `/seed` (fixed datasets incl. `replay-orders.md`, `KNOWN-MISMATCHES.md`, `reviews-labels.md`), `/knowledge-pack`.
+- MIT license. Root: `README.md` (what it is, one-click **Deploy to Cloudflare** button, local dev via `wrangler pages dev`), `TUTORIAL-MAP.md`, `CONTRIBUTING.md`, `wrangler.toml`, `/public` (static pages; `/public/img/products/` per naming convention), `/functions` (Pages Functions), `/seed` (fixed datasets incl. `replay-orders.md`, `KNOWN-MISMATCHES.md`, `reviews-labels.md`), `/knowledge-pack`, `/flows` (importable FlowRunner flow files: per-recipe starter flows and per-exercise solution flows, named by their QW/PB/FR codes; served as downloads from the matching pages and Map nodes).
 - Self-hosting is first-class: fork-and-deploy in minutes from the README alone; also the escape hatch for anyone whose FlowRunner endpoints the hosted instance's URL rules would block.
 - No analytics beyond Cloudflare's own aggregate metrics.
 
@@ -267,7 +295,7 @@ The site makes outbound HTTP to user-supplied URLs; treat it as a potential open
 
 | Phase | Ships with | Contents |
 |---|---|---|
-| A | FR-101 | Site shell (shop zone), Tutorial Assets panel component, Contact page, static shop APIs incl. legacy endpoint |
+| A | FR-101 | Site shell (shop zone), Tutorial Assets panel component, Contact page, static shop APIs incl. legacy endpoint, **the Map** (released detail + course-level coming-soon nodes per the empty-map rule; becomes the landing page around training Phase 2) |
 | B | FR-103/104 | Back office shell + sandbox, Inventory Service Console (with warehouses), storefront cart/Checkout (incl. abandon control), Approvals Desk, External Systems Console (payments + shipping tabs), webhook signing, static payments/shipments datasets |
 | C | FR-105/106 | Knowledge pack, site-wide chat widget + personas, Return Request page, Review page, static returns/reviews datasets, Order Replayer, supplier tab |
 
@@ -286,8 +314,9 @@ Each phase lands with its acceptance checks green and `TUTORIAL-MAP.md` updated.
 9. Return Request and Review pages deliver their documented payloads; each page's canned examples match the repo fixtures.
 10. Chat widget appears on every page; renders `{"reply": "..."}` and plain-string responses; per-persona history survives switching; a fact question answered by a stub returning pack content matches `knowledge-pack/FACTS.md`.
 11. Replay order #4 matches `/seed/replay-orders.md` byte-for-byte; **Send all 8** delivers sequentially at ~2 s spacing; **Burst x10** sends exactly 10 clean orders and respects the server-side cap.
-12. A fresh fork deploys to Cloudflare Pages from the README instructions alone.
+12. The Map renders every node from `map-data.json` (itself regenerated from `TUTORIAL-MAP.md` - a curriculum edit appears on the map after a rebuild with no hand edits); checking a node persists across reload, blooms the node, and updates the lane count; export then import on a clean profile restores identical state; unreleased nodes show coming-soon with links disabled except docs; below the breakpoint the vertical outline offers the same nodes and check-off.
+13. A fresh fork deploys to Cloudflare Pages from the README instructions alone.
 
 ## 8. Explicitly out of scope (this version)
 
-Learner accounts and auth; real payment/email providers; **mutable inventory / true restocking state** (supplier events are simulated sends only; revisit if backorder recipes need stock that actually changes); persistence beyond the 7-day sandbox TTL; FlowRunner branding; marketing/landing content; multi-language; mobile apps.
+Learner accounts and auth; real payment/email providers; **mutable inventory / true restocking state** (supplier events are simulated sends only; revisit if backorder recipes need stock that actually changes); persistence beyond the 7-day sandbox TTL (the Map's check-off state is client-side and exempt); **Map verification, awards, points, or badges** - check-off is learner-driven by design, and Run the Shop remains the program's only proof of competence; FlowRunner branding; marketing/landing content; multi-language; mobile apps.

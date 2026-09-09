@@ -92,6 +92,8 @@ and let the comparisons handle everything exact.
 - The Yes path runs when the test is true and the No path runs when it is false. Both paths leave the block; if you build steps on only one of them, the other case quietly leaves the flow with nothing to do.
 - The comparisons offered depend on the <span class="fr-control">Value Data Type</span> you choose, so set the type to match the value. Checking a number as a STRING, for example, compares it character by character rather than by size, which can give a surprising answer.
 - With several parts, the AND or OR connector between them can be switched, and the brackets decide which parts are grouped. With a mix of AND and OR, the grouping changes the outcome, so set the brackets deliberately rather than leaving the default.
+- The block will not validate until at least one of its Yes or No connections is wired: until then it carries an error badge reading "One of the <span class="fr-control">Yes</span> or <span class="fr-control">No</span> connection must be connected", and <span class="fr-control">Run Block</span> stays disabled.
+- A null value does not fail the block. When <span class="fr-control">Value to Check</span> resolves to null, the comparison comes out false and the run carries on down the No path, so a value that is sometimes missing needs no guard ahead of the block. Note that this makes IS EMPTY answer false for a null value as well - it reports on an empty value, not a missing one.
 
 ## Related
 
