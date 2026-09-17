@@ -20,6 +20,38 @@ You can take a result whole or reach a single value inside it. Open a result and
 
 Many blocks declare the shape of their result up front - most Extensions do - so their fields are ready to pick straight away. A few cannot: an [HTTP Request](../../reference/http-request.md){.fr-block} or an [AI Agent](../../reference/ai-agent.md){.fr-block} only learns its result's shape once it has actually run. When a result's fields are missing for that reason, run the block once in [Test Mode](../../run/testing.md); the Editor remembers what came back, and the fields appear here to choose from.
 
+## Reaching inside a result the Editor has not seen
+
+When a result has no sample yet, its pill still opens. Click the pencil on the pill and it unfolds into a
+path row - one small input per step, joined by arrows - with a type button at the front. That button is
+how you tell the Editor what the value is before it can know: **Object** keeps the next step a property
+name, **List** turns it into a position.
+
+![A block-result pill unfolded into its path row: the HTTP Request Result pill, an arrow, the type button, another arrow, and an empty "Type property..." input](../../images/learn/ee-path-row.png)
+
+Choosing **List** replaces the property input with an index dropdown - **First** to **Fifth** and **Last**,
+with a search box that also takes a number for a position further down. Positions count from 1, so typing
+`7` picks the seventh item.
+
+![The same path row after choosing List: the step reads "Choose index..." and its dropdown lists First, Second, Third, Fourth, Fifth and Last under a search box reading "Search or type a number"](../../images/learn/ee-path-index.png)
+
+Each later step shows its own type button once it holds a value, so a path can go list, then object, then
+property as deep as the data does. Changing a step's type clears the steps after it. Click away and the row
+folds back into one pill that spells the whole path, with a position shown as a **#** label:
+
+![The folded pill reading HTTP Request Result, an arrow, #Second, an arrow, title](../../images/learn/ee-path-collapsed.png)
+
+Once the block has run in test mode, the Editor knows the shape and does this for you: the sample tree
+shows arrays with their positions, clicking a node fills the whole path, and a list step offers the index
+dropdown without being told. Property names it knows are suggested; one it does not know you type in.
+
+The Editor checks none of this against the real data while you build it. A property that does not exist,
+or a position past the end of the list, is only found out when the run reaches the block, so read the
+sample when there is one.
+
+Clicking the body of a pill only selects it, which is how you delete one; the pencil at its right edge is
+what opens the path row.
+
 ## Combining pieces into one value
 
 A field's value does not have to be a single reference. You assemble the expression in the middle of the Editor - double-clicking pieces in or typing them - and it can hold several at once, with fixed text or an operator between them. The ((Variables)) tab supplies the pieces you build with, in groups:
@@ -47,3 +79,16 @@ For a structure you would rather write out by hand, turn on ((JSON Editor)): the
 ## Checking the result before you apply
 
 The **Live Preview** keeps pace as you build, showing what the whole expression comes to right now. When it reads the way you want, **Apply** sets it on the field. If a piece cannot be worked out - a value that is not there - the preview shows that too, so you settle it here rather than when the flow runs.
+
+<!-- FR-3381 / FR-3468 / FR-3380 (release 1.1.1.0), DRIVEN 2026-09-17 on dev.flowrunner.ai, Documentation Flows,
+     throwaway flow "Release Probe 1.1.1": Answer Yes > Compose Result - Value > Expression Editor; HTTP
+     Request Result inserted with NO sample (block never run in test mode). Clicking the pill's label:
+     nothing opens (FR-3468); clicking the pencil at its right edge: the path row unfolds (ee-path-row.png,
+     type button + "Type property..."). Type button offers Object | List at the top level. List -> "Choose
+     index..." with First/Second/Third/Fourth/Fifth/Last under "Search or type a number" (ee-path-index.png).
+     Second picked -> a "Type property..." step follows; "title" + Enter; click away -> the pill folds to
+     "HTTP Request Result -> #Second -> title" (ee-path-collapsed.png). CANCELled, nothing applied.
+     NOT DRIVEN: the with-sample popover tree (the ticket's Q2 answer); the String/Number/Boolean options
+     (the ticket says they end the path; the top-level button showed only Object and List, as the ticket's
+     2026-08-17 comment states); the 1-based typed number. Those sentences follow the ticket's DOCUPDATE
+     recap by the implementer. -->

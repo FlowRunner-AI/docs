@@ -1850,6 +1850,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
+  <a href="#what-else-the-plan-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What else the plan sets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#starting-on-a-trial" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5107,6 +5118,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
+  <a href="#what-else-the-plan-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What else the plan sets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#starting-on-a-trial" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5208,7 +5230,21 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <h2 id="plans-and-allowances">Plans and allowances<a class="headerlink" data-preview="" href="#plans-and-allowances" title="Permanent link">&para;</a></h2>
 <p>FlowRunner™ offers a ladder of plans - Free, Starter, Growth, Professional, and Business - each trading a higher monthly price for a larger execution allowance, plus a custom Enterprise plan for needs beyond Business. The cards show each plan's price and monthly allowance side by side; the row scrolls sideways, so the higher plans sit off the right edge until you scroll to them.</p>
 <p><a class="glightbox" href="../images/manage/billing-plan-cards.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The first three plan cards on the Billing page: Free at $0 a month with 100 executions a month and a Downgrade to Free button; Starter at $5 a month with an allowance selector set to 300 and a Downgrade to Starter button; and Growth at $45 a month with its selector set to 12,000, marked Current Billing Plan and showing &quot;Renews on: Tue Sep 15 2026&quot;. A horizontal scrollbar runs under the cards." src="../images/manage/billing-plan-cards.png" /></a></p>
-<p>The plan you are on is marked <span class="fr-control">Current Billing Plan</span> and carries its renewal date, and a selector beside its price raises that plan's execution allowance without moving plans. To move up instead, use the plan's upgrade button; <span class="fr-control">See detailed comparison</span> opens the full plan-by-plan breakdown, and <span class="fr-control">Contact us</span> arranges an Enterprise plan. <span class="fr-control">Manage Subscription</span>, at the top right of the Billing page, opens Stripe's customer portal in a new tab; you enter your account email there and Stripe sends you a sign-in link. When your flows begin bumping against the allowance - the executions counter climbing toward its limit before the month is out - raise the allowance or move up a plan to give them more room.</p>
+<p>The plan you are on is marked <span class="fr-control">Current Billing Plan</span> and carries its renewal date. Starter and Growth each carry a selector beside the price that raises the allowance without moving plans - Starter from 300 executions at $5 to 3,000 at $15, Growth from 12,000 at $45 through 30,000 at $89 to 60,000 at $149 - so outgrowing a plan's first rung does not mean jumping to the next plan. To move up instead, use the plan's upgrade button; <span class="fr-control">See detailed comparison</span> opens the full plan-by-plan breakdown, and <span class="fr-control">Contact us</span> arranges an Enterprise plan. <span class="fr-control">Manage Subscription</span>, at the top right of the Billing page, opens Stripe's customer portal in a new tab; you enter your account email there and Stripe sends you a sign-in link. When your flows begin bumping against the allowance - the executions counter climbing toward its limit before the month is out - raise the allowance or move up a plan to give them more room.</p>
+<h2 id="what-else-the-plan-sets">What else the plan sets<a class="headerlink" data-preview="" href="#what-else-the-plan-sets" title="Permanent link">&para;</a></h2>
+<p>Executions are the main meter, and two more things follow the plan:</p>
+<ul>
+<li><strong>How far back your run history shows.</strong> The <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr> list, the Dashboard and Performance views, the
+  Logs and a CSV export all reach back over the plan's <strong>execution log visibility</strong>: 24 hours on Free and
+  Starter, 7 days on Growth, 30 on Professional, 90 on Business, unlimited on Enterprise. Older runs are
+  not deleted - the <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instances</abbr> page counts how many it is holding back, and moving up a plan brings them
+  back into view. See <a data-preview="" href="../run/inspecting-a-run.html#runs-older-than-your-plan-shows">Inspecting a Single Run</a>.</li>
+<li><strong>Bulk workspace export.</strong> Building a workspace archive needs Growth or above; exporting a single flow
+  version works on every plan.</li>
+</ul>
+<p>Two rules on the Free plan: an account may hold <strong>one</strong> Free workspace, so a second workspace cannot be
+created on it or moved down to it, and a new workspace lands on Free when no trial applies. Moving to Free
+needs no payment method; moving to any paid plan - up or down - needs one on file.</p>
 <h2 id="starting-on-a-trial">Starting on a trial<a class="headerlink" data-preview="" href="#starting-on-a-trial" title="Permanent link">&para;</a></h2>
 <p>A new workspace begins on a <strong>14-day trial of the Professional plan</strong>, with no card required to create it. The
 trial is granted <strong>once per account, not once per workspace</strong>: the entitlement is checked against both the
@@ -5223,7 +5259,7 @@ the workspace first; without one the change is refused.</p>
 <p>If a trial is never converted, the trial ends and the charge is attempted anyway. When there is no card, or
 the card declines, the subscription is left <strong>past due</strong> rather than cancelled - a cancelled subscription
 cannot be restarted, and a past-due one can still be paid. The workspace is suspended and the owner is sent
-a payment-failed notification; paying the outstanding invoice lifts the suspension on its own. A workspace
+a payment-failed notification. While a payment is outstanding the workspace navigation carries a <em>past due</em> label and the Billing page offers a button to pay the outstanding invoice; paying it lifts the suspension on its own, and until then the workspace cannot be moved to Free either. A workspace
 that has paid before is not suspended by a single failed renewal - only a final cancellation does that.</p>
 <h2 id="running-out-of-executions">Running out of executions<a class="headerlink" data-preview="" href="#running-out-of-executions" title="Permanent link">&para;</a></h2>
 <p>The allowance is not a surprise you meet at the end of the month. As the counter climbs, FlowRunner warns
@@ -5242,10 +5278,12 @@ the plan starts them again.</p>
   the current plan and its allowance until the cycle ends, and the new rate applies from the next renewal.</li>
 </ul>
 <p>That asymmetry is why an upgrade late in a cycle is cheap in money but full in allowance, and why a
-downgrade cannot be used to undo one.</p>
+downgrade cannot be used to undo one. A plan change also reaches runs already in progress: their run and
+wait allowances are re-stamped to the new plan, so a run that a downgrade narrows ends at its next block
+rather than immediately.</p>
 <h2 id="what-a-workspace-without-a-paid-subscription-cannot-do">What a workspace without a paid subscription cannot do<a class="headerlink" data-preview="" href="#what-a-workspace-without-a-paid-subscription-cannot-do" title="Permanent link">&para;</a></h2>
 <p>Two operations are refused unless the workspace is on a paid subscription - <strong>exporting a flow version</strong>,
-and <strong>building a workspace transfer archive</strong>:</p>
+and <strong>building or downloading a workspace transfer archive</strong> (which also needs Growth or above):</p>
 <table>
 <thead>
 <tr>
@@ -5275,7 +5313,7 @@ putting it in. Cloning a flow version is unaffected too, because the copy never 
 <p>You add and manage payment methods on the account-level <span class="fr-control">Payment Methods</span> page, reached from your account menu at the bottom of the left navigation. It has two parts.</p>
 <p>The first lists your <strong>payment methods</strong> - the cards and payment accounts on your account. <span class="fr-control">Add a payment method</span> hands off to a secure Stripe checkout to enter your details; each saved method then shows its type, its identifier, and the workspaces it covers.</p>
 <p><a class="glightbox" href="../images/manage/billing-payment-methods.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Payment Methods page: an &quot;Add a payment method&quot; button above a table of saved methods with Type, Info, and Workspaces columns - a Link method covering My Workspace and a Visa card covering Second Workspace." src="../images/manage/billing-payment-methods.png" /></a></p>
-<p>The second is a <strong>Workspaces</strong> overview - every workspace you have, each with its billing plan, the payment method assigned to it, and its subscription renewal date. You assign a workspace's payment method from this table; you change its plan back on the workspace's own Billing page.</p>
+<p>The second is a <strong>Workspaces</strong> overview - every workspace you have, each with its billing plan (a workspace still on its trial reads, for example, <em>Business (Trial)</em>), the payment method assigned to it, and its subscription renewal date. You assign a workspace's payment method from this table; you change its plan back on the workspace's own Billing page.</p>
 <h2 id="related">Related<a class="headerlink" data-preview="" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a data-preview="" href="../platform/workspace.html">Workspace</a> - the executions counter, and the areas a workspace holds</li>

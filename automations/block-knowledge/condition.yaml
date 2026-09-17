@@ -146,6 +146,7 @@ docs:
     - "With several parts, the AND or OR connector between them can be switched, and the brackets decide which parts are grouped. With a mix of AND and OR, the grouping changes the outcome, so set the brackets deliberately rather than leaving the default."
     - "The block will not validate until at least one of its Yes or No connections is wired: until then it carries an error badge reading \"One of the ((Yes)) or ((No)) connection must be connected\", and ((Run Block)) stays disabled."
     - "A null value does not fail the block. When ((Value to Check)) resolves to null, the comparison comes out false and the run carries on down the No path, so a value that is sometimes missing needs no guard ahead of the block. Note that this makes IS EMPTY answer false for a null value as well - it reports on an empty value, not a missing one."
+    - "A value of the wrong type does not fail the block either. When ((Value to Check)) resolves to a string where ((Value Data Type)) says JSON OBJECT, or to text where it says INT, the comparison comes out false, the run takes the No path, and a WARN line naming the value, the operator and the reason is written to the flow log. Together with the null rule this means no shape of incoming data stops a run at a Condition: the No path is the one that has to be safe, so gate anything privileged there explicitly."
   cross_refs: [value-router, ai-router, expression-editor]
   terminology: [Condition, Value to Check, Value Data Type, Operation, Part]
 

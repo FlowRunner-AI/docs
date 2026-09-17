@@ -316,6 +316,12 @@ All three were already complete, well-written pages (line count undersold them -
 - [x] Billing: Growth $45/12,000, Professional $299/75,000, Business $999/250,000, Enterprise (custom); CURRENT PLAN + UPGRADE. Exact match to the prices/allowances on the page.
 - [x] Dated verification notes added to each; doclint 0/0.
 
+### Release 1.1.1.0 sweep (2026-09-17, Mark's request)
+- [x] All 68 fixVersion 1.1.1.0 tickets read; 34 not covered by the 2026-08-31 triage read in full (docs-review/RELEASE-DOCS-TRIAGE.md section G has the per-ticket table and evidence status).
+- [x] Pages changed: api/block-results.md, run/running-flows.md (+ recaptured paused toolbar), api/call-flow-blocking.md, block-knowledge/condition.yaml -> reference/condition.md (make refgen, condition.md only), run/monitoring.md (+ monitoring-logs-toggles.png), run/inspecting-a-run.md, learn/concepts/expressions.md (+ ee-path-row / ee-path-index / ee-path-collapsed), learn/concepts/placeholders.md (rename section rewritten, placeholders-renamed-break.png removed), manage/billing.md. doclint content/: 0 errors.
+- [x] Filed FR-3596 (right panel crash on an MCP-built flow with an Initial Data reference).
+- [ ] Decisions for Mark: (1) Activity Log has no page at all - FR-3497 lists 37 operations now logged; (2) trial expiry: down to Free (FR-3349) vs past due (FR-3321); (3) source-derived billing facts (selector rungs, gating, past-due UI) cannot be driven from this account.
+
 ### Parameters & Types (content/extend/parameters-and-types.md) - 2026-09-09
 - Gate: `concept-page-review` run once -> **major-rework** (docs-review/verdicts/parameters-and-types.md, 24 items). One consolidated pass applied; the gate was NOT re-run (standing rule: one net per revision). Mark decides ship.
 - [x] Shots (all read back from pixels): `discover-params-panel.png` (Genre required in red, ? icon on Minimum Rating, two empty number inputs, empty Sort By, expression switches on the three non-string fields), `discover-sortby-labels.png` (dropdown open: Most popular / Newest first / Highest rated), `discover-run-invalid.png` (Test Monitor Block Results, Input nulls + minRating 11, Error line verbatim, truncated at the panel edge - alt says so). `param-widgets.png` NOT recaptured; table and alt rewritten to its pixels (List = single expression box).

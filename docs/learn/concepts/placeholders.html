@@ -1185,10 +1185,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#renaming-or-removing-a-placeholder-breaks-the-fields-that-read-it" class="md-nav__link">
+  <a href="#renaming-and-removing-a-placeholder" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Renaming or removing a placeholder breaks the fields that read it
+        Renaming and removing a placeholder
       
     </span>
   </a>
@@ -5126,10 +5126,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#renaming-or-removing-a-placeholder-breaks-the-fields-that-read-it" class="md-nav__link">
+  <a href="#renaming-and-removing-a-placeholder" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Renaming or removing a placeholder breaks the fields that read it
+        Renaming and removing a placeholder
       
     </span>
   </a>
@@ -5276,10 +5276,12 @@ it is the only explanation that travels with the flow. The trash removes a row, 
 <h2 id="setting-a-value">Setting a value<a class="headerlink" data-preview="" href="#setting-a-value" title="Permanent link">&para;</a></h2>
 <p>To give a placeholder its value, type it into the box on its row in <span class="fr-control">Flow Settings</span>. That value is what
 every run of this version uses.</p>
-<p>You can also supply a value for one run without changing the version: <span class="fr-control">Run <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr></span> - the lightning
-icon in the toolbar - opens a <span class="fr-control">Launch Flow <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr></span> dialog with a <strong><abbr title="The section of a flow's Flow Settings tab where its placeholders are declared and given values.">Placeholder Data</abbr></strong> section, filled
-in from the version. Change a value there and that run uses it.</p>
-<p><a class="glightbox" href="../../images/learn/placeholders-launch-dialog.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="A Launch Flow Instance dialog. Under Configuration Data, an Initial Data table lists the key urgency with its value box empty, and a Placeholder Data card below it holds escalateAbove[int] set to 8 and notifyWebhook[string] set to https://hooks.example.com/triage/T29F4B1." src="../../images/learn/placeholders-launch-dialog.png" /></a></p>
+<p>On a version you are still building, you can also try a value for one test run without changing the
+version: <span class="fr-control">Run <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr></span> - the lightning icon in the toolbar - opens a <span class="fr-control">Launch Flow <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr></span> dialog
+with a <strong><abbr title="The section of a flow's Flow Settings tab where its placeholders are declared and given values.">Placeholder Data</abbr></strong> section, filled in from the version. Change a value there and that one run
+uses it; the version keeps its own. On a LIVE version the dialog has no such section, because a LIVE
+version's configuration is fixed: every run of it uses the stored values.</p>
+<p><a class="glightbox" href="../../images/learn/placeholders-launch-dialog.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="A Launch Flow Instance dialog. Under Configuration Data, an Initial Data table lists the key urgency with its value box empty, and a Placeholder Data card below it holds escalateAbove[int] set to 8 and notifyWebhook[string] set to its stored value" src="../../images/learn/placeholders-launch-dialog.png" /></a></p>
 <p>Leave a value empty and every field reading it turns red, which takes the version to <strong>Not Ready</strong> and
 leaves <span class="fr-control">Start flow</span>, the play control in the toolbar, disabled until every placeholder a block reads has
 a value:</p>
@@ -5299,20 +5301,15 @@ read it.</p>
 <p>The field holds a reference, not a copy of the value, so changing the value in <span class="fr-control">Flow Settings</span> reaches
 every field that reads it and no block has to be reopened. Nothing writes back the other way: a value
 that has to change while a run works is a <a data-preview="" href="variables.html"><abbr title="A named container for a flow's variables during a single run. Each value has its own label, so a step can store something under a name and a later step can read it back. A Data Bucket resets when the run ends - for state that has to survive between runs, use Shared Memory instead.">Data Bucket</abbr> variable</a>.</p>
-<h2 id="renaming-or-removing-a-placeholder-breaks-the-fields-that-read-it">Renaming or removing a placeholder breaks the fields that read it<a class="headerlink" data-preview="" href="#renaming-or-removing-a-placeholder-breaks-the-fields-that-read-it" title="Permanent link">&para;</a></h2>
-<p>Both leave every field that read the placeholder flagged with "The placeholder data item is not
-available", an error marker on the block, and the version back to <strong>Not Ready</strong>:</p>
-<p><a class="glightbox" href="../../images/learn/placeholders-renamed-break.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Ticket Triage flow after escalateAbove was renamed. The toolbar's play control is greyed out and the version chip reads Not Ready; the &quot;Urgent enough to escalate?&quot; Condition on the canvas carries a red 1 error badge; and in its configuration panel the Value field shows the escalateAbove reference in red with a warning triangle, above the message &quot;The placeholder data item is not available&quot;." src="../../images/learn/placeholders-renamed-break.png" /></a></p>
-<div class="admonition warning">
-<p class="admonition-title">The fields do not re-point themselves</p>
-<p>A block's default result alias follows the block when you rename it, and the steps reading it
-re-point themselves. A placeholder does not: rename <code>escalateAbove</code> to <code>escalationFloor</code> and the
-<a class="fr-block" data-preview="" href="../../reference/condition.html">Condition</a> still asks for <span class="fr-expr">escalateAbove</span>. You have to
-repoint every field yourself, so name a placeholder before you start binding it.</p>
-<p>Deleting is the one with a way back. Declare a placeholder with the same name again and those fields
-re-point to it - they then ask for a value. What does not come back is the value and the description
+<h2 id="renaming-and-removing-a-placeholder">Renaming and removing a placeholder<a class="headerlink" data-preview="" href="#renaming-and-removing-a-placeholder" title="Permanent link">&para;</a></h2>
+<p>Renaming is safe. Rename <code>escalateAbove</code> to <code>escalationFloor</code> on its row in the flow's settings and every
+field that read it now reads <span class="fr-expr">escalationFloor</span> - the reference follows the name, the same way a block's default
+result alias follows the block, and the version stays <strong>Ready</strong>.</p>
+<p>Removing is not. Delete a placeholder that a field still reads and that field is flagged with "The
+placeholder data item is not available", the block carries an error marker, and the version drops to
+<strong>Not Ready</strong> until the field is repointed. Declare a placeholder with the same name again and those
+fields re-point to it - they then ask for a value. What does not come back is the value and the description
 you had.</p>
-</div>
 <h2 id="changing-a-value-on-a-live-version">Changing a value on a LIVE version<a class="headerlink" data-preview="" href="#changing-a-value-on-a-live-version" title="Permanent link">&para;</a></h2>
 <p>Open a <strong>LIVE</strong> version in the editor and it opens read-only, in view mode: there is no right-hand tab
 strip, so <span class="fr-control">Flow Settings</span> is not there and its values cannot be changed while it stays LIVE.</p>

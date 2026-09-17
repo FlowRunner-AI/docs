@@ -544,11 +544,13 @@ it is the only explanation that travels with the flow. The trash removes a row, 
 To give a placeholder its value, type it into the box on its row in ((Flow Settings)). That value is what
 every run of this version uses.
 
-You can also supply a value for one run without changing the version: ((Run Instance)) - the lightning
-icon in the toolbar - opens a ((Launch Flow Instance)) dialog with a **Placeholder Data** section, filled
-in from the version. Change a value there and that run uses it.
+On a version you are still building, you can also try a value for one test run without changing the
+version: ((Run Instance)) - the lightning icon in the toolbar - opens a ((Launch Flow Instance)) dialog
+with a **Placeholder Data** section, filled in from the version. Change a value there and that one run
+uses it; the version keeps its own. On a LIVE version the dialog has no such section, because a LIVE
+version's configuration is fixed: every run of it uses the stored values.
 
-![A Launch Flow Instance dialog. Under Configuration Data, an Initial Data table lists the key urgency with its value box empty, and a Placeholder Data card below it holds escalateAbove[int] set to 8 and notifyWebhook[string] set to https://hooks.example.com/triage/T29F4B1.](../../images/learn/placeholders-launch-dialog.png)
+![A Launch Flow Instance dialog. Under Configuration Data, an Initial Data table lists the key urgency with its value box empty, and a Placeholder Data card below it holds escalateAbove[int] set to 8 and notifyWebhook[string] set to its stored value](../../images/learn/placeholders-launch-dialog.png)
 
 Leave a value empty and every field reading it turns red, which takes the version to **Not Ready** and
 leaves ((Start flow)), the play control in the toolbar, disabled until every placeholder a block reads has
@@ -578,23 +580,17 @@ The field holds a reference, not a copy of the value, so changing the value in (
 every field that reads it and no block has to be reopened. Nothing writes back the other way: a value
 that has to change while a run works is a [Data Bucket variable](variables.md).
 
-## Renaming or removing a placeholder breaks the fields that read it
+## Renaming and removing a placeholder
 
-Both leave every field that read the placeholder flagged with "The placeholder data item is not
-available", an error marker on the block, and the version back to **Not Ready**:
+Renaming is safe. Rename `escalateAbove` to `escalationFloor` on its row in the flow's settings and every
+field that read it now reads {{escalationFloor}} - the reference follows the name, the same way a block's default
+result alias follows the block, and the version stays **Ready**.
 
-![The Ticket Triage flow after escalateAbove was renamed. The toolbar's play control is greyed out and the version chip reads Not Ready; the "Urgent enough to escalate?" Condition on the canvas carries a red 1 error badge; and in its configuration panel the Value field shows the escalateAbove reference in red with a warning triangle, above the message "The placeholder data item is not available".](../../images/learn/placeholders-renamed-break.png)
-
-!!! warning "The fields do not re-point themselves"
-
-    A block's default result alias follows the block when you rename it, and the steps reading it
-    re-point themselves. A placeholder does not: rename `escalateAbove` to `escalationFloor` and the
-    [Condition](../../reference/condition.md){.fr-block} still asks for {{escalateAbove}}. You have to
-    repoint every field yourself, so name a placeholder before you start binding it.
-
-    Deleting is the one with a way back. Declare a placeholder with the same name again and those fields
-    re-point to it - they then ask for a value. What does not come back is the value and the description
-    you had.
+Removing is not. Delete a placeholder that a field still reads and that field is flagged with "The
+placeholder data item is not available", the block carries an error marker, and the version drops to
+**Not Ready** until the field is repointed. Declare a placeholder with the same name again and those
+fields re-point to it - they then ask for a value. What does not come back is the value and the description
+you had.
 
 ## Changing a value on a LIVE version
 
@@ -641,3 +637,17 @@ and replace them with your own:
 - [API Keys](../../platform/api-keys.md) - the workspace store an API KEY placeholder draws on
 - [Flows](../../manage/flows.md) - versions, cloning, export and import
 - [Running Flows](../../run/running-flows.md) - starting, pausing and stopping a version
+
+<!-- RELEASE 1.1.1.0 sweep, 2026-09-17, dev.flowrunner.ai, Documentation Flows, TD Sandbox (restored after):
+     FR-3465 DRIVEN: placeholder `hail` (STRING, "hello") bound in a Return Result block's Logging > On Start
+     > Log Message via the Expression Editor's Variables tab > PLACEHOLDER DATA; survived a reload; renamed
+     hail -> wave in Flow Settings (row gear > Name > SAVE); the field immediately read "wave", version
+     stayed Ready, no "not available" text; still "wave" after a second reload. The old rename warning and
+     placeholders-renamed-break.png (the pre-1.1.1.0 behaviour) are retired from the page. The DELETE half
+     of the section was not re-driven this pass (it is the 2026-08-26 drive).
+     FR-3460 DRIVEN: on the Ready (draft) version the Launch Flow Instance dialog shows the Placeholder Data
+     section; on the LIVE "Release Probe 1.1.1" flow the dialog shows Initial Data only (no Placeholder
+     Data). The "that one run uses it" claim for a draft test run is the ticket's statement (staticData to
+     the debug run route), not re-driven.
+     A Compose Result Property/Value row is a draft until added, so a binding typed there is not saved - a
+     method note, not a product claim. -->

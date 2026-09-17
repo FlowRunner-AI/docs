@@ -52,6 +52,13 @@ The controls above the stream narrow it to what you are tracing. The ((Log Sourc
 - ((From)) / ((To)) - scope the stream to a time window.
 - ((CLEAR LOG AREA)) - empty the pane, so you watch only what arrives next.
 - ((Basic timestamps)) - trade the full date on each line for a compact clock time.
+- ((Shorten IDs)) - show each run's Instance ID as its first and last characters (`83E53...5EFB6`) so the
+  lines stay scannable. Untick it when you need to copy or compare the whole id. A run that was given a
+  name shows the name instead, and the toggle leaves that alone. The choice is remembered by your browser.
+- ((Wrap messages)) - wrap a long line rather than letting it run off the edge, which is what keeps a
+  WARN about a discarded value readable in full.
+
+![The Logs toolbar with Wrap messages, Shorten IDs and Basic timestamps ticked, above lines from two runs of a probe flow: each line carries a shortened Instance ID such as 83E53...5EFB6, and a WARN line from the Has Email? block wraps onto a second line](../images/run/monitoring-logs-toggles.png)
 
 ![The stream narrowed: the Log Source picker holding one run, the Show logging for picker it revealed, and a search for "execution completed" with Filter ticked - only the matching lines remain, the matched text highlighted.](../images/run/monitoring-logs-narrowed.png)
 
@@ -62,9 +69,10 @@ DASHBOARD PANELS: Block Transitions % badges appear on the connections BETWEEN B
 PERFORMANCE: recaptured same-day, full width, sorted by AVERAGE TIME IN STEP DESCENDING (arrow visible) - Poll Until Shipped (1s) tops the table with its inner blocks (Wait 1s / Re-fetch Order / Cancelled? / Update Order Status) NESTED beneath it, then the top-level blocks; the loop-container row's time (1s avg) covers the loop body (inner sum ≈ 1.05s per pass) - basis for the "loop tops the sort" reading note. 7 rows all whole; headers verbatim ELEMENT NAME / AVERAGE TIME IN STEP / MIN TIME IN STEP / MAX TIME IN STEP / ERROR RATE / COMPLIANCE STATUS / COMPLIANCE CONDITIONS.
 LOGS: re-verified with the fresh runs. Search+Filter keeps lines whose MESSAGE matches, with the match HIGHLIGHTED (monitoring-logs-narrowed.png); an execution id or block name as the term matches nothing (the filter reads the message segment only) - "filter to a single run" via search removed. Log Source picker (label "All Instances" until picked) scopes to one run: per-line "Execution Name:" prefix drops and the "Show logging for" picker appears (options All + each block name - a BLOCK filter, not severity; no severity/error filter exists on this tab). CLEAR LOG AREA clicked: empties the pane. Basic timestamps: ON = HH:MM:SS.mmm, OFF = full date string. Shorten IDs: visible in the shots but NOT documented - toggling produced NO visible change on these lines (full UUIDs both ways). MARK'S CALL 2026-08-15: it is a BUG; Mark files it in Jira himself; docs stay silent on the control until the fix lands. Now-tailing and Wrap-messages effects not separately exercised - prose names only verified controls.
 NOT re-driven: Active Instances beyond value 0 (prose stays label-level; the climbing-count sentence is arithmetic, not a product claim). Whether the Logs tab's horizon follows the same audit-trail retention as the other tabs was not verified - footnote 1 scopes to the three verified views.
+SHORTEN IDS (FR-3402, release 1.1.1.0) DRIVEN 2026-09-17 on dev, Documentation Flows, "Release Probe 1.1.1" Logs tab: ticked by default; on -> "Instance ID: 83E53...5EFB6"; off -> the full UUID on every line; re-ticked and still ticked after navigating away. Wrap messages: ticked, the WARN line wraps (monitoring-logs-toggles.png). The named-run exception is the ticket's own statement (no named run driven).
 PAGE SPLIT: Mark decided 2026-08-15 - the single-run drill-down moved to run/inspecting-a-run.md; this page keeps the health views. Intro shot monitoring-tab-row.png is a crop of the same monitoring-dashboard.png capture (tab row + From/To + Past 30 days + REFRESH), placed where the lede names those controls. -->
 
-[^1]: How far back the history reaches - and with it the Dashboard, Performance, and Instances views - is set by the workspace billing plan's audit-trail retention. [Billing](../manage/billing.md) covers the plans.
+[^1]: How far back the history reaches - and with it the Dashboard, Performance, and Instances views - is the workspace billing plan's **execution log visibility**: 24 hours on Free and Starter, 7 days on Growth, 30 on Professional, 90 on Business. Older runs are kept, not deleted; moving up a plan brings them back into view. [Billing](../manage/billing.md) covers the plans.
 [^2]: SLA tracking carries real data on the Business and Enterprise plans, where [SLA goals](../platform/sla-goals.md) live.
 
 ## Related

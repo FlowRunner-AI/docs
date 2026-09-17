@@ -26,7 +26,23 @@ FlowRunner™ offers a ladder of plans - Free, Starter, Growth, Professional, an
 
 ![The first three plan cards on the Billing page: Free at $0 a month with 100 executions a month and a Downgrade to Free button; Starter at $5 a month with an allowance selector set to 300 and a Downgrade to Starter button; and Growth at $45 a month with its selector set to 12,000, marked Current Billing Plan and showing "Renews on: Tue Sep 15 2026". A horizontal scrollbar runs under the cards.](../images/manage/billing-plan-cards.png)
 
-The plan you are on is marked ((Current Billing Plan)) and carries its renewal date, and a selector beside its price raises that plan's execution allowance without moving plans. To move up instead, use the plan's upgrade button; ((See detailed comparison)) opens the full plan-by-plan breakdown, and ((Contact us)) arranges an Enterprise plan. ((Manage Subscription)), at the top right of the Billing page, opens Stripe's customer portal in a new tab; you enter your account email there and Stripe sends you a sign-in link. When your flows begin bumping against the allowance - the executions counter climbing toward its limit before the month is out - raise the allowance or move up a plan to give them more room.
+The plan you are on is marked ((Current Billing Plan)) and carries its renewal date. Starter and Growth each carry a selector beside the price that raises the allowance without moving plans - Starter from 300 executions at $5 to 3,000 at $15, Growth from 12,000 at $45 through 30,000 at $89 to 60,000 at $149 - so outgrowing a plan's first rung does not mean jumping to the next plan. To move up instead, use the plan's upgrade button; ((See detailed comparison)) opens the full plan-by-plan breakdown, and ((Contact us)) arranges an Enterprise plan. ((Manage Subscription)), at the top right of the Billing page, opens Stripe's customer portal in a new tab; you enter your account email there and Stripe sends you a sign-in link. When your flows begin bumping against the allowance - the executions counter climbing toward its limit before the month is out - raise the allowance or move up a plan to give them more room.
+
+## What else the plan sets
+
+Executions are the main meter, and two more things follow the plan:
+
+- **How far back your run history shows.** The Instances list, the Dashboard and Performance views, the
+  Logs and a CSV export all reach back over the plan's **execution log visibility**: 24 hours on Free and
+  Starter, 7 days on Growth, 30 on Professional, 90 on Business, unlimited on Enterprise. Older runs are
+  not deleted - the Instances page counts how many it is holding back, and moving up a plan brings them
+  back into view. See [Inspecting a Single Run](../run/inspecting-a-run.md#runs-older-than-your-plan-shows).
+- **Bulk workspace export.** Building a workspace archive needs Growth or above; exporting a single flow
+  version works on every plan.
+
+Two rules on the Free plan: an account may hold **one** Free workspace, so a second workspace cannot be
+created on it or moved down to it, and a new workspace lands on Free when no trial applies. Moving to Free
+needs no payment method; moving to any paid plan - up or down - needs one on file.
 
 ## Starting on a trial
 
@@ -45,7 +61,7 @@ the workspace first; without one the change is refused.
 If a trial is never converted, the trial ends and the charge is attempted anyway. When there is no card, or
 the card declines, the subscription is left **past due** rather than cancelled - a cancelled subscription
 cannot be restarted, and a past-due one can still be paid. The workspace is suspended and the owner is sent
-a payment-failed notification; paying the outstanding invoice lifts the suspension on its own. A workspace
+a payment-failed notification. While a payment is outstanding the workspace navigation carries a *past due* label and the Billing page offers a button to pay the outstanding invoice; paying it lifts the suspension on its own, and until then the workspace cannot be moved to Free either. A workspace
 that has paid before is not suspended by a single failed renewal - only a final cancellation does that.
 
 ## Running out of executions
@@ -69,12 +85,14 @@ The two directions deliberately do not mirror each other:
   the current plan and its allowance until the cycle ends, and the new rate applies from the next renewal.
 
 That asymmetry is why an upgrade late in a cycle is cheap in money but full in allowance, and why a
-downgrade cannot be used to undo one.
+downgrade cannot be used to undo one. A plan change also reaches runs already in progress: their run and
+wait allowances are re-stamped to the new plan, so a run that a downgrade narrows ends at its next block
+rather than immediately.
 
 ## What a workspace without a paid subscription cannot do
 
 Two operations are refused unless the workspace is on a paid subscription - **exporting a flow version**,
-and **building a workspace transfer archive**:
+and **building or downloading a workspace transfer archive** (which also needs Growth or above):
 
 | The subscription is | The reason given |
 | --- | --- |
@@ -95,8 +113,22 @@ The first lists your **payment methods** - the cards and payment accounts on you
 
 ![The Payment Methods page: an "Add a payment method" button above a table of saved methods with Type, Info, and Workspaces columns - a Link method covering My Workspace and a Visa card covering Second Workspace.](../images/manage/billing-payment-methods.png)
 
-The second is a **Workspaces** overview - every workspace you have, each with its billing plan, the payment method assigned to it, and its subscription renewal date. You assign a workspace's payment method from this table; you change its plan back on the workspace's own Billing page.
+The second is a **Workspaces** overview - every workspace you have, each with its billing plan (a workspace still on its trial reads, for example, *Business (Trial)*), the payment method assigned to it, and its subscription renewal date. You assign a workspace's payment method from this table; you change its plan back on the workspace's own Billing page.
 
+<!-- RELEASE 1.1.1.0 sweep, 2026-09-17, dev.flowrunner.ai (FR-3349 / FR-3437 / FR-3464 / FR-2236):
+     DRIVEN: the Starter and Growth selectors exist (comboboxes, 09-09) and on PROD 2026-09-17 offer
+     300 / 3,000 and 12,000 / 30,000 / 60,000 (options read without selecting); the Instances period
+     presets now include "Past 24 hours"; the Manage Subscription button. The per-rung prices ($15, $89,
+     $149) are the ticket's, not shown in the option labels. SOURCE-DERIVED (FR-3349 implementer notes,
+     2026-08-20/25): the selector rungs ($5/300, $15/3,000; $45/12,000, $89/30,000, $149/60,000), the
+     visibility ladder (24h/7d/30d/90d/unlimited - "visibility", never "retention"), bulk export needing
+     Growth+ on create-zip AND download-zip, one Free workspace per account + fallback to Free, Free needs no
+     card / paid target needs one, the past-due sidebar label + Pay Outstanding Invoice + no move to Free
+     while suspended, in-flight allowance re-stamp; FR-3464's "(Trial)" suffix in the Workspaces table. None
+     could be driven: this account holds no trial, Free, past-due or non-Growth workspace on dev.
+     OPEN CONTRADICTION for Mark: FR-3349's description says the Professional trial "expires DOWN TO FREE,
+     not to a paused account" while FR-3321 (this page's source) says the charge is attempted and the
+     subscription goes past due / suspended. The page keeps FR-3321's account until Mark rules. -->
 <!-- 2026-09-09, Documentation Flows on dev.flowrunner.ai (Billing + account Payment Methods, VIEWED ONLY -
      nothing upgraded, no method added, stayed off Stripe checkout). Two fixes from Mark's review:
      - billing-plan-cards.png recaptured in light mode. The 2026-08-31 capture was taken with the

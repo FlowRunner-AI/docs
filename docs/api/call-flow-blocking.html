@@ -5739,11 +5739,10 @@ codes:</p>
 </table>
 <h2 id="let-flowrunner-write-the-call-for-you">Let FlowRunner write the call for you<a class="headerlink" href="#let-flowrunner-write-the-call-for-you" title="Permanent link">&para;</a></h2>
 <p>Open the flow and click <span class="fr-control">Run <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr></span> in the toolbar at the top of the flow - the last icon in the row.
-Its own note says the URL is only available for flows with LIVE status, but it writes the URL on a paused
-(On hold) version too - and that URL answers <code>28053</code> until the version is running again. The same toolbar shows <strong>Start flow</strong> while the version is Ready and
-<strong>Resume flow</strong> while it is On hold (see
-<a data-preview="" href="../run/running-flows.html#ready-then-live">Running Flows</a>). The screenshot below shows the toolbar of a LIVE
-flow with the tooltip open.</p>
+On a version that is not LIVE - a draft, a stopped version, or a paused one - the dialog writes no
+URL at all: both tabs read <em>A request URL is only available for flows with LIVE status - start or resume
+this version to get it.</em> The same toolbar shows <strong>Start flow</strong> while the version is Ready and
+<strong>Resume flow</strong> while it is Paused (see</p>
 <p><a class="glightbox" href="../images/api/callflow-run-instance.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The header of a LIVE flow: the breadcrumb, then the toolbar with Pause, Stop, Schedule, Clone, Export and Run Instance icons followed by the Live badge, with the Run Instance tooltip open under the last icon; the flow's tab row sits below." src="../images/api/callflow-run-instance.png" /></a></p>
 <p><span class="fr-control">Run <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr></span> opens the <span class="fr-control">Launch Flow <abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr></span> dialog. For a flow that contains a Return Result block it writes this
 page's URL, built on the flow's name with <code>waitResponseTimeoutSeconds=300</code> already appended - the maximum,

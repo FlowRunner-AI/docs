@@ -94,6 +94,16 @@ Before you build a client on an alias:
 
 ## Making the call
 <!-- doclint: no-shot: a request and its JSON response, not a screen; the alias field it depends on is pictured above -->
+<!-- FR-3441 (release 1.1.1.0), re-driven 2026-09-17 on dev-api.flowrunner.ai, Documentation Flows, throwaway
+     flow "Release Probe 1.1.1" (HTTP Request -> Condition -> two Return Results), run C9CA47EA:
+     ?alias=HTTP Request Result -> 200, result = the cart object directly (no data/success/errorCode wrapper);
+     ?alias=Condition Result -> 200, "result": null; ?alias=Nope -> 404/28159; unknown/malformed execution id
+     and a real id under the wrong flow -> 404/28068 (unchanged). The FAILED-block envelope is from the
+     ticket's own drive (Bad Call -> invalid.invalid, errorCode 28082, httpCode null), not re-driven here.
+     PROD re-driven 2026-09-17 04:47 UTC on api.flowrunner.ai (Mark signed the browser in): Cart Summary
+     819B4600 activated (run FEAD9180), ?alias=Fetch Cart Result -> 200 with the cart object directly under
+     result; the 2026-08-25 run 038909A2 used in the samples now answers 404/28068 (removed), so the sample
+     ids on the page are historical. -->
 
 Copy, then replace the workspace id, the API key, the flow id, and the execution id with your own -
 the ids below are from a run of our Cart Summary flow. The alias is URL-encoded, and `curl`'s
@@ -113,20 +123,31 @@ The answer names the block, says when it ran, and carries what it produced:
   "executedAt": "2026-08-25T23:47:31.842Z",
   "occurrence": 1,
   "occurrenceCount": 1,
-  "result": {
-    "data": { "id": 28, "products": [ { "id": 182, "title": "Green Crystal Earring", "price": 29.99 } ] },
-    "errorCode": null,
-    "httpCode": null,
-    "success": true
-  }
+  "result": { "id": 28, "products": [ { "id": 182, "title": "Green Crystal Earring", "price": 29.99 } ] }
 }
 ```
 
-**The block's own output is under `result.data`, not under `result`.** `result` is the stored
-envelope FlowRunner wraps every block result in: `data` holds the value, `success` says whether the
-block succeeded, and `errorCode` and `httpCode` carry a code when one applies and are `null`
-otherwise. A [Condition](../reference/condition.md){.fr-block} produces no value of its own, so `data` is `null`
-and `success` is `true`. That is a normal result, not a failed block.
+**`result` is the block's value, exactly as the flow saw it.** A block that produces no value of its own
+- a [Condition](../reference/condition.md){.fr-block}, for example - answers with `"result": null`. That
+is a normal result, not a failed block.
+
+**A block that failed answers with an envelope instead.** When the block itself threw - a request that
+could not be made, a rejected credential - `result` carries the failure rather than a value:
+
+```json
+"result": {
+  "data": { "code": 28082, "message": "The URL address 'https://invalid.invalid/x' is incorrect or does not exist." },
+  "errorCode": 28082,
+  "httpCode": null,
+  "success": false
+}
+```
+
+The call itself is still `200`, because the run and the block both exist - the `28xxx` codes and the
+non-`200` statuses below are reserved for lookups that fail. Read `success` and `errorCode`; `httpCode`
+is `null` when no HTTP exchange happened, as for a DNS failure. A block guarded by a
+[Handle Error](../reference/handle-error.md){.fr-block} still counts as failed and answers this way; the
+Handle Error block itself succeeded, so its own `result` is the caught error as a plain value.
 
 ## Blocks that ran more than once
 <!-- doclint: no-shot: the occurrence contract, shown as request and response; the loop itself is pictured on the List Iterator page -->
@@ -144,7 +165,7 @@ stored run instead of the flow's live data, so every pass is still there:
 
 ```json
 { "alias": "Priciest so far? Result", "executedAt": "2026-08-25T23:47:34.453Z",
-  "occurrence": 6, "occurrenceCount": 6, "result": { "data": null, "success": true } }
+  "occurrence": 6, "occurrenceCount": 6, "result": null }
 ```
 
 Add `&occurrence=1` for the first pass, `2` for the second, and so on. Passes count from 1, so

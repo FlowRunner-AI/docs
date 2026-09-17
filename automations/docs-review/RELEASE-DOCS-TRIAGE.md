@@ -128,3 +128,26 @@ All 39 tickets are dispositioned. Nothing is left open.
 | FR-3384 / FR-3474 | not on dev; reload rule and "Local Extensions" stay | DRIVEN |
 | FR-3553 | troubleshooting entry for a legacy-format service under the CLI | SOURCE (ticket) |
 | harness | `runServiceMethod({ configs })`, `init` never refreshes `sandbox/` | DRIVEN (init re-run) |
+
+## G. Release 1.1.1.0 sweep, 2026-09-17 (68 tickets; 34 not covered by A-F)
+
+Verification host: dev.flowrunner.ai (app.flowrunner.ai needs a sign-in this browser does not have), Documentation Flows, throwaway flow "Release Probe 1.1.1" (`B7316DCB`, stopped, kept for FR-3596) and TD Sandbox (restored: 3 nodes / 2 edges, temporary placeholder removed).
+
+| Ticket | Page | Change | Verified |
+| --- | --- | --- | --- |
+| FR-3441 | `api/block-results.md` | `result` is the block's value; `null` for a no-value block; failed block keeps the envelope; 28068 / 28159 unchanged | DRIVEN (dev-api, run C9CA47EA); failed-block envelope from the ticket's drive |
+| FR-3431 | `run/running-flows.md`, `api/call-flow-blocking.md` | "On hold" -> **Paused**; non-LIVE dialog shows no URL ("start or resume this version to get it"); toolbar shot recaptured | DRIVEN |
+| FR-3470 | `block-knowledge/condition.yaml` -> `reference/condition.md` | wrong-type value -> false + WARN in the flow log; No path must be safe | DRIVEN (customer=John -> No; WARN line read in Logs) |
+| FR-3402 | `run/monitoring.md` | Shorten IDs + Wrap messages controls, new shot | DRIVEN (on/off/persisted) |
+| FR-3381 / FR-3468 / FR-3380 | `learn/concepts/expressions.md` | new section: pencil opens the path row, type button Object/List, index dropdown First..Last + typed number, #Second pill, no edit-time validation; 3 shots | DRIVEN (no-sample path); with-sample tree and primitive types from the ticket recap |
+| FR-3465 | `learn/concepts/placeholders.md` | rename now re-points every field; old warning + placeholders-renamed-break.png retired | DRIVEN (hail -> wave, field followed, Ready, survived reload) |
+| FR-3460 | `learn/concepts/placeholders.md` | Placeholder Data section only on a draft's launch dialog; LIVE dialog has none | DRIVEN (both dialogs) |
+| FR-3349 / FR-3437 / FR-3464 | `manage/billing.md`, `run/inspecting-a-run.md`, `run/monitoring.md` | visibility ladder (never "retention"), selector rungs, bulk export Growth+, one Free workspace, card rules, past-due label, in-flight re-stamp, hidden-instances notice, outside-history screen, "(Trial)" suffix, "Past 24 hours" preset | "Past 24 hours" DRIVEN; the rest SOURCE-DERIVED (no trial/Free/past-due/old-run state available) |
+| FR-3389, FR-3505, FR-3536, FR-3569, FR-3317, FR-3390, FR-3343, FR-3296, FR-2113, FR-3357, FR-3495, FR-3496, FR-3535, FR-3566, FR-3276 | - | no documented claim touched | read |
+| FR-3411 / 3417 / 3422 / 3423 / 3497 | - | **no Activity Log page exists** in the docs (workspace Activity Log, Flows Activity Log, the WS_* / ACC_* / SYS_* operation catalogue) - a whole screen undocumented; decision for Mark | - |
+
+Product finding: **FR-3596** filed - the right panel (Settings tab, and the View page) crashes with `Cannot read properties of undefined (reading 'customer')` on a flow whose Condition references `{{Initial Data->customer}}`, built through the MCP flow builder; a console-built flow does not crash.
+
+Open contradiction for Mark: FR-3349 says the Professional trial expires **down to Free**; FR-3321 (the billing page's source) says the charge is attempted and the subscription goes past due. The page keeps FR-3321's account.
+
+**Prod pass, 2026-09-17 (Mark signed the browser in to app.flowrunner.ai):** selector rungs 300/3,000 and 12,000/30,000/60,000 DRIVEN; FR-3441 unwrapped result DRIVEN on api.flowrunner.ai (Cart Summary run FEAD9180); the "Instance not found" screen DRIVEN (the 2026-08-25 run is gone - 404/28068 over the API as well); `instances/find` answers `{ hiddenItemsCount, items }`. Still not seen anywhere: a workspace on trial, Free, or past due; a run inside storage but outside visibility (hidden count 0 on every flow tried).

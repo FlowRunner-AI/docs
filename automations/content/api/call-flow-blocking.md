@@ -566,11 +566,10 @@ codes:
 ## Let FlowRunner write the call for you
 
 Open the flow and click ((Run Instance)) in the toolbar at the top of the flow - the last icon in the row.
-Its own note says the URL is only available for flows with LIVE status, but it writes the URL on a paused
-(On hold) version too - and that URL answers `28053` until the version is running again. The same toolbar shows **Start flow** while the version is Ready and
-**Resume flow** while it is On hold (see
-[Running Flows](../run/running-flows.md#ready-then-live)). The screenshot below shows the toolbar of a LIVE
-flow with the tooltip open.
+On a version that is not LIVE - a draft, a stopped version, or a paused one - the dialog writes no
+URL at all: both tabs read *A request URL is only available for flows with LIVE status - start or resume
+this version to get it.* The same toolbar shows **Start flow** while the version is Ready and
+**Resume flow** while it is Paused (see
 
 ![The header of a LIVE flow: the breadcrumb, then the toolbar with Pause, Stop, Schedule, Clone, Export and Run Instance icons followed by the Live badge, with the Run Instance tooltip open under the last icon; the flow's tab row sits below.](../images/api/callflow-run-instance.png)
 

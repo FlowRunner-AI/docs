@@ -43,9 +43,9 @@ Open a run to see exactly what it did. The flow is drawn with the path that run 
 
 ## Stopping and replacing a live flow
 
-While a version is live, **stop** takes it out of LIVE and hands it back as an editable draft, so nothing new starts and you can work on it again. **pause** holds the live version without taking it down: its status becomes On hold, and while it is on hold the version answers nothing - an API call to it is refused exactly as if no version were live. ((Resume flow)) takes the place of pause in the toolbar and puts the version back to LIVE.
+While a version is live, **stop** takes it out of LIVE and hands it back as an editable draft, so nothing new starts and you can work on it again. **pause** holds the live version without taking it down: its status becomes Paused, and while it is paused the version answers nothing - an API call to it is refused exactly as if no version were live. ((Resume flow)) takes the place of pause in the toolbar and puts the version back to LIVE.
 
-![The toolbar of a paused flow: the breadcrumb reads Order Lookup / Version 1, the first toolbar icon is a play button with the tooltip Resume flow, and the status badge on the right reads On hold in amber.](../images/run/running-flows-onhold-toolbar.png)
+![The toolbar of a paused flow: the breadcrumb reads Release Probe 1.1.1 / Version 1, the first toolbar icon is a play button with the tooltip Resume flow, and the status badge on the right reads Paused in amber.](../images/run/running-flows-onhold-toolbar.png)
 
 To roll out a change, you do not edit the live version in place - you make a **new** version live instead. Clone the live version, change and test the copy, then Start flow on it: the copy becomes the LIVE version and the previous one steps aside, since only one is ever live. See [Flows](../manage/flows.md) for cloning and versions.
 
@@ -65,3 +65,4 @@ To roll out a change, you do not edit the live version in place - you make a **n
 - [Flows](../manage/flows.md) - versions, cloning, and which one is live
 - [Flows and Instances](../learn/concepts/flows-and-instances.md) - the flow-and-run model behind all of this
 - [Billing](../manage/billing.md) - what a run costs against your allowance
+<!-- RELEASE 1.1.1.0 (FR-3431), 2026-09-17, dev.flowrunner.ai: the paused badge now reads "Paused" (was "On hold"); toolbar recaptured on the throwaway flow Release Probe 1.1.1 with the Resume flow tooltip showing; pause via the MCP builder's pause_flow, stopped afterwards. -->

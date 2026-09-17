@@ -29,6 +29,25 @@ itself does not narrow them, because the circles are the status overview.
 
 ![The Instances tab: a filter row with From and To dates, a Past 30 days selector, a refresh control, a Search box, a Status dropdown set to ALL, a "..." control and a download icon. Below it four count circles reading 0, 0, 0 and 11, and under those the run table with columns Instance Name, Start Time, Finish Time, Total Time, Has Error, Status, Compliance and Missed Goal - eleven rows, each with a red TERMINATED status chip and "No Missed Goals".](../images/run/instances-filters-and-counts.png)
 
+## Runs older than your plan shows
+
+The list only reaches back as far as the workspace billing plan's execution log visibility[^1]. Runs
+beyond that are kept, not deleted, and the page tells you how many it is holding back with a notice above
+the table and a link to the billing plan that would show them. Opening one of those runs directly - from
+an email, a bookmark, a link a colleague sent - shows *This instance is outside your plan's history* in
+place of the analytics, with when it started, the window the plan shows, an upgrade button naming the
+next plan up, and a way back to the list. A run that no longer exists shows *Instance not found* instead.
+
+<!-- FR-3349 / FR-3437 (release 1.1.1.0). SOURCE-DERIVED from the tickets' implementer answers (Sergey
+     Androsov, 2026-08-25), NOT driven: on dev the Documentation Flows workspace held no run older than its
+     7-day window that could be opened directly (the Instances list never links one), so neither the
+     hidden-count notice nor the outside-history screen was seen. The "Past 24 hours" period preset WAS
+     driven 2026-09-17 (Current hour / Today / Past 24 hours / Past 7 days / Past 30 days).
+     PROD 2026-09-17 (app.flowrunner.ai, Documentation Flows, Cart Summary): the instances/find response
+     carries { hiddenItemsCount, items } (0 / 0 here); opening the removed 2026-08-25 run by URL shows the
+     "Instance not found / This instance does not exist, or it has already been removed." screen with
+     BACK TO INSTANCES - so that half of the sentence is DRIVEN; the outside-history half is not. -->
+
 ## Taking the list away as CSV
 
 The download icon beside the filters - its tooltip reads ((Export instances to CSV)) - writes a CSV of
@@ -86,7 +105,7 @@ RETRIES (FR-2958, "Retry Demo" run E6775B29: postman-echo/status/503, 5XX policy
 ERRORS (verified live on E6775B29): Instances row TERMINATED + filled Has Error column (circled check icon); list filters Status ALL + "Only With SLA Violations" + "Only With Errors"; Problematic Instances populated + row click OPENED the run; failing block carries lucide-triangle-alert on the canvas where clean blocks carry lucide-check. Output phrasing scoped to the verified HTTP case. Handled-error row presentation (COMPLETED + Has Error?) not driven - prose scoped to outright failures.
 DEMO-DATA FIX (Mark approved 2026-08-15): Order Poller's Re-fetch Order re-pointed at an order-shaped response + relaunch with an Initial Data payload; monitoring-instance-detail.png and monitoring-loop-iteration.png recaptured accordingly. -->
 
-[^1]: How far back the list reaches is set by the workspace billing plan's audit-trail retention. [Billing](../manage/billing.md) covers the plans.
+[^1]: How far back the list reaches is the workspace billing plan's **execution log visibility**: 24 hours on Free and Starter, 7 days on Growth, 30 on Professional, 90 on Business. Older runs are kept, not deleted; moving up a plan brings them back into view. [Billing](../manage/billing.md) covers the plans.
 
 <!-- FR-3394 / FR-3395 DRIVEN 2026-08-31, Documentation Flows on dev.flowrunner.ai, TD Sandbox v1
      Instances tab, 11 real instances from that day's API drives.

@@ -1202,6 +1202,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
+  <a href="#reaching-inside-a-result-the-editor-has-not-seen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reaching inside a result the Editor has not seen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#combining-pieces-into-one-value" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5082,6 +5093,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
+  <a href="#reaching-inside-a-result-the-editor-has-not-seen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reaching inside a result the Editor has not seen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#combining-pieces-into-one-value" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5142,6 +5164,28 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <p>You can take a result whole or reach a single value inside it. Open a result and it shows <strong><code>$$root</code></strong> - the result as one object - with its individual fields listed beneath. Double-click <code>$$root</code> to pass the whole object along, or double-click a field to pass just that value. A list works the same way: take <code>$$root</code> for the whole list, a single item from it, or - when the items are objects - a property from within an item.</p>
 <p><a class="glightbox" href="../../images/learn/ee-drill.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="A result opened in the Block Data tab: $$root at the top, with its values beneath - simple fields alongside nested objects such as agent_fallbacks and angle_generation that open further." src="../../images/learn/ee-drill.png" /></a></p>
 <p>Many blocks declare the shape of their result up front - most Extensions do - so their fields are ready to pick straight away. A few cannot: an <a class="fr-block" data-preview="" href="../../reference/http-request.html">HTTP Request</a> or an <a class="fr-block" data-preview="" href="../../reference/ai-agent.html">AI Agent</a> only learns its result's shape once it has actually run. When a result's fields are missing for that reason, run the block once in <a data-preview="" href="../../run/testing.html">Test Mode</a>; the Editor remembers what came back, and the fields appear here to choose from.</p>
+<h2 id="reaching-inside-a-result-the-editor-has-not-seen">Reaching inside a result the Editor has not seen<a class="headerlink" data-preview="" href="#reaching-inside-a-result-the-editor-has-not-seen" title="Permanent link">&para;</a></h2>
+<p>When a result has no sample yet, its pill still opens. Click the pencil on the pill and it unfolds into a
+path row - one small input per step, joined by arrows - with a type button at the front. That button is
+how you tell the Editor what the value is before it can know: <strong>Object</strong> keeps the next step a property
+name, <strong>List</strong> turns it into a position.</p>
+<p><a class="glightbox" href="../../images/learn/ee-path-row.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="A block-result pill unfolded into its path row: the HTTP Request Result pill, an arrow, the type button, another arrow, and an empty &quot;Type property...&quot; input" src="../../images/learn/ee-path-row.png" /></a></p>
+<p>Choosing <strong>List</strong> replaces the property input with an index dropdown - <strong>First</strong> to <strong>Fifth</strong> and <strong>Last</strong>,
+with a search box that also takes a number for a position further down. Positions count from 1, so typing
+<code>7</code> picks the seventh item.</p>
+<p><a class="glightbox" href="../../images/learn/ee-path-index.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The same path row after choosing List: the step reads &quot;Choose index...&quot; and its dropdown lists First, Second, Third, Fourth, Fifth and Last under a search box reading &quot;Search or type a number&quot;" src="../../images/learn/ee-path-index.png" /></a></p>
+<p>Each later step shows its own type button once it holds a value, so a path can go list, then object, then
+property as deep as the data does. Changing a step's type clears the steps after it. Click away and the row
+folds back into one pill that spells the whole path, with a position shown as a <strong>#</strong> label:</p>
+<p><a class="glightbox" href="../../images/learn/ee-path-collapsed.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The folded pill reading HTTP Request Result, an arrow, #Second, an arrow, title" src="../../images/learn/ee-path-collapsed.png" /></a></p>
+<p>Once the block has run in test mode, the Editor knows the shape and does this for you: the sample tree
+shows arrays with their positions, clicking a node fills the whole path, and a list step offers the index
+dropdown without being told. Property names it knows are suggested; one it does not know you type in.</p>
+<p>The Editor checks none of this against the real data while you build it. A property that does not exist,
+or a position past the end of the list, is only found out when the run reaches the block, so read the
+sample when there is one.</p>
+<p>Clicking the body of a pill only selects it, which is how you delete one; the pencil at its right edge is
+what opens the path row.</p>
 <h2 id="combining-pieces-into-one-value">Combining pieces into one value<a class="headerlink" data-preview="" href="#combining-pieces-into-one-value" title="Permanent link">&para;</a></h2>
 <p>A field's value does not have to be a single reference. You assemble the <abbr title="A value FlowRunner works out at run time from references, operators, and literals - for example pulling a field out of an earlier block's result, or joining two values. You build expressions in the Expression Editor, where a live preview shows what they resolve to.">expression</abbr> in the middle of the Editor - double-clicking pieces in or typing them - and it can hold several at once, with fixed text or an operator between them. The <span class="fr-control">Variables</span> tab supplies the pieces you build with, in groups:</p>
 <ul>

@@ -2957,6 +2957,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
+  <a href="#runs-older-than-your-plan-shows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runs older than your plan shows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#taking-the-list-away-as-csv" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5096,6 +5107,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
+  <a href="#runs-older-than-your-plan-shows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runs older than your plan shows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#taking-the-list-away-as-csv" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5188,6 +5210,13 @@ follows.</p>
 behind the <span class="fr-control">...</span> control, <span class="fr-control">Only With SLA Violations</span> and <span class="fr-control">Only With Errors</span>. The status filter
 itself does not narrow them, because the circles are the status overview.</p>
 <p><a class="glightbox" href="../images/run/instances-filters-and-counts.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Instances tab: a filter row with From and To dates, a Past 30 days selector, a refresh control, a Search box, a Status dropdown set to ALL, a &quot;...&quot; control and a download icon. Below it four count circles reading 0, 0, 0 and 11, and under those the run table with columns Instance Name, Start Time, Finish Time, Total Time, Has Error, Status, Compliance and Missed Goal - eleven rows, each with a red TERMINATED status chip and &quot;No Missed Goals&quot;." src="../images/run/instances-filters-and-counts.png" /></a></p>
+<h2 id="runs-older-than-your-plan-shows">Runs older than your plan shows<a class="headerlink" data-preview="" href="#runs-older-than-your-plan-shows" title="Permanent link">&para;</a></h2>
+<p>The list only reaches back as far as the workspace billing plan's execution log visibility<sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. Runs
+beyond that are kept, not deleted, and the page tells you how many it is holding back with a notice above
+the table and a link to the billing plan that would show them. Opening one of those runs directly - from
+an email, a bookmark, a link a colleague sent - shows <em>This instance is outside your plan's history</em> in
+place of the analytics, with when it started, the window the plan shows, an upgrade button naming the
+next plan up, and a way back to the list. A run that no longer exists shows <em><abbr title="One run of a flow. Each time a flow runs - on a trigger, a schedule, or a manual launch - it creates a new instance with its own data and its own Instance ID. The Instances tab lists them.">Instance</abbr> not found</em> instead.</p>
 <h2 id="taking-the-list-away-as-csv">Taking the list away as CSV<a class="headerlink" data-preview="" href="#taking-the-list-away-as-csv" title="Permanent link">&para;</a></h2>
 <p>The download icon beside the filters - its tooltip reads <span class="fr-control">Export instances to CSV</span> - writes a CSV of
 <strong>everything matching the current filters</strong>, not just the page you are looking at. Set the filters you
@@ -5231,7 +5260,7 @@ account.</p>
 <hr />
 <ol>
 <li id="fn:1">
-<p>How far back the list reaches is set by the workspace billing plan's audit-trail retention. <a data-preview="" href="../manage/billing.html">Billing</a> covers the plans.&#160;<a class="footnote-backref" data-preview="" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>How far back the list reaches is the workspace billing plan's <strong>execution log visibility</strong>: 24 hours on Free and Starter, 7 days on Growth, 30 on Professional, 90 on Business. Older runs are kept, not deleted; moving up a plan brings them back into view. <a data-preview="" href="../manage/billing.html">Billing</a> covers the plans.&#160;<a class="footnote-backref" data-preview="" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" data-preview="" href="#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
