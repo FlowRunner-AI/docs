@@ -237,4 +237,4 @@ compile errors.
 - [Parameters & Types](parameters-and-types.md) - declaring the fields on a block, and the rules config fields share with them
 - [Actions](actions.md) - `addAction`, the handler context bag, and returning results
 - [HTTP Requests](http-requests.md) - the `Flowrunner.Request` client in full
-- [Write It Yourself](getting-started.md) - the whole loop, from install to a block in a flow
+- [Quick Start: Your First Extension (code)](getting-started.md) - the whole loop, from install to a block in a flow

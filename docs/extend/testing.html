@@ -4355,7 +4355,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    Let AI Build It
+    Quick Start (AI)
   
 
     
@@ -4383,7 +4383,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    Write It Yourself
+    Quick Start (code)
   
 
     
@@ -5258,7 +5258,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h1>
-<p><code>flowrunner init</code> puts a test harness in your project. It runs your extension through the <strong>real</strong> runtime
+<p><code>npx flowrunner init</code> puts a test harness in your project. It runs your extension through the <strong>real</strong> runtime
 with HTTP intercepted at the socket, so a test asserts what the pod would have sent - the URL, the headers,
 the query, the body - and nothing leaves the process.</p>
 <p>There is no live-API test here: checking against the real vendor means deploying and running a flow.</p>
@@ -5276,7 +5276,7 @@ the query, the body - and nothing leaves the process.</p>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>npx<span class="w"> </span>jest<span class="w"> </span>services/tmdb/tests<span class="w">          </span><span class="c1"># one extension</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>npx<span class="w"> </span>jest<span class="w"> </span>services/tmdb/tests<span class="w"> </span>-t<span class="w"> </span><span class="s1">&#39;discoverMovies&#39;</span>
 </code></pre></div>
-<p>The harness is <strong>copied</strong> into the project, not linked, so it is yours to edit, and <code>flowrunner init</code> never
+<p>The harness is <strong>copied</strong> into the project, not linked, so it is yours to edit, and <code>npx flowrunner init</code> never
 overwrites it. An SDK that opens its own sockets rather than going through <code>http</code> is invisible to the mock;
 add a shim for it in <code>nock-mock.js</code> - the harness is copied in precisely so you can.</p>
 <div class="admonition note">
@@ -5487,7 +5487,9 @@ at all.</p>
 a thing <strong>is</strong>, never from subject matter, and there are seven: <code>Actions</code>, <code>Dictionaries</code>,
 <code>Polling Triggers</code>, <code>RealTime Triggers</code>, <code>DynamicResults</code>, <code>DynamicParams</code> and <code>OAuth</code>.</p>
 <p><strong>Test both failure kinds.</strong> An error response reaches your code as a <code>ResponseError</code> carrying <code>status</code> and
-<code>body</code>; a dropped connection has neither.</p>
+<code>body</code>; a dropped connection has neither. The <code>TMDB 401: …</code> message the third test expects is built by the
+<code>apiRequest</code> on <a href="http-requests.html#failures">HTTP Requests</a>; the service as written in the code quick start has no
+error handling yet, so that assertion holds only once that <code>apiRequest</code> is in place.</p>
 <p><strong>Pass a different <code>configs</code> and assert what went on the wire.</strong> That is how you prove a credential is
 read from configuration and not hardcoded.</p>
 <p><strong>Send the blanks the editor sends.</strong> The flow editor delivers every untouched field as an explicit <code>null</code>,

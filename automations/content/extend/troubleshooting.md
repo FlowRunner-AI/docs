@@ -7,7 +7,7 @@ Symptoms first, with the cause each one usually has.
 **"Run `flowrunner login` first"** - there is no token in `.flowrunner/token`, or it was revoked by a
 `logout`.
 
-**"Session expired"** - the token was valid and is not any more. They last 30 days. Run `flowrunner login`
+**"Session expired"** - the token was valid and is not any more. They last 30 days. Run `npx flowrunner login`
 and deploy again.
 
 **A `403` naming a mismatch** - the token belongs to a different workspace than `flowrunner.json` points at.
@@ -50,11 +50,11 @@ Move the API values into the `z.enum` list and the display names into `.labels()
 [Parameters & Types](parameters-and-types.md#showing-a-label-sending-a-value).
 
 ## The block does not appear in the editor
+<!-- doclint: no-shot: symptom page; the palette is pictured on getting-started.md -->
 
-Reload the editor. An editor that was already open holds its block list until the page is reloaded.
-
-If it is still missing, check the extension is listed under **Custom Extensions** with the version you
-expect. A deploy that reported `same service` uploaded nothing, which is correct if the code has not
+An editor that was already open picks a deploy up on its own within a few seconds; the palette can look empty
+while it refreshes. If the block is still missing, check the extension is listed under **Custom Extensions**
+with the version you expect. A deploy that reported `same service` uploaded nothing, which is correct if the code has not
 changed, and misleading if you expected it to have.
 
 ## The block errors immediately with "invalid params"
@@ -102,7 +102,7 @@ cd services/tmdb && npm install the-package
 **Every call is unauthorized** - the configuration is empty, or the key is being read from the wrong place.
 Check the values on the extension's configuration tab, then run one method from its execute tab, which
 confirms a key without building a flow around it. Both are shown in
-[Write It Yourself](getting-started.md#fill-in-the-api-key).
+[Quick Start: Your First Extension (code)](getting-started.md#6-give-the-workspace-your-tmdb-key).
 
 **A parameter arrives at the API as `null`** - `.query()` serializes `null` as the string `null`. Strip
 empty values before the call, on `undefined` and `null` rather than on falsiness, since `''`, `0` and
@@ -166,7 +166,7 @@ Worth knowing before you cause one, because none of these produce an error at de
 ## Error codes
 
 Some of these are raised while the CLI builds your definition, so you see them **in your terminal** at
-`flowrunner deploy` or `npm test`, code and all:
+`npx flowrunner deploy` or `npm test`, code and all:
 
 | Code | Raised when |
 |---|---|
@@ -197,7 +197,7 @@ wrong, and do not write flow logic that branches on a code.
 ## Getting more detail
 
 - The **execute** tab on the extension's page runs one method with values you type, in isolation from any
-  flow ([Write It Yourself](getting-started.md#fill-in-the-api-key)).
+  flow ([Quick Start: Your First Extension (code)](getting-started.md#7-run-it-by-hand)).
 - Running a single block in the editor shows the input alongside the result or the error in the Test
   Monitor ([Actions](actions.md#trying-an-action-without-a-flow)).
 - **`logger.debug()`** in your handler instead of `console.log`. Its output is attributed to your extension

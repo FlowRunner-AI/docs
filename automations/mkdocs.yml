@@ -115,8 +115,8 @@ nav:
     # END generated reference nav
   - 'Extend':
     - 'Custom Extensions': extend/index.md
-    - 'Let AI Build It': extend/ai-assisted.md
-    - 'Write It Yourself': extend/getting-started.md
+    - 'Quick Start (AI)': extend/ai-assisted.md
+    - 'Quick Start (code)': extend/getting-started.md
     - 'The FlowRunner CLI': extend/cli.md
     - 'Service Structure': extend/service-structure.md
     - 'Parameters & Types': extend/parameters-and-types.md

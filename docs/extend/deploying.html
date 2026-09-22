@@ -4355,7 +4355,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    Let AI Build It
+    Quick Start (AI)
   
 
     
@@ -4383,7 +4383,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    Write It Yourself
+    Quick Start (code)
   
 
     
@@ -4720,6 +4720,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <span class="md-ellipsis">
       
         What a deploy sends
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-it-before-it-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure it before it runs
       
     </span>
   </a>
@@ -5118,6 +5129,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
+  <a href="#configure-it-before-it-runs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure it before it runs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#versions-and-the-source-hash" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5234,7 +5256,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 
 
 <h1 id="deploying-managing">Deploying &amp; Managing<a class="headerlink" href="#deploying-managing" title="Permanent link">&para;</a></h1>
-<p><code>flowrunner deploy</code> is one command, but what it leaves behind is a versioned extension in a workspace that
+<p><code>npx flowrunner deploy</code> is one command, but what it leaves behind is a versioned extension in a workspace that
 other people's flows depend on. The command and its flags are on <a href="cli.html">The FlowRunner CLI</a>; this page is
 what happens around it.</p>
 <h2 id="what-a-deploy-sends">What a deploy sends<a class="headerlink" href="#what-a-deploy-sends" title="Permanent link">&para;</a></h2>
@@ -5244,12 +5266,23 @@ with the package. The server never executes your code to work out what it offers
 on load fails at <code>deploy</code> time rather than silently in the workspace afterwards.</p>
 <p><strong>The unit is one service.</strong> A deploy carries the services you named and leaves every other extension on
 the version it was already running.</p>
+<h2 id="configure-it-before-it-runs">Configure it before it runs<a class="headerlink" href="#configure-it-before-it-runs" title="Permanent link">&para;</a></h2>
+<p>A deploy uploads the code and nothing else. Every value the service declares in <code>configItems</code> - an API key,
+a base URL - is empty in the workspace until someone fills it in on the service's <span class="fr-control">Configuration</span> tab
+under <strong>Custom Extensions</strong>, and until then any block that needs one of those values fails. Fill them in
+once per workspace, right after the first deploy. Later deploys keep the values, as
+<a href="#configuration-outlives-deploys">Configuration outlives deploys</a> describes.</p>
+<p><a class="glightbox" href="../images/extend/configuration-tab-minimal.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The TMDB Configuration tab with the API Key field masked as dots, a Show value eye at its edge, a help icon beside the label, and the SAVE CONFIGURATION button below" src="../images/extend/configuration-tab-minimal.png" /></a></p>
+<p><a href="getting-started.html#6-give-the-workspace-your-tmdb-key">Quick Start: Your First Extension (code)</a> walks through filling it in and confirming the
+key on the <span class="fr-control">EXECUTE</span> tab before building a flow around it.</p>
 <h2 id="versions-and-the-source-hash">Versions and the source hash<a class="headerlink" href="#versions-and-the-source-hash" title="Permanent link">&para;</a></h2>
 <p>Every deploy produces a twelve-character hash. It covers <code>services/&lt;id&gt;/</code> and nothing outside it, which is
 what lets it answer two questions at once: which version is this, and is this the same code as what is
 already deployed.</p>
 <p>That is why deploying twice without an edit reports <code>same service</code> and uploads nothing, and why the same
-code produces the same version in anybody's checkout.</p>
+code produces the same version in anybody's checkout. The console shows the first eight characters of it in
+the <strong>Source Hash</strong> column of the Custom Extensions list. Deploying code that matches an older version
+reports <code>modified service</code> with that older hash and uploads it again.</p>
 <p>Each service keeps its history on its own <span class="fr-control">Versions</span> tab, with the active one marked and an <span class="fr-control">Activate</span>
 button on every other:</p>
 <p><a class="glightbox" href="../images/extend/versions-tab.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Versions tab listing two deployed versions by source hash and timestamp, the newer marked Active and the older carrying an Activate button" src="../images/extend/versions-tab.png" /></a></p>
@@ -5288,14 +5321,15 @@ leaves every other extension alone. Nothing is uploaded, because the archive is 
 <tr>
 <td>Editor bundle</td>
 <td>the block list in an open editor</td>
-<td>on reload</td>
+<td>on deploy, refreshed in place</td>
 </tr>
 </tbody>
 </table>
 <p>The pod cache being keyed by hash is why the <strong>first execution after a deploy is slower</strong>: that hash has
 never been extracted before. It is also why <code>--force</code> exists, for the rare case where the stored archive is
 wrong while its hash still matches.</p>
-<p>If a change does not appear in an editor that was already open, reload the page.</p>
+<p>An editor that was already open refreshes its palette after a deploy on its own; a block already placed keeps
+the name it was given when it was placed.</p>
 <h2 id="removing-an-extension">Removing an extension<a class="headerlink" href="#removing-an-extension" title="Permanent link">&para;</a></h2>
 <p>Deleting <code>services/&lt;id&gt;/</code> from your project and deploying again does <strong>not</strong> remove it. The deploy only
 touches what it carries, so the service stays live in the workspace on its last deployed version.</p>
@@ -5313,9 +5347,9 @@ every flow that uses them <strong>before</strong> you delete it.</p>
 <p>The risk is naming. <strong>Service ids are unique per workspace</strong>, and nothing records which project a
 version came from, so two projects that both define <code>tmdb</code> overwrite each other's versions silently. Agree
 ids across teams before two repositories deploy into one workspace.</p>
-<p><code>flowrunner pull</code> is the other half of this. It downloads the workspace's services into <code>services/</code>, so a
+<p><code>npx flowrunner pull</code> is the other half of this. It downloads the workspace's services into <code>services/</code>, so a
 fresh checkout can pick up whatever is live, including an extension somebody else deployed:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>flowrunner<span class="w"> </span>init<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>flowrunner<span class="w"> </span>login<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>flowrunner<span class="w"> </span>pull<span class="w"> </span>--all
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>npx<span class="w"> </span>flowrunner<span class="w"> </span>init<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npx<span class="w"> </span>flowrunner<span class="w"> </span>login<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npx<span class="w"> </span>flowrunner<span class="w"> </span>pull<span class="w"> </span>--all
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>services/tmdb<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npm<span class="w"> </span>install
 </code></pre></div>
 <h2 id="deploying-from-ci">Deploying from CI<a class="headerlink" href="#deploying-from-ci" title="Permanent link">&para;</a></h2>
@@ -5336,7 +5370,7 @@ changed services are uploaded, so running the job on every commit is cheap.</p>
 <h2 id="separate-environments">Separate environments<a class="headerlink" href="#separate-environments" title="Permanent link">&para;</a></h2>
 <p>One project directory is bound to one workspace. For a staging workspace and a production one, use two
 checkouts, each with its own <code>flowrunner.json</code> and token, and deploy the same code into both.</p>
-<p>To move a single project somewhere else, run <code>flowrunner login</code> and pick a different workspace on the
+<p>To move a single project somewhere else, run <code>npx flowrunner login</code> and pick a different workspace on the
 authorize page - see <a href="cli.html#connecting-to-a-workspace-with-login">The FlowRunner CLI</a>.</p>
 <h2 id="before-you-ship-a-new-version">Before you ship a new version<a class="headerlink" href="#before-you-ship-a-new-version" title="Permanent link">&para;</a></h2>
 <ul>

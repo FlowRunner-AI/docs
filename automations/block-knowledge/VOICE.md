@@ -799,3 +799,17 @@ narrative sections (not the generated reference), but most are good prose rules 
 - Add worked Examples for code/complex blocks (code now; real screenshots where they help). (Mark)
 - Generator fixes from this round: blank-line separation between all sections (a table was
   swallowing the next heading); dropped the empty/irrelevant Required column.
+
+### 2026-09-22 - Mark's quick-start rulings (chip case, command lead-ins, verbatim output, one name)
+- **Chip case = what the reader sees.** `((SAVE CONFIGURATION))` when the button is rendered in capitals, `((run block))`
+  when it is rendered lowercase, `((Execute))` for the tab and `((EXECUTE))` for the button. The DOM/source casing is
+  irrelevant.
+- **Every command box gets a lead-in a newcomer can follow.** First on the page: "Open a terminal and enter the
+  following command:"; after that: "Run the following command:". Mark: "User may have NO idea that what you show is a
+  command box. It costs nothing."
+- **Quoted product output is verbatim**, em dashes and all (the running example's workspace name/id may be swapped and
+  the page comment says so).
+- **One term everywhere.** If the product's own output names a thing, the prose uses the same name ("FlowRunner
+  agents", not "Claude Code agents").
+- **Decisions for Mark are one plain question each**, the options written out as they would appear on the page, plus
+  my pick - no rule names, file names or ticket keys in the question.

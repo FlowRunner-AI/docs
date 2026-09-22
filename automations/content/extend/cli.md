@@ -6,11 +6,10 @@ version and an upgrade is a commit like any other.
 
 ## Installing it
 
-For a new project, one `npx` call is enough. `init` installs the CLI into the project it creates, so it is
-the only command you run through `npx`:
+For a new project, start with `npx`, which downloads the package and runs its `init`:
 
 ```bash
-npx flowrunner-cli init -d my-extensions
+npx flowrunner-cli init -d my-extensions -s prod
 cd my-extensions
 ```
 
@@ -18,11 +17,12 @@ For a repository you already have, add the package and set it up in place:
 
 ```bash
 npm install --save-dev flowrunner-cli
-flowrunner init
+npx flowrunner init -s prod
 ```
 
-Inside the project, `flowrunner` resolves from `node_modules`, so `flowrunner deploy` and
-`npx flowrunner deploy` do the same thing.
+Either way the CLI ends up in the project's `node_modules`, not on your `PATH`, so every command from here on
+is `npx flowrunner <command>`. `npx` finds the project's own copy and runs it. A bare `flowrunner` is not
+found unless you install the package globally, which these pages do not assume.
 
 ## The project on disk
 
@@ -48,7 +48,7 @@ only `services/<id>/node_modules` is packed, so a dependency installed at the ro
 and then fails with `MODULE_NOT_FOUND` the first time the block runs.
 
 Editing `workspaceId` by hand produces a `403` at deploy time, because the token is issued for one
-workspace. Use `flowrunner login` to change it.
+workspace. Use `npx flowrunner login` to change it.
 
 ## The commands
 
@@ -107,7 +107,8 @@ file that is already there, so after upgrading the CLI copy the current `sandbox
 Useful options:
 
 - `-d, --dir <path>` - the project root, created if missing. Defaults to the current directory.
-- `-s, --server <target>` - which server to bind to, written into `flowrunner.json`.
+- `-s, --server <target>` - the server to bind to, written into `flowrunner.json`: `prod` for the FlowRunner
+  cloud, or a full URL for a server of your own. Always pass it; the current CLI does not default to the cloud.
 - `-y, --yes` - accept the target directory and every template default without asking.
 - `--no-install` / `--no-git` / `--no-tests` - skip the `npm install`, the git repository, or the test
   harness.
@@ -133,15 +134,31 @@ Available templates:
 Pass the answers as flags to skip the prompts:
 
 ```bash
-flowrunner cs blank --id tmdb --name "TMDB" -y
+npx flowrunner cs blank --id tmdb --name "TMDB" -y
 ```
 
 ```
+Creating a service from the "Blank" template.
+
+  Created services/
+
   Created services/tmdb/
+    package.json
     src/index.js
     README.md
     public/icon.svg
+
+  Edit services/tmdb/src/index.js to make it yours.
+
+Would you like to deploy "tmdb" to the workspace Acme Production? (Y/n) n
+
+When you are ready:
+  flowrunner deploy -s tmdb   — logs you in first if you have not already
 ```
+
+`-y` answers the template's own prompts - for `blank`, the description and the OAuth2 and Files API
+questions. The offer to deploy is separate: on a terminal it is asked either way and defaults to yes, and
+without a terminal it is skipped.
 
 A service id must start with a lowercase letter and contain only lowercase letters, digits and dashes. It
 becomes the folder name under `services/` and the id persisted into every flow that places one of the
@@ -154,20 +171,18 @@ extension's blocks, which is why it is frozen once deployed. The CLI refuses any
 
 ## Choosing a server with `use`
 
-With no argument, `use` lists the servers and marks the one this project is bound to:
+With no argument, `use` lists the servers the CLI knows and marks the one this project is bound to. The
+listing is trimmed here to the row that applies to a FlowRunner cloud workspace:
 
 ```
 Servers:
 
   prod   https://app.flowrunner.ai   ← current, logged in to Acme Production
-  dev    https://dev.flowrunner.ai
-  local  http://localhost:3000
 
   flowrunner use <name>   — switch, detaching the current login
 ```
 
-`prod` is the FlowRunner cloud; `dev` and `local` are FlowRunner's own clusters. You can also pass a full
-URL for a server of your own.
+`prod` is the FlowRunner cloud. You can also pass a full URL for a server of your own.
 
 Switching servers clears the stored workspace and the token, because both only mean something on the server
 that issued them. Running `use` with the server already selected changes nothing.
@@ -192,7 +207,7 @@ browser launches.
 On the authorize page you pick the workspace this project will deploy to. ((Authorize)) stays disabled
 until one is chosen, and the token it issues expires after 30 days.
 
-![The CLI authorize page with the workspace dropdown open, listing the workspaces the signed-in account can reach, above a note that the token expires in 30 days](../images/extend/cli-authorize-workspace-picker.png)
+![The Authorize Cloud Code CLI page with the signed-in account at the top, the Workspace picker showing the selected workspace and its id, the Deploy Custom extensions permission, and the Deny and Authorize buttons above a note that the token expires in 30 days](../images/extend/cli-authorize-workspace-picker.png)
 
 The choice is written back to `flowrunner.json`:
 
@@ -242,7 +257,8 @@ Deploying custom extensions...
   Deploying 1 service:
     - modified service: tmdb (TMDB) - [1258d5f80c44] - packaged 11.4 KB
 
-  Deployed 1 service to workspace "Acme Production" (3F2A9C41-…) — you can use it in a flow.
+  Deployed 1 service to workspace "Acme Production" (3F2A9C41-7B10-4E52-9D64-0C81A7F5B2E3) — you can use it in a flow.
+  Open Custom Extensions screen in the Flowrunner Console to configure it: https://app.flowrunner.ai/app/Acme%20Production/custom-extensions
 ```
 
 Every service is compared against the workspace before anything is packaged, and labelled `new`,
@@ -292,7 +308,7 @@ and it removes the service **and every version of it** - there is no undo and no
 picks up what is live, including extensions somebody else deployed from a different project:
 
 ```bash
-flowrunner init && flowrunner login && flowrunner pull --all
+npx flowrunner init && npx flowrunner login && npx flowrunner pull --all
 cd services/tmdb && npm install
 ```
 
@@ -313,11 +329,11 @@ When a command fails it prints the reason and what to do about it:
 
 | Code | What it means |
 |---|---|
-| `FR_NOT_LOGGED_IN` | Run `flowrunner login` first - it needs a browser |
-| `FR_NO_WORKSPACE` | Run `flowrunner login` to pick one |
+| `FR_NOT_LOGGED_IN` | Run `npx flowrunner login` first - it needs a browser |
+| `FR_NO_WORKSPACE` | Run `npx flowrunner login` to pick one |
 | `FR_TOKEN_EXPIRED` | The session expired; log in and deploy again |
-| `FR_NOT_A_PROJECT` | Run `flowrunner init` to create one |
-| `FR_NO_SERVICES_DIR` | Run `flowrunner cs` to create a service first |
+| `FR_NOT_A_PROJECT` | Run `npx flowrunner init` to create one |
+| `FR_NO_SERVICES_DIR` | Run `npx flowrunner cs` to create a service first |
 | `FR_NO_SERVICES` | Each service needs a `src/index.js` calling `Flowrunner.createExtension` |
 | `FR_PROMPT_REQUIRED` | Pass `--yes`, or supply the value as a flag |
 
@@ -336,16 +352,22 @@ Agents in .claude/agents:
 ```
 
 Files under `.claude/agents/` named `flowrunner-*` belong to the CLI and are overwritten on every run, so
-`npm install -D flowrunner-cli@latest` followed by `flowrunner init-claude` moves the agents to the version
+`npm install -D flowrunner-cli@latest` followed by `npx flowrunner init-claude` moves the agents to the version
 matching the installed CLI. Your own agents, under your own names, are left alone. The command replaces
 only the region between its `<!-- flowrunner-cli:ai:start -->` and `<!-- flowrunner-cli:ai:end -->` markers
 and leaves the rest of `CLAUDE.md` byte for byte.
 
-What the agents do with all that, and how to work with them, is [Let AI Build It](ai-assisted.md).
+What the agents do with all that, and how to work with them, is [Quick Start: Your First Extension (with AI)](ai-assisted.md).
 
 ## Related
 
-- [Let AI Build It](ai-assisted.md) - what `init-claude` installs, and the loop it enables
-- [Write It Yourself](getting-started.md) - the whole loop, from install to a deployed extension
+- [Quick Start: Your First Extension (with AI)](ai-assisted.md) - what `init-claude` installs, and the loop it enables
+- [Quick Start: Your First Extension (code)](getting-started.md) - the whole loop, from install to a deployed extension
 - [Custom Extensions](index.md) - what an extension is and what it can do
 - [Testing](testing.md) - the harness `init` copies into the project
+
+<!-- DRIVEN 2026-09-22 (FR-3627): bare `flowrunner` is "command not found" in a project (devDependency, no
+     global install); `npx flowrunner <cmd>` resolves the project's copy. `cs blank ... -y` output above is
+     verbatim from flowrunner-cli 0.0.10 in ~/dev/fr-cli-docs-project (id/workspace swapped for the running
+     example); the deploy offer after scaffolding is asked regardless of -y and skipped without a TTY
+     (offerDeploy in dist/cli.js). -->

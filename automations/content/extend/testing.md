@@ -1,6 +1,6 @@
 # Testing
 
-`flowrunner init` puts a test harness in your project. It runs your extension through the **real** runtime
+`npx flowrunner init` puts a test harness in your project. It runs your extension through the **real** runtime
 with HTTP intercepted at the socket, so a test asserts what the pod would have sent - the URL, the headers,
 the query, the body - and nothing leaves the process.
 
@@ -25,7 +25,7 @@ npx jest services/tmdb/tests          # one extension
 npx jest services/tmdb/tests -t 'discoverMovies'
 ```
 
-The harness is **copied** into the project, not linked, so it is yours to edit, and `flowrunner init` never
+The harness is **copied** into the project, not linked, so it is yours to edit, and `npx flowrunner init` never
 overwrites it. An SDK that opens its own sockets rather than going through `http` is invisible to the mock;
 add a shim for it in `nock-mock.js` - the harness is copied in precisely so you can.
 
@@ -240,7 +240,9 @@ a thing **is**, never from subject matter, and there are seven: `Actions`, `Dict
 `Polling Triggers`, `RealTime Triggers`, `DynamicResults`, `DynamicParams` and `OAuth`.
 
 **Test both failure kinds.** An error response reaches your code as a `ResponseError` carrying `status` and
-`body`; a dropped connection has neither.
+`body`; a dropped connection has neither. The `TMDB 401: …` message the third test expects is built by the
+`apiRequest` on [HTTP Requests](http-requests.md#failures); the service as written in the code quick start has no
+error handling yet, so that assertion holds only once that `apiRequest` is in place.
 
 **Pass a different `configs` and assert what went on the wire.** That is how you prove a credential is
 read from configuration and not hardcoded.
@@ -357,3 +359,7 @@ the API can hand back out of order.
 - [Dictionaries](dictionaries.md) - the empty-list rule these tests pin
 - [Triggers](triggers.md) - the SYSTEM methods a trigger is driven through
 - [HTTP Requests](http-requests.md) - what the mock is recording
+
+<!-- 2026-09-22 (FR-3627): the `TMDB 401: ...` assertion now points at the apiRequest on http-requests.md
+     that produces the message; the getting-started.md version of the service has no error handling.
+     Commands switched to `npx flowrunner` - see the drive record on cli.md. -->

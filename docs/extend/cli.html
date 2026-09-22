@@ -4355,7 +4355,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    Let AI Build It
+    Quick Start (AI)
   
 
     
@@ -4383,7 +4383,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    Write It Yourself
+    Quick Start (code)
   
 
     
@@ -5304,17 +5304,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 development dependency rather than on your machine, so everyone working on the repository runs the same
 version and an upgrade is a commit like any other.</p>
 <h2 id="installing-it">Installing it<a class="headerlink" href="#installing-it" title="Permanent link">&para;</a></h2>
-<p>For a new project, one <code>npx</code> call is enough. <code>init</code> installs the CLI into the project it creates, so it is
-the only command you run through <code>npx</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>npx<span class="w"> </span>flowrunner-cli<span class="w"> </span>init<span class="w"> </span>-d<span class="w"> </span>my-extensions
+<p>For a new project, start with <code>npx</code>, which downloads the package and runs its <code>init</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>npx<span class="w"> </span>flowrunner-cli<span class="w"> </span>init<span class="w"> </span>-d<span class="w"> </span>my-extensions<span class="w"> </span>-s<span class="w"> </span>prod
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>my-extensions
 </code></pre></div>
 <p>For a repository you already have, add the package and set it up in place:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>npm<span class="w"> </span>install<span class="w"> </span>--save-dev<span class="w"> </span>flowrunner-cli
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>flowrunner<span class="w"> </span>init
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>npx<span class="w"> </span>flowrunner<span class="w"> </span>init<span class="w"> </span>-s<span class="w"> </span>prod
 </code></pre></div>
-<p>Inside the project, <code>flowrunner</code> resolves from <code>node_modules</code>, so <code>flowrunner deploy</code> and
-<code>npx flowrunner deploy</code> do the same thing.</p>
+<p>Either way the CLI ends up in the project's <code>node_modules</code>, not on your <code>PATH</code>, so every command from here on
+is <code>npx flowrunner &lt;command&gt;</code>. <code>npx</code> finds the project's own copy and runs it. A bare <code>flowrunner</code> is not
+found unless you install the package globally, which these pages do not assume.</p>
 <h2 id="the-project-on-disk">The project on disk<a class="headerlink" href="#the-project-on-disk" title="Permanent link">&para;</a></h2>
 <p><code>init</code> produces this, and every later command reads it:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>my-extensions/
@@ -5334,7 +5334,7 @@ the only command you run through <code>npx</code>:</p>
 only <code>services/&lt;id&gt;/node_modules</code> is packed, so a dependency installed at the root resolves on your machine
 and then fails with <code>MODULE_NOT_FOUND</code> the first time the block runs.</p>
 <p>Editing <code>workspaceId</code> by hand produces a <code>403</code> at deploy time, because the token is issued for one
-workspace. Use <code>flowrunner login</code> to change it.</p>
+workspace. Use <code>npx flowrunner login</code> to change it.</p>
 <h2 id="the-commands">The commands<a class="headerlink" href="#the-commands" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -5414,7 +5414,8 @@ file that is already there, so after upgrading the CLI copy the current <code>sa
 <p>Useful options:</p>
 <ul>
 <li><code>-d, --dir &lt;path&gt;</code> - the project root, created if missing. Defaults to the current directory.</li>
-<li><code>-s, --server &lt;target&gt;</code> - which server to bind to, written into <code>flowrunner.json</code>.</li>
+<li><code>-s, --server &lt;target&gt;</code> - the server to bind to, written into <code>flowrunner.json</code>: <code>prod</code> for the FlowRunner
+  cloud, or a full URL for a server of your own. Always pass it; the current CLI does not default to the cloud.</li>
 <li><code>-y, --yes</code> - accept the target directory and every template default without asking.</li>
 <li><code>--no-install</code> / <code>--no-git</code> / <code>--no-tests</code> - skip the <code>npm install</code>, the git repository, or the test
   harness.</li>
@@ -5433,13 +5434,28 @@ staged rather than failing.</p>
 <a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>                  Exercises every custom-extension capability so QA can verify a deployment end to end.
 </code></pre></div>
 <p>Pass the answers as flags to skip the prompts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>flowrunner<span class="w"> </span>cs<span class="w"> </span>blank<span class="w"> </span>--id<span class="w"> </span>tmdb<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;TMDB&quot;</span><span class="w"> </span>-y
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>npx<span class="w"> </span>flowrunner<span class="w"> </span>cs<span class="w"> </span>blank<span class="w"> </span>--id<span class="w"> </span>tmdb<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;TMDB&quot;</span><span class="w"> </span>-y
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>  Created services/tmdb/
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    src/index.js
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    README.md
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    public/icon.svg
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Creating a service from the &quot;Blank&quot; template.
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  Created services/
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>  Created services/tmdb/
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    package.json
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    src/index.js
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    README.md
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    public/icon.svg
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>  Edit services/tmdb/src/index.js to make it yours.
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>Would you like to deploy &quot;tmdb&quot; to the workspace Acme Production? (Y/n) n
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>When you are ready:
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>  flowrunner deploy -s tmdb   — logs you in first if you have not already
 </code></pre></div>
+<p><code>-y</code> answers the template's own prompts - for <code>blank</code>, the description and the OAuth2 and Files API
+questions. The offer to deploy is separate: on a terminal it is asked either way and defaults to yes, and
+without a terminal it is skipped.</p>
 <p>A service id must start with a lowercase letter and contain only lowercase letters, digits and dashes. It
 becomes the folder name under <code>services/</code> and the id persisted into every flow that places one of the
 extension's blocks, which is why it is frozen once deployed. The CLI refuses anything else:</p>
@@ -5447,17 +5463,15 @@ extension's blocks, which is why it is frozen once deployed. The CLI refuses any
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>  it becomes the folder name and the service id, which is frozen once deployed
 </code></pre></div>
 <h2 id="choosing-a-server-with-use">Choosing a server with <code>use</code><a class="headerlink" href="#choosing-a-server-with-use" title="Permanent link">&para;</a></h2>
-<p>With no argument, <code>use</code> lists the servers and marks the one this project is bound to:</p>
+<p>With no argument, <code>use</code> lists the servers the CLI knows and marks the one this project is bound to. The
+listing is trimmed here to the row that applies to a FlowRunner cloud workspace:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Servers:
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  prod   https://app.flowrunner.ai   ← current, logged in to Acme Production
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  dev    https://dev.flowrunner.ai
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  local  http://localhost:3000
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>  flowrunner use &lt;name&gt;   — switch, detaching the current login
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  flowrunner use &lt;name&gt;   — switch, detaching the current login
 </code></pre></div>
-<p><code>prod</code> is the FlowRunner cloud; <code>dev</code> and <code>local</code> are FlowRunner's own clusters. You can also pass a full
-URL for a server of your own.</p>
+<p><code>prod</code> is the FlowRunner cloud. You can also pass a full URL for a server of your own.</p>
 <p>Switching servers clears the stored workspace and the token, because both only mean something on the server
 that issued them. Running <code>use</code> with the server already selected changes nothing.</p>
 <h2 id="connecting-to-a-workspace-with-login">Connecting to a workspace with <code>login</code><a class="headerlink" href="#connecting-to-a-workspace-with-login" title="Permanent link">&para;</a></h2>
@@ -5474,7 +5488,7 @@ that issued them. Running <code>use</code> with the server already selected chan
 browser launches.</p>
 <p>On the authorize page you pick the workspace this project will deploy to. <span class="fr-control">Authorize</span> stays disabled
 until one is chosen, and the token it issues expires after 30 days.</p>
-<p><a class="glightbox" href="../images/extend/cli-authorize-workspace-picker.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The CLI authorize page with the workspace dropdown open, listing the workspaces the signed-in account can reach, above a note that the token expires in 30 days" src="../images/extend/cli-authorize-workspace-picker.png" /></a></p>
+<p><a class="glightbox" href="../images/extend/cli-authorize-workspace-picker.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Authorize Cloud Code CLI page with the signed-in account at the top, the Workspace picker showing the selected workspace and its id, the Deploy Custom extensions permission, and the Deny and Authorize buttons above a note that the token expires in 30 days" src="../images/extend/cli-authorize-workspace-picker.png" /></a></p>
 <p>The choice is written back to <code>flowrunner.json</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">&quot;serverUrl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://app.flowrunner.ai&quot;</span><span class="p">,</span>
@@ -5509,7 +5523,8 @@ same workspace and coexist.</p>
 <a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>  Deploying 1 service:
 <a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    - modified service: tmdb (TMDB) - [1258d5f80c44] - packaged 11.4 KB
 <a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>  Deployed 1 service to workspace &quot;Acme Production&quot; (3F2A9C41-…) — you can use it in a flow.
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>  Deployed 1 service to workspace &quot;Acme Production&quot; (3F2A9C41-7B10-4E52-9D64-0C81A7F5B2E3) — you can use it in a flow.
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>  Open Custom Extensions screen in the Flowrunner Console to configure it: https://app.flowrunner.ai/app/Acme%20Production/custom-extensions
 </code></pre></div>
 <p>Every service is compared against the workspace before anything is packaged, and labelled <code>new</code>,
 <code>modified</code> or <code>same</code>. A <code>same</code> service is byte-for-byte what is already live, so it is skipped rather than
@@ -5550,7 +5565,7 @@ blocks out of every flow that uses them <strong>before</strong> you delete it.</
 <h2 id="pulling-services-back-down">Pulling services back down<a class="headerlink" href="#pulling-services-back-down" title="Permanent link">&para;</a></h2>
 <p><code>pull</code> (also <code>sync-services</code>) copies the workspace's services into <code>services/</code>. It is how a fresh checkout
 picks up what is live, including extensions somebody else deployed from a different project:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>flowrunner<span class="w"> </span>init<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>flowrunner<span class="w"> </span>login<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>flowrunner<span class="w"> </span>pull<span class="w"> </span>--all
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>npx<span class="w"> </span>flowrunner<span class="w"> </span>init<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npx<span class="w"> </span>flowrunner<span class="w"> </span>login<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npx<span class="w"> </span>flowrunner<span class="w"> </span>pull<span class="w"> </span>--all
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">cd</span><span class="w"> </span>services/tmdb<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npm<span class="w"> </span>install
 </code></pre></div>
 <p>Each service arrives whole, its own <code>package.json</code> included, but without <code>node_modules</code> - the CLI names the
@@ -5573,11 +5588,11 @@ and <code>--set name=value</code> answer template prompts directly, which is wha
 <tbody>
 <tr>
 <td><code>FR_NOT_LOGGED_IN</code></td>
-<td>Run <code>flowrunner login</code> first - it needs a browser</td>
+<td>Run <code>npx flowrunner login</code> first - it needs a browser</td>
 </tr>
 <tr>
 <td><code>FR_NO_WORKSPACE</code></td>
-<td>Run <code>flowrunner login</code> to pick one</td>
+<td>Run <code>npx flowrunner login</code> to pick one</td>
 </tr>
 <tr>
 <td><code>FR_TOKEN_EXPIRED</code></td>
@@ -5585,11 +5600,11 @@ and <code>--set name=value</code> answer template prompts directly, which is wha
 </tr>
 <tr>
 <td><code>FR_NOT_A_PROJECT</code></td>
-<td>Run <code>flowrunner init</code> to create one</td>
+<td>Run <code>npx flowrunner init</code> to create one</td>
 </tr>
 <tr>
 <td><code>FR_NO_SERVICES_DIR</code></td>
-<td>Run <code>flowrunner cs</code> to create a service first</td>
+<td>Run <code>npx flowrunner cs</code> to create a service first</td>
 </tr>
 <tr>
 <td><code>FR_NO_SERVICES</code></td>
@@ -5612,15 +5627,15 @@ assistant working in the project already knows the authoring format:</p>
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>  Created the FlowRunner instructions block in CLAUDE.md.
 </code></pre></div>
 <p>Files under <code>.claude/agents/</code> named <code>flowrunner-*</code> belong to the CLI and are overwritten on every run, so
-<code>npm install -D flowrunner-cli@latest</code> followed by <code>flowrunner init-claude</code> moves the agents to the version
+<code>npm install -D flowrunner-cli@latest</code> followed by <code>npx flowrunner init-claude</code> moves the agents to the version
 matching the installed CLI. Your own agents, under your own names, are left alone. The command replaces
 only the region between its <code>and</code> markers
 and leaves the rest of <code>CLAUDE.md</code> byte for byte.</p>
-<p>What the agents do with all that, and how to work with them, is <a href="ai-assisted.html">Let AI Build It</a>.</p>
+<p>What the agents do with all that, and how to work with them, is <a href="ai-assisted.html">Quick Start: Your First Extension (with AI)</a>.</p>
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="ai-assisted.html">Let AI Build It</a> - what <code>init-claude</code> installs, and the loop it enables</li>
-<li><a href="getting-started.html">Write It Yourself</a> - the whole loop, from install to a deployed extension</li>
+<li><a href="ai-assisted.html">Quick Start: Your First Extension (with AI)</a> - what <code>init-claude</code> installs, and the loop it enables</li>
+<li><a href="getting-started.html">Quick Start: Your First Extension (code)</a> - the whole loop, from install to a deployed extension</li>
 <li><a href="index.html">Custom Extensions</a> - what an extension is and what it can do</li>
 <li><a href="testing.html">Testing</a> - the harness <code>init</code> copies into the project</li>
 </ul>
@@ -5661,7 +5676,7 @@ and leaves the rest of <code>CLAUDE.md</code> byte for byte.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="getting-started.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Write It Yourself">
+          <a href="getting-started.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Quick Start (code)">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -5671,7 +5686,7 @@ and leaves the rest of <code>CLAUDE.md</code> byte for byte.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Write It Yourself
+                Quick Start (code)
               </div>
             </div>
           </a>

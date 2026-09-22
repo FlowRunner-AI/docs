@@ -4355,7 +4355,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    Let AI Build It
+    Quick Start (AI)
   
 
     
@@ -4383,7 +4383,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    Write It Yourself
+    Quick Start (code)
   
 
     
@@ -4950,6 +4950,17 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#start-with-a-quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start with a quick start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#before-you-build-anything" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4961,54 +4972,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#two-ways-to-build-one" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Two ways to build one
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#what-an-extension-can-reach" class="md-nav__link">
     <span class="md-ellipsis">
       
         What an extension can reach
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#writing-your-own-trigger" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Writing your own trigger
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#an-extension-is-one-javascript-module" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        An extension is one JavaScript module
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#your-blocks-behave-like-any-other-block" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Your blocks behave like any other block
       
     </span>
   </a>
@@ -5038,10 +5005,10 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-part-both-routes-share" class="md-nav__link">
+  <a href="#the-details-by-question" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The part both routes share
+        The details, by question
       
     </span>
   </a>
@@ -5082,27 +5049,25 @@ yourself, a scoring algorithm nobody else has - a custom extension turns that sy
 own, available to every flow in the workspace. It works in both directions: the same extension can watch
 that system and hand the flow whatever turns up there, so a run starts, or carries on, the moment something
 happens on your side.</p>
-<p>You can have one written for you, or write it yourself. Both are covered below.</p>
+<h2 id="start-with-a-quick-start">Start with a quick start<a class="headerlink" href="#start-with-a-quick-start" title="Permanent link">&para;</a></h2>
+<p>Both quick starts end the same way: an extension of your own, deployed to your workspace and running as a
+block in a flow. Pick the one that matches how you want the code written.</p>
+<ul>
+<li><strong><a href="ai-assisted.html">Quick Start: Your First Extension (with AI)</a></strong> - install the FlowRunner agents into
+  Claude Code, describe the service in one sentence, deploy what it writes.</li>
+<li><strong><a href="getting-started.html">Quick Start: Your First Extension (code)</a></strong> - paste one JavaScript file, run four
+  CLI commands.</li>
+</ul>
+<p>The two routes share everything but who writes the module: the same CLI creates the project, the same
+reference describes the format, and the same <code>npx flowrunner deploy</code> sends the result to the workspace. The
+agents the AI route installs come with the CLI and read that same reference; one writes the service and a
+second one writes its tests, so the service is checked by something that did not write it.</p>
+<p>Every other page in this section is the detail behind those two paths.</p>
 <h2 id="before-you-build-anything">Before you build anything<a class="headerlink" href="#before-you-build-anything" title="Permanent link">&para;</a></h2>
 <p>A missing block is not always a reason to build one. Check the cheaper routes first - the Extensions
 library and the Marketplace, an <abbr title="A Model Context Protocol server that exposes tools an AI Agent can call. Register one to give your agent extra capabilities beyond the built-in blocks.">MCP server</abbr>, or an existing flow used as an action - all of which are
 covered under <a data-preview="" href="../build/integrations/custom-actions.html">Custom &amp; Marketplace Actions</a>. Build an extension
 when none of those reaches the system you need.</p>
-<h2 id="two-ways-to-build-one">Two ways to build one<a class="headerlink" href="#two-ways-to-build-one" title="Permanent link">&para;</a></h2>
-<p>The end result is the same either way: a JavaScript module that FlowRunner deploys and turns into blocks.
-What differs is who writes it.</p>
-<ul>
-<li><strong><a href="ai-assisted.html">Let AI build it</a></strong> - install the FlowRunner agents into your AI assistant, describe
-  the service you want in plain language, and review what comes back. The agents know the authoring format
-  and ship with the reference, so you are reviewing a service rather than learning a format first. This is
-  the faster route whether or not you write JavaScript.</li>
-<li><strong><a href="getting-started.html">Write it yourself</a></strong> - build the module by hand, with the format, the types and
-  the test harness under your own control. Everything the AI route produces, you can read, change and take
-  over at any point.</li>
-</ul>
-<p>They are not separate products or separate tracks. The same CLI scaffolds the project, the same reference
-describes the format, and the same command deploys the result - so starting on one and finishing on the
-other costs nothing.</p>
 <h2 id="what-an-extension-can-reach">What an extension can reach<a class="headerlink" href="#what-an-extension-can-reach" title="Permanent link">&para;</a></h2>
 <p>Your code runs in your workspace's own Cloud Code pod, so an action can reach anything that pod can open a
 connection to:</p>
@@ -5112,97 +5077,9 @@ connection to:</p>
 <li>Send a prompt to a model you host, or one no built-in block covers.</li>
 <li>Run an algorithm that is yours - a pricing rule, a scoring pass, a validation nobody else has.</li>
 </ul>
-<p>An extension can hold as many actions as you want, grouped under a category you name. Once it is deployed
-they sit in the block palette under <strong>Local Extensions</strong>.</p>
-<p><a class="glightbox" href="../images/extend/palette-tmdb-blocks.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The flow editor's block palette filtered to &quot;movie&quot;, showing a TMDB group under Local Extensions with its trigger On Movie Released and its actions Discover Movies and Get Movie Details" src="../images/extend/palette-tmdb-blocks.png" /></a></p>
-<h2 id="writing-your-own-trigger">Writing your own trigger<a class="headerlink" href="#writing-your-own-trigger" title="Permanent link">&para;</a></h2>
-<p>An action does its work when the flow reaches it. A trigger waits for something to happen outside
-FlowRunner and hands over what arrives. Where the flow builder puts it decides what that means: first in a
-flow, it starts an instance for each thing it finds; in the middle, the flow runs up to it and waits there
-until the event comes.</p>
-<p>You write triggers for the same range of systems your actions reach - a row appearing in your warehouse
-database, a job finishing on hardware only your network can see, a queue your team runs. There are two
-kinds, and the API decides which you write:</p>
-<ul>
-<li><strong>Polling</strong>, when you have to ask. You supply the query; FlowRunner runs it on a timer and works out
-  which results are new.</li>
-<li><strong>Realtime</strong>, when the system can call you. You register a <abbr title="A URL you hand to an outside service so it can call your flow when something happens, passing data along in the request.">webhook</abbr> once, and deliveries arrive as they
-  happen.</li>
-</ul>
-<p>Prefer realtime where the API offers webhooks. <a href="triggers.html">Triggers</a> covers both.</p>
-<p>The TMDB extension used throughout this section declares one called <strong>On Movie Released</strong>. It asks TMDB
-for films in a chosen genre, newest first, and hands back what it got. Two lines decide the rest:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nx">watermark</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">by</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;release_date&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">sortedDesc</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
-</code></pre></div>
-<p>FlowRunner keeps the newest <code>release_date</code> it has already seen and emits only the films past it, so the
-same title is never handed over twice. The first poll after the trigger is configured emits nothing at all
-- it records where the feed stands and waits.</p>
-<p>You write the query. FlowRunner owns the loop, the stored position and the delivery.</p>
-<h2 id="an-extension-is-one-javascript-module">An extension is one JavaScript module<a class="headerlink" href="#an-extension-is-one-javascript-module" title="Permanent link">&para;</a></h2>
-<p><code>createExtension</code> takes the configuration the workspace fills in; <code>addAction</code> and <code>addPollingTrigger</code>
-register what shows up in the editor. FlowRunner reads that declaration to build the block's palette entry,
-its configuration panel and the fields on it.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Flowrunner</span><span class="p">.</span><span class="nx">z</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Flowrunner</span><span class="p">.</span><span class="nx">createExtension</span><span class="p">({</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nx">id</span><span class="w">         </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;tmdb&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nx">name</span><span class="w">       </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;TMDB&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Search movies and TV from The Movie Database, and react to new releases.&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nx">logo</span><span class="w">       </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/icon.svg&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="nx">configItems</span><span class="o">:</span><span class="w"> </span><span class="nx">z</span><span class="p">.</span><span class="nx">object</span><span class="p">({</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="nx">z</span><span class="p">.</span><span class="nx">string</span><span class="p">().</span><span class="nx">label</span><span class="p">(</span><span class="s1">&#39;API Key&#39;</span><span class="p">).</span><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;Your TMDB v3 API key, from Settings -&gt; API&#39;</span><span class="p">),</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="p">}),</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span><span class="nx">initContext</span><span class="o">:</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">baseUrl</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;https://api.themoviedb.org/3&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">apiKey</span><span class="w"> </span><span class="p">}),</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="nx">apiRequest</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">query</span><span class="p">,</span><span class="w"> </span><span class="nx">context</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">Flowrunner</span><span class="p">.</span><span class="nx">Request</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">baseUrl</span><span class="w"> </span><span class="si">}${</span><span class="w"> </span><span class="nx">url</span><span class="w"> </span><span class="si">}</span><span class="sb">`</span><span class="p">)</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">      </span><span class="p">.</span><span class="nx">query</span><span class="p">({</span><span class="w"> </span><span class="p">...</span><span class="nx">query</span><span class="p">,</span><span class="w"> </span><span class="nx">api_key</span><span class="o">:</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">apiKey</span><span class="w"> </span><span class="p">})</span>
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="p">},</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="p">})</span>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="nx">ext</span><span class="p">.</span><span class="nx">addAction</span><span class="p">({</span>
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">  </span><span class="nx">category</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;TMDB&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">  </span><span class="nx">id</span><span class="w">         </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;getMovieDetails&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">  </span><span class="nx">label</span><span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Get Movie Details&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Returns everything TMDB holds about one movie.&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">  </span><span class="nx">params</span><span class="w">     </span><span class="o">:</span><span class="w"> </span><span class="nx">z</span><span class="p">.</span><span class="nx">object</span><span class="p">({</span>
-<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">    </span><span class="nx">movieId</span><span class="o">:</span><span class="w"> </span><span class="nx">z</span><span class="p">.</span><span class="nx">string</span><span class="p">().</span><span class="nx">label</span><span class="p">(</span><span class="s1">&#39;Movie ID&#39;</span><span class="p">).</span><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;TMDB numeric id, e.g. 693134&#39;</span><span class="p">),</span>
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">  </span><span class="p">}),</span>
-<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">  </span><span class="nx">result</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">693134</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Dune: Part Two&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">runtime</span><span class="o">:</span><span class="w"> </span><span class="mf">167</span><span class="p">,</span><span class="w"> </span><span class="nx">vote_average</span><span class="o">:</span><span class="w"> </span><span class="mf">8.133</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">  </span><span class="nx">execute</span><span class="o">:</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">params</span><span class="p">,</span><span class="w"> </span><span class="nx">apiRequest</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">apiRequest</span><span class="p">({</span><span class="w"> </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="sb">`/movie/</span><span class="si">${</span><span class="w"> </span><span class="nx">params</span><span class="p">.</span><span class="nx">movieId</span><span class="w"> </span><span class="si">}</span><span class="sb">`</span><span class="w"> </span><span class="p">})</span>
-<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">  </span><span class="p">},</span>
-<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="p">})</span>
-<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>
-<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="nx">ext</span><span class="p">.</span><span class="nx">addPollingTrigger</span><span class="p">({</span>
-<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">  </span><span class="nx">category</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;TMDB&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">  </span><span class="nx">id</span><span class="w">         </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;onMovieReleased&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="w">  </span><span class="nx">label</span><span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;On Movie Released&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w">  </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Fires for each movie that reaches its release date in the chosen genre.&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="w">  </span><span class="nx">params</span><span class="w">     </span><span class="o">:</span><span class="w"> </span><span class="nx">z</span><span class="p">.</span><span class="nx">object</span><span class="p">({</span><span class="w"> </span><span class="nx">genreId</span><span class="o">:</span><span class="w"> </span><span class="nx">z</span><span class="p">.</span><span class="nx">string</span><span class="p">().</span><span class="nx">optional</span><span class="p">().</span><span class="nx">label</span><span class="p">(</span><span class="s1">&#39;Genre&#39;</span><span class="p">).</span><span class="nx">dictionary</span><span class="p">(</span><span class="nx">getGenresDictionary</span><span class="p">)</span><span class="w"> </span><span class="p">}),</span>
-<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="w">  </span><span class="nx">result</span><span class="w">     </span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">693134</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Dune: Part Two&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">release_date</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;2024-02-27&#39;</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="w">  </span><span class="nx">fetch</span><span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">params</span><span class="p">,</span><span class="w"> </span><span class="nx">helpers</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">helpers</span><span class="p">.</span><span class="nx">discover</span><span class="p">({</span><span class="w"> </span><span class="nx">genreId</span><span class="o">:</span><span class="w"> </span><span class="nx">params</span><span class="p">.</span><span class="nx">genreId</span><span class="p">,</span><span class="w"> </span><span class="nx">sortBy</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;primary_release_date.desc&#39;</span><span class="w"> </span><span class="p">})</span>
-<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>
-<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">results</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="p">[]</span>
-<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="w">  </span><span class="p">},</span>
-<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="w">  </span><span class="nx">watermark</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">by</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;release_date&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">sortedDesc</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="p">})</span>
-</code></pre></div>
-<p><code>label</code> is the name on the block, <code>describe</code> becomes the hint under a field, and <code>result</code> is the sample a
-flow builder binds against when wiring the block's output into a later step.</p>
-<p>Every field is required unless it carries <code>.optional()</code> or a <code>.default()</code>, and every rule on a field is
-checked before your handler runs, with a message that names the field.</p>
-<h2 id="your-blocks-behave-like-any-other-block">Your blocks behave like any other block<a class="headerlink" href="#your-blocks-behave-like-any-other-block" title="Permanent link">&para;</a></h2>
-<p>A deployed action comes out of the palette under the category you named, its <code>params</code> are the fields on
-its configuration panel, and its result is read downstream through the <abbr title="The panel where you build a dynamic value from references, operators, and literals. A live preview shows the result as you go, so you can confirm a reference resolves before you use it.">Expression Editor</abbr> the same way any
-built-in block's result is.</p>
-<p>A param you backed with a dictionary becomes a picker. Opening it runs your dictionary against the live API
-and lists what comes back, so the flow builder chooses <code>Science Fiction</code> and never has to learn that the
-genre id is <code>878</code>.</p>
-<p><a class="glightbox" href="../images/extend/dictionary-resolved-value.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Discover Movies configuration panel, showing the extension it belongs to and a Genre field holding the value Science Fiction rather than a numeric id" src="../images/extend/dictionary-resolved-value.png" /></a></p>
+<p>An extension can hold as many actions and triggers as you want, grouped under a category you name. Once it
+is deployed they sit in the block palette under <strong>Custom Extensions</strong>:</p>
+<p><a class="glightbox" href="../images/extend/palette-getting-started.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The block palette with &quot;movie&quot; typed in its Search box, showing the CUSTOM EXTENSIONS group, the TMDB extension inside it, and Get Movie Details listed under Actions in the TMDB category" src="../images/extend/palette-getting-started.png" /></a></p>
 <h2 id="where-the-api-key-lives">Where the API key lives<a class="headerlink" href="#where-the-api-key-lives" title="Permanent link">&para;</a></h2>
 <p>Credentials belong to the workspace, not to a flow. Everything declared in <code>configItems</code> becomes a form on
 the extension's own page, filled in once by whoever administers the workspace. Handlers read those values
@@ -5215,24 +5092,27 @@ are available everywhere. Yours is not one of those.</p>
 <p>Everything deployed to the workspace is listed under <strong>Custom Extensions</strong> in the workspace navigation,
 with the number of methods each one publishes and the source hash of the version running.</p>
 <p><a class="glightbox" href="../images/extend/custom-extensions-list-minimal.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="The Custom Extensions screen reached from the workspace navigation, listing the deployed TMDB service with its method count, the file path src/index.js and its source hash" src="../images/extend/custom-extensions-list-minimal.png" /></a></p>
-<h2 id="the-part-both-routes-share">The part both routes share<a class="headerlink" href="#the-part-both-routes-share" title="Permanent link">&para;</a></h2>
-<p>However the module gets written, the work sits in a project on your own machine and reaches the workspace
-the same way:</p>
-<ol>
-<li><code>npx flowrunner-cli init</code> creates the project, scaffolds a first service and installs the CLI into it.</li>
-<li>The service module gets written - by an agent, by you, or by both in turn.</li>
-<li><code>npm test</code> runs the service through the real runtime with HTTP intercepted, so you check what it would
-   have sent without anything leaving your machine.</li>
-<li><code>flowrunner login</code> connects the project to one workspace.</li>
-<li><code>flowrunner deploy</code> builds the definition, packages the project and uploads it.</li>
-</ol>
-<p>Only step 2 differs between the two routes. <a href="ai-assisted.html">Let AI build it</a> and
-<a href="getting-started.html">Write it yourself</a> each walk the whole loop with a working extension at the end.</p>
+<h2 id="the-details-by-question">The details, by question<a class="headerlink" href="#the-details-by-question" title="Permanent link">&para;</a></h2>
+<p>Building the module:</p>
+<ul>
+<li><a href="service-structure.html">Service Structure</a> - <code>createExtension</code> in full: config, <code>initContext</code>, <code>apiRequest</code>,
+  helpers</li>
+<li><a href="parameters-and-types.html">Parameters &amp; Types</a> - every field type, the widget it produces, and the plugins</li>
+<li><a href="actions.html">Actions</a> - what a handler receives, what it returns, and how a flow reads it</li>
+<li><a href="dictionaries.html">Dictionaries</a> - turn an id field into a picker filled from the live API</li>
+<li><a href="triggers.html">Triggers</a> - polling and realtime triggers that hand a flow what they find</li>
+<li><a href="http-requests.html">HTTP Requests</a> - the request client and its failures</li>
+<li><a href="files.html">Storing Files</a> - a file backend for extensions that need one</li>
+</ul>
+<p>Shipping it:</p>
+<ul>
+<li><a href="testing.html">Testing</a> - the harness that runs your extension with HTTP intercepted</li>
+<li><a href="deploying.html">Deploying &amp; Managing</a> - versions, rollback, configuration, and sharing a workspace</li>
+<li><a href="cli.html">The FlowRunner CLI</a> - every command and flag</li>
+<li><a href="troubleshooting.html">Troubleshooting</a> - symptoms first, with the cause each one usually has</li>
+</ul>
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="ai-assisted.html">Let AI Build It</a> - install the agents, describe the service, review what comes back</li>
-<li><a href="getting-started.html">Write It Yourself</a> - install the CLI, scaffold a service, deploy it</li>
-<li><a href="cli.html">The FlowRunner CLI</a> - every command and the flags worth knowing</li>
 <li><a data-preview="" href="../build/integrations/custom-actions.html">Custom &amp; Marketplace Actions</a> - the cheaper routes to a missing
   block, worth checking first</li>
 <li><a data-preview="" href="../learn/concepts/blocks.html">Blocks</a> - the categories a custom action joins</li>
@@ -5291,13 +5171,13 @@ the same way:</p>
         
         
           
-          <a href="ai-assisted.html" class="md-footer__link md-footer__link--next" aria-label="Next: Let AI Build It">
+          <a href="ai-assisted.html" class="md-footer__link md-footer__link--next" aria-label="Next: Quick Start (AI)">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Let AI Build It
+                Quick Start (AI)
               </div>
             </div>
             <div class="md-footer__button md-icon">

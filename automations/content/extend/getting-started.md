@@ -1,112 +1,64 @@
-# Write It Yourself
+# Quick Start: Your First Extension (code)
 
-This walkthrough builds a working custom extension end to end, by hand. You will write an action that
-fetches a movie from The Movie Database, deploy it to your workspace, fill in its API key, and place it in
-a flow. It takes about fifteen minutes, and the TMDB extension you build here is the one every later page
-adds to.
+When you finish this page, a block of your own, Get Movie Details, sits in the block palette of every flow in
+your workspace and fetches a film from The Movie Database. You paste one file and run four CLI commands. If you
+would rather describe the service and let Claude Code write it, take
+[Quick Start: Your First Extension (with AI)](ai-assisted.md).
 
-Writing the module yourself is one of [two ways to build an extension](index.md#two-ways-to-build-one). If
-you would rather describe the service and review what comes back, see
-[Let AI Build It](ai-assisted.md) - it produces the same kind of module, in the same project, deployed with
-the same command.
+!!! note "What you need"
+    - **Node.js and npm.** Node 18.20+, 20.12+ or 22+.
+    - **A FlowRunner™ workspace** you can sign in to.
+    - **A TMDB API key.** It is free: create an account at themoviedb.org, open **Settings**, choose **API**, and
+      copy the value labelled **API Key**, a 32-character string. The longer **API Read Access Token** on the
+      same page is not the one this service uses.
 
-## What you need
+## What you are building
 
-- **Node.js and npm.** Node 18.20 or newer, which is what the test harness the CLI installs requires.
-- **A FlowRunner™ workspace** you can sign in to. The extension is deployed to one workspace, and you need
-  access to it.
-- **A TMDB API key**, if you want to run the example against the real service. It is free: create an account
-  at themoviedb.org, then **Settings ▸ API**, and copy the v3 key.
+One action, Get Movie Details, that takes a movie id and returns what TMDB holds about the film. It lives in a
+project on your machine, and once deployed it is a block wired after Start like any other:
 
-## Create the project
+![Start wired into the Get Movie Details block on the canvas, with the block's configuration panel showing the Test Panel, the TMDB Custom Extension it belongs to with its CONFIGURE button, Movie ID set to 693134, and Reference Result Data As reading Get Movie Details Result](../images/extend/block-in-flow.png)
 
-A custom extension lives in your own repository, not in FlowRunner. Create one with `npx`, which is the only
-time you need it - `init` installs the CLI into the project it creates:
+## 1. Create the project
+
+Open a terminal and enter the following command:
 
 ```bash
-npx flowrunner-cli init -d my-extensions
+npx flowrunner-cli init -d my-extensions -s prod
 cd my-extensions
 ```
 
-It writes the project files, installs dependencies, and makes a git repository with a first commit:
+`-s prod` points the project at the FlowRunner cloud. It is an `init` flag, so you pass it only here. The
+package is `flowrunner-cli`; the command it installs is `flowrunner`, inside the project, which is why every
+later command starts with `npx flowrunner`.
 
-```
-Project directory:
+## 2. Connect it to your workspace
 
-  /Users/you/my-extensions
-  a new directory
-
-  + package.json
-  + .gitignore
-  + flowrunner.json
-  + README.md
-  + jest.config.js
-  + jest.setup.js
-  + sandbox/index.js
-  + sandbox/service.js
-  + sandbox/nock-mock.js
-  + sandbox/files-mock.js
-
-  Server: https://app.flowrunner.ai
-```
-
-`flowrunner.json` records which server the project points at. `sandbox/` is the local test harness, and
-`.gitignore` already excludes the deploy token you are about to create.
-
-## Connect the project to your workspace
+Run the following command:
 
 ```bash
-flowrunner login
+npx flowrunner login
 ```
 
-The CLI starts a small server on a local port, opens your browser, and waits. On the page that opens, pick
-the workspace this project will deploy to and choose ((Authorize)).
+Your browser opens on a page headed **Authorize Cloud Code CLI**. Pick the workspace this project will deploy
+to and choose ((Authorize)):
 
-![The CLI authorize page with the workspace dropdown open, listing the workspaces the signed-in account can reach, above a note that the token issued expires in 30 days](../images/extend/cli-authorize-workspace-picker.png)
+![The Authorize Cloud Code CLI page with the signed-in account at the top, the Workspace picker showing the selected workspace and its id, the Deploy Custom extensions permission, and the Deny and Authorize buttons above a note that the token expires in 30 days](../images/extend/cli-authorize-workspace-picker.png)
 
-The token it issues is good for 30 days and is stored in `.flowrunner/token`, outside git. Your choice of
-workspace is written into `flowrunner.json`, which you should commit:
+## 3. Scaffold the service
 
-```json
-{
-  "serverUrl": "https://app.flowrunner.ai",
-  "workspaceId": "3F2A9C41-7B10-4E52-9D64-0C81A7F5B2E3",
-  "workspaceName": "Acme Production"
-}
-```
-
-## Scaffold the service
-
-Each extension is a folder under `services/`. Create one from the `blank` template:
+Run the following command:
 
 ```bash
-flowrunner cs blank --id tmdb --name "TMDB"
+npx flowrunner cs blank --id tmdb --name "TMDB" -y
 ```
 
-```
-  Created services/tmdb/
-    package.json
-    src/index.js
-    README.md
-    public/icon.svg
-```
+It creates `services/tmdb/` with a `src/index.js` to fill in and a placeholder `public/icon.svg`, then offers
+to deploy. Answer **n**; there is nothing to deploy yet.
 
-The id becomes the folder name and the extension's identity, so it is frozen once you deploy: it must start
-with a lowercase letter and contain only lowercase letters, digits and dashes.
+## 4. Paste the extension code
 
-Note the `package.json` inside the service folder. **Each service is its own npm package**, and only
-`services/<id>/node_modules` is uploaded, so any dependency you add is installed there:
-
-```bash
-cd services/tmdb && npm install some-package && cd ../..
-```
-
-A dependency installed at the project root instead will work on your machine and then fail with
-`MODULE_NOT_FOUND` the first time the block runs.
-
-## Write the extension
-
-Open `services/tmdb/src/index.js` and replace it with this:
+Replace `services/tmdb/src/index.js` with this:
 
 ```js
 const z = Flowrunner.z
@@ -120,7 +72,7 @@ const ext = Flowrunner.createExtension({
   logo       : '/icon.svg',
 
   configItems: z.object({
-    apiKey: z.string().label('API Key').describe('Your TMDB v3 API key, from Settings -> API'),
+    apiKey: z.string().secret().label('API Key').describe('Your TMDB v3 API key, from Settings -> API'),
   }),
 
   initContext: ({ config }) => ({
@@ -157,72 +109,20 @@ ext.addAction({
 })
 ```
 
-There is no `require` and no `export`. The runtime never reads an export: it loads the file and takes
-whatever `createExtension` and `addAction` put on the extension object.
+What each part does:
 
-Four things in that file do the work:
+- **`configItems`** is the form you fill in once on the extension's page in the workspace (step 6); the values
+  arrive as `config`, so the key is never written into the file. `.secret()` masks it on that form.
+- **`apiRequest`** is the one place HTTP happens, so every action sends the key the same way.
+- **`addAction`** is the block: `label` is its name in the editor, `params` are its fields, `result` is a
+  sample of what it returns.
 
-- **`configItems`** declares what the workspace fills in. It becomes a form in the console, and the values
-  arrive as `config` in your code, so a key is never written into the file.
-- **`initContext`** runs once per invocation and returns the `context` every handler sees. Derive base URLs
-  and resolved credentials here rather than repeating them.
-- **`apiRequest`** is the one place HTTP happens. Auth, error handling and logging live here instead of in
-  every action.
-- **`addAction`** registers a block. `label` is its name in the editor, `params` become its fields, and
-  `result` is the sample a flow builder binds against when wiring the output into a later step.
+## 5. Deploy it
 
-## Test it before you deploy
-
-`init` installed a harness in `sandbox/` that runs your extension through the real runtime with HTTP
-intercepted at the socket, so a test asserts what the pod would have sent and nothing reaches the network.
-Suites live beside the service they cover, in `services/<id>/tests/`. Create
-`services/tmdb/tests/tmdb.test.js`:
-
-```js
-'use strict'
-
-const { createNockMock, runServiceMethod } = require('../../../sandbox')
-
-const BASE = 'https://api.themoviedb.org/3'
-
-describe('TMDB Service', () => {
-  const serviceId             = 'tmdb'
-  const serviceEntryPointPath = require.resolve('../src/index.js')
-  const configs               = { apiKey: 'test-api-key' }
-
-  let httpMock
-
-  beforeAll(() => { httpMock = createNockMock() })
-  afterEach(() => { httpMock.reset() })
-  afterAll(() => { httpMock.dispose() })
-
-  it('reads one movie by id and sends the key from config', async () => {
-    const movie = { id: 693134, title: 'Dune: Part Two', runtime: 167 }
-
-    httpMock.onGet(`${ BASE }/movie/693134`).reply(movie)
-
-    const result = await runServiceMethod({
-      serviceId, serviceEntryPointPath, configs,
-      methodName: 'getMovieDetails',
-      methodData: { movieId: '693134' },
-    })
-
-    expect(result).toEqual(movie)
-    expect(httpMock.history[0].query).toEqual({ api_key: 'test-api-key' })
-  })
-})
-```
+Run the following command:
 
 ```bash
-npm test
-```
-
-The second assertion proves the key came from configuration, read off the request as it went out.
-
-## Deploy it
-
-```bash
-flowrunner deploy
+npx flowrunner deploy
 ```
 
 ```
@@ -233,63 +133,135 @@ Deploying custom extensions...
   Found 1 service under services/.
 
   Deploying 1 service:
-    - new service: tmdb (TMDB) - [9073d8681d99] - packaged 11.0 KB
+    - new service: tmdb (TMDB) - [2464434ccfaf] - packaged 3.9 KB
 
-  Deployed 1 service to workspace "Acme Production" (3F2A9C41-…) — you can use it in a flow.
+  Deployed 1 service to workspace "Acme Production" (3F2A9C41-7B10-4E52-9D64-0C81A7F5B2E3) — you can use it in a flow.
+  Open Custom Extensions screen in the Flowrunner Console to configure it: https://app.flowrunner.ai/app/Acme%20Production/custom-extensions
 ```
 
-The twelve-character hash is the version. Deploy again after a change and the line reads `modified service`
-with a new hash; deploy without changing anything and it reads `same service` and nothing is uploaded.
-
-Your extension is now listed under **Custom Extensions** in the workspace navigation:
+The extension is now listed under **Custom Extensions** in the workspace navigation:
 
 ![The Custom Extensions screen in the workspace navigation, listing the deployed TMDB service with 1 method, the file path src/index.js and its source hash](../images/extend/custom-extensions-list-minimal.png)
 
-## Fill in the API key
+## 6. Give the workspace your TMDB key
 
-Open the service and go to ((Configuration)). Every field you declared in `configItems` is here, with the
-label and description you gave it. Paste your TMDB key and ((Save Configuration)).
+Open the service, go to ((Configuration)), paste your TMDB key and ((SAVE CONFIGURATION)). The field is masked
+because of `.secret()`, and the description you gave it sits behind the question mark beside the label. This is
+done once per workspace:
 
-![The TMDB Configuration tab showing the single API Key field rendered from the configItems declaration, with its label, description and a Save Configuration button](../images/extend/configuration-tab-minimal.png)
+![The TMDB Configuration tab with the API Key field masked as dots, a Show value eye at its edge, a help icon beside the label, and the SAVE CONFIGURATION button below](../images/extend/configuration-tab-minimal.png)
 
-This is filled in once per workspace, not per flow.
+## 7. Run it by hand
 
-The ((Execute)) tab beside it runs a single method by hand, which is the quickest way to confirm the key
-works before you build anything around it.
+The ((Execute)) tab beside it runs the action with a value you type. Enter `693134` as `movieId` and choose
+((EXECUTE)):
 
-![The Execute tab with Get Movie Details selected, movieId set to 693134, and the returned Dune: Part Two JSON below the Result heading](../images/extend/execute-tab-minimal.png)
+![The Execute tab with Get Movie Details selected, movieId set to 693134, and under Result the end of the returned JSON, scrolled to show release_date 2024-02-27, runtime 167, status Released, tagline Long live the fighters., title Dune: Part Two and vote_average 8.136](../images/extend/execute-tab-minimal.png)
 
-## Use it in a flow
+## 8. Add the block to a flow
 
-Open a flow, or create one, and search the block palette for your action. It sits under
-**Local Extensions**, grouped by the `category` you set:
+Open a flow, or create one, and type `movie` into the palette's ((Search)) box. Your action sits under
+**Custom Extensions**, in the TMDB group:
 
-![The block palette filtered to "movie", showing LOCAL EXTENSIONS, a TMDB group holding one action, and Get Movie Details beneath the Actions heading](../images/extend/palette-getting-started.png)
+![The block palette with "movie" typed in its Search box, showing the CUSTOM EXTENSIONS group, the TMDB extension inside it, and Get Movie Details listed under Actions in the TMDB category](../images/extend/palette-getting-started.png)
 
-Drag it onto the canvas and fill in its field. The `params` you declared are the fields on the
-configuration panel, and the panel names the extension the block came from:
+Drag it onto the canvas after ((Start)) and set ((Movie ID)) to `693134`.
 
-![The Get Movie Details block wired after Start on the canvas, with its configuration panel showing the TMDB Custom Extension it belongs to and Movie ID set to 693134](../images/extend/block-in-flow.png)
+## 9. Run it in the flow
 
-((Run Block)) in the Test Panel runs it there and then. The Test Monitor shows the input you gave it beside
-what the API returned:
+Choose ((run block)) in the ((Test Panel)). The **Test Monitor** shows what you sent and what TMDB returned:
 
-![The Test Monitor's Block Results tab for Get Movie Details, with Input showing movieId 693134 and Output marked Success above the returned Dune: Part Two JSON](../images/extend/test-monitor-result.png)
+![The Test Monitor's Block Results tab for Get Movie Details, with Input showing movieId 693134 and Output marked Success above the returned JSON, scrolled to its last lines: spoken_languages, status Released, tagline Long live the fighters., title Dune: Part Two, vote_average 8.136 and vote_count](../images/extend/test-monitor-result.png)
 
-That result is what later blocks read through the Expression Editor, the same as any built-in block's.
+That is the extension running in your workspace.
 
-Every later change repeats three steps: `npm test`, `flowrunner deploy`, and a reload of any editor tab
-that was already open.
+## What to try next
+
+- **Read the result from a later block.** In any block after it, open the Expression Editor, choose
+  **Get Movie Details Result** under **Block Data**, and pick a property. The list is the `result` sample you
+  declared. The expression {{Get Movie Details Result->title}} gives `Dune: Part Two`. TMDB returns more than
+  the sample and the block hands all of it on; to read a property that is not in the sample, type its name into
+  the picker's own box, or add it to `result` and deploy again.
+
+    ![The Select property dialog listing id 693134, title Dune: Part Two, tagline, release_date, runtime 167, vote_average 8.133 and a genres array, each with its type](../images/extend/result-property-picker.png)
+
+- **Add a second action** with another `addAction` call - [Actions](actions.md).
+- **Add a trigger** that watches TMDB for new releases and starts a run - [Triggers](triggers.md).
+- **Test it without deploying.** The project has a test harness that runs the extension with HTTP intercepted -
+  [Testing](testing.md).
+- **Change it and deploy again.** Every later change is `npx flowrunner deploy`; an editor that is already open
+  picks the new version up on its own. Versions, rollback and what a deploy does -
+  [Deploying & Managing](deploying.md).
+- **When something fails** - [Troubleshooting](troubleshooting.md).
 
 ## Related
 
-- [Service Structure](service-structure.md) - `createExtension` in full: config, `initContext`,
-  `apiRequest`, helpers
-- [Actions](actions.md) - the handler context bag, declaring results, and what to return
-- [Parameters & Types](parameters-and-types.md) - every zod type, the widget it produces, and the plugins
-- [Dictionaries](dictionaries.md) - turn an id field into a picker filled from the live API
-- [Triggers](triggers.md) - extensions that watch a system and hand what they find to a flow
-- [Testing](testing.md) - the harness this page used, and what a fuller suite covers
-- [Deploying & Managing](deploying.md) - versions, rollback, and sharing a workspace between projects
-- [Troubleshooting](troubleshooting.md) - what to do when a deploy or a block fails
 - [The FlowRunner CLI](cli.md) - every command and flag
+- [Service Structure](service-structure.md) - `createExtension` in full: config, `initContext`, `apiRequest`
+- [Parameters & Types](parameters-and-types.md) - every field type a param or config item can have
+
+<!-- DRIVE LOG for this page (rewritten 2026-09-22 as the code quick start; earlier logs superseded). Everything below
+     was driven on 2026-09-22 unless dated otherwise. Environments: CLI drives in scratch projects (0.0.10 in
+     ~/dev/fr-cli-docs-project; 0.0.12 fetched fresh by npx elsewhere); product drives on app.flowrunner.ai /
+     Documentation Flows (Mark: docs verify against the released product), Playwright at 1680x1050, Mark signed in.
+     STEP 1: `npx flowrunner-cli init -d my-extensions -s prod` run VERBATIM in an empty directory (0.0.12): stdout
+     lists the ten files and prints `Server: https://app.flowrunner.ai`; flowrunner.json = {serverUrl prod}; git
+     "Initial commit"; node_modules/.bin/flowrunner present. Without -s the same command binds to dev (FR-3632);
+     `npx flowrunner init` (no -cli) is npm 404 - the package is flowrunner-cli, its bin is flowrunner. Bare
+     `flowrunner` in a project: "command not found"; `npx flowrunner --version` works.
+     STEP 2: `npx flowrunner login` -> Authorize Cloud Code CLI page (Authorize dimmed until a workspace is chosen);
+     picked Documentation Flows, Authorize -> token written to .flowrunner/token (67 bytes), workspaceId/Name into
+     flowrunner.json, .gitignore lists .flowrunner/. Shot cli-authorize-workspace-picker.png (prod, today; DOM
+     substitutions: mark@backendless.com -> dev@acme.com, Mark Piller -> Alex Rivera, Documentation Flows -> Acme
+     Production, workspace id -> the page's example id).
+     STEP 3: `npx flowrunner cs blank --id tmdb --name "TMDB" -y` (fresh project, TTY via expect): creates services/,
+     services/tmdb/{package.json,src/index.js,README.md,public/icon.svg}, then "Would you like to deploy ... (Y/n)"
+     (default yes, not covered by -y, skipped without a TTY); answered n. Without -y it also asks Description, Enable
+     OAuth2, Enable the Files API. `--id Bad_Id` is rejected with the message quoted on cli.md.
+     STEP 4: the js block on this page (with .secret()) written verbatim to services/tmdb/src/index.js together with
+     the one-test suite from testing.md; `npm test` -> 1 passed (also passes with `module.exports = ext` appended).
+     STEP 5: bare `npx flowrunner deploy` in a one-service project (no prompt on a TTY): the block on this page is that
+     run's stdout with workspace name/id swapped for the running example (also inside the console URL). Runs: new
+     service 2464434ccfaf 3.9 KB; again -> "same service ... already deployed, nothing to upload"; description edited
+     -> modified c05c7882b4cc; original restored -> modified 2464434ccfaf packaged again (an older hash is re-uploaded).
+     Custom Extensions list: TMDB / 1 / src/index.js / SOURCE HASH 2464434c = first 8 chars. Shot
+     custom-extensions-list-minimal.png (prod, today; nav name swapped to Acme Production).
+     STEP 6: Configuration tab on prod: `.secret()` field masked by CSS (webkit-text-security: disc) with a "Show value"
+     eye; Save Configuration is DOM "Save Configuration" uppercased by CSS. The .describe() text is a tooltip on the
+     fa-circle-question icon beside the label (hover -> "Your TMDB v3 API key, from Settings -> API"); I first missed
+     it (probed SVGs and body text only) and filed FR-3634, retracted the same day. Shot configuration-tab-minimal.png
+     recaptured on prod today with a dummy value typed (demo-api-key-not-real, NOT saved) so the dots and the eye show.
+     STEP 7: Execute tab lists the method, names the parameter by its key `movieId` and shows the description under
+     the field. RUN on prod with Mark's v3 key (32 chars; his first paste was the 239-char v4 Read Access Token, which
+     TMDB rejects and which surfaces as `{"error": "[object Object]"}` - FR-3637): movieId 693134 -> the full TMDB JSON
+     in a scrollable Result box; shot execute-tab-minimal.png scrolled to the end so the title row is in frame.
+     STEP 8: flow "Movie Details" created on prod (kept). Palette search box placeholder is "Search"; "movie" ->
+     CUSTOM EXTENSIONS ("Custom JavaScript code extensions", FR-3474 live on prod) > TMDB (1) > Actions > TMDB > Get
+     Movie Details; shot palette-getting-started.png. Also seen from a second flow (Weather Check): the group is there
+     without a reload. Block dropped (elementId EXTENSION:::APP:::default:::tmdb:::getMovieDetails), auto-wired after
+     Start; panel: Test Panel (run block / manage block result - DOM "Run Block", CSS lowercase), Name, "TMDB / Custom
+     Extension" + CONFIGURE (opens the same API Key form in a dialog: "The configuration parameters will apply to all
+     actions and triggers of the service"), Parameters: Movie ID [string] "(no value)" with "Movie ID is required"
+     until filled, Reference Result Data As = "Get Movie Details Result", Assign to a Variable, Logging, Notes. Shot
+     block-in-flow.png (Start anchor, block, panel to the Reference Result Data As row; minimap/controls/attribution
+     hidden by CSS; viewport transform set by script).
+     STEP 9: Run Block RUN on prod with the v3 key: Success; Input {"movieId":"693134"}; Output = TMDB's full JSON (63
+     lines) in the Test Monitor's viewer; shot test-monitor-result.png scrolled so the title row is in frame (the viewer
+     shows a few pixels of the line above its first full line - that is the editor's own scroll, not the crop). Editor
+     refresh after a deploy DRIVEN: label changed to "Get Movie
+     Details v2" + deploy -> the open editor's palette showed the new label without a reload (a placed block keeps its
+     Name); restored + deploy -> palette back to the original label, again without a reload.
+     WHAT TO TRY NEXT: Set Variables wired after the block; its Value field's Expression Editor: Block Data lists the
+     pill "Get Movie Details Result"; dblclick inserts it; the token's arrow opens "Select property" listing the
+     declared result sample with values and types (id 693134, title Dune: Part Two, tagline, release_date, runtime
+     167, vote_average 8.133, genres array) BEFORE any run - shot result-property-picker.png; picking title writes
+     the pill "Get Movie Details Result -> title". The picker's own box reads "Select or type...". Not run to a value.
+     IMAGES: cli-authorize-workspace-picker.png, custom-extensions-list-minimal.png, palette-getting-started.png,
+     block-in-flow.png, result-property-picker.png - prod, 2026-09-22, read back from pixels. configuration-tab-minimal.png,
+     configuration-tab-minimal.png - prod, 2026-09-22 (dummy value typed, not saved). execute-tab-minimal.png and
+     test-monitor-result.png - prod, 2026-09-22, with Mark's real v3 key saved, both scrolled so the title row is in
+     frame. All eight images on this page are prod captures from 2026-09-22.
+     NOT DRIVEN: themoviedb.org's Settings > API labels (Mark's paste confirmed the v4 token sits beside the v3 key);
+     config value surviving a redeploy; the Expression pill evaluated to a value.
+     DEFECTS FROM THESE DRIVES: FR-3632 (init defaults to dev), FR-3635 (z.number() decimals dropped at run time -
+     this page's only param is a string). FR-3634 retracted (see STEP 6). -->

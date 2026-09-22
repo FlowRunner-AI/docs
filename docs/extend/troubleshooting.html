@@ -4355,7 +4355,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    Let AI Build It
+    Quick Start (AI)
   
 
     
@@ -4383,7 +4383,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
   <span class="md-ellipsis">
     
   
-    Write It Yourself
+    Quick Start (code)
   
 
     
@@ -5304,7 +5304,7 @@ c407 0 725 4 775 10 503 61 938 369 1182 836 104 200 136 308 203 696 20 112
 <h2 id="the-deploy-fails">The deploy fails<a class="headerlink" href="#the-deploy-fails" title="Permanent link">&para;</a></h2>
 <p><strong>"Run <code>flowrunner login</code> first"</strong> - there is no token in <code>.flowrunner/token</code>, or it was revoked by a
 <code>logout</code>.</p>
-<p><strong>"Session expired"</strong> - the token was valid and is not any more. They last 30 days. Run <code>flowrunner login</code>
+<p><strong>"Session expired"</strong> - the token was valid and is not any more. They last 30 days. Run <code>npx flowrunner login</code>
 and deploy again.</p>
 <p><strong>A <code>403</code> naming a mismatch</strong> - the token belongs to a different workspace than <code>flowrunner.json</code> points at.
 This is what you get after editing <code>workspaceId</code> by hand. Log in again instead.</p>
@@ -5336,9 +5336,9 @@ the CLI does not deploy. Only <code>Flowrunner.createExtension</code> services d
 Move the API values into the <code>z.enum</code> list and the display names into <code>.labels()</code> - see
 <a href="parameters-and-types.html#showing-a-label-sending-a-value">Parameters &amp; Types</a>.</p>
 <h2 id="the-block-does-not-appear-in-the-editor">The block does not appear in the editor<a class="headerlink" href="#the-block-does-not-appear-in-the-editor" title="Permanent link">&para;</a></h2>
-<p>Reload the editor. An editor that was already open holds its block list until the page is reloaded.</p>
-<p>If it is still missing, check the extension is listed under <strong>Custom Extensions</strong> with the version you
-expect. A deploy that reported <code>same service</code> uploaded nothing, which is correct if the code has not
+<p>An editor that was already open picks a deploy up on its own within a few seconds; the palette can look empty
+while it refreshes. If the block is still missing, check the extension is listed under <strong>Custom Extensions</strong>
+with the version you expect. A deploy that reported <code>same service</code> uploaded nothing, which is correct if the code has not
 changed, and misleading if you expected it to have.</p>
 <h2 id="the-block-errors-immediately-with-invalid-params">The block errors immediately with "invalid params"<a class="headerlink" href="#the-block-errors-immediately-with-invalid-params" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>[flow-extension:tmdb] invalid params for method &quot;discoverMovies&quot; — minRating: «Minimum Rating» must be at most 10
@@ -5373,7 +5373,7 @@ instead of inside the service folder. Only <code>services/&lt;id&gt;/node_module
 <p><strong>Every call is unauthorized</strong> - the configuration is empty, or the key is being read from the wrong place.
 Check the values on the extension's configuration tab, then run one method from its execute tab, which
 confirms a key without building a flow around it. Both are shown in
-<a href="getting-started.html#fill-in-the-api-key">Write It Yourself</a>.</p>
+<a href="getting-started.html#6-give-the-workspace-your-tmdb-key">Quick Start: Your First Extension (code)</a>.</p>
 <p><strong>A parameter arrives at the API as <code>null</code></strong> - <code>.query()</code> serializes <code>null</code> as the string <code>null</code>. Strip
 empty values before the call, on <code>undefined</code> and <code>null</code> rather than on falsiness, since <code>''</code>, <code>0</code> and
 <code>false</code> are legitimate values.</p>
@@ -5449,7 +5449,7 @@ that was never started has no registration.</p>
 </table>
 <h2 id="error-codes">Error codes<a class="headerlink" href="#error-codes" title="Permanent link">&para;</a></h2>
 <p>Some of these are raised while the CLI builds your definition, so you see them <strong>in your terminal</strong> at
-<code>flowrunner deploy</code> or <code>npm test</code>, code and all:</p>
+<code>npx flowrunner deploy</code> or <code>npm test</code>, code and all:</p>
 <table>
 <thead>
 <tr>
@@ -5533,7 +5533,7 @@ wrong, and do not write flow logic that branches on a code.</p>
 <h2 id="getting-more-detail">Getting more detail<a class="headerlink" href="#getting-more-detail" title="Permanent link">&para;</a></h2>
 <ul>
 <li>The <strong>execute</strong> tab on the extension's page runs one method with values you type, in isolation from any
-  flow (<a href="getting-started.html#fill-in-the-api-key">Write It Yourself</a>).</li>
+  flow (<a href="getting-started.html#7-run-it-by-hand">Quick Start: Your First Extension (code)</a>).</li>
 <li>Running a single block in the editor shows the input alongside the result or the error in the Test
   Monitor (<a href="actions.html#trying-an-action-without-a-flow">Actions</a>).</li>
 <li><strong><code>logger.debug()</code></strong> in your handler instead of <code>console.log</code>. Its output is attributed to your extension

@@ -1,19 +1,56 @@
-# Let AI Build It
+# Quick Start: Your First Extension (with AI)
 
-An extension is a JavaScript module in a defined format. You can learn that format and write it, or you can
-install the **FlowRunner™** agents into your AI assistant, describe the service you want, and review what
-comes back. This page is the second route.
+When you finish this page, a block of your own, Get Current Weather, sits in the block palette of every flow
+in your workspace and returns the current weather for a place you pick from a dropdown. You write one
+sentence; Claude Code writes the service from a reference that ships with the FlowRunner™ CLI, and the CLI
+deploys it. If you would
+rather write the code yourself, take [Quick Start: Your First Extension (code)](getting-started.md).
 
-What it changes is the order of the work. Instead of learning the format before you can start, you start
-at a working service and read it. What it does not change is that the module is yours: you own it, you
-review it, and the decisions inside it are still decisions somebody has to check.
+!!! note "What you need"
+    - **Node.js and npm.** Node 18.20+, 20.12+ or 22+.
+    - **A FlowRunner workspace** you can sign in to.
+    - **Claude Code**, installed and signed in. The service in this quick start uses Open-Meteo, which needs
+      no API key.
 
-## Install the agents
+## What you are building
 
-From the project the CLI created, one command:
+The Get Current Weather block wired after Start, with Berlin picked from its Place dropdown. Run it and
+Open-Meteo's current weather comes back in the Test Monitor:
+
+![The Get Current Weather block wired after Start on the canvas, with its configuration panel showing the Open-Meteo Custom Extension it belongs to and its Parameters, Place set to Berlin, State of Berlin, Germany, with Latitude and Longitude left empty](../images/extend/ai-block-in-flow.png)
+
+## 1. Create the project
+
+Open a terminal and enter the following command:
 
 ```bash
-flowrunner init-claude
+npx flowrunner-cli init -d my-extensions -s prod
+cd my-extensions
+```
+
+`-s prod` points the project at the FlowRunner cloud. It is an `init` flag, so you pass it only here. The
+package is `flowrunner-cli`; the command it installs is `flowrunner`, inside the project, which is why every
+later command starts with `npx flowrunner`.
+
+## 2. Connect it to your workspace
+
+Run the following command:
+
+```bash
+npx flowrunner login
+```
+
+Your browser opens on a page headed **Authorize Cloud Code CLI**. Pick the workspace this project will deploy
+to and choose ((Authorize)):
+
+![The Authorize Cloud Code CLI page with the signed-in account at the top, the Workspace picker showing the selected workspace and its id, the Deploy Custom extensions permission, and the Deny and Authorize buttons above a note that the token expires in 30 days](../images/extend/cli-authorize-workspace-picker.png)
+
+## 3. Install the FlowRunner agents
+
+Run the following command:
+
+```bash
+npx flowrunner init-claude
 ```
 
 ```
@@ -26,210 +63,197 @@ Agents in .claude/agents:
 
 Next steps:
   1. open CLAUDE.md and check the FlowRunner block reads the way you want
-  2. ask Claude Code to build a service - it will pick up the 2 FlowRunner agents
+  2. ask Claude Code to build a service — it will pick up the 2 FlowRunner agents
   3. the authoring reference lives in node_modules/flowrunner-cli/ai-docs/instructions/service-code-format/
 ```
 
-Nothing here calls a model. The command copies two agent definitions into the project and writes a block
-into `CLAUDE.md` between its own markers, leaving the rest of that file untouched. Your assistant picks them
-up the next time it works in the project.
+Two FlowRunner agents for Claude Code land in the project: one writes a service, the other writes its tests.
+Both read the authoring reference the CLI installed, so Claude Code knows the service format before you ask
+for anything.
 
-## Two agents, because one would mark its own homework
+## 4. Ask for the service
 
-The block installs a division of labour rather than a single helper:
+Open Claude Code in the project and describe the service in one sentence:
 
-- **`flowrunner-service-code-engineer`** owns everything inside a service - creating one, reviewing, fixing,
-  extending, and keeping its README in step with its actions.
-- **`flowrunner-service-test-engineer`** owns everything under `services/{id}/tests/` - writing a suite,
-  widening one, fixing a red one.
+> I need a service for the Open-Meteo weather API with a Get Current Weather action that takes either a place
+> picked from a dropdown of places looked up by name, or a latitude and longitude.
 
-A new service is both, in order: write it, then test it. The instructions are blunt about why that split
-exists: *"the second one's job is to disagree with the first."* A test engineer that also owned the source
-would fix the service to make its test pass, which is the one outcome a test suite exists to prevent.
+Approve the file edits and the test run when Claude Code asks. It reads the reference, writes the service and
+its tests, runs the tests, and reports back; the run behind this page took a few minutes. Your run will not
+match this one line for line: the names, fields and test count come from Claude Code's report, so use the
+names it gives you. Its report may say it could not call Open-Meteo while writing; the tests run with HTTP
+intercepted, and the block calls the real API once deployed.
 
-## Why this beats asking an assistant cold
+## 5. The service and tests it wrote
 
-The authoring reference ships inside the CLI, at
-`node_modules/flowrunner-cli/ai-docs/instructions/service-code-format/` - eighteen documents covering the
-service structure, the type system, dictionaries, triggers, the runtime contracts and a full worked
-reference service.
-
-Because it ships with the package, it is versioned with the package. The agent reads the format the
-installed CLI actually deploys, rather than whatever a model remembers about it. Update the CLI and rerun
-`init-claude` and the agents move with it - which is also why the `flowrunner-*` files are overwritten on
-every run, while agents under your own names are left alone.
-
-The instructions also tell the agent to stop rather than improvise: if that reference directory is missing,
-it is to ask you to install or update the CLI instead of proceeding from memory.
-
-## Asking for a service
-
-Describe the integration in your own words, the way you would to a colleague. The request that produced the
-example below was one sentence:
-
-> I need a service for the Open-Meteo weather API that can get the current weather for a latitude and
-> longitude, and look up a place by name so I can pick it from a dropdown.
-
-The default is the complete service in one pass, not a skeleton: the API's commonly-used actions, a
-dictionary on parameters that can be listed rather than typed, and triggers wherever the API supports them.
-Ask for less and you get less; ask for a whole integration and it will attempt the whole integration.
-
-That request produced a 277-line module with two actions, a dictionary behind the place lookup, a shared
-request helper handling both of the API's base URLs, and its own README. The agent read eleven of the
-eighteen reference documents to write it, checked the built definition, and ran each handler once against
-the live API before reporting back.
-
-Deployed, it is a block like any other. The parameters on its configuration panel are the ones the request
-implied and the agent decided on, including the three unit fields it chose to offer as fixed choices rather
-than free text:
-
-![The configuration panel of the Get Current Weather block: its name, the Open-Meteo Custom Extension it belongs to, and Body Params listing Place, Latitude, Longitude, Temperature Unit, Wind Speed Unit, Precipitation Unit and Time Zone. The three unit fields are dropdowns; Place, Latitude, Longitude and Time Zone are entry fields.](../images/extend/ai-built-block-config.png)
-
-Open-Meteo needs no API key, so this is one example you can run yourself end to end without signing up for
-anything.
-
-Follow-ups work the same way, and are where most of the time goes:
-
-> The projectId field on my Asana service should be a dropdown.
-
-## Reviewing what comes back
-
-This is the part that decides whether the route worked, and it is worth more of your attention than the
-asking. A service can build cleanly, publish the right actions, and still carry decisions you would not
-have made. Four things are worth checking every time:
-
-- **Conventions the agent invented.** Where the format offers no way to express something, the agent will
-  design something. In the weather example, a dictionary supplies one value per parameter but a location is
-  two numbers, so it stored `"52.52437,13.41053"` in one field and split it at run time. That works, and it
-  is a permanent contract every flow binding that field inherits - and nothing on screen hints at it. The
-  picker below is the agent's dictionary querying the live geocoding service, and it looks like any other
-  picker:
-
-    ![The Select value for Place picker open beside the block's configuration panel. A search box holds "Berlin"; five results are listed, each with a place name such as "Berlin, State of Berlin, Germany" above its coordinates "52.52437, 13.41053". The footer reads "Loaded 20 records". On the right the Get Current Weather panel shows the Open-Meteo Custom Extension and its Place, Latitude, Longitude and Temperature Unit fields.](../images/extend/ai-built-dictionary-picker.png)
-- **What it chose not to expose.** The same example fixed a list of eleven weather variables in the code
-  rather than offering them as a parameter. Reasonable, and not something the action's field list reveals.
-- **What it normalised.** Returning `[]` where the API omits a key entirely is a judgment call about
-  whether you are smoothing the provider's response or hiding it.
-- **The rules it broke on purpose.** A good agent reports these. In the example it hand-wrote a validation
-  the reference tells it not to write, because the alternative was not expressible.
-
-Ask for the reasoning behind anything you are unsure of. The agents are instructed to hand unresolved API
-questions back rather than guess, so a thin answer is itself a signal.
-
-## Getting it deployed
-
-There are two ways, and neither is more official than the other:
-
-- **Ask the assistant.** `flowrunner deploy` is a command like any other, and the assistant is already
-  working in your project. You can go from a description to a deployed block without leaving the
-  conversation.
-- **Run it yourself**, if you would rather drive it: `flowrunner login` then `flowrunner deploy`.
-
-One step needs a person either way. `flowrunner login` prints an authorization link, opens your browser,
-and waits while you approve the CLI and pick the workspace to deploy to. Do it promptly - the command gives
-up after a while and has to be run again. Deploying is what the token is for, so the workspace you pick is
-the workspace your services land in.
-
-The deploy itself names what it is sending, and sends only that:
+Claude Code created `services/open-meteo/`:
 
 ```
-  Connecting to Flowrunner Dev cluster (https://dev.flowrunner.ai)
-  Workspace "Documentation Flows" ({workspace-id})
-  Found 2 services under services/.
+services/open-meteo/
+  package.json
+  README.md
+  public/icon.svg
+  src/index.js
+  tests/open-meteo.test.js
+```
+
+The end of its report, trimmed:
+
+```
+**What was created** under `services/open-meteo/`:
+- `src/index.js` with the service, one dictionary and one action. No config items, since Open-Meteo needs no API key.
+- `README.md`, `package.json`, and a `public/icon.svg`.
+- `tests/open-meteo.test.js`, socket-mocked, no real API calls.
+
+**How the action works**
+- The "Places" dictionary searches the Open-Meteo geocoding endpoint with the text the user types. Options are
+  labelled like "Berlin, Berlin, Germany" and their value carries the coordinates, so the action needs no second lookup.
+- "Get Current Weather" takes an optional `place` dropdown plus optional latitude and longitude numbers. A chosen
+  place wins over typed coordinates. With neither a place nor both coordinates it fails with a clear message.
+```
+
+So the service exposes:
+
+- a **Get Current Weather** action, which takes a place picked from a dropdown or a pair of coordinates
+- a **Places** dictionary, the list behind that dropdown
+- no configuration items, because Open-Meteo needs no key
+- a 42-test suite
+
+Run the tests yourself with the following command:
+
+```bash
+npm test
+```
+
+```
+> my-extensions@0.0.1 test
+> jest
+
+Test Suites: 1 passed, 1 total
+Tests:       42 passed, 42 total
+Snapshots:   0 total
+Time:        0.478 s, estimated 1 s
+Ran all test suites.
+```
+
+Open `services/open-meteo/src/index.js` if you want to read what it did; you can change anything in it and
+deploy again.
+
+## 6. Deploy it
+
+Run the following command:
+
+```bash
+npx flowrunner deploy
+```
+
+```
+Deploying custom extensions...
+
+  Connecting to Flowrunner Prod cluster (https://app.flowrunner.ai)
+  Workspace "Acme Production" (3F2A9C41-7B10-4E52-9D64-0C81A7F5B2E3)
+  Found 1 service under services/.
 
   Deploying 1 service:
-    - new service: openmeteo (Open-Meteo) - [6777b98dd8c3] - packaged 7.5 KB
+    - new service: open-meteo (Open-Meteo) - [46b6c1764536] - packaged 11.2 KB
 
-  Deployed 1 service to workspace "Documentation Flows" ({workspace-id}) - you can use it in a flow.
+  Deployed 1 service to workspace "Acme Production" (3F2A9C41-7B10-4E52-9D64-0C81A7F5B2E3) — you can use it in a flow.
+  Open Custom Extensions screen in the Flowrunner Console to configure it: https://app.flowrunner.ai/app/Acme%20Production/custom-extensions
 ```
 
-A project can hold several services and a deploy does not have to carry all of them - `deploy -s <id>`
-sends one by name, which is what kept the scaffolded placeholder above out of this workspace. From here the
-blocks are available to your flows under **Local Extensions**, and
-[Deploying & Managing](deploying.md) covers versions, caches and removing an extension again.
+The extension is now listed under **Custom Extensions** in the workspace navigation, with two methods: the
+action and the dictionary. The TMDB row is the code quick start's extension in the same workspace:
 
-## Which assistants
+![The Custom Extensions screen in the workspace navigation, listing TMDB with 1 method and Open-Meteo with 2 methods, both at src/index.js, with the source hashes 2464434c and 46b6c176](../images/extend/custom-extensions-list-ai.png)
 
-**Claude Code** is what `init-claude` wires up today, and the command is named for it. The CLI carries a
-provider registry rather than a single hard-coded assistant - each entry naming an instructions file and an
-agents directory - so support for other assistants, Codex among them, will arrive through the same command
-without changing how any of this works.
+## 7. Add the block to a flow
 
-## Where the route hands back to you
+Open a flow, or create one, and type `weather` into the palette's ((Search)) box. Your action sits under
+**Custom Extensions**, in the Open-Meteo group:
 
-Honest limits, so none of them is a surprise later:
+![The block palette with "weather" typed in its Search box, showing the CUSTOM EXTENSIONS group, the Open-Meteo extension inside it, and Get Current Weather listed under Actions in the Weather category](../images/extend/palette-ai.png)
 
-- **There is no single command that does this.** It is your assistant working in a project the CLI set up,
-  not a hosted service you hand a sentence to. What the assistant can do is carry it the whole way,
-  deploy included - the work is a conversation, not a form.
-- **The output is source code you own.** You can read it, change it, and take it over at any point - see
-  [Write It Yourself](getting-started.md) for the format it is written in.
-- **A service id is frozen once deployed.** It is the persisted execution key, so the naming decision at
-  scaffold time is the one decision that cannot be revised later.
-- **Tests never reach the real API.** Suites mock HTTP at the socket, so a service is only truly validated
-  by deploying it and running it in a flow.
-- **A clean build is not a correct service.** The build check proves the module declares what you think it
-  declares; it says nothing about whether the integration is right.
+Drag it onto the canvas after ((Start)) and click the ((Place)) field. The picker you asked for opens, headed
+**Select value for Place**: type `Berlin` into its search box and pick **Berlin, State of Berlin, Germany**.
+Behind the list is the Places dictionary Claude Code wrote, calling Open-Meteo's geocoding as you type. Each
+entry's value is the place's coordinates; the name is its label. Leave Latitude and Longitude empty:
+
+![Start wired into the Get Current Weather block, with the Select value for Place picker open below it: Berlin typed into its search box and the matches listed as Berlin, State of Berlin, Germany, then Berlin in New Hampshire and New Jersey, Brunswick in Maryland, and Berlin in Wisconsin, Maryland and Massachusetts; the block panel on the right shows Place still empty](../images/extend/ai-place-picker.png)
+
+## 8. Run it in the flow
+
+Choose ((run block)) in the ((Test Panel)). The **Test Monitor** shows what you sent, the place's coordinates,
+and the current weather Open-Meteo returned:
+
+![The Test Monitor's Block Results tab for Get Current Weather, with Input showing place as the coordinates 52.52437,13.41053 and latitude and longitude as null, and Output marked Success above the returned JSON: latitude 52.52, longitude 13.419998, the Europe/Berlin timezone, elevation, the observation time and the temperature](../images/extend/ai-test-monitor.png)
+
+That is the extension running in your workspace.
+
+## What to try next
+<!-- doclint: no-shot: the Expression Editor's property picker is pictured on the code quick start (result-property-picker.png) -->
+
+- **Read the result from a later block.** In any block after it, open the Expression Editor, choose
+  **Get Current Weather Result** under **Block Data**, and pick a property; the result is flat, so
+  {{Get Current Weather Result->temperature}} is the temperature. [Actions](actions.md) covers what an action
+  can return.
+- **Ask for more.** Follow-ups work the same way: "add an action for the seven-day forecast", "add a
+  temperature unit parameter". Ask for a trigger where the API supports one - [Triggers](triggers.md).
+- **Read what it wrote.** [Service Structure](service-structure.md) explains every part of the module,
+  [Parameters & Types](parameters-and-types.md) the fields it chose, [Dictionaries](dictionaries.md) the
+  dropdown.
+- **Run the tests it wrote** and add your own - [Testing](testing.md).
+- **Change it and deploy again.** Every later change is a request to Claude Code, or an edit of your own,
+  followed by `npx flowrunner deploy`; an editor that is already open picks the new version up on its own.
+  Versions, rollback and what a deploy does - [Deploying & Managing](deploying.md).
+- **When something fails** - [Troubleshooting](troubleshooting.md).
 
 ## Related
 
-- [Custom Extensions](index.md) - what an extension is, and the two ways to build one
-- [Write It Yourself](getting-started.md) - the same loop, with the module written by hand
-- [The FlowRunner CLI](cli.md) - `init-claude` among every other command
-- [Testing](testing.md) - the harness the test engineer agent writes against
-- [Service Structure](service-structure.md) - the format the agents are reading
+- [The FlowRunner CLI](cli.md) - every command and flag, including `init-claude`
+- [Quick Start: Your First Extension (code)](getting-started.md) - the same end state, written by hand
 
-<!-- DRIVEN 2026-09-01. Everything on this page was reproduced end to end with flowrunner-cli 0.0.6 in a
-     scratch project, not read off a ticket or a package README.
-     WHAT WAS RUN: `flowrunner init -d fr-ai-probe blank --id docsprobe -s dev -y`, then
-     `flowrunner init-claude`. The two terminal blocks quoted above are that command's REAL stdout, verbatim
-     (the arrow in "build a service -" is an ASCII hyphen here; the CLI prints an em dash).
-     VERIFIED ON DISK: both agent files land in .claude/agents/; the CLAUDE.md block is written between
-     the `flowrunner-cli:ai:start` and `flowrunner-cli:ai:end` markers; the reference is at the stated path with 18
-     numbered documents plus a README. The "disagree with the first" sentence is quoted verbatim from the
-     installed CLAUDE.md block, not paraphrased.
-     THE CENTRAL CLAIM WAS TESTED, NOT ASSUMED: an assistant loaded with the shipped agent definition and
-     the one-sentence Open-Meteo request produced services/openmeteo/ - 277 lines, two actions
-     (getCurrentWeather, searchPlaces), one dictionary (getPlacesDictionary), no configItems - and
-     buildServiceDefinition passed FIRST RUN with the dictionary correctly wired
-     ("place": { "dictionary": "getPlacesDictionary" } in metaInfo.args). Both handlers were then run
-     against the live free API and returned real data. The existing docsprobe service was untouched.
-     The four review items in "Reviewing what comes back" are the four real decisions from that run, not
-     invented cautions: the "52.52437,13.41053" composite convention (visible at src/index.js:242
-     parseCoordinatePair), the fixed 11-variable current= list, the `results: response.results ?? []`
-     normalisation, and the hand-written either/or validation that 07-actions.md explicitly forbids.
-     WHY THE PAGE DOES NOT SAY "NO PROGRAMMING NEEDED": the reproduction's verdict on whether a
-     non-programmer could have got this result from one sentence and a review was NO - not because the
-     service was bad, but because those four decisions are invisible from the console and each needs code
-     to evaluate. The page therefore sells the route on what it demonstrably does - removing the need to
-     learn the format FIRST, and producing a complete service in one pass - and is explicit about the
-     review that the route does not remove. Reported to Mark.
-     DEPLOYED AND VERIFIED 2026-09-02 (the earlier note saying it was deliberately not deployed is
-     superseded; Mark pointed out the caution was inconsistent with the flow/API-key changes already made in
-     the same workspace that day). `flowrunner login` -> authorize in the browser -> pick Documentation
-     Flows -> `flowrunner deploy -s openmeteo`. The deploy block quoted on this page is that command's real
-     stdout with the workspace GUID replaced by {workspace-id}. Confirmed after: Custom Extensions lists
-     "Open-Meteo, 3 methods, src/index.js, 6777b98d" - the method count and hash both matching the deploy -
-     and the palette shows LOCAL EXTENSIONS > Open-Meteo > Weather > Get Current Weather with the
-     description the agent wrote. The block was placed in TD Sandbox to capture its configuration panel and
-     then deleted; TD Sandbox is back to its 3 nodes / 2 edges and was never published.
-     LOGIN TIMES OUT: the first login attempt expired while the browser side was being driven ("Login
-     failed: Login timed out. Please try again."), which is why the page tells the reader to authorize
-     promptly. Driven, not assumed.
-     DICTIONARY VERIFIED END TO END (and an earlier reading of mine was wrong - recorded here because the
-     mistake is instructive). I first concluded the Place field "renders as a plain text input, not a
-     picker" and nearly reported it as a defect. Two method errors: (1) I opened the field with a synthetic
-     el.click() inside browser_evaluate, which this UI does not respond to - a real click does; (2) I looked
-     for the picker only at x>1100 and in inline listbox markup, but the "Select value for" panel opens to
-     the LEFT of the configuration panel, at x=844. Mark supplied the control I had failed to run (TMDB's
-     Genre picker) and its row markup is IDENTICAL to Place's - help icon, fr-text-input placeholder
-     "(no value)", wand - so the two were never different.
-     Re-driven properly: a real click on Place opens "Select value for Place". It first reads "There are no
-     options matching this params" because the agent built a SEARCH dictionary rather than a fixed list;
-     typing "Berlin" returns "Loaded 20 records" of live geocoding results, each label above its coordinates.
-     That also answers a question raised on FR-3412: a dictionary item's `note` renders as the secondary
-     line under the label. The picker shot on this page is that state.
-     PROVIDER CLAIM: "other assistants, Codex among them, will arrive" is future tense and grounded in the
-     CLI's own src/constants/providers.ts, which is a Record keyed by provider with a label, an
-     instructions file and an agents directory - Claude Code is currently its only entry. No ship date is
-     stated because none is known. -->
+<!-- DRIVE LOG for this page (rewritten 2026-09-22 as the AI quick start; re-driven the same day after the gate).
+     Environment: app.flowrunner.ai / Documentation Flows (Mark: docs verify against the released product), Playwright
+     at 1680x1050, Mark signed in; flowrunner-cli 0.0.12 fetched by npx; Claude Code 2.1.280.
+     STEP 1: `npx flowrunner-cli init -d my-extensions -s prod` run VERBATIM in an empty directory: Server line
+     https://app.flowrunner.ai, flowrunner.json {serverUrl prod}, git first commit. (Package flowrunner-cli, bin
+     flowrunner; bare `flowrunner` is "command not found" in a project - see cli.md's record.)
+     STEP 2: login driven from the code quick start's project (authorize page captured there; the same token +
+     workspace fields were copied into this project rather than logging in twice). Shot shared with getting-started.md
+     (DOM substitutions listed there).
+     STEP 3: `npx flowrunner init-claude` stdout verbatim. Both agent files reference
+     ai-docs/instructions/service-code-format/; their descriptions: code engineer = anything touching src/index.js,
+     test engineer = suites under services/{id}/tests/ with HTTP mocked at the socket.
+     STEP 4: Claude Code run in the project with the request quoted on the page, non-interactively
+     (`claude -p "..." --permission-mode acceptEdits --output-format text`); its report says the `npm test`
+     wrapper "needed a permission approval the session did not grant" and it ran jest directly - hence the page's
+     "approve the file edits and the test run when Claude Code asks". A first run with a looser request ("look up a
+     place by name so I can pick it from a dropdown") produced a different service (two actions + dictionary, 54
+     tests, labels "Berlin, State of Berlin, Germany") - hence the "your run will not match line for line" sentence.
+     STEP 5: files as listed; the report block on the page is the end of the real report, trimmed (the
+     "Verification" and "Two things to know" parts cut). `npm test` block = verbatim from this single-service project.
+     STEP 6: bare `npx flowrunner deploy` in this single-service project, verbatim except the workspace name/id swap
+     (also inside the console URL): new service 46b6c1764536 packaged 11.2 KB. Custom Extensions list: TMDB / 1 /
+     2464434c and Open-Meteo / 2 / 46b6c176 (shot custom-extensions-list-ai.png, nav name swapped, 99+ badge hidden
+     before capture).
+     STEP 7: flow "Weather Check" on prod (kept). Palette search box placeholder "Search"; "weather" -> CUSTOM
+     EXTENSIONS > Open-Meteo (1) > Actions > Weather > Get Current Weather (shot palette-ai.png, from the first
+     deploy; names unchanged). Block dropped (elementId EXTENSION:::APP:::default:::open-meteo:::getCurrentWeather),
+     auto-wired after Start. Place field: click -> "Select value for Place" picker with its own "type to search..."
+     box; typing Berlin -> request payload.search "Berlin" -> 10 rows, first "Berlin, State of Berlin, Germany" (the
+     agent's sample said "Berlin, Berlin, Germany"; the live geocoder's admin1 is "State of Berlin"). Picked it; the
+     field shows the label, the value is "52.52437,13.41053". Shots ai-block-in-flow.png (empty Place, before the
+     pick; viewport transform set by script, minimap/controls hidden, the collapsed Test Monitor bar hidden),
+     ai-place-picker.png (picker open with Berlin typed).
+     STEP 8: Run Block -> Success. Input place "52.52437,13.41053", latitude null, longitude null; Output flat:
+     latitude 52.52, longitude 13.419998, timezone Europe/Berlin, elevation 46, time, interval 900, temperature 15,
+     apparentTemperature 13.1 ... (shot ai-test-monitor.png, cropped on a complete row). Earlier the same day, with
+     Latitude 52 and Longitude empty, the block failed with the agent's own message "«Latitude» and «Longitude»
+     must be provided together".
+     EDITOR REFRESH after a deploy: driven on the TMDB service (label change + deploy -> open editor's palette
+     updated without a reload; placed block keeps its name) - see getting-started.md's log.
+     NOT DRIVEN: an interactive Claude Code session (the run was `claude -p`); the "Ask for more" follow-ups; the
+     Expression pill evaluated to a value; a second flow's palette for this service (done for TMDB).
+     DEFECT: FR-3635 - z.number() params lose decimals at run time (52.52 ran as 52); this page uses the Place picker,
+     a string value, so it does not depend on the fix. Retracted the same day: FR-3636 (dictionary picker "broken" -
+     I had typed into the field, not the picker's search box). -->

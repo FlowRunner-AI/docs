@@ -267,6 +267,48 @@ can't see the screen, it's wrong.
      message" while the only sample message was a raw JS TypeError; a builder wiring a notification straight from
      it would surface a stack-trace fragment to a person.)
 
+0k. **Recurring corrections, round 6 (Mark, 2026-09-22 — FR-3627 / Getting Started gate pass):**
+   - **A duplicate is named with what it duplicates.** "FR-3618 is a duplicate" is not a finding; "FR-3618
+     duplicates FR-3625 (same summary) and both are covered by FR-3627 item 4" is. Same for pages: name the
+     page/section the text repeats.
+   - **A gate finding that can be verified in-product is verified, never deferred to Mark.** "Needs a browser
+     drive / a recapture" is work, not a decision. The only items that go to Mark are ones no drive can
+     settle (a product-owner call). "We MUST validate everything, it should not even be a decision."
+   - **Customer docs never name FlowRunner's internal clusters.** No `dev`, `local`, dev.flowrunner.ai or
+     localhost:3000 in prose, tables, code blocks or quoted CLI output; a drive done on dev is shown with the
+     cloud's server line and the running example's workspace (say so in the page comment). If the product
+     prints them, trim the quote to the customer-relevant rows and say the list is trimmed.
+   - **A code change the walkthrough asks for is explained where the reader meets it.** Adding `.secret()` to
+     the taught declaration is only right if the sentence beside it says what it does ("masks the field on the
+     configuration form") and the screenshot shows the masked field. Never ship the token without the why.
+   - **EXTEND opens with two QUICK STARTS (Mark, 2026-09-22).** One "build it with AI", one "write the code". Their
+     only goal is an extension running in the reader's workspace, reached as fast as possible: commands, code to
+     paste, and the minimum explanation to know what is happening. Learn by doing, not by reading. Both stop at
+     ONE action running in a flow (Mark: "the shortest quick start") and end with a path for stepping up the
+     exploration (triggers, dictionaries, testing, deploying...). EVERYTHING else in the section is supporting
+     documentation for the details. Testing, hash semantics, cache behaviour, prompt discussion belong there.
+   - **An adjustable default is not an obstacle.** I argued a trigger "cannot be experienced quickly" from the
+     600-second default; the interval is two clicks away. Before calling something slow, blocked or impractical,
+     check whether the control that governs it is in the reader's hands. Argue from the product, not its defaults.
+   - **Before filing ANY "the product does not show X" defect: screenshot the surface and LOOK, then probe with
+     generic selectors.** 2026-09-22: two tickets retracted the same day - the config description was a tooltip on
+     an `<i>` font icon my SVG-only probe never saw (FR-3634), and the dictionary picker was a popup with its own
+     search box while I typed into the field (FR-3636). A DOM query with the wrong selector is not evidence of
+     absence; the pixels were in my own captures both times.
+   - **A decision for Mark is ONE plain question, each option shown as it would look on the page, and my pick.**
+     2026-09-22: "chip case: displayed case vs DOM case + amend VOICE" and "bless fence-first for quick starts (0k)
+     and verbatim product output" made Mark ask "how on earth I am supposed to decipher what the decision should
+     be". Never name a rule, a lens, a file section or a ticket in the question; never bundle two questions; write
+     the two versions out (`((SAVE CONFIGURATION))` vs `((Save Configuration))`), say which I would pick and why in
+     one clause, and stop. If a question needs jargon to state, it is not ready to ask.
+   - **Mark's rulings 2026-09-22 (quick starts):** (a) a control's chip is written EXACTLY as the reader sees it on
+     screen - `((SAVE CONFIGURATION))`, `((EXECUTE))`, `((run block))` - never the product's internal casing;
+     (b) never drop a command box on the reader cold: the first command on a page gets "Open a terminal and enter
+     the following command:", every later one "Run the following command:"; (c) product output is quoted exactly
+     as printed, em dashes included; (d) one name per thing everywhere - when the CLI's own output names it
+     ("FlowRunner agents"), the prose uses that name too; (e) a wrong-key failure that shows `[object Object]` is a
+     product ticket (FR-3637), not six lines of error handling in the quick start.
+
 ## Structure
 1. **Lede leads with what the user's LOGIC does with the thing** — the operations/capabilities,
    tied to real automation needs, NOT "here's what it is." (Variables: "set a value aside, build on
