@@ -11,7 +11,7 @@ of the block palette in the Flow Editor: a match means the work is done for you.
 **Extensions** ships with FlowRunner - Airtable, Stripe, Slack, and many more - with nothing to install,
 and a connected [MCP server](../../platform/mcp-servers.md) adds its tools as blocks the same way.
 
-![The block palette in the Flow Editor, with the Search box at the top above the category list - AI, AI Assistants, Subflows, Triggers, Actions, Flows as Actions, and Utils.](../../images/learn/blocks-palette.png)
+![The block palette in the Flow Editor, with the Search box at the top above the category list - AI, Subflows, Triggers, Actions, Flows as Actions, Utils, Groups, Extensions, Custom Extensions and MCP Extensions.](../../images/learn/blocks-palette.png)
 
 A dedicated block already knows the service's address and handles its authentication, so you fill in only
 the parts that are about your request. Build the call by hand when the search comes back empty.

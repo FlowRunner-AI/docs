@@ -115,6 +115,25 @@ The first lists your **payment methods** - the cards and payment accounts on you
 
 The second is a **Workspaces** overview - every workspace you have, each with its billing plan (a workspace still on its trial reads, for example, *Business (Trial)*), the payment method assigned to it, and its subscription renewal date. You assign a workspace's payment method from this table; you change its plan back on the workspace's own Billing page.
 
+When someone is [handing a workspace over to you](team.md#transferring-ownership), a third panel,
+**Ownership Transfer**, lists it here. Choose a billing plan and a payment method and confirm to take it
+over.
+
+Some cards need you to confirm a payment with your bank. When you subscribe a workspace with such a card,
+the bank's confirmation opens straight away, and the workspace is subscribed only once the payment goes
+through. Close it without confirming and the workspace stays blocked until the payment is completed.
+
+<!-- RELEASE v.1.1.2, SOURCE-DERIVED, NOT DRIVEN (no second account; no real charge on a 3D Secure card):
+     - FR-3582: the recipient's Ownership Transfer panel on Payment Methods (plan + payment method + Confirm).
+     - FR-3540: Sergey Androsov 2026-09-07 - the console opens the Stripe confirmation pop-up at once when the
+       subscription comes back incomplete; closing it leaves the workspace blocked behind a pop-up. Andriy Konoz
+       2026-09-07 - the workspace is not subscribed and stays suspended until the payment completes; the provider
+       abandons it after about 24 hours, after which subscribing again works normally; a declined card lands in
+       the same state. The ~24 h expiry is left off the page.
+     - FR-3480 (Payment Profile -> Payment Method) was already applied 2026-09-09; FR-3597's "Renews on" date is
+       already on the page (plan card). FR-3498 is console-internal routes - no page change. FR-3548 (several
+       suspension reasons kept at once) changes nothing the page claims. -->
+
 <!-- RELEASE 1.1.1.0 sweep, 2026-09-17, dev.flowrunner.ai (FR-3349 / FR-3437 / FR-3464 / FR-2236):
      DRIVEN: the Starter and Growth selectors exist (comboboxes, 09-09) and on PROD 2026-09-17 offer
      300 / 3,000 and 12,000 / 30,000 / 60,000 (options read without selecting); the Instances period

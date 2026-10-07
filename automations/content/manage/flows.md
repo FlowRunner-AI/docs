@@ -7,12 +7,17 @@ Your flows are listed in the left navigation under **Automate → Flows**. Each 
 
 ## Creating a flow
 
-The **+** beside the Flows heading opens the ((Create a New Flow)) dialog. Give the flow a ((Name)), optionally add a ((Description)), and click ((CREATE)) to open it in the editor. You can also start from a file: ((BROWSE...)) under ((Import a Flow Version)) picks an exported flow file, and the new flow is created from it.
+The **+** beside the Flows heading opens the ((Create a New Flow)) dialog. Give the flow a ((Name)), optionally add a ((Description)), and click ((CREATE)) to open it in the editor. You can also start from a file: ((BROWSE...)) under ((Import a Flow Version)) picks an exported flow file, fills in the ((Name)) from it, and ((CREATE)) makes the new flow from the file and opens it in the editor the same way.
 
 ![The Create a New Flow dialog: a Name field, an Import a Flow Version file picker with a Browse button, an optional Description, and Cancel and Create buttons.](../images/manage/flows-create.png)
 
 !!! tip "The description is worth writing"
     The description does more than label the flow for you. When the flow is attached to an [AI Agent](../reference/ai-agent.md){.fr-block} as a tool, the agent reads its description to learn what the flow does and when to call it. A vague description leaves the agent guessing; a clear one lets it use the flow correctly. See [Flows as Agent Tools](../reference/flows-as-agent-tools-concept.md).
+
+<!-- RELEASE v.1.1.2 (FR-3544), DRIVEN 2026-09-25 on PROD, Documentation Flows: exported the throwaway "Status Feed" (Start
+     Export -> "Status Feed Flow (version 1).json"), then Create a New Flow -> BROWSE the file: the Name field filled with
+     "Status Feed" (renamed to "Status Feed Copy"), CREATE landed on /version/1/edit (Edit tab). Both flows deleted
+     afterwards. Before the fix a flow created from a file opened on its Dashboard. -->
 
 ## Renaming and deleting a flow
 

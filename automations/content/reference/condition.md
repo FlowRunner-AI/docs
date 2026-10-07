@@ -57,7 +57,8 @@ about it. Pick AI QUESTION as the <span class="fr-control">Operation</span> and 
   refund?".
 - **AI Model** - the model that answers, picked from a provider-grouped list.
 - **AI API Key** - the key the call runs on; the field unlocks once a model is picked and
-  offers your saved key setups.
+  offers your saved key setups. The switch beside its label turns it into an expression, so it
+  can read the key from an API KEY placeholder.
 
 The model reads the value in <span class="fr-control">Value to Check</span> and answers the question about it. True
 takes the Yes path and false takes the No path, exactly like a comparison. In a multi-part

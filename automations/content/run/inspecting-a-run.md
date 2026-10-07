@@ -27,13 +27,24 @@ The counts follow the rest of the filter context - the date window, the search, 
 behind the ((...)) control, ((Only With SLA Violations)) and ((Only With Errors)). The status filter
 itself does not narrow them, because the circles are the status overview.
 
-![The Instances tab: a filter row with From and To dates, a Past 30 days selector, a refresh control, a Search box, a Status dropdown set to ALL, a "..." control and a download icon. Below it four count circles reading 0, 0, 0 and 11, and under those the run table with columns Instance Name, Start Time, Finish Time, Total Time, Has Error, Status, Compliance and Missed Goal - eleven rows, each with a red TERMINATED status chip and "No Missed Goals".](../images/run/instances-filters-and-counts.png)
+To watch runs arrive while a flow is working, turn on ((Live)) beside the refresh icon. The list and the
+circles re-read at once and then every 5 seconds, so a new run appears without you reaching for refresh.
+The refresh icon still works while Live is on. Live starts off, and your browser remembers your choice for
+every flow you open in it; another browser starts with it off again.
+
+![The Instances tab of Cart Summary: a filter row with From and To dates, a Past 30 days selector, the refresh icon, the Live switch turned on, a Search box, a Status dropdown set to ALL, a "..." control and a download icon. Below it four count circles reading 0, 0, 4 and 0, and under those the run table with columns Instance Name, Start Time, Finish Time, Total Time, Has Error, Status, Compliance and Missed Goal - four COMPLETED runs - and, as the last entry, the line "1 instance is older than 7 days and not shown. Upgrade to Professional to view 30 days of history."](../images/run/instances-filters-and-counts.png)
 
 ## Runs older than your plan shows
 
 The list only reaches back as far as the workspace billing plan's execution log visibility[^1]. Runs
-beyond that are kept, not deleted, and the page tells you how many it is holding back with a notice above
-the table and a link to the billing plan that would show them. Opening one of those runs directly - from
+beyond that are kept, not deleted. When a version has runs older than that window, the last page of the list
+ends with a line that counts them and names the cheapest plan that shows more, linked to the workspace's
+Billing page:
+
+![The bottom of the Instances list: the last run row, then the line "1 instance is older than 7 days and not shown. Upgrade to Professional to view 30 days of history." with Upgrade to Professional as a link.](../images/run/instances-hidden-notice.png)
+
+The count covers everything older than the window, so changing the date filter does not change it. It never
+appears on Business or Enterprise, which show the whole history. Opening one of those runs directly - from
 an email, a bookmark, a link a colleague sent - shows *This instance is outside your plan's history* in
 place of the analytics, with when it started, the window the plan shows, an upgrade button naming the
 next plan up, and a way back to the list. A run that no longer exists shows *Instance not found* instead.
@@ -48,6 +59,24 @@ next plan up, and a way back to the list. A run that no longer exists shows *Ins
      "Instance not found / This instance does not exist, or it has already been removed." screen with
      BACK TO INSTANCES - so that half of the sentence is DRIVEN; the outside-history half is not. -->
 
+<!-- RELEASE v.1.1.2, DRIVEN 2026-09-25 on PROD (app.flowrunner.ai), Documentation Flows (Growth plan, 7-day visibility):
+     - FR-3397 Live: switch labelled "Live" right of the refresh icon; default off (localStorage had no entry
+       before the first click). Turned on -> 3 instances/find-family requests at +0.6 s, then every 5.0 s
+       (+5.0, +10.1, +15.1). With Live on, a run launched from a second tab appeared in the list 2 s later with
+       no refresh. The switch stayed on across page loads; it is stored in the browser's localStorage under the
+       global "Flowrunner" key as automation_instances_live_mode (per user, per browser - the developer's answer
+       says the same; another browser starts from off, not driven). Refresh icon stays clickable while on.
+       Turned back off after the drive.
+     - FR-3598 notice: Cart Summary v1 held 1 run older than 7 days. The notice is the LAST ENTRY of the list,
+       under the final row (with 0 rows it sits under "No instances to display"): "1 instance is older than 7
+       days and not shown. Upgrade to Professional to view 30 days of history."; the link goes to
+       /app/Documentation Flows/settings/billing. Switching the period to "Current hour" left it at 1 (the count
+       ignores the date filter - matches the developer's answer). "Last page only" and "never on Business /
+       Enterprise" are the developer's (Karyna, 2026-09-21) - one page and one plan here. Growth -> Professional
+       matches "the cheapest plan above that shows more history".
+     - instances-filters-and-counts.png recaptured with 4 fresh COMPLETED Cart Summary runs (Live on);
+       instances-hidden-notice.png is a crop of the same capture. -->
+
 ## Taking the list away as CSV
 
 The download icon beside the filters - its tooltip reads ((Export instances to CSV)) - writes a CSV of
@@ -60,9 +89,10 @@ status, the start and finish times, the total time in milliseconds, the error fl
 detail, and the SLA compliance and missed goals. The execution id is kept as its own column even when a
 run has a friendly name, so an exported row still lines up with the API and with a support conversation.
 
-The export runs on the server rather than in the page, so a large result does not block you - you can
-keep working or leave the screen. The finished file is delivered by a link sent to the address on your
-account.
+The export runs on the server, so a large result does not block you - you can
+keep working or leave the screen. When the file is ready, a
+[notification](../platform/notifications.md#workspace-and-account-messages) says so, and the link to the file
+is sent to the address on your account.
 
 ![The same filter row with the pointer on the download icon at its right end, the icon highlighted and a tooltip above it reading "Export instances to CSV". The four count circles - 0, 0, 0, 11 - sit below.](../images/run/instances-export-csv.png)
 
@@ -125,6 +155,10 @@ DEMO-DATA FIX (Mark approved 2026-08-15): Order Poller's Re-fetch Order re-point
      The emailed link could not be checked from here. The page therefore describes the filter-scoped
      CSV and the server-side delivery, and does NOT claim the notification-panel messages.
      COLUMN LIST is carried from the ticket, not driven - no CSV file was opened.
+     UPDATE 2026-09-25 (prod, Order Sync): the export now DOES notify - a pop-up "Export of "Order Sync"
+     instances is ready" and a panel entry under YOUR ACCOUNT (no download link in either). The emailed link
+     is still unchecked. The NOT OBSERVED note above is superseded for the file-ready message; an "export
+     started" message was not seen.
      SHOT CAVEAT: all 11 rows are TERMINATED because TD Sandbox's Get Order block fails (28105), so
      the circles read 0/0/0/11 rather than a mix. A mixed-status shot needs a demo flow that completes;
      flagged to Mark as a follow-up, not silently accepted. -->

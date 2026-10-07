@@ -6,9 +6,9 @@ A live **FlowRunner™** flow runs on its own - monitoring is how you know it is
 - ((Performance)) - which step is slow, or starting to fail?
 - ((Logs)) - what happened, step by step, on a run you need to trace?
 
-The fourth question - what did one particular run do with its data? - has its own page: [Inspecting a Single Run](inspecting-a-run.md), reached by opening a run from the ((Instances)) tab. The rest of the row belongs to other work: ((View)) and ((Version Admin)) to reading and administering the version, ((SLA Goals)) to the targets covered with [SLA goals](../platform/sla-goals.md). The ((Dashboard)), ((Performance)), and ((Instances)) tabs each carry the same ((From)) / ((To)) date window - with presets like **Past 30 days** - that sets the range their numbers cover, and ((REFRESH)) beside it re-reads them, so you can watch a number move. The views read from the flow's run history.[^1]
+The fourth question - what did one particular run do with its data? - has its own page: [Inspecting a Single Run](inspecting-a-run.md), reached by opening a run from the ((Instances)) tab. The rest of the row belongs to other work: ((View)) and ((Version Admin)) to reading and administering the version, ((SLA Goals)) to the targets covered with [SLA goals](../platform/sla-goals.md). The ((Dashboard)), ((Performance)), and ((Instances)) tabs each carry the same ((From)) / ((To)) date window - with presets like **Past 30 days** - that sets the range their numbers cover, and the refresh icon beside it re-reads them, so you can watch a number move. The ((Instances)) tab also has a ((Live)) switch that re-reads its list for you every few seconds - see [Finding the run you want](inspecting-a-run.md#finding-the-run-you-want). The views read from the flow's run history.[^1]
 
-![The tab row of an opened flow - View, Dashboard, Performance, Instances, SLA Goals, Logs, Version Admin - with the From / To date window, its Past 30 days preset, and the REFRESH button beneath it.](../images/run/monitoring-tab-row.png)
+![The tab row of an opened flow - View, Dashboard, Performance, Instances, SLA Goals, Logs, Version Admin - with the From / To date window, its Past 30 days preset, and the refresh icon beside it.](../images/run/monitoring-tab-row.png)
 
 
 ## Dashboard - the flow at a glance
@@ -22,11 +22,11 @@ Open the ((Dashboard)) to take in the whole flow at once and catch trouble befor
 
 Below the numbers is where you make sense of what the flow is doing. The example the shots follow is a flow that polls an order until it ships:
 
-- **Run history** charts *when* the flow actually ran, as a heatmap of daily activity with its own year picker, so it reaches further back than the date window above. A quiet stretch that should have been busy points at a schedule that stopped; a burst points at a caller firing far more often than it should. Click a day to list its runs - each with its time, what started it, and how it ended - so an odd-looking day is one click from the runs behind it.
+- **Run history** charts *when* the flow actually ran, as a heatmap of daily activity with its own year picker. How far back it reaches is set by the workspace billing plan; the line under the heading names that window and the plan that shows more. A quiet stretch that should have been busy points at a schedule that stopped; a burst points at a caller firing far more often than it should. Click a day to list its runs - each with its time, what started it, and how it ended - so an odd-looking day is one click from the runs behind it. ((Clear date)) above the list goes back to the whole range.
 - **Versions** - when a flow has more than one version, the Versions list lets you tick which versions the Run history includes, to read a new version's behavior on its own or next to the old one.
-- What starts the runs - the chart beside the day's list splits the runs by source: Scheduled Runs, API, Trigger Event, or Other Execution. This is how you tell a steady scheduled job from an API flood, or notice a trigger firing when nothing should be triggering it.
+- What starts the runs - the chart beside the day's list splits the runs by source: Scheduled Runs, API, Trigger Event, or Other Execution. With no day picked it covers every run in the date window. This is how you tell a steady scheduled job from an API flood, or notice a trigger firing when nothing should be triggering it.
 
-![The Dashboard tab: the monitoring tab row and date window above health cards (SLA Compliance, Completion Rate, Error Rate, Total Runs, Active Instances), the Run history heatmap with a day selected, that day's activations listed by time, source, and status, the Versions list beside the heatmap, and the source chart showing 100% API.](../images/run/monitoring-dashboard.png)
+![The Dashboard tab: the monitoring tab row, the date window and its refresh icon above health cards (SLA Compliance, Completion Rate, Error Rate, Total Runs, Active Instances), then Run history with the line "Your billing plan shows 7 days of instance history. Upgrade to Professional for 30 days.", the heatmap with one day selected, that day's five activations listed by time, source and status under a Clear date link, the Versions list beside the heatmap, and the source chart showing 100% API.](../images/run/monitoring-dashboard.png)
 
 Two more panels sit below:
 
@@ -71,6 +71,23 @@ LOGS: re-verified with the fresh runs. Search+Filter keeps lines whose MESSAGE m
 NOT re-driven: Active Instances beyond value 0 (prose stays label-level; the climbing-count sentence is arithmetic, not a product claim). Whether the Logs tab's horizon follows the same audit-trail retention as the other tabs was not verified - footnote 1 scopes to the three verified views.
 SHORTEN IDS (FR-3402, release 1.1.1.0) DRIVEN 2026-09-17 on dev, Documentation Flows, "Release Probe 1.1.1" Logs tab: ticked by default; on -> "Instance ID: 83E53...5EFB6"; off -> the full UUID on every line; re-ticked and still ticked after navigating away. Wrap messages: ticked, the WARN line wraps (monitoring-logs-toggles.png). The named-run exception is the ticket's own statement (no named run driven).
 PAGE SPLIT: Mark decided 2026-08-15 - the single-run drill-down moved to run/inspecting-a-run.md; this page keeps the health views. Intro shot monitoring-tab-row.png is a crop of the same monitoring-dashboard.png capture (tab row + From/To + Past 30 days + REFRESH), placed where the lede names those controls. -->
+
+<!-- RELEASE v.1.1.2 (FR-3397, FR-3590), DRIVEN 2026-09-25 on PROD (app.flowrunner.ai), Documentation Flows:
+     - REFRESH is now an icon button on Dashboard / Performance / Instances (aria-label "Refresh", tooltip
+       "Refresh data"); monitoring-tab-row.png recaptured on Cart Summary's Dashboard.
+     - Live switch exists on the Instances tab ONLY (checked Dashboard + Performance: no switch). Driven on the
+       Instances page (inspecting-a-run.md carries the detail).
+     - FR-3590: with no day picked the Completion Rate / source chart show the whole date window (Order Poller:
+       100% / 100% API over 5 runs); clicking today's cell lists "September 25th Flow Activations" with a
+       Clear date link; Clear date returns to "Select a date to view flow executions". Whether the source chart
+       switches to the day's split could not be told apart here (every run is API), so the prose adds only the
+       no-day case.
+     - Run history is capped by the plan's history visibility on this Growth workspace: Order Poller's July and
+       August runs are gone from the heatmap ("5 flow activations in the last year"), and the line "Your billing
+       plan shows 7 days of instance history. Upgrade to Professional for 30 days." sits under the heading. The
+       old "reaches further back than the date window" claim was false on a 7-day plan and was replaced.
+     - monitoring-dashboard.png recaptured from 5 fresh LIVE Order Poller runs (launched from the Launch Flow
+       Instance dialog; the source chart counts them as API). -->
 
 [^1]: How far back the history reaches - and with it the Dashboard, Performance, and Instances views - is the workspace billing plan's **execution log visibility**: 24 hours on Free and Starter, 7 days on Growth, 30 on Professional, 90 on Business. Older runs are kept, not deleted; moving up a plan brings them back into view. [Billing](../manage/billing.md) covers the plans.
 [^2]: SLA tracking carries real data on the Business and Enterprise plans, where [SLA goals](../platform/sla-goals.md) live.

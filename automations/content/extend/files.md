@@ -5,6 +5,9 @@ from a provider - has nowhere to put it. A handler's return value goes into the 
 is not data a flow can carry. The Files API is the storage that fills that gap: your handler writes the
 bytes, and what it hands back to the flow is a URL the next block can use.
 
+The storage is temporary by design. A stored file expires 24 hours after it is written unless the upload
+sets `objectTtl`, so it is a place to pass files along, not to keep them.
+
 ## Turning it on
 
 File storage is opt-in. Declare it on the extension:
@@ -50,14 +53,13 @@ failing later with something harder to place - the error is `FR_EXT_FEATURE_NOT_
 
 ## Choosing where a file lives
 
-Every call takes a `scope`, and the scope decides how long the file stays reachable and who else can see
-it. This is the decision to make first, because it is the one you cannot change afterwards without moving
+Every call takes a `scope`, and the scope decides who else can see the file while it lasts. This is the decision to make first, because it is the one you cannot change afterwards without moving
 the file:
 
 | Scope | The file belongs to | Reach for it when |
 | --- | --- | --- |
-| `WORKSPACE` | The whole workspace. It outlives every flow and every run. | The file is a shared asset - a template, a logo, a reference list that many flows read. |
-| `FLOW` | One flow, shared by all of its runs. This is the default. | Runs of the same flow build on each other's output - a rolling export, a cache a later run reads. |
+| `WORKSPACE` | The whole workspace, not tied to any flow or run. | Another flow, or a method that runs outside a flow, needs the file - an export one flow writes and another collects. |
+| `FLOW` | One flow, shared by all of its runs. This is the default. | Runs of the same flow hand files to each other - an export a later run picks up. |
 | `EXECUTION` | A single run. | The file is working material for this run alone - an attachment fetched, transformed, and handed on. |
 
 `FLOW` is the default because it is the common case: a file that belongs to the automation rather than to
@@ -93,22 +95,23 @@ await files.usage()                       // how much of the quota is used
 | `filename` | The name to store it under. Without one the file is stored as `file`. |
 | `generateUrl` | Whether to return a download URL. **Defaults to `true`** - leave it alone unless you have a reason, because a `false` here returns a null `url` while the upload still reports success. |
 | `ttl` | How long the returned URL stays valid, in seconds. |
-| `objectTtl` | How long the stored file itself is kept, in seconds. Without it the file stays until something deletes it. |
-| `overwrite` | Whether an existing file of that name is replaced. Without it you get a second stored object rather than a replacement. |
+| `objectTtl` | How long the stored file itself is kept, in seconds. Without it the file expires 24 hours after it is written. |
+| `overwrite` | Meant to say whether an existing file of that name is replaced. Today an upload to a name that already exists in that scope replaces the file either way, and the result's `overwritten` is `true`. |
 
 The two lifetimes are separate on purpose: `ttl` expires the link, `objectTtl` expires the file. A short
 `ttl` on a long-lived file just means the next reader asks for a fresh URL.
 
-It returns the stored file's `key` and `filename`, its `url` and `size`, `urlExpiresAt`,
-`objectExpiresAt` (null when no `objectTtl` was set), and `overwritten`.
+It returns the stored file's `key` and `fileName`, its `url` and `size`, `urlExpiresAt`, `objectExpiresAt`
+(when the file itself will expire), and `overwritten`.
 
 **`list(options)`** takes `scope`, `limit` and `cursor`, plus `ttl` and `generateUrl` for the URLs it
 returns. It answers with `files`, a `cursor`, and `hasMore` - page by passing the cursor back until
-`hasMore` is false. Each entry carries `key`, `filename`, `url`, `size`, `createdAt`, `urlExpiresAt` and
-`objectExpiresAt`.
+`hasMore` is false. Each entry carries `key`, `fileName`, `url`, `size`, `createdAt`, `urlExpiresAt` and
+`objectExpiresAt`. Unlike `uploadFile`, `list` and `get` return `url: null` unless you pass
+`generateUrl: true`.
 
 **`get(filename, options)`** takes `scope`, `ttl` and `generateUrl`, and returns one of those same
-entries. This is how you hand an already-stored file a fresh URL.
+entries. With `generateUrl: true` this is how you hand an already-stored file a fresh URL.
 
 **`delete(filename, options)`** takes `scope` and answers with `key`, `deleted`, and `freedBytes`.
 
@@ -121,13 +124,6 @@ fail early with a clear message instead of letting an upload fail against the qu
 The sandbox the CLI scaffolds provides `createFilesSandbox()`, so a service that stores files can be run
 locally without touching real storage - see [Testing](testing.md). Hosts can substitute a client the same
 way, which is what lets a suite point file storage at a local backend.
-
-!!! warning "Not working from a custom extension today"
-    File storage runs in the Shared Extensions the platform ships. From a custom extension the same call
-    currently fails inside the workspace's Cloud Code pod before it reaches storage, so an extension that
-    declares `usesFileStorage: true` errors the first time a handler touches `files`. Design around URLs
-    until that is resolved: pass a provider's URL through, or fetch the bytes and forward them, and let a
-    storage-capable block persist the result.
 
 ## Related
 
@@ -167,3 +163,26 @@ way, which is what lets a suite point file storage at a local backend.
      NOT DRIVEN IN-PRODUCT: no extension was built and run against real storage in this pass - the
      contract above is read from source, not exercised. Flagged to Mark as the one page here whose facts
      are source-derived rather than driven. -->
+
+<!-- 2026-10-06 FULL RECHECK of this page against @flowrunner/cli 0.1.4 (latest), every claim run in a scratch project
+     (sandbox runServiceMethod / jest / the CLI's own build and pack code; nothing deployed - a prod deploy was refused by
+     the session's permission system). Console claims driven on app.flowrunner.ai, Documentation Flows, AS A CUSTOMER
+     (staff mode off). Corrections made today are the WRONG items of that pass; NEEDS-PRODUCT items left as they were.
+     The Custom Extensions NAV ITEM is hidden for customers (newCustomFlowExtensions = 0); its page opens by URL -
+     wording that sends readers "to the workspace navigation" awaits Mark's decision (FOR-MARK item 1).
+     Jira from this pass: FR-3710 (closed by Mark 2026-10-06: not an issue), FR-3711 (dedupe evicts integer ids
+     wrongly), FR-3631 comments (template Request[method], lenient/scopes claims in ai-docs, cursor type, no jsconfig),
+     FR-3310 comment (stale Not Ready on versions saved 09-22). -->
+
+<!-- 2026-10-06 DRIVEN ON PROD (app.flowrunner.ai, Documentation Flows) with the fixture extension "filevault"
+     (File Vault: this page's saveDocument verbatim + probe actions), run from the service's Execute tab and in the
+     flow "Params Demo". FR-3420 is live: the warning is removed. saveDocument("notes.txt", "Hello there!") -> url
+     (presigned, 1 h) + size 12. uploadFile with no objectTtl -> objectExpiresAt = upload + 24 h (get on notes.txt
+     confirms); objectTtl 600 -> +10 min. Same name again WITHOUT overwrite -> replaced, overwritten: true (the CLI
+     sandbox and ai-docs say 409 - mismatch, raised with Mark); with overwrite -> replaced. generateUrl:false -> url null.
+     No filename -> stored as "file". Property is fileName. get/list default url null; generateUrl:true -> url.
+     list entries: objectExpiresAt null and the object expiry appears in urlExpiresAt (looks like a product bug -
+     raised with Mark, not documented). Mark 2026-10-06: the 24 h ephemeral default is INTENDED - page reframed as temporary storage. delete -> deleted/freedBytes/key; usage -> fileCount, quotaBytes 1 GB,
+     quotaFormatted, usedBytes, usedFormatted, utilizationPercent, workspaceId. Default (FLOW) scope from the Execute
+     tab -> "Flow scope requires flowId"; the same call as a block in a flow (run block) -> works. NOT DRIVEN: the
+     ~15-minute token lifetime; that a file really disappears after 24 h (only its objectExpiresAt was read). -->

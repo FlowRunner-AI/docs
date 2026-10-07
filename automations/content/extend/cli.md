@@ -1,6 +1,6 @@
 # The FlowRunner CLI
 
-`flowrunner-cli` is the tool you author and deploy custom extensions with. It lives in your project as a
+`@flowrunner/cli` is the tool you author and deploy custom extensions with. It lives in your project as a
 development dependency rather than on your machine, so everyone working on the repository runs the same
 version and an upgrade is a commit like any other.
 
@@ -9,20 +9,58 @@ version and an upgrade is a commit like any other.
 For a new project, start with `npx`, which downloads the package and runs its `init`:
 
 ```bash
-npx flowrunner-cli init -d my-extensions -s prod
+npx @flowrunner/cli@latest init -d my-extensions
 cd my-extensions
 ```
 
 For a repository you already have, add the package and set it up in place:
 
 ```bash
-npm install --save-dev flowrunner-cli
-npx flowrunner init -s prod
+npm install --save-dev @flowrunner/cli
+npx flowrunner init
 ```
 
-Either way the CLI ends up in the project's `node_modules`, not on your `PATH`, so every command from here on
-is `npx flowrunner <command>`. `npx` finds the project's own copy and runs it. A bare `flowrunner` is not
-found unless you install the package globally, which these pages do not assume.
+Either way the CLI lives in the project's `node_modules`, and these pages run every command as
+`npx flowrunner <command>`, which finds that copy. It needs Node 20 or newer.
+
+The CLI's own hints, such as the **Next steps** list `init` prints, use `npx flowrunner <command>`, or the
+bare `flowrunner` form once the command is installed globally (below).
+
+**Typing `flowrunner` without `npx`.** Install the package once per machine:
+
+```bash
+npm install -g @flowrunner/cli
+```
+
+The global copy is only a launcher. Inside a project it finds the project's own copy and hands the command
+to it, so the version pinned in the project's `package.json` is the one that runs - a global 0.1.4 in a
+project pinned to 0.1.1 runs 0.1.1. A global 0.1.0 is the exception: it only recognises the package's old
+name, so update it once with `npm install -g @flowrunner/cli`. Outside a project, as with a first
+`flowrunner init` in an empty directory, it runs itself. `init` offers to install the global copy at the end
+of a new project.
+
+To move to another CLI version, update the project's copy with `npm install -D @flowrunner/cli@<version>` and
+commit the change. Inside a project, a global copy that has fallen behind changes nothing.
+
+**Moving a project from `flowrunner-cli`.** The package used to be called `flowrunner-cli`. The command is
+still `flowrunner`, and nothing in `flowrunner.json`, `services/` or your deployed extensions changes. Swap
+the dependency:
+
+```bash
+npm uninstall flowrunner-cli
+npm install -D @flowrunner/cli
+```
+
+Then change the one line in `sandbox/service.js` that names the package, or `npm test` fails with
+`Cannot find module 'flowrunner-cli/runtime'`:
+
+```js
+} = require('@flowrunner/cli/runtime')
+```
+
+If you use the Claude Code agents, run `npx flowrunner init-claude` again so they point at the new location
+of the authoring reference. A global install moves the same way: `npm uninstall -g flowrunner-cli`, then
+`npm install -g @flowrunner/cli`.
 
 ## The project on disk
 
@@ -108,7 +146,7 @@ Useful options:
 
 - `-d, --dir <path>` - the project root, created if missing. Defaults to the current directory.
 - `-s, --server <target>` - the server to bind to, written into `flowrunner.json`: `prod` for the FlowRunner
-  cloud, or a full URL for a server of your own. Always pass it; the current CLI does not default to the cloud.
+  cloud, or a full URL for a server of your own. Defaults to `prod`.
 - `-y, --yes` - accept the target directory and every template default without asking.
 - `--no-install` / `--no-git` / `--no-tests` - skip the `npm install`, the git repository, or the test
   harness.
@@ -262,9 +300,10 @@ Deploying custom extensions...
 ```
 
 Every service is compared against the workspace before anything is packaged, and labelled `new`,
-`modified` or `same`. A `same` service is byte-for-byte what is already live, so it is skipped rather than
-republished. The twelve-character hash is the version id: it covers `services/<id>/` and nothing else,
-which is why the same code produces the same version in anybody's checkout.
+`modified` or `same`. A `same` service matches what is already live, so it is skipped rather than
+republished. The twelve-character hash is the version id: it covers every file under `services/<id>/`
+except `node_modules/`, which is why the same code produces the same version in anybody's checkout. A
+change made only inside `node_modules/` keeps the hash, so deploy that with `--force`.
 
 The definition is built on your machine rather than on the server, so a service whose module throws on load
 fails at `deploy` time rather than silently in the workspace afterwards. One that fails to build is skipped
@@ -272,16 +311,17 @@ with its reason and the rest still deploy; if nothing builds, the deploy stops a
 
 - `-s, --service <id...>` - deploy named services, repeatable and variadic.
 - `--all` - every service, though still only the changed ones are uploaded.
-- `--force` - upload even a service the workspace already has byte for byte.
+- `--force` - upload even a service whose hash matches what the workspace already has.
 
 The uploaded archive is capped at **50 MB**, and it carries the service's `node_modules`, so a service with
 heavy dependencies can reach it.
 
-**Service ids are unique per workspace.** The id is the folder name under `services/`, and two projects
-that both define `tmdb` overwrite each other's versions with no warning, since nothing records which
-project a version came from. Agree ids across teams before two repositories deploy into one workspace. The
-id is also frozen once deployed: renaming the folder deploys a *different* extension and leaves the old one
-live under its old id.
+**Service ids are unique per workspace.** Two projects that both define `tmdb` overwrite each other's
+versions with no warning, since nothing records which project a version came from. Agree ids across teams
+before two repositories deploy into one workspace. The id is both the folder name under `services/` and
+the `id` in `createExtension`, and the two must match. It is also frozen once deployed: renaming both deploys
+a *different* extension and leaves the old one live under its old id, and renaming only the folder makes the
+deploy skip the service with `its entry point does not define a service`.
 
 !!! note "A failed `--all` is not rolled back"
     Services deploy one after another and independently. If the third fails, the first two stay deployed.
@@ -305,12 +345,16 @@ and it removes the service **and every version of it** - there is no undo and no
 ## Pulling services back down
 
 `pull` (also `sync-services`) copies the workspace's services into `services/`. It is how a fresh checkout
-picks up what is live, including extensions somebody else deployed from a different project:
+picks up what is live, including extensions somebody else deployed from a different project. In a fresh
+checkout, install the project's packages first, because `npx flowrunner` runs the copy in `node_modules`:
 
 ```bash
-npx flowrunner init && npx flowrunner login && npx flowrunner pull --all
+npm install && npx flowrunner login && npx flowrunner pull --all
 cd services/tmdb && npm install
 ```
+
+To pull into a new project instead, create it with `npx @flowrunner/cli@latest init -d my-extensions` and
+run `login` and `pull` inside it.
 
 Each service arrives whole, its own `package.json` included, but without `node_modules` - the CLI names the
 folders that need an `npm install` rather than running one for you.
@@ -322,20 +366,20 @@ purpose: a local copy that differs is skipped unless you force it, and a file yo
 ## Running without a terminal
 
 Every command works non-interactively. Prompts appear only on a TTY, and a question that cannot be answered
-becomes an error with a stable code rather than hanging. `-y` accepts every default, and `--id`, `--name`
+becomes an error that names the flag that answers it, rather than hanging. `-y` accepts every default, and `--id`, `--name`
 and `--set name=value` answer template prompts directly, which is what a CI job uses.
 
-When a command fails it prints the reason and what to do about it:
+When a command fails it prints the reason and what to do about it, and exits with status 1:
 
-| Code | What it means |
+| It prints | What to do |
 |---|---|
-| `FR_NOT_LOGGED_IN` | Run `npx flowrunner login` first - it needs a browser |
-| `FR_NO_WORKSPACE` | Run `npx flowrunner login` to pick one |
-| `FR_TOKEN_EXPIRED` | The session expired; log in and deploy again |
-| `FR_NOT_A_PROJECT` | Run `npx flowrunner init` to create one |
-| `FR_NO_SERVICES_DIR` | Run `npx flowrunner cs` to create a service first |
-| `FR_NO_SERVICES` | Each service needs a `src/index.js` calling `Flowrunner.createExtension` |
-| `FR_PROMPT_REQUIRED` | Pass `--yes`, or supply the value as a flag |
+| *Deploying needs a connection to a Flowrunner workspace, and this project has none yet.* | Run `npx flowrunner login` - it needs a browser |
+| *This project has a login but no workspace attached* | Run `npx flowrunner login` to pick one |
+| *Session expired.* | Log in again and repeat the command |
+| *There is no flowrunner.json here, so this is not a Flowrunner project.* | Run `npx flowrunner init` to create one |
+| *No services/ directory in this project.* | Run `npx flowrunner cs` to create a service first |
+| *No services found under services/.* | Each service needs a `src/index.js` (or `dist/index.js`) calling `Flowrunner.createExtension` |
+| *Pass --yes to accept the defaults, or supply the values as flags.* | Pass `--yes`, or supply the value as a flag |
 
 ## Working with Claude Code
 
@@ -352,7 +396,7 @@ Agents in .claude/agents:
 ```
 
 Files under `.claude/agents/` named `flowrunner-*` belong to the CLI and are overwritten on every run, so
-`npm install -D flowrunner-cli@latest` followed by `npx flowrunner init-claude` moves the agents to the version
+`npm install -D @flowrunner/cli@latest` followed by `npx flowrunner init-claude` moves the agents to the version
 matching the installed CLI. Your own agents, under your own names, are left alone. The command replaces
 only the region between its `<!-- flowrunner-cli:ai:start -->` and `<!-- flowrunner-cli:ai:end -->` markers
 and leaves the rest of `CLAUDE.md` byte for byte.
@@ -366,8 +410,49 @@ What the agents do with all that, and how to work with them, is [Quick Start: Yo
 - [Custom Extensions](index.md) - what an extension is and what it can do
 - [Testing](testing.md) - the harness `init` copies into the project
 
-<!-- DRIVEN 2026-09-22 (FR-3627): bare `flowrunner` is "command not found" in a project (devDependency, no
+<!-- DRIVEN 2026-09-22 (FR-3627; the "no global" half is SUPERSEDED by the 2026-09-29 note below): bare `flowrunner` is "command not found" in a project (devDependency, no
      global install); `npx flowrunner <cmd>` resolves the project's copy. `cs blank ... -y` output above is
      verbatim from flowrunner-cli 0.0.10 in ~/dev/fr-cli-docs-project (id/workspace swapped for the running
      example); the deploy offer after scaffolding is asked regardless of -y and skipped without a TTY
      (offerDeploy in dist/cli.js). -->
+
+<!-- 2026-09-29 (FR-3631 comment 79753, FR-3686): package renamed flowrunner-cli -> @flowrunner/cli; the command
+     is still `flowrunner`; CLAUDE.md markers unchanged. The pages track 0.1.0.
+     @flowrunner/cli 0.1.0 as published is the old build under the new name: init, cs and init-claude fail with
+     "Could not locate the \"flowrunner-cli\" package root", and its sandbox harness still loads
+     flowrunner-cli/runtime (FR-3686 comment 79766; the console repo HEAD 585ce2c is fixed, not yet published).
+     So the behaviour below was DRIVEN with flowrunner-cli 0.1.0, the same code under the working name:
+     - `init -d my-extensions` with no -s: "Server: https://app.flowrunner.ai", flowrunner.json serverUrl prod
+       (FR-3632 fixed), Next steps all `npx flowrunner ...`
+     - `init my-project`: "Unknown template \"my-project\". Available: demo-todo-list, blank, qa-test, demo" - the
+       positional is a template (the console repo's cli.md gets this wrong: FR-3631 comment 79767)
+     - global launcher (npm i -g into a scratch prefix): from / it runs itself (--version 0.1.0); in a project
+       pinning 0.0.13 it runs 0.0.13
+     - `require('@flowrunner/cli/runtime')` resolves with @flowrunner/cli 0.1.0 installed (the migration line)
+     SOURCE only: `init` offering the global install (dist/cli.js; needs a TTY), the migration steps
+     (flowrunner-cli 0.1.1 README), Node 20+ (console repo cli.md; the package has no engines field).
+     RE-VERIFY VERBATIM once FR-3686 ships: `npx @flowrunner/cli init -d my-extensions`; `npm i -g @flowrunner/cli`
+     then `flowrunner --version` in and out of a project; the migration steps on a 0.0.13 project; init-claude's
+     output path (ai-assisted.md). -->
+
+<!-- 2026-09-30 RE-VERIFIED on @flowrunner/cli 0.1.3 (FR-3686 fixed in 0.1.1; 0.1.3 is latest). In an empty dir,
+     `npx @flowrunner/cli init -d my-extensions` VERBATIM: the ten files, "Server: https://app.flowrunner.ai",
+     devDependencies {"@flowrunner/cli": "0.1.3"}, sandbox/service.js requires '@flowrunner/cli/runtime', git first
+     commit. Its Next steps print BARE `flowrunner init-claude` / `flowrunner cs` / `flowrunner deploy` (hence the
+     hints sentence in Installing it). `cs blank --id tmdb --name "TMDB" -y` output as quoted above.
+     MIGRATION driven on ~/dev/fr-cli-docs-project (flowrunner-cli 0.1.0): uninstall/install -> npm test fails with
+     "Cannot find module 'flowrunner-cli/runtime' from 'sandbox/service.js'" -> one-line edit -> 4/4 tests pass;
+     init-claude "Refreshed the FlowRunner instructions block"; `deploy -s tmdb` to dev worked under the new name.
+     GLOBAL LAUNCHER (npm i -g --prefix scratch @flowrunner/cli@0.1.3): from / runs 0.1.3; project pinned to
+     @flowrunner/cli 0.1.1 runs 0.1.1; a real project pinned to old flowrunner-cli 0.0.13 runs 0.0.13 (the example
+     above holds). `init` offering the global install is still SOURCE only (needs a TTY). -->
+
+<!-- 2026-10-06 FULL RECHECK of this page against @flowrunner/cli 0.1.4 (latest), every claim run in a scratch project
+     (sandbox runServiceMethod / jest / the CLI's own build and pack code; nothing deployed - a prod deploy was refused by
+     the session's permission system). Console claims driven on app.flowrunner.ai, Documentation Flows, AS A CUSTOMER
+     (staff mode off). Corrections made today are the WRONG items of that pass; NEEDS-PRODUCT items left as they were.
+     The Custom Extensions NAV ITEM is hidden for customers (newCustomFlowExtensions = 0); its page opens by URL -
+     wording that sends readers "to the workspace navigation" awaits Mark's decision (FOR-MARK item 1).
+     Jira from this pass: FR-3710 (closed by Mark 2026-10-06: not an issue), FR-3711 (dedupe evicts integer ids
+     wrongly), FR-3631 comments (template Request[method], lenient/scopes claims in ai-docs, cursor type, no jsconfig),
+     FR-3310 comment (stale Not Ready on versions saved 09-22). -->

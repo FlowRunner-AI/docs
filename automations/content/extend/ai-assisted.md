@@ -7,7 +7,7 @@ deploys it. If you would
 rather write the code yourself, take [Quick Start: Your First Extension (code)](getting-started.md).
 
 !!! note "What you need"
-    - **Node.js and npm.** Node 18.20+, 20.12+ or 22+.
+    - **Node.js and npm.** Node 20 or newer.
     - **A FlowRunner workspace** you can sign in to.
     - **Claude Code**, installed and signed in. The service in this quick start uses Open-Meteo, which needs
       no API key.
@@ -24,13 +24,13 @@ Open-Meteo's current weather comes back in the Test Monitor:
 Open a terminal and enter the following command:
 
 ```bash
-npx flowrunner-cli init -d my-extensions -s prod
+npx @flowrunner/cli@latest init -d my-extensions
 cd my-extensions
 ```
 
-`-s prod` points the project at the FlowRunner cloud. It is an `init` flag, so you pass it only here. The
-package is `flowrunner-cli`; the command it installs is `flowrunner`, inside the project, which is why every
-later command starts with `npx flowrunner`.
+The package is `@flowrunner/cli`; the command it installs is `flowrunner`, inside the project, which is why
+every later command starts with `npx flowrunner`. If `init` offers to install the command globally, either
+answer works - see [The FlowRunner CLI](cli.md#installing-it).
 
 ## 2. Connect it to your workspace
 
@@ -64,7 +64,7 @@ Agents in .claude/agents:
 Next steps:
   1. open CLAUDE.md and check the FlowRunner block reads the way you want
   2. ask Claude Code to build a service — it will pick up the 2 FlowRunner agents
-  3. the authoring reference lives in node_modules/flowrunner-cli/ai-docs/instructions/service-code-format/
+  3. the authoring reference lives in node_modules/@flowrunner/cli/ai-docs/instructions/service-code-format/
 ```
 
 Two FlowRunner agents for Claude Code land in the project: one writes a service, the other writes its tests.
@@ -164,7 +164,7 @@ Deploying custom extensions...
 The extension is now listed under **Custom Extensions** in the workspace navigation, with two methods: the
 action and the dictionary. The TMDB row is the code quick start's extension in the same workspace:
 
-![The Custom Extensions screen in the workspace navigation, listing TMDB with 1 method and Open-Meteo with 2 methods, both at src/index.js, with the source hashes 2464434c and 46b6c176](../images/extend/custom-extensions-list-ai.png)
+![The Custom Extensions screen in the workspace navigation, listing Open-Meteo with 2 methods and TMDB with 1 method, both at src/index.js, with the source hashes 46b6c176 and 13cc36e0](../images/extend/custom-extensions-list-ai.png)
 
 ## 7. Add the block to a flow
 
@@ -212,6 +212,17 @@ That is the extension running in your workspace.
 - [The FlowRunner CLI](cli.md) - every command and flag, including `init-claude`
 - [Quick Start: Your First Extension (code)](getting-started.md) - the same end state, written by hand
 
+<!-- 2026-09-30: STEP 1 RE-RUN VERBATIM on @flowrunner/cli 0.1.3 in an empty dir - works (FR-3686 fixed in 0.1.1);
+     Server https://app.flowrunner.ai; `cs blank --id tmdb --name "TMDB" -y` works.
+     STEP 3 (init-claude) output RE-CAPTURED verbatim on 0.1.3 - identical to the block on this page. -->
+<!-- UPDATE 2026-09-29: STEP 1 now reads `npx @flowrunner/cli init -d my-extensions` (package renamed, FR-3686;
+     prod is the default, FR-3632 fixed, so -s prod is gone). The same command under flowrunner-cli 0.1.0 was
+     re-driven (Server https://app.flowrunner.ai). @flowrunner/cli 0.1.0 itself fails at init (FR-3686), so re-run
+     STEP 1 VERBATIM once it is fixed. The bare-`flowrunner` "command not found" note below is superseded by the
+     global launcher (cli.md's 2026-09-29 note).
+     STEP 3's third output line (node_modules/@flowrunner/cli/ai-docs/...) is edited from the 0.0.12 output
+     for the new package path, not driven: init-claude fails in @flowrunner/cli 0.1.0. Re-capture it then. -->
+
 <!-- DRIVE LOG for this page (rewritten 2026-09-22 as the AI quick start; re-driven the same day after the gate).
      Environment: app.flowrunner.ai / Documentation Flows (Mark: docs verify against the released product), Playwright
      at 1680x1050, Mark signed in; flowrunner-cli 0.0.12 fetched by npx; Claude Code 2.1.280.
@@ -257,3 +268,13 @@ That is the extension running in your workspace.
      DEFECT: FR-3635 - z.number() params lose decimals at run time (52.52 ran as 52); this page uses the Place picker,
      a string value, so it does not depend on the fix. Retracted the same day: FR-3636 (dictionary picker "broken" -
      I had typed into the field, not the picker's search box). -->
+
+<!-- 2026-10-06 FULL RECHECK of this page against @flowrunner/cli 0.1.4 (latest), every claim run in a scratch project
+     (sandbox runServiceMethod / jest / the CLI's own build and pack code; nothing deployed - a prod deploy was refused by
+     the session's permission system). Console claims driven on app.flowrunner.ai, Documentation Flows, AS A CUSTOMER
+     (staff mode off). Corrections made today are the WRONG items of that pass; NEEDS-PRODUCT items left as they were.
+     The Custom Extensions NAV ITEM is hidden for customers (newCustomFlowExtensions = 0); its page opens by URL -
+     wording that sends readers "to the workspace navigation" awaits Mark's decision (FOR-MARK item 1).
+     Jira from this pass: FR-3710 (closed by Mark 2026-10-06: not an issue), FR-3711 (dedupe evicts integer ids
+     wrongly), FR-3631 comments (template Request[method], lenient/scopes claims in ai-docs, cursor type, no jsconfig),
+     FR-3310 comment (stale Not Ready on versions saved 09-22). -->

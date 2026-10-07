@@ -46,8 +46,9 @@ from - backed by Qdrant, one of the vector stores FlowRunner supports. The first
 - <span class="fr-control">Embedding Model</span> - the model that turns your text into embeddings, picked from the
   supported AI providers, and an <span class="fr-control">AI API Key</span> - your own key from that provider's
   account, used whenever your text is sent to the provider to be embedded.
-- <span class="fr-control">Vector Store</span> - which store holds those vectors: MongoDB Atlas, Qdrant, or
-  PostgreSQL with the pgvector extension.
+- <span class="fr-control">Vector Store</span> - which store holds those vectors: MongoDB Atlas, Qdrant, PostgreSQL
+  with the pgvector extension, or OpenSearch. The choice is permanent - to move a Knowledge
+  Base to another store, create a new one.
 - <span class="fr-control">Chunk Size</span> and <span class="fr-control">Chunk Overlap</span> - how each document is sliced. Chunk Size caps how
   many characters one chunk holds; Chunk Overlap repeats the tail of one chunk at the
   start of the next, so an idea that spans the boundary is not cut in half. Larger chunks
@@ -62,8 +63,8 @@ from - backed by Qdrant, one of the vector stores FlowRunner supports. The first
 ## Connecting the vector store
 
 The vector store is your own database, not something FlowRunner hosts for you. Whichever
-option you pick, you bring a running instance - an Atlas cluster, a Qdrant instance, or a
-PostgreSQL database - and the dialog's second step, <span class="fr-control">Storage Configuration</span>, asks for
+option you pick, you bring a running instance - an Atlas cluster, a Qdrant instance, a
+PostgreSQL database, or an OpenSearch cluster - and the dialog's second step, <span class="fr-control">Storage Configuration</span>, asks for
 whatever the chosen store needs to connect. For the Product Docs walkthrough, that is the
 Qdrant instance and the collection its vectors will live in:
 
@@ -74,14 +75,43 @@ Qdrant instance and the collection its vectors will live in:
 - **Qdrant** - the instance <span class="fr-control">URL</span> (for Qdrant Cloud, in the form
   `https://your-cluster.qdrant.io:6333`), an <span class="fr-control">API Key</span>, and the <span class="fr-control">Collection Name</span> that
   will hold the vectors.
-- **PostgreSQL (pgvector)** - <span class="fr-control">Host</span>, <span class="fr-control">Port</span>, <span class="fr-control">Database</span>, <span class="fr-control">User</span>, <span class="fr-control">Password</span>,
-  and a <span class="fr-control">Table Name</span>. A table that does not exist yet is created for you, with the
-  pgvector extension.
+- **PostgreSQL (pgvector)** - the <span class="fr-control">Host</span> name or IP address on its own, with no protocol
+  or port; the <span class="fr-control">Port</span> (`5432` is filled in); the <span class="fr-control">Database</span>, <span class="fr-control">User</span> and <span class="fr-control">Password</span>;
+  and an <span class="fr-control">SSL mode</span>. SSL mode starts at **Require**, which encrypts the connection. Choose
+  **Verify full** to also check the server's certificate, or **Disable** for a local database
+  without encryption. Press <span class="fr-control">Test</span>, then pick the <span class="fr-control">Table</span> - the list shows tables that
+  already hold vectors - or type a new name; `knowledge_base_vectors` is filled in. The
+  database needs the pgvector extension installed, or a user allowed to install it.
+- **OpenSearch** - the <span class="fr-control">Node URL</span> with its protocol and port, such as `https://host:9200`,
+  and a <span class="fr-control">Username</span> and <span class="fr-control">Password</span>. <span class="fr-control">Verify SSL certificate</span> is on; turn it off only for
+  a cluster with a self-signed certificate. Press <span class="fr-control">Test</span>, then pick an <span class="fr-control">Index</span> or type a
+  new name. The cluster needs OpenSearch 2.4 or newer with the k-NN plugin.
 
-Qdrant and PostgreSQL also offer a <span class="fr-control">Search entire collection</span> checkbox. Left off, a
+For every store except Qdrant, the table, collection or index picker stays locked until a
+test succeeds. A failed test says why under the first field - **Could not resolve the
+database host name** for a PostgreSQL host that does not exist, **Could not connect to the
+cluster** for an OpenSearch node that cannot be reached.
+
+Qdrant and PostgreSQL also offer a <span class="fr-control">Search entire collection</span> checkbox, and OpenSearch a
+<span class="fr-control">Search entire index</span> checkbox when the index you pick already holds data. Left off, a
 search sees only the documents added through this Knowledge Base; turned on, it searches
-everything already stored in that collection or table - useful when the store holds
-embeddings you produced outside FlowRunner.
+everything already stored in that collection, table or index.
+
+<!-- RELEASE devtasks2 / v.1.1.3 (FR-3662 -> FR-3666), DRIVEN 2026-10-06 on dev.flowrunner.ai (create dialog, nothing created).
+     The prod bundle carries the same strings ("OpenSearch Configuration", "PostgreSQL (pgvector) Configuration", "Verify SSL
+     certificate", "SSL mode", "Search entire index"); WEAVIATE IS ON DEV ONLY (FR-3691, 0 hits in the prod bundle) - not
+     documented. DRIVEN: Vector Store options; OpenSearch panel = Node URL (placeholder https://host:9200) + TEST, Username,
+     Password, Verify SSL certificate (checked by default), Index ("Test connection first", disabled); TEST against
+     https://opensearch-probe.invalid:9200 -> "Could not connect to the cluster" under Node URL. PostgreSQL panel = Host
+     (placeholder db-postgresql-fra1-48213-0.b.db.example.com) + TEST, Port 5432, Database, User (placeholder postgres),
+     Password (masked), SSL mode (Disable / Require / Verify full, default Require), Table (knowledge_base_vectors; the button
+     is DISABLED until TEST succeeds), Search entire collection (off); TEST against pg-probe.invalid -> "Could not resolve the
+     database host name". SOURCE (Sergey Androsov, FR-3666, 2026-09-30): store fixed at creation; host without protocol/port;
+     table list = tables with a vector column; pgvector installed or installable (CREATE EXTENSION needed); OpenSearch 2.4+ with
+     k-NN, username/password only; Search entire index only for an existing index with data. NOT DOCUMENTED (not driven, needs
+     a real store): column/field pickers for an existing table/index with data; the OpenSearch < 2.12 1024-dimension limit;
+     what ticking Search entire collection reveals. The 2026-10-06 gate flagged the old "embeddings produced outside FlowRunner"
+     use case as an unproven compatibility promise - removed. -->
 
 <!-- verified in-product 2026-08-14 (create dialog step 2, all three stores driven): Qdrant = URL / API Key / Collection Name / Search entire collection; MongoDB Atlas = Connection String (+ Test button; Database Name and Collection Name comboboxes stay disabled - "Test connection first" / "Select database first" - until Test succeeds); PostgreSQL = Host / Port (5432) / Database / User / Password / Table Name (placeholder knowledge_base_vectors) / Search entire collection. Tooltips captured verbatim in the ui block. MongoDB has NO Search entire collection checkbox. -->
 <!-- doclint: allow-unlinked: Knowledge Base -->
@@ -103,7 +133,8 @@ while it is being processed.
 Creating a Knowledge Base does nothing on its own - an agent has to be pointed at it. You do that
 on the <span class="fr-block">AI Agent</span> block: open <span class="fr-control">Manage Capabilities</span>, go to <span class="fr-control">Knowledge</span>, and add the Knowledge
 Base from the list of the workspace's knowledge bases. Once the manual has been added -
-the next section shows how, with an Add Document block - ask the agent a question the
+the next section shows how, with an [Add Document](knowledge-base-add-document.md){.fr-block}
+block - ask the agent a question the
 manual answers, say what the warranty period is, and the reply comes from that document
 instead of from general training.
 
@@ -122,13 +153,13 @@ blocks then keep the content current:
 
 - [Add Document](knowledge-base-add-document.md){.fr-block} - add a document.
 - [List Documents](knowledge-base-list-documents.md){.fr-block} - list what the Knowledge Base holds.
-- [Delete Document](knowledge-base-delete-document.md){.fr-block} - remove one document by its file id, read from an earlier List Documents.
+- [Delete Document](knowledge-base-delete-document.md){.fr-block} - remove one document by its file id, read from an earlier List Documents block.
 - [Delete by Filter](knowledge-base-delete-by-filter.md){.fr-block} - remove several at once, filtered on the metadata you attached when adding them.
 
 Because a flow manages the documents, the Knowledge Base can stay in sync with wherever your
-content lives. A flow that runs when a file lands in a Git repo, a row is added to a Google
-Sheet, or a record is created in Airtable can add that content on its own - and remove a
-document just as easily when the source goes away.
+content lives. A trigger block that waits for new content in another service can pass it to
+Add Document, so each new piece lands in the Knowledge Base without anyone uploading it, and
+Delete by Filter removes it when the source goes away.
 
 You can also hand those same action blocks to an <span class="fr-block">AI Agent</span> as tools. Then the agent decides for
 itself when to add or delete a document - saving something it was told to remember, or clearing

@@ -70,7 +70,7 @@ Because the reply always arrives under `output`, a later block reads `output->ne
 | Field | Description |
 | --- | --- |
 | AI Model | Required. The model to call, chosen from one list grouped by provider (Claude, GPT, Gemini, and others); the provider is implied by the model you pick. |
-| AI API Key | Required. The key that authorizes the call. Pick a key you have already saved, or type a new one right here. Without a valid key the call cannot run. |
+| AI API Key | Required. The key that authorizes the call. Pick a key you have already saved, or type a new one right here. The switch beside the label turns the field into an expression, so it can read the key from an API KEY placeholder instead. Without a valid key the call cannot run. |
 | System Prompt | The standing instruction that sets the agent's role, behavior, and rules, applied to every request this block makes. |
 | User Prompt | The request for this run. Usually built in the Expression Editor from earlier blocks' results, so the input changes from run to run. |
 | Manage Capabilities | Opens the window where you attach the agent's tools - built-in actions, MCP server tools, your own flows, and Knowledge Bases. See "What the agent can do" above. |

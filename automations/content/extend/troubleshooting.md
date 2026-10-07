@@ -4,7 +4,7 @@ Symptoms first, with the cause each one usually has.
 
 ## The deploy fails
 
-**"Run `flowrunner login` first"** - there is no token in `.flowrunner/token`, or it was revoked by a
+**"Run `npx flowrunner login` first"** - there is no token in `.flowrunner/token`, or it was revoked by a
 `logout`.
 
 **"Session expired"** - the token was valid and is not any more. They last 30 days. Run `npx flowrunner login`
@@ -13,7 +13,8 @@ and deploy again.
 **A `403` naming a mismatch** - the token belongs to a different workspace than `flowrunner.json` points at.
 This is what you get after editing `workspaceId` by hand. Log in again instead.
 
-**"Each service needs a `src/index.js`"** - the folder exists but nothing in it calls
+**"No services found under services/. Each one needs a src/index.js (or dist/index.js) that calls
+Flowrunner.createExtension."** - the folder exists but nothing in it calls
 `Flowrunner.createExtension`, or the module throws while loading. Check it builds first:
 
 ```js
@@ -35,7 +36,7 @@ is one no flow can reach.
 stops and reports every reason.
 
 **"Invalid definition"** on a project that used to deploy - the CLI is older than the server expects.
-Upgrade it in the project (`npm install -D flowrunner-cli@latest`) and deploy again.
+Upgrade it in the project (`npm install -D @flowrunner/cli@latest`) and deploy again.
 
 **"Invalid definition: … sampleResultLoader Invalid input: expected object, received undefined"** on a
 service copied from somewhere else - the folder holds a service in the legacy class-and-JSDoc format, which
@@ -48,6 +49,13 @@ the CLI does not deploy. Only `Flowrunner.createExtension` services deploy. Rewr
 **A load error naming `.labels()`** - the service uses the former `.map()` plugin, which no longer exists.
 Move the API values into the `z.enum` list and the display names into `.labels()` - see
 [Parameters & Types](parameters-and-types.md#showing-a-label-sending-a-value).
+
+**A load error saying a field "uses `.catch(…)`"** - a field may not swap a wrong value for a fallback
+without reporting it. Replace `.catch(v)` with `.default(v)`.
+
+**A load error saying a field "declares z.tuple()"** - or another type outside the accepted list, which the
+message prints in full. Change the field to one of those types - see
+[Parameters & Types](parameters-and-types.md#what-each-type-renders-as).
 
 ## The block does not appear in the editor
 <!-- doclint: no-shot: symptom page; the palette is pictured on getting-started.md -->
@@ -79,6 +87,33 @@ fix it there and save.
 
 If a service still declares `.nullish()` on fields the flow may leave blank, it keeps working. `.optional()`
 is the ordinary form now that a blank is resolved by the declaration rather than by what the editor sent.
+
+## The action stops with "Cloud Code execution was interrupted"
+<!-- doclint: no-shot: symptom page; the error text is quoted in full below -->
+
+```
+Cloud Code execution was interrupted: the execution environment stopped responding while running your code. This usually means the code crashed the process or exceeded the environment's memory limit. Please review your code and run it again.
+```
+
+Your actions run in the workspace's Cloud Code environment, which they share with every
+[Custom Cloud Code](../reference/custom-cloud-code.md){.fr-block} block running in the same workspace. Its
+memory ceiling depends on the workspace billing plan and covers everything running at the same moment, so an
+action that holds a large response in memory can fail only when other runs overlap it. The message does not
+say which cause it was. Check:
+
+- how much data the action holds at once, such as a large download read into memory
+- how many runs overlap - a burst of instances multiplies the memory in use
+- whether the code can crash for another reason, which gives the same message
+
+The same message can also appear when the platform itself ended the run under heavy load, so a run that
+fails once and succeeds on a retry is not necessarily at fault.
+
+<!-- 2026-09-29: message text DRIVEN on prod Documentation Flows (Growth): a Custom Cloud Code block allocating
+     600 x 1MB failed with exactly this text; 250 x 1MB succeeded. SOURCE (FR-3567 developer answer, 2026-09-14):
+     one environment per workspace shared by the block, AI Agent Cloud Code tools and custom extension actions;
+     per-plan CPU/memory ceilings; the message cannot tell a crash from the ceiling; it can also appear when the
+     platform drops a request under load. Mark 2026-09-29: the per-plan numbers go on the website pricing table,
+     not in the docs. -->
 
 ## A dropdown is empty
 
@@ -115,9 +150,16 @@ parameter in `.query()`.
 
 `init` never overwrites the harness it copied into `sandbox/`, so an upgraded CLI runs your suites through
 the old harness. `runServiceMethod` now takes one `configs` bag where the old harness took `appConfigs` and
-`sharedConfigs`; a suite that still passes `appConfigs` runs every method with an empty configuration. Copy
+`sharedConfigs`; a suite that still passes `appConfigs` sends no configuration at all, so a required config item fails
+with `invalid config — … is required` and an optional one reads `undefined`. Copy
 the current harness over yours and update the suites - see
 [Testing](testing.md#upgrading-the-harness).
+
+**`Cannot find module 'flowrunner-cli/runtime'`** - the project moved to `@flowrunner/cli`, but
+`sandbox/service.js` still loads the runtime by the old package name. Change that line to
+`require('@flowrunner/cli/runtime')` - see [The FlowRunner CLI](cli.md#installing-it).
+<!-- 2026-09-29: the error text is Node's for a missing module name; `require('@flowrunner/cli/runtime')` DRIVEN to
+     resolve with @flowrunner/cli 0.1.0 installed. Upgrade hint above switched to @flowrunner/cli@latest (FR-3686). -->
 
 ## A multipart upload arrives empty
 
@@ -166,19 +208,23 @@ Worth knowing before you cause one, because none of these produce an error at de
 ## Error codes
 
 Some of these are raised while the CLI builds your definition, so you see them **in your terminal** at
-`npx flowrunner deploy` or `npm test`, code and all:
+`npx flowrunner deploy` or `npm test`. The terminal shows the message, not the code: jest prints the error
+class in front of it (`InvalidSchemaError: [flow-extension:tmdb] …`), and a deploy prints
+`Skipping "<service>" — <message>`. The code is on `error.code`, for a test that asserts it:
 
 | Code | Raised when |
 |---|---|
 | `FR_EXT_DUPLICATE_ITEM_ID` | Two registered items share an id. Ids are unique across all kinds. |
 | `FR_EXT_INVALID_TRIGGER_CONFIG` | A polling trigger declared zero or several mechanisms, or declared `dedupe` or `watermark` without a `fetch`. |
 | `FR_EXT_REALTIME_SETUP` | `setupRealtimeTriggers` declared twice, or missing `subscribe`/`unsubscribe`. |
-| `FR_EXT_OAUTH_SETUP` | `setupOauth2` declared twice, or an OAuth method invoked without it. |
-| `FR_EXT_NOT_REGISTERED` | The module loaded but registered no extension for that id. |
+| `FR_EXT_OAUTH_SETUP` | `setupOauth2` declared twice. |
 | `FR_EXT_INVALID_SCHEMA` | A `params`, `criteria` or `configItems` slot is not a `z.object`. |
 
+A module that loads but registers no extension for its folder's id raises no code: the deploy skips it with
+`its entry point does not define a service`.
+
 The rest are raised while a block runs, and reach the flow as messages prefixed
-`[flow-extension:<serviceId>]`:
+`[flow-extension:<serviceId>]` (`FR_EXT_FEATURE_NOT_ENABLED` for `files` reads `[flow-extension]` alone):
 
 | Code | Raised when |
 |---|---|
@@ -188,8 +234,10 @@ The rest are raised while a block runs, and reach the flow as messages prefixed
 | `FR_EXT_INVALID_CONFIG` | A saved configuration value fails the schema. Fix it on the Configuration tab. |
 | `FR_EXT_INVALID_CRITERIA` | A dictionary's `criteria` failed its schema. |
 | `FR_EXT_UNKNOWN_TRIGGER` | A dispatch referenced an unregistered trigger id. |
-| `FR_EXT_SIGNATURE_VERIFICATION_FAILED` | An inbound webhook failed signature verification. |
 | `FR_EXT_FEATURE_NOT_ENABLED` | A handler touched `oauth` or `files` without enabling it. |
+
+An inbound webhook that fails its signature check raises no code: the provider gets a `401` with an empty
+body, the run never starts, and the runtime logs a warning.
 
 The Test Monitor and the flow's error exit carry the **message**, so make the message itself say what went
 wrong, and do not write flow logic that branches on a code.
@@ -209,3 +257,13 @@ wrong, and do not write flow logic that branches on a code.
 - [Testing](testing.md) - reproducing a failure locally
 - [Deploying & Managing](deploying.md) - versions, rollback and what is cached
 - [The FlowRunner CLI](cli.md) - the commands and their errors
+
+<!-- 2026-10-06 FULL RECHECK of this page against @flowrunner/cli 0.1.4 (latest), every claim run in a scratch project
+     (sandbox runServiceMethod / jest / the CLI's own build and pack code; nothing deployed - a prod deploy was refused by
+     the session's permission system). Console claims driven on app.flowrunner.ai, Documentation Flows, AS A CUSTOMER
+     (staff mode off). Corrections made today are the WRONG items of that pass; NEEDS-PRODUCT items left as they were.
+     The Custom Extensions NAV ITEM is hidden for customers (newCustomFlowExtensions = 0); its page opens by URL -
+     wording that sends readers "to the workspace navigation" awaits Mark's decision (FOR-MARK item 1).
+     Jira from this pass: FR-3710 (closed by Mark 2026-10-06: not an issue), FR-3711 (dedupe evicts integer ids
+     wrongly), FR-3631 comments (template Request[method], lenient/scopes claims in ai-docs, cursor type, no jsconfig),
+     FR-3310 comment (stale Not Ready on versions saved 09-22). -->

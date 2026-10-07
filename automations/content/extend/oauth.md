@@ -90,11 +90,6 @@ ext.addAction({
 })
 ```
 
-!!! warning "Scopes on a realtime trigger are not collected"
-    The union covers actions, polling triggers and dictionaries. Scopes declared on a **realtime** trigger
-    are currently not added to the authorize URL, so a connection made without them will be refused when the
-    trigger tries to subscribe. Put a realtime trigger's scopes in the extension-level `scopes` instead.
-
 ## Tokens that are more than a string
 
 Some providers hand back a token plus something you need alongside it - an instance URL, a tenant id, an
@@ -128,7 +123,6 @@ URL, a token response that has to be unwrapped, a refresh that is a different en
 |---|---|
 | The connection fails immediately, no error from the provider | `oauth?.accessToken` read without the optional chain in `initContext`, so the OAuth flow itself threw |
 | The provider rejects the client | The client id or secret in the extension's configuration does not match the app registered with the provider |
-| The provider returns "invalid scope" | A scope declared only on a realtime trigger, which is not collected |
 | Calls work, then start failing after a while | The token expired and `refreshToken` is not handling the provider's refresh correctly |
 | `FR_EXT_OAUTH_SETUP` | `setupOauth2` declared twice, or an OAuth method invoked on an extension that does not declare it |
 

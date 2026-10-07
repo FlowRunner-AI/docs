@@ -491,6 +491,19 @@
      CONFIRMED AS WRITTEN: BOOLEAN / CHECKBOX is a dropdown offering exactly Yes and No; API KEY is a
      picker; tags render [string] [int] [double] [boolean] [datetime] [object] [array] [api_key]; the
      Data Type list holds exactly those eight options in that order. -->
+<!-- RELEASE v.1.1.2, DRIVEN 2026-09-25 on PROD (app.flowrunner.ai), Documentation Flows:
+     - FR-3443: the AI API Key field on AI Agent, AI Router, Condition (AI QUESTION) and Transform Data (AI
+       Transform) carries a switch beside its label (tooltip "Toggle expression input"); flipped, the field
+       becomes an expression field with a wand. Built in the throwaway-turned-fixture flow "Ticket Summary":
+       API KEY placeholder summaryAiKey (value: the workspace's "Demo Key"), AI Agent "Summarize ticket"
+       (Claude Haiku 4.5) with AI API Key = {{summaryAiKey}} via the Expression Editor's PLACEHOLDER DATA group.
+       Run Block -> Success, a one-sentence summary; the key does NOT appear in the block's Input (files,
+       systemPrompt, userPrompt only). The developer's answer also lists Repeat and External Callback (AI
+       question); not driven there.
+     - FR-3467: on a LIVE version the right panel is present in View mode with the Flow Settings (gear) tab:
+       Flow Memory, Placeholder Data, Flow Description, Initial Data Description. Every input readOnly; the +,
+       gear and trash buttons disabled=true; clicking the + opened nothing. Ticket Triage was started for the
+       shot and stopped again (back to Ready). placeholders-live-view-mode.png recaptured. -->
 # Placeholders
 
 A flow you hand to someone else has to say what it needs from whoever sets it up. In **FlowRunner™** you
@@ -534,7 +547,11 @@ name in the list:
 | ((API KEY)) | Pick one of the AI keys saved in the workspace | `[api_key]` |
 
 ((API KEY)) draws on the workspace's [API Keys](../../platform/api-keys.md) and holds an AI provider key
-only. No block reads a key from a placeholder yet.
+only. An AI step reads it through its ((AI API Key)) field: flip the switch beside the field's label to turn
+it into an expression, then pick the placeholder in the Expression Editor. A flow you hand on then runs on
+the key its new owner sets, and nobody has to open the AI step to change it:
+
+![An AI Agent step named Summarize ticket: AI Model set to Claude Haiku 4.5, and below it the AI API Key field switched to an expression, holding a single purple summaryAiKey pill with a wand icon at its right.](../../images/learn/placeholders-api-key-expression.png)
 
 Write the ((Description)) even though it is optional. It shows on the question-mark beside the name, and
 it is the only explanation that travels with the flow. The trash removes a row, after a confirmation.
@@ -594,10 +611,11 @@ you had.
 
 ## Changing a value on a LIVE version
 
-Open a **LIVE** version in the editor and it opens read-only, in view mode: there is no right-hand tab
-strip, so ((Flow Settings)) is not there and its values cannot be changed while it stays LIVE.
+Open a **LIVE** version in the editor and it opens read-only, in view mode. ((Flow Settings)) is still there,
+so you can read each placeholder's value and description, but every field is read-only and the controls to
+add, edit or remove a placeholder are disabled while the version stays LIVE.
 
-![The Ticket Triage flow open at Version 1 with a green Live chip in the toolbar. The first tab reads View rather than Edit. On the canvas, Start leads into the "Urgent enough to escalate?" Condition, whose Yes branch runs "Post escalation summary" and whose No branch runs "Queue normally". The whole right-hand side of the window is empty - no tab strip and no settings panel.](../../images/learn/placeholders-live-view-mode.png)
+![The Ticket Triage flow open at Version 1 with a green Live chip in the toolbar and View as the first tab. On the canvas, Start leads into the "Urgent enough to escalate?" Condition, whose Yes branch runs "Post escalation summary" and whose No branch runs "Queue normally". On the right, the Flow Settings tab shows Flow Memory, a Placeholder Data card listing notifyWebhook [string] set to https://hooks.example.com/triage/T29F4B1 and escalateAbove [int] set to 8, a Flow Description card, and an Initial Data Description card for urgency - all read-only.](../../images/learn/placeholders-live-view-mode.png)
 
 Only one version is LIVE at a time, so there are two ways to change a value. Stop the version and it comes
 back as an editable draft, but nothing runs while it is down. Or clone it, change the value on the copy

@@ -99,3 +99,13 @@ Shipping it:
      own step lists. palette-tmdb-blocks.png (LOCAL EXTENSIONS, dev, 2026-08-31) replaced by the prod palette shot
      captured today. configuration-tab.png and custom-extensions-list-minimal.png: see the getting-started /
      service-structure drive records. -->
+
+<!-- 2026-10-06 FULL RECHECK of this page against @flowrunner/cli 0.1.4 (latest), every claim run in a scratch project
+     (sandbox runServiceMethod / jest / the CLI's own build and pack code; nothing deployed - a prod deploy was refused by
+     the session's permission system). Console claims driven on app.flowrunner.ai, Documentation Flows, AS A CUSTOMER
+     (staff mode off). Corrections made today are the WRONG items of that pass; NEEDS-PRODUCT items left as they were.
+     The Custom Extensions NAV ITEM is hidden for customers (newCustomFlowExtensions = 0); its page opens by URL -
+     wording that sends readers "to the workspace navigation" awaits Mark's decision (FOR-MARK item 1).
+     Jira from this pass: FR-3710 (closed by Mark 2026-10-06: not an issue), FR-3711 (dedupe evicts integer ids
+     wrongly), FR-3631 comments (template Request[method], lenient/scopes claims in ai-docs, cursor type, no jsconfig),
+     FR-3310 comment (stale Not Ready on versions saved 09-22). -->

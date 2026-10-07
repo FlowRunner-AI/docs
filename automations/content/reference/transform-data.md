@@ -266,6 +266,10 @@ omit passwordHash, sessionToken:
 }
 ```
 
+Property Name(s) takes one name or a list of names, so a variable that holds
+`["passwordHash", "sessionToken"]` strips both at once - handy when the same set of secret fields
+is removed in several places.
+
 ---
 
 ### Create Object
@@ -696,11 +700,12 @@ word - the pair you use to tidy names and titles for display.
 
 ```
 Capitalize  "hello WORLD"  ->  "Hello WORLD"
-Start Case  "hello world"  ->  "Hello World"
+Start Case  "hello WORLD"  ->  "Hello World"
 ```
 
-Note that Capitalize touches only the first letter and leaves the rest exactly as it found it
-- `"hello WORLD"` becomes `"Hello WORLD"`, not `"Hello world"`.
+Note that Capitalize touches only the first letter and leaves the rest exactly as it found it,
+while Start Case also lowers the rest of each word. Start Case splits words only at spaces:
+`"order_status-code"` becomes `"Order_status-code"`.
 
 ---
 

@@ -1,4 +1,5 @@
 automations/.cache/
+.cache/
 backendless-pro-manager/
 prod/backendless-pro-manager/
 prod/

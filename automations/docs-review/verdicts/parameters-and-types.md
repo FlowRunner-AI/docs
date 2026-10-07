@@ -1,5 +1,88 @@
 # Verdict: content/extend/parameters-and-types.md
 
+## 2026-09-25 - release v.1.1.2 (FR-3572, CLI 0.0.13)
+
+- Verdict: **major-rework** (concept-page-review wf_9740fed4, 7 lenses, one run; not re-run per the one-net rule)
+- Scope reviewed: the v.1.1.2 change (the accepted / refused type list), plus the rest of the page
+- doclint: 0 errors, 0 warnings; mkdocs build --strict: clean; anchor #what-the-deploy-refuses resolves
+
+### Gate summary
+
+39 items (5 blocker, 15 major, 18 minor, 1 nit). The release delta had one false sentence: "anything else stops
+the service from loading". The CLI's own refusal message lists z.null(), z.any() and z.unknown() as supported,
+and z.json() loads too. Most other items repeat the 09-09 verdict's open list:
+- dynamicParams undriven
+- list rows and the view toggle not shown
+- date handling
+- label pass-through
+- FR-3635 decimal truncation on the running minRating field
+
+### Resolution (same day, one consolidated pass)
+
+| # | Sev | Item | Resolution |
+|---|---|---|---|
+| 1 | blocker | "anything else stops loading" false | FIXED: re-probed on 0.0.13 (z.json parsed, z.any/unknown/null unconverted); "Other types" bullets + modifiers line |
+| 2 | blocker | new-type controls not seen in the editor | PARTIAL: published types driven in the CLI sandbox; controls inferred from the type-to-control mapping; no editor shot (logged in the page comment) |
+| 3 | blocker | Nested fields and lists: no shot, undriven rows / toggle | OPEN (09-09 debt) |
+| 4 | blocker | dynamicParams undriven | OPEN (09-09 debt) |
+| 5 | blocker | ledger / verdict | FIXED: ledger block + this section |
+| 6 | major | three ideas in one section | FIXED: new "## What the deploy refuses"; list-in-list sentence kept only in Nested fields |
+| 7 | major | no replacement for tuple / intersection | FIXED: z.object / z.array; one z.object |
+| 8 | major | deploy skip never shown | PARTIAL: the warning text is quoted from CLI source (`Skipping "<service>" - <reason>`); no deploy run |
+| 9 | major | existing deployments | FIXED: fails at run time until redeployed; the previous version stays live (SOURCE, FR-3572 answer) |
+| 10 | major | union advice | FIXED: 'false'-is-truthy case driven both orders; one ordering rule. TMDB-scenario rewrite not done |
+| 11 | major | FR-3635 decimals on minRating | OPEN - listed for Mark |
+| 12 | major | "Running it like that" | FIXED: "With a genre picked and the other three left blank" |
+| 13 | major | .default on a cleared field | FIXED: narrowed to "a field left untouched" (null -> default, driven) |
+| 14 | major | "earns its keep" | FIXED |
+| 15-17, 19, 20 | major | labels, error line, expression switch, dates, trigger params | OPEN (09-09 debt) |
+| 18 | major | chip case / location | FIXED: ((run block)) in the **Test Panel**; **Test Monitor** bold |
+| 21 | minor | «Release Year» in the required row | FIXED: «Genre» |
+| 25 | minor | literal bullet | FIXED: z.literal(true) must be switched on (driven: 'false' -> «Confirm» must be one of: true) |
+| 35 | minor | .default vs .catch | FIXED: driven - .default(5): null -> 5, 'abc' -> «Retries» must be a number |
+| 38 | minor | red-team probe left in scratch | Left in the session scratchpad (deletion denied); nothing deployed from it |
+| 39 | nit | metaphor, cute close, .nullish row | FIXED |
+| 22-24, 26-34, 36-37 | minor | 09-09 prose-only claims | OPEN (09-09 debt) |
+
+Mark decides ship.
+
+### Second pass (same day, Mark: "apply fixes")
+
+Not tested. Prod's TMDB extension holds only Get Movie Details (the quick-start action); Discover Movies, this page's running example, exists only on dev. Every open item (3, 4, 11, 15-17, 19, 20, the 09-09 list) needs either new actions deployed to the prod TMDB extension, which the Extend quick starts and their shots share, or an exception to "verify Extend on production" (2026-09-22). Put to Mark as a decision.
+
+### Fourth pass (2026-09-29, editor checks on dev after Mark signed the browser in)
+
+- **#3 lists:** FIXED. Two new shots (param-list-rows.png, param-list-groups.png), the view icons named, and a wrong claim corrected: a list inside a list DOES get rows, but typed values arrive as text and fail.
+- **#15 labels:** FIXED. discover-sortby-labels.png recaptured with no error state; "Highest rated" sends `vote_average.desc` (tested).
+- **#16 error line:** FIXED. discover-run-invalid.png recaptured with the whole line visible.
+- **#17 expression switch:** FIXED. param-expression-switch.png added; switch-off = expression input; lists and groups have view icons instead of a switch.
+- **#20 trigger Payload:** confirmed as written.
+- **#26 editor-side checks:** FIXED. The editor flags only an empty required field; the old contrast was wrong.
+- **#37 picker:** confirmed ("Select value for" lists the dictionary).
+- **#4 dynamicParams:** the example was corrected (the choice must be declared in `params`). The editor never generates the fields, and the CLI's own qa-test template fails the same way. **FILED FR-3685.** Mark chose to remove the section until the fix; it's parked in an HTML comment, and the actions.md row is removed too.
+
+### Third pass (2026-09-29, Mark: prod and dev are the same codebase - verify, don't deploy to prod)
+
+Runtime claims checked with the CLI 0.1.0 sandbox harness, which is the same extension runtime the platform runs. Evidence is in the page's RUNTIME PASS comment.
+
+- **FIXED:**
+  - #13 ".default on a cleared field": a cleared text field DOES get the default; "untouched or cleared" restored
+  - #23 auto-description claim: cut, because none is published
+  - #24 `.example`: narrowed to zod results; on a param it publishes nothing
+  - #32 nullable / nullish / optional.default rows: confirmed as written
+  - #33 `''` on string params: confirmed as written
+  - #34 humanized labels: confirmed
+  - #35 `.default` vs `.catch`: confirmed
+  - #36 `.map()` load error: confirmed
+  - #19 dates: every claim confirmed, bounds included
+  - #28 conversion: '2024' becomes 2024 and '7.5' becomes 7.5 in the runtime
+  - #30 nested error wording: the "«Genres item 2» must be a string" example was WRONG (a number is converted); now "is required"
+- **#4 dynamicParams:** rewritten on one concrete case (Media Type -> Release Year / First Air Year). The code was tested in the harness, and the real error text for a bad `resolve` return is quoted. The editor shot is still owed.
+- **#11 FR-3635 decimals:** CLOSED, Mark 2026-09-29: say nothing.
+- **Still OPEN, needs the editor:** #3 list rows and view toggle shot; #4 editor re-resolve and shot; #15, #16 and #17 shots and states; #20 trigger Payload rendering; #26 editor-side validation; #37 picker. dev.flowrunner.ai had no browser session and the flowrunner-dev MCP failed to connect on 2026-09-29.
+
+## 2026-09-09
+
 - Date: 2026-09-09
 - Verdict: **major-rework**
 - doclint: 0 errors, 0 warnings (`--warnings`)

@@ -119,7 +119,8 @@ docs:
       type: key picker
       description: >
         Required. The key that authorizes the call. Pick a key you have already saved, or type a new
-        one right here. Without a valid key the call cannot run.
+        one right here. The switch beside the label turns the field into an expression, so it can read the
+        key from an API KEY placeholder instead. Without a valid key the call cannot run.
     - field: System Prompt
       type: expression
       description: >

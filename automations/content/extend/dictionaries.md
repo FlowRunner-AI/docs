@@ -86,6 +86,10 @@ const getTvShowsDictionary = ext.dictionary({
     return { items, cursor: page < (response.total_pages ?? 1) ? String(page + 1) : null }
   },
 })
+
+function truncate(text, max) {
+  return text.length > max ? `${ text.slice(0, max - 1) }…` : text
+}
 ```
 
 **"The API has no endpoint that lists these" is not a reason to leave a field as free text.** It rules out
@@ -173,6 +177,19 @@ execute: async ({ criteria, apiRequest }) => {
 },
 ```
 
+`seasonsOf` is the mapping from the seasons dictionary above, moved into a plain function at the end of the
+file:
+
+```js
+function seasonsOf(show) {
+  return (show.seasons ?? []).map(season => ({
+    label: season.name,
+    value: String(season.season_number),
+    note : `${ season.episode_count } episodes`,
+  }))
+}
+```
+
 This is why `apiRequest` should keep `status` on the error it rethrows: without it, the two cases are
 indistinguishable here.
 
@@ -194,3 +211,13 @@ row, an empty list has no legitimate reading.
 - [Parameters & Types](parameters-and-types.md) - binding a dictionary to a field with `.dictionary()`
 - [Actions](actions.md) - the handler bag a dictionary's `execute` shares
 - [Testing](testing.md) - covering the mapping, an unmatched search, and the failure branch
+
+<!-- 2026-10-06 FULL RECHECK of this page against @flowrunner/cli 0.1.4 (latest), every claim run in a scratch project
+     (sandbox runServiceMethod / jest / the CLI's own build and pack code; nothing deployed - a prod deploy was refused by
+     the session's permission system). Console claims driven on app.flowrunner.ai, Documentation Flows, AS A CUSTOMER
+     (staff mode off). Corrections made today are the WRONG items of that pass; NEEDS-PRODUCT items left as they were.
+     The Custom Extensions NAV ITEM is hidden for customers (newCustomFlowExtensions = 0); its page opens by URL -
+     wording that sends readers "to the workspace navigation" awaits Mark's decision (FOR-MARK item 1).
+     Jira from this pass: FR-3710 (closed by Mark 2026-10-06: not an issue), FR-3711 (dedupe evicts integer ids
+     wrongly), FR-3631 comments (template Request[method], lenient/scopes claims in ai-docs, cursor type, no jsconfig),
+     FR-3310 comment (stale Not Ready on versions saved 09-22). -->

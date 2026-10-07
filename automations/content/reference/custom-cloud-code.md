@@ -16,8 +16,7 @@ variable. The values arrive already typed, so an array stays an array you can ca
 becomes the block's result, which later blocks read in the Expression Editor under the
 block's result alias - by default, <span class="fr-expr">Custom Cloud Code Result</span>.
 
-The code runs in its own isolated environment, created fresh on every run - nothing you set
-persists from one run to the next.
+Each run starts clean - nothing your code sets persists from one run to the next.
 
 ## When to use it
 
@@ -164,7 +163,7 @@ As an ordinary block step, none of this appears: an argument is just a name and 
 - The server runs in UTC with the en-US locale. Date and number formatting for other locales still works - Intl carries the full locale data.
 - The result is serialized as JSON. Map, Set, and RegExp become empty objects; NaN and Infinity become null; and undefined, functions, and Symbols are dropped.
 - Code runs in non-strict (sloppy) mode - assigning to an undeclared variable does not throw, so a typo in a variable name can fail silently.
-- Time is not the tight limit - runs that compute or wait for over a minute complete fine. Memory is: around 100MB of your own allocations is safe, but a couple of hundred megabytes crashes the execution environment, and the block fails with "Cloud Code execution was interrupted".
+- Time is not the tight limit - runs that compute or wait for over a minute complete fine. Memory is. Every <span class="fr-block">Custom Cloud Code</span> block, <span class="fr-block">Custom Cloud Code</span> tool on an <span class="fr-block">AI Agent</span> and custom extension action in a workspace runs in the same environment, so everything running at the same moment shares one memory ceiling, and that ceiling depends on the workspace billing plan. Code that goes over it is stopped, and the block fails with "Cloud Code execution was interrupted: the execution environment stopped responding while running your code. This usually means the code crashed the process or exceeded the environment's memory limit. Please review your code and run it again." A crash for any other reason gives the same message, so check both how much data the code holds at once and what else was running at the same time.
 - A value that cannot be JSON-serialized - a BigInt, or an object with a circular reference - fails the block with "Return value is not JSON-serializable", naming what could not be converted.
 - An un-awaited promise rejection crashes the execution environment and fails the block the same way. Await every promise, or attach a .catch().
 

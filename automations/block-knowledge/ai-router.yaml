@@ -101,7 +101,9 @@ docs:
       type: key picker
       description: >
         Required. The key that authorizes the model call. Pick one you have already saved, or
-        type a new one right here - the same control, and the same store, as the AI Agent block.
+        type a new one right here - the same control, and the same store, as the AI Agent block. The
+        switch beside the label turns the field into an expression, so it can read the key from an API KEY
+        placeholder instead.
     - field: AI Decision Request
       type: expression
       description: >

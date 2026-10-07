@@ -6,7 +6,7 @@ would rather describe the service and let Claude Code write it, take
 [Quick Start: Your First Extension (with AI)](ai-assisted.md).
 
 !!! note "What you need"
-    - **Node.js and npm.** Node 18.20+, 20.12+ or 22+.
+    - **Node.js and npm.** Node 20 or newer.
     - **A FlowRunner™ workspace** you can sign in to.
     - **A TMDB API key.** It is free: create an account at themoviedb.org, open **Settings**, choose **API**, and
       copy the value labelled **API Key**, a 32-character string. The longer **API Read Access Token** on the
@@ -24,13 +24,13 @@ project on your machine, and once deployed it is a block wired after Start like 
 Open a terminal and enter the following command:
 
 ```bash
-npx flowrunner-cli init -d my-extensions -s prod
+npx @flowrunner/cli@latest init -d my-extensions
 cd my-extensions
 ```
 
-`-s prod` points the project at the FlowRunner cloud. It is an `init` flag, so you pass it only here. The
-package is `flowrunner-cli`; the command it installs is `flowrunner`, inside the project, which is why every
-later command starts with `npx flowrunner`.
+The package is `@flowrunner/cli`; the command it installs is `flowrunner`, inside the project, which is why
+every later command starts with `npx flowrunner`. If `init` offers to install the command globally, either
+answer works - see [The FlowRunner CLI](cli.md#installing-it).
 
 ## 2. Connect it to your workspace
 
@@ -133,7 +133,7 @@ Deploying custom extensions...
   Found 1 service under services/.
 
   Deploying 1 service:
-    - new service: tmdb (TMDB) - [2464434ccfaf] - packaged 3.9 KB
+    - new service: tmdb (TMDB) - [13cc36e0841e] - packaged 3.1 KB
 
   Deployed 1 service to workspace "Acme Production" (3F2A9C41-7B10-4E52-9D64-0C81A7F5B2E3) — you can use it in a flow.
   Open Custom Extensions screen in the Flowrunner Console to configure it: https://app.flowrunner.ai/app/Acme%20Production/custom-extensions
@@ -177,13 +177,12 @@ That is the extension running in your workspace.
 
 ## What to try next
 
-- **Read the result from a later block.** In any block after it, open the Expression Editor, choose
-  **Get Movie Details Result** under **Block Data**, and pick a property. The list is the `result` sample you
-  declared. The expression {{Get Movie Details Result->title}} gives `Dune: Part Two`. TMDB returns more than
-  the sample and the block hands all of it on; to read a property that is not in the sample, type its name into
-  the picker's own box, or add it to `result` and deploy again.
+- **Read the result from a later block.** In any block after it, open the Expression Editor and choose
+  **Get Movie Details Result** under ((Block Data)). After the run in step 9 it lists everything TMDB
+  returned. Double-click `title` and the expression reads {{Get Movie Details Result->title}}, which gives
+  `Dune: Part Two`:
 
-    ![The Select property dialog listing id 693134, title Dune: Part Two, tagline, release_date, runtime 167, vote_average 8.133 and a genres array, each with its type](../images/extend/result-property-picker.png)
+    ![The Expression Editor's Block Data tab with Get Movie Details Result opened: $$root and the fields TMDB returned in the run, each with its value, among them release_date 2024-02-27, runtime 167, tagline Long live the fighters. and title Dune: Part Two; the expression on the right reads Get Movie Details Result->title in double braces](../images/extend/result-block-data.png)
 
 - **Add a second action** with another `addAction` call - [Actions](actions.md).
 - **Add a trigger** that watches TMDB for new releases and starts a run - [Triggers](triggers.md).
@@ -199,6 +198,37 @@ That is the extension running in your workspace.
 - [The FlowRunner CLI](cli.md) - every command and flag
 - [Service Structure](service-structure.md) - `createExtension` in full: config, `initContext`, `apiRequest`
 - [Parameters & Types](parameters-and-types.md) - every field type a param or config item can have
+
+<!-- 2026-10-06 RECHECK ON PROD AS A CUSTOMER (staff mode off), @flowrunner/cli 0.1.4:
+     STEP 1: the old `npx @flowrunner/cli init -d my-extensions` pinned the project to 0.1.1 because npx runs a globally
+     installed copy when the spec has no version (FR-3710 - closed by Mark the same day as not an issue; `@latest` kept in the command, explanation removed).
+     STEP 2: login (URL captured, approved in the automation browser): Authorize Cloud Code CLI page, Workspace picker
+     with search, Deploy Custom extensions, Deny/Authorize (Authorize enabled after a pick), 30-day note; "This project
+     is now connected to the workspace ..."; flowrunner.json gets workspaceId/workspaceName; .gitignore has .flowrunner/.
+     STEP 3: cs blank output as described; deploy prompt answered n. STEP 4: the page's js block, run through the
+     sandbox with nock -> {"id":693134,"title":"Dune: Part Two"} (api_key sent as a query param).
+     STEP 5: RE-RUN after Mark's OK (2026-10-06): same code, CLI 0.1.4 scaffold -> "modified service: tmdb (TMDB) -
+     [13cc36e0841e] - packaged 3.1 KB" (modified because TMDB already existed; a reader's first deploy says "new
+     service" with the same hash and size). Sample output updated. The saved API key survived the deploy (32 chars,
+     Execute still returns Dune: Part Two); Versions tab: 13cc36e0841e Active, older ones keep Activate.
+     custom-extensions-list-minimal.png recaptured (staff view - Mark: document features as available; Open-Meteo
+     row hidden by DOM so it shows a single-extension workspace; workspace name swapped to Acme Production; 99+ badge
+     hidden). STEP 6: Configuration tab masked (disc), tooltip = the .describe() text,
+     SAVE CONFIGURATION. STEP 7: Execute -> full TMDB JSON (~12 s). STEP 8: palette as described. STEP 9: run block
+     -> Success. The Custom Extensions page opens by URL, but its NAV ITEM is hidden for customers
+     (newCustomFlowExtensions = 0) - FOR-MARK decision 1.
+     WHAT TO TRY NEXT: rewritten for the customer editor (text tokens; the "Select property" dialog is the staff-only
+     D&D editor). Block Data after the run lists the full returned JSON; dblclick title inserts
+     {{Get Movie Details Result->title}}; shot result-block-data.png (prod, customer view, read back).
+     The Movie Details flow showed a stale "Model name for Api Service action" Not Ready (FR-3310 comment); it is
+     Ready again after an edit. -->
+<!-- 2026-09-30: STEP 1 RE-RUN VERBATIM on @flowrunner/cli 0.1.3 in an empty dir - works (FR-3686 fixed in 0.1.1);
+     Server https://app.flowrunner.ai; `cs blank --id tmdb --name "TMDB" -y` works. -->
+<!-- UPDATE 2026-09-29: STEP 1 now reads `npx @flowrunner/cli init -d my-extensions` (package renamed, FR-3686;
+     prod is the default, FR-3632 fixed, so -s prod is gone). The same command under flowrunner-cli 0.1.0 was
+     re-driven (Server https://app.flowrunner.ai). @flowrunner/cli 0.1.0 itself fails at init (FR-3686), so re-run
+     STEP 1 VERBATIM once it is fixed. The bare-`flowrunner` "command not found" note below is superseded by the
+     global launcher (cli.md's 2026-09-29 note). -->
 
 <!-- DRIVE LOG for this page (rewritten 2026-09-22 as the code quick start; earlier logs superseded). Everything below
      was driven on 2026-09-22 unless dated otherwise. Environments: CLI drives in scratch projects (0.0.10 in

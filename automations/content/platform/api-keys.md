@@ -74,8 +74,17 @@ and the next flow, can select it. Both paths leave the secret in this one place.
 
 A flow can also record which of these keys it uses as part of its own configuration: declare a
 [placeholder](../learn/concepts/placeholders.md) of type `API KEY` and choose a saved setup as its value.
-The flow then stores your choice of setup rather than the secret. No block reads a key from a placeholder
-yet, so the AI block's own field above is still how a key reaches a model call.
+The flow then stores your choice of setup rather than the secret. To have an AI step use it, flip the
+switch beside the ((AI API Key)) label: the field becomes an expression, and you pick the placeholder in the
+Expression Editor. Whoever sets up the flow then chooses the key in one place, without opening the AI step:
+
+![An AI Agent step's AI Model set to Claude Haiku 4.5 and its AI API Key field switched to an expression, holding a summaryAiKey placeholder pill.](../images/learn/placeholders-api-key-expression.png)
+
+<!-- RELEASE v.1.1.2 (FR-3443), DRIVEN 2026-09-25 on PROD, Documentation Flows, flow "Ticket Summary": the
+     switch (tooltip "Toggle expression input") is on the AI API Key field of AI Agent, AI Router, Condition ->
+     AI QUESTION and Transform Data -> AI Transform; the placeholder resolved at Run Block (Success) and the key
+     did not appear in the block's Input. Knowledge Base creation keeps a key picker only (developer's answer,
+     not driven). -->
 
 ## Managing keys
 

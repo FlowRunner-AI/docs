@@ -111,7 +111,7 @@ you are about to wire it in yourself.
 
 Selecting a block switches the right panel from the palette to that block's settings. To get the palette
 back and add the next block, click the **list icon** - the leftmost of the three icons at the top of the
-panel. That is the single most common thing to get stuck on.
+panel.
 
 ![The three icons at the top of the right panel: the list icon opens the block palette, the pencil icon the selected block's settings, and the gear icon the flow's own settings.](../images/build/floweditor-tabs.png)
 
@@ -291,6 +291,36 @@ To change what it does, clone the live version, edit and test the copy, then sta
 over as the live version and the old one steps aside, so the automation never stops running. Stopping the
 live version also hands back an editable draft, but nothing runs while it is stopped.
 [Running Flows](../run/running-flows.md) covers both.
+
+## When the version is open for editing somewhere else
+
+A version has one editing session at a time. Open a version that is already being edited - in another tab,
+browser or device of your own, or by a teammate - and it opens in view mode with a **Session** dialog:
+
+![The Session dialog: "Looks like you have already started the flow editing session elsewhere. Press "Start Edit" to move the editing session here. Your other session will be switched to view mode." with Stay in View Mode and Start Edit buttons.](../images/build/floweditor-session.png)
+
+- ((START EDIT)) moves the editing session to you. The other session switches to view mode and shows the
+  notice *It looks like you have started a new flow editing session. You are in view mode now.* Taking over
+  does not undo anything already done there, because every change is kept the moment it is made.
+- ((STAY IN VIEW MODE)) leaves the session where it is. To edit later, click ((Edit)) in the tab row and the
+  dialog comes back.
+
+The dialog above is the one you get from a second tab of your own. When a teammate holds the session, it
+names them and their email instead. Each version has its own session, so a clone and its original can be
+edited at the same time.
+
+<!-- RELEASE without3 (FR-914), DRIVEN 2026-10-06 on dev: the same flow opened in a second tab -> dialog titled "Session":
+     "Looks like you have already started the flow editing session elsewhere. Press "Start Edit" to move the editing session here.
+     Your other session will be switched to view mode." Buttons STAY IN VIEW MODE / START EDIT; the second tab sits on .../view
+     until Start Edit, then .../edit, and the first tab switches to .../view (palette gone) with a red toast titled "Error":
+     "It looks like you have started a new flow editing session. You are in view mode now." In view mode, clicking Edit in the
+     tab row brings the Session dialog back. LOCK SCOPE (re-driven same day): with Version 1 held in one tab, Clone opened
+     Version 2 for editing in the other with no dialog, and both stayed editable - one session PER VERSION. Shot recaptured as
+     an element screenshot with focus blurred (no ring). PROD re-drive and recapture owed (prod browser signed out). The
+     teammate variant is SOURCE
+     (Viktor Liablin, FR-914 2026-10-01: names the developer and email; no "unsaved data will be lost" any more) - one account only.
+     The new wording ("take over the editing session") is in the app.flowrunner.ai bundle. -->
+
 
 ## Things to watch for
 

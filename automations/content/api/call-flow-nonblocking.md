@@ -89,9 +89,10 @@ curl "https://api.flowrunner.ai/{workspace-id}/{api-key}/automation/flow/{flow}/
 
 A `GET` needs no headers. Each query parameter becomes one value in the run's Initial Data, under its own
 name. Query values arrive as text: `orderId=1042` reaches the flow as `"1042"`. A query string carries text
-only, so call with `POST` when the flow needs numbers, booleans, or structured values to arrive typed. Any fetch of this URL starts a real run - a `HEAD` request, a
+only, so call with `POST` when the flow needs numbers, booleans, or structured values to arrive typed. Any `GET` of this URL starts a real run - a
 chat link preview, a browser prefetch, or an uptime monitor included - and this call returns at once, so an
-accidental run is easy to miss. Share the URL as text, never a clickable link.
+accidental run is easy to miss. Share the URL as text, never a clickable link. A `HEAD` request is refused
+with HTTP 405 and starts nothing.
 
 ## Calling with POST
 
@@ -143,30 +144,39 @@ result and the run's Execution ID. Every step can read that id under Flow Contex
 [Waiting on an External System](../build/flow-control/external-callbacks.md) shows how. Match it to the
 `executionId` this call gave you.
 
+<!-- RELEASE v.1.1.2 (FR-3429, FR-3430), DRIVEN 2026-09-25 on api.flowrunner.ai, Documentation Flows: HEAD on
+     .../Order%20Lookup/activate -> 405, no run appeared; POST {"orderId": 7,} -> 400 {"code":400,"message":"Request
+     body is not valid JSON."} (was 500; the row was missing from this table). ALSO FIXED: the example error block
+     still showed the pre-FR-3408 id-only refusal ("because it expects the id"); re-driven: GET
+     .../Order%20Lookup/activate?orderId=1042 -> 200 {"executionId":…}; GET .../No%20Such%20Flow/activate -> 400
+     {"code":28053,"details":{},"message":"Flow with ID or name 'No Such Flow' and status 'LIVE' is not found."}.
+     "On hold" -> "Paused" in the 28053 row (FR-3431 label). -->
+
 ## Errors
 <!-- doclint: no-shot: an error reference, not a screen; each row names the condition and the fix -->
 
 Most refusals come back as HTTP 400 with a JSON `code`, `message`, and `details`; a wrong media type or
-method is refused at the HTTP level (415 / 405) with no code. This is what the endpoint returns when it is
-given the flow's name, because it expects the id:
+method is refused at the HTTP level (415 / 405) with no code. This is what the endpoint returns for a name
+with no LIVE flow behind it; the message echoes what you sent:
 
 ```json
 {
   "code": 28053,
   "details": {},
-  "message": "Flow with ID 'Order Lookup' and status 'LIVE' is not found."
+  "message": "Flow with ID or name 'No Such Flow' and status 'LIVE' is not found."
 }
 ```
 
 | Code | What it means | What to do |
 | --- | --- | --- |
-| `28053` | No LIVE flow with that id or name | Check the identifier is cased exactly as FlowRunner shows it - a name also has to be URL-encoded (`Order%20Lookup`), and a `+` is not read as a space - and that a version is LIVE. A paused version (On hold) answers this too, so put it back with **Resume flow** in the flow's toolbar (see [Running Flows](../run/running-flows.md#stopping-and-replacing-a-live-flow)). Renaming the flow breaks a name URL but leaves an id URL working |
+| `28053` | No LIVE flow with that id or name | Check the identifier is cased exactly as FlowRunner shows it - a name also has to be URL-encoded (`Order%20Lookup`), and a `+` is not read as a space - and that a version is LIVE. A paused version (Paused) answers this too, so put it back with **Resume flow** in the flow's toolbar (see [Running Flows](../run/running-flows.md#stopping-and-replacing-a-live-flow)). Renaming the flow breaks a name URL but leaves an id URL working |
 | `2027` | The API key is not this workspace's key | Re-copy the API Key from **Workspace Settings ▸ General ▸ Credentials**. Regenerating the key invalidates every URL built on the old one |
 | `9000` | No workspace with that id | Re-copy the Workspace ID from **Workspace Settings ▸ General ▸ Credentials** |
 | `28064` | Query parameters could not be merged into the body: either the same key was sent both ways, or the body is valid JSON but not an object | Read the `message` - it names the duplicated key, or says the body is not an object. Send each value once, and make the body an object whenever you also send query parameters |
 | `28045` | The flow can be called only by its schedule | Turn off **Allow only scheduled flow instances** in the version's **Flow Execution Policy** - see [Flow Scheduling](../reference/flow-scheduling-concept.md#the-flow-execution-policy) |
 | HTTP 415 | A `POST` body sent without `Content-Type: application/json` | Send that header |
-| HTTP 405 | `PUT` and `DELETE` are refused | Use `GET` or `POST`. `HEAD` is not refused - it is answered like `GET` and starts a run |
+| `400` | The `POST` body is not valid JSON; the message reads `Request body is not valid JSON.` and there is no `details` | Check that the body parses - a trailing comma or an unquoted key is the usual cause - and send it again |
+| HTTP 405 | `PUT`, `DELETE` and `HEAD` are refused | Use `GET` or `POST`. A refused request starts no run |
 
 **Rate and plan limits**
 

@@ -38,6 +38,6 @@ Deleting a connection cannot be undone, and any flow that relied on it will fail
 
 - [API Keys](api-keys.md) - the workspace's other credential store, for the keys that AI blocks and outside services use
 - [MCP Servers](mcp-servers.md) - registering tool servers, the other kind of outside service a flow reaches
-- [Compliance & Security](compliance-and-security.md) - the audit log, panic mode, and the rest of the workspace's access controls
+- [Compliance & Security](compliance-and-security.md) - the activity logs, panic mode, and the rest of the workspace's access controls
 
 [^oauth]: This applies only to services that support OAuth - the standard where you sign in and grant access rather than hand over a secret. A service that authenticates another way, with an API key or token, is connected differently: you supply that credential on the block that uses it rather than authorizing an account here.

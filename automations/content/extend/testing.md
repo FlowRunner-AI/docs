@@ -36,21 +36,29 @@ add a shim for it in `nock-mock.js` - the harness is copied in precisely so you 
 ### Upgrading the harness
 
 Because the harness is copied and never overwritten, upgrading the CLI does not upgrade it. After
-`npm install -D flowrunner-cli@latest`, copy the current files over yours:
+`npm install -D @flowrunner/cli@latest`, copy the current files over yours:
 
 ```bash
-cp node_modules/flowrunner-cli/project-files/sandbox/*.js sandbox/
-cp node_modules/flowrunner-cli/project-files/jest.*.js .
+cp node_modules/@flowrunner/cli/project-files/sandbox/*.js sandbox/
+cp node_modules/@flowrunner/cli/project-files/jest.*.js .
 ```
 
 then re-apply any shim you added to `nock-mock.js`. The harness that shipped before 0.0.7 took `appConfigs`
 and `sharedConfigs`; the current one takes a single `configs` bag, and a suite still passing `appConfigs`
-runs every method with an empty configuration.
+sends no configuration at all: a required config item fails with `invalid config — … is required`, and an
+optional one reads `undefined`.
+
+<!-- 2026-09-29 (FR-3686): paths switched to node_modules/@flowrunner/cli/project-files/ (listed in an installed
+     @flowrunner/cli 0.1.0: jest.config.js, jest.setup.js, sandbox/{files-mock,index,nock-mock,service}.js).
+     RESOLVED 2026-09-30: on 0.1.3 the shipped harness requires '@flowrunner/cli/runtime'; both cp commands above ran
+     as printed in a fresh 0.1.3 project, and a migrated project's suite passed 4/4.
+     The dictionary tests below already use methodData: { payload } (FR-3631 item 4); no null-payload claim here. -->
 
 ## The five exports
 
-`runServiceMethod` loads the module, builds the definition and invokes one method per call, so a suite
-holds no state between tests.
+`runServiceMethod` invokes one method per call. It loads your module and builds the definition once per test
+file, so a variable at the top level of your module keeps its value from one test to the next within that
+file. Keep state out of module scope, or reset it in `beforeEach`.
 
 | Export | For |
 |---|---|
@@ -124,7 +132,7 @@ expect(httpMock.history).toEqual([{
   body         : undefined,
   formData     : undefined,
   contentType  : undefined,
-  contentLength: 0,
+  contentLength: undefined,
   timeout      : undefined,
 }])
 ```
@@ -152,9 +160,9 @@ formData: { _fields: [
 
 Text parts arrive as strings, numbers included; binary parts as byte-exact Buffers carrying the filename and
 content type you passed. Assert the bytes literally rather than a length, and match `contentType` with
-`expect.stringMatching(...)` because the boundary is random per request. **An empty `_fields` array** is the
-assertion that catches a request built with `.form(data)` and then `.send()`-ed, which goes out with no body
-at all.
+`expect.stringMatching(...)` because the boundary is random per request. A request built with `.form(data)` and then
+`.send()`-ed goes out with no body at all: it records `formData: undefined` and `contentLength: 0`. Asserting
+that `formData` is defined is what catches it.
 
 ## How a suite is laid out
 
@@ -319,6 +327,8 @@ describe('Polling Triggers', () => {
     })
 
     it('emits only the releases past the remembered marker', async () => {
+      httpMock.onGet(`${ BASE }/discover/movie`).reply({ results: SEEDED_PAGE })
+
       const seeded = await runHandleTriggerPollingForEventMethod({
         eventName: 'onMovieReleased', triggerData: { genreId: '878' }, state: null,
       })
@@ -363,3 +373,13 @@ the API can hand back out of order.
 <!-- 2026-09-22 (FR-3627): the `TMDB 401: ...` assertion now points at the apiRequest on http-requests.md
      that produces the message; the getting-started.md version of the service has no error handling.
      Commands switched to `npx flowrunner` - see the drive record on cli.md. -->
+
+<!-- 2026-10-06 FULL RECHECK of this page against @flowrunner/cli 0.1.4 (latest), every claim run in a scratch project
+     (sandbox runServiceMethod / jest / the CLI's own build and pack code; nothing deployed - a prod deploy was refused by
+     the session's permission system). Console claims driven on app.flowrunner.ai, Documentation Flows, AS A CUSTOMER
+     (staff mode off). Corrections made today are the WRONG items of that pass; NEEDS-PRODUCT items left as they were.
+     The Custom Extensions NAV ITEM is hidden for customers (newCustomFlowExtensions = 0); its page opens by URL -
+     wording that sends readers "to the workspace navigation" awaits Mark's decision (FOR-MARK item 1).
+     Jira from this pass: FR-3710 (closed by Mark 2026-10-06: not an issue), FR-3711 (dedupe evicts integer ids
+     wrongly), FR-3631 comments (template Request[method], lenient/scopes claims in ai-docs, cursor type, no jsconfig),
+     FR-3310 comment (stale Not Ready on versions saved 09-22). -->

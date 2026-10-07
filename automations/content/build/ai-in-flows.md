@@ -53,7 +53,7 @@ Refund Check, Ticket Router, Draft Reply - all kept in the workspace; ZZ AI Scra
 - AI QUESTION originally shipped pending a runtime bug per Mark's explicit decision (2026-08-06,
   "Write it as designed + you file the bug"); the fix landed and both exits were verified live
   2026-08-07 - no open caveat remains.
-- AI Assistants palette category exists but is going away per Mark - deliberately not mentioned. -->
+- AI Assistants palette category: REMOVED in release v.1.1.2 (FR-3218, confirmed on prod 2026-09-25) - never mentioned here, nothing to change. -->
 
 A flow can already move data, branch on a value, and work through a list. Real work also brings
 steps no fixed rule can decide: what is this customer actually asking for, is this message a refund

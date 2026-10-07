@@ -19,7 +19,8 @@ the version it was already running.
 
 A deploy uploads the code and nothing else. Every value the service declares in `configItems` - an API key,
 a base URL - is empty in the workspace until someone fills it in on the service's ((Configuration)) tab
-under **Custom Extensions**, and until then any block that needs one of those values fails. Fill them in
+under **Custom Extensions**. Until a required one is filled in, every block from that service fails with
+`invalid config — … is required`, including blocks that never read it. Fill them in
 once per workspace, right after the first deploy. Later deploys keep the values, as
 [Configuration outlives deploys](#configuration-outlives-deploys) describes.
 
@@ -30,8 +31,8 @@ key on the ((EXECUTE)) tab before building a flow around it.
 
 ## Versions and the source hash
 
-Every deploy produces a twelve-character hash. It covers `services/<id>/` and nothing outside it, which is
-what lets it answer two questions at once: which version is this, and is this the same code as what is
+Every deploy produces a twelve-character hash. It covers every file under `services/<id>/` except
+`node_modules/`, and nothing outside the folder, which is what lets it answer two questions at once: which version is this, and is this the same code as what is
 already deployed.
 
 That is why deploying twice without an edit reports `same service` and uploads nothing, and why the same
@@ -85,9 +86,19 @@ it removes the service **and every version of it**. There is no undo, and no rol
 ![The service page header showing the extension name, its entry point and method count, the Methods / Configuration / Execute / Versions tabs, and the Delete button](../images/extend/service-page-header-delete.png)
 
 !!! warning "Remove the blocks from your flows first"
-    Nothing checks which flows use an extension before deleting it, and nothing warns you. Any flow still
-    holding one of its blocks is left referring to something that no longer exists. Take its blocks out of
-    every flow that uses them **before** you delete it.
+    Nothing checks which flows use an extension when you delete it. The next time someone opens such a flow,
+    the editor stops on an **Unrecognized Blocks exist in the Flow** dialog that lists the missing blocks, and
+    editing the flow from there deletes the data stored in them. Take the extension's blocks out of every flow
+    that uses them **before** you delete it.
+
+![The Unrecognized Blocks exist in the Flow dialog: it explains that a custom extension, Knowledge Base or MCP Server used by the flow was removed, or an action was renamed, lists the On Tick and Colored Action blocks it could not recognize, warns that editing the flow will delete data stored in unrecognized blocks, and offers BACK TO DASHBOARD and CONTINUE IN EDIT MODE](../images/extend/unrecognized-blocks.png)
+
+<!-- 2026-10-06 DRIVEN on prod (Documentation Flows): fixture service docs-probe deleted from its page (dialog "Delete
+     'Docs Probe' and all of its deployed versions? This cannot be undone." - no mention of flows); opening the scratch
+     flow that held its On Tick trigger and Colored Action block -> this dialog, plus an "Unrecognized Blocks" badge
+     beside Not Ready in the toolbar. The dialog shows Service Name "undefined" for the action (cosmetic). Scratch flow
+     deleted afterwards. Rollback DRIVEN the same day: Activate on an older version switched it at once, with no
+     confirmation; the saved config survived the rollback. -->
 
 ## Several projects, one workspace
 
@@ -98,23 +109,25 @@ version came from, so two projects that both define `tmdb` overwrite each other'
 ids across teams before two repositories deploy into one workspace.
 
 `npx flowrunner pull` is the other half of this. It downloads the workspace's services into `services/`, so a
-fresh checkout can pick up whatever is live, including an extension somebody else deployed:
+fresh checkout can pick up whatever is live, including an extension somebody else deployed. Install the
+project's packages first, because `npx flowrunner` runs the copy in `node_modules`:
 
 ```bash
-npx flowrunner init && npx flowrunner login && npx flowrunner pull --all
+npm install && npx flowrunner login && npx flowrunner pull --all
 cd services/tmdb && npm install
 ```
 
 ## Deploying from CI
 
-A CI job has no terminal, so it must name what it wants - a bare `deploy` has nothing to prompt with and
-stops rather than guessing:
+A CI job has no terminal to answer a prompt. In a project with more than one service, a bare `deploy`
+cannot ask which one and stops rather than guessing, so name what you want:
 
 ```bash
 npx flowrunner deploy --all
 ```
 
-The token lives in `.flowrunner/token`, which is gitignored, so a pipeline supplies it from a secret. Only
+The token lives in `.flowrunner/token`, which is gitignored, so a pipeline writes it to that file from a
+secret. The CLI reads it from nowhere else. Only
 changed services are uploaded, so running the job on every commit is cheap.
 
 Two things to design for:
@@ -151,3 +164,13 @@ authorize page - see [The FlowRunner CLI](cli.md#connecting-to-a-workspace-with-
 <!-- 2026-09-22 (FR-3627): added "Configure it before it runs" - the configuration step was only on
      getting-started.md. Screenshot reused from that page (configuration-tab-minimal.png, driven 2026-08-31).
      Commands switched to `npx flowrunner` - see the drive record on cli.md. -->
+
+<!-- 2026-10-06 FULL RECHECK of this page against @flowrunner/cli 0.1.4 (latest), every claim run in a scratch project
+     (sandbox runServiceMethod / jest / the CLI's own build and pack code; nothing deployed - a prod deploy was refused by
+     the session's permission system). Console claims driven on app.flowrunner.ai, Documentation Flows, AS A CUSTOMER
+     (staff mode off). Corrections made today are the WRONG items of that pass; NEEDS-PRODUCT items left as they were.
+     The Custom Extensions NAV ITEM is hidden for customers (newCustomFlowExtensions = 0); its page opens by URL -
+     wording that sends readers "to the workspace navigation" awaits Mark's decision (FOR-MARK item 1).
+     Jira from this pass: FR-3710 (closed by Mark 2026-10-06: not an issue), FR-3711 (dedupe evicts integer ids
+     wrongly), FR-3631 comments (template Request[method], lenient/scopes claims in ai-docs, cursor type, no jsconfig),
+     FR-3310 comment (stale Not Ready on versions saved 09-22). -->

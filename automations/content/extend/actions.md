@@ -31,13 +31,20 @@ ext.addAction({
 | `params` | `z.object` | no | The fields on the block. Leave it out for an action with no input. See [Parameters & Types](parameters-and-types.md). |
 | `result` | sample | yes | A sample of what `execute` returns. |
 | `execute` | function | yes | Called when the flow reaches the block. What it returns becomes the block's result. |
-| `dynamicParams` | object | no | Fields generated at runtime. |
 | `logo` / `appearanceColors` | string / `[string, string]` | no | Override the extension's, for this block only. |
 | `oauth2Scopes` | string[] | no | Extra scopes, unioned with those in `ext.setupOauth2()`. See [OAuth2](oauth.md#scopes). |
 
 Every action you register shows up on the extension's ((Methods)) tab with its kind and category:
 
 ![The Methods tab listing each declared item with its id, label, kind badge and description: three ACTION entries, three DICTIONARY entries, one POLLING_TRIGGER and one SYSTEM method](../images/extend/methods-tab.png)
+
+((Show details)) on an entry lists its parameters, each with its type, whether it is required and its
+description, and the sample result you declared. That is how you check what the deployed version actually
+publishes.
+
+<!-- 2026-10-06 DRIVEN on prod as a customer, Documentation Flows > TMDB service page > Methods: "Show details" on
+     getMovieDetails expands to BODY PARAMETERS (movieId / STRING / required / "TMDB numeric id, e.g. 693134") and
+     SAMPLE RESULT (the declared result JSON); the link then reads "Hide details". -->
 
 ## What the handler receives
 
@@ -76,8 +83,7 @@ Not every entry point is equally strict, which matters when you write handlers o
 | Action `params` | **Strict.** The flow engine produces these against the published model, so a violation is a real contract break. |
 | Dictionary `criteria` | **Strict.** The console only calls a dictionary once the fields it depends on are filled. |
 | Sample-result loader | **Waits for the required params.** The console calls it while a block is being edited, but only once every required field has a value, so a loader can assume its input is complete. |
-| Dynamic-param loader | **Lenient.** It fires while the form is half-filled, so tolerate partial input. |
-| Polling trigger `params` | **Lenient.** The runtime polls with whatever the instance was saved with; rejecting a poll would stop a live automation without saying so. |
+| Polling trigger `params` | **Checked on every poll.** Each poll validates the saved trigger against `params`; a missing required field or a broken rule fails that poll with `invalid triggerData`. Fields you did not declare are kept. Declare filters `.optional()` and guard - see [Triggers](triggers.md#a-half-configured-trigger). |
 
 ## Declaring the result
 
@@ -139,7 +145,8 @@ unresolvable value from a rejected credential.
 
 The Test Monitor shows the message, not a code, so make the message itself say what went wrong. A plain
 `Error` you throw arrives as its message under a generic execution error; the runtime's own failures carry
-a stable `FR_EXT_*` code as well - see [Troubleshooting](troubleshooting.md#error-codes).
+a stable code as well: an `FR_EXT_*` code, or `INVALID_DICTIONARY_OUTPUT_SCHEME` for a dictionary that returns
+neither a list nor `{ items }` - see [Troubleshooting](troubleshooting.md#error-codes).
 
 ## Trying an action without a flow
 
@@ -162,9 +169,22 @@ the Test Monitor below the canvas shows the input alongside the result:
   frozen after the first deploy; labels can change whenever you like.
 - **Group with `category`** so related blocks arrive together in the palette.
 
+<!-- 2026-09-29: the `dynamicParams` row ("Fields generated at runtime") was removed with the Parameters & Types
+     section until FR-3685 is fixed (the flow editor never generates the fields). Restore both together. -->
+
 ## Related
 
 - [Parameters & Types](parameters-and-types.md) - the fields on the block
 - [Dictionaries](dictionaries.md) - filling a field from the live API
 - [Testing](testing.md) - running an action through the real runtime with HTTP intercepted
 - [Service Structure](service-structure.md) - where `apiRequest`, `context` and `helpers` come from
+
+<!-- 2026-10-06 FULL RECHECK of this page against @flowrunner/cli 0.1.4 (latest), every claim run in a scratch project
+     (sandbox runServiceMethod / jest / the CLI's own build and pack code; nothing deployed - a prod deploy was refused by
+     the session's permission system). Console claims driven on app.flowrunner.ai, Documentation Flows, AS A CUSTOMER
+     (staff mode off). Corrections made today are the WRONG items of that pass; NEEDS-PRODUCT items left as they were.
+     The Custom Extensions NAV ITEM is hidden for customers (newCustomFlowExtensions = 0); its page opens by URL -
+     wording that sends readers "to the workspace navigation" awaits Mark's decision (FOR-MARK item 1).
+     Jira from this pass: FR-3710 (closed by Mark 2026-10-06: not an issue), FR-3711 (dedupe evicts integer ids
+     wrongly), FR-3631 comments (template Request[method], lenient/scopes claims in ai-docs, cursor type, no jsconfig),
+     FR-3310 comment (stale Not Ready on versions saved 09-22). -->

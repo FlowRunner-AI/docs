@@ -151,3 +151,105 @@ Product finding: **FR-3596** filed - the right panel (Settings tab, and the View
 Open contradiction for Mark: FR-3349 says the Professional trial expires **down to Free**; FR-3321 (the billing page's source) says the charge is attempted and the subscription goes past due. The page keeps FR-3321's account.
 
 **Prod pass, 2026-09-17 (Mark signed the browser in to app.flowrunner.ai):** selector rungs 300/3,000 and 12,000/30,000/60,000 DRIVEN; FR-3441 unwrapped result DRIVEN on api.flowrunner.ai (Cart Summary run FEAD9180); the "Instance not found" screen DRIVEN (the 2026-08-25 run is gone - 404/28068 over the API as well); `instances/find` answers `{ hiddenItemsCount, items }`. Still not seen anywhere: a workspace on trial, Free, or past due; a run inside storage but outside visibility (hidden count 0 on every flow tried).
+
+## H. Release v.1.1.2 sweep, 2026-09-25 (100 tickets, 42 labelled DOCUPDATE)
+
+Jira fix version is `v.1.1.2` (`project = FR AND fixVersion = "v.1.1.2"`). Every DOCUPDATE ticket's
+`[doc-triage]` thread was read in full. Verification host: **app.flowrunner.ai** (prod), Documentation Flows -
+the release is live there. API calls were made from the signed-in console page with the key read in-page
+(writing the key to a file was refused by the session's safety classifier and was not pursued).
+
+### Docs changed
+
+| Ticket(s) | Page(s) | Change | Basis |
+| --- | --- | --- | --- |
+| FR-3392, FR-3500 | `run/testing.md` | new "Set a block's result without running it" (Manage Block Result: rows, A icon, JSON Editor, Populate from Instance, Iteration picker) | DRIVEN (Testing Demo + Cart Summary) |
+| FR-3461 | `run/testing.md` | Launch dialog sends typed values as their type; A icon; shot recaptured | DRIVEN |
+| FR-3397 | `run/inspecting-a-run.md`, `run/monitoring.md` | Live switch (off by default, 5 s refresh, per browser); Instances shot recaptured | DRIVEN |
+| FR-3598 | `run/inspecting-a-run.md` | hidden-runs notice is now the list's last entry; new shot | DRIVEN (Cart Summary, Growth) |
+| FR-3590 | `run/monitoring.md` | Clear date; source chart with no day picked; Run history capped by plan; refresh icon; 2 shots recaptured | DRIVEN |
+| FR-3467 | `learn/concepts/placeholders.md` | Flow Settings shown read-only on a LIVE version; shot recaptured | DRIVEN (Ticket Triage) |
+| FR-3443 | `placeholders.md`, `platform/api-keys.md`, `ai-agent/ai-router/condition.yaml` -> reference | AI API Key switch to an expression reads an API KEY placeholder; new shot | DRIVEN (Ticket Summary, 4 AI surfaces) |
+| FR-3433 | `repeat.yaml` -> `reference/repeat.md` | Current Iteration is a test-time value (tooltip now real) | DRIVEN |
+| FR-3218 | `learn/concepts/blocks.md`, `build/integrations/calling-a-service.md` | AI Assistants group gone; Custom Extensions group named; palette shot recaptured | DRIVEN |
+| FR-3568 | `platform/notifications.md` | grouped terminations, entry pop-up, View in Activity Log; 2 shots new, 1 recaptured, mark-read shot retired | DRIVEN (Order Sync, 3 LIVE runs) |
+| FR-3563, FR-3586 | `platform/compliance-and-security.md`, `platform/workspace.md` | Audit Log section replaced by Activity Log / Flows Activity Log / account log; filters; nav shots recaptured | DRIVEN |
+| FR-3428, FR-3429, FR-3430 | `api/call-flow-blocking.md`, `api/call-flow-nonblocking.md` | raw XML / Plain Text bodies, Compose-off JSON, HEAD 405, 400 malformed JSON | DRIVEN on api.flowrunner.ai |
+| FR-3544 | `manage/flows.md` | import pre-fills Name and opens the editor | DRIVEN |
+| FR-3582 | `manage/team.md`, `manage/billing.md` | accept side on Payment Methods, Cancel Transfer ownership | SOURCE (single-member workspace) |
+| FR-3540 | `manage/billing.md` | bank confirmation (3D Secure) on subscribe | SOURCE (no real charge) |
+| FR-3572 | `extend/parameters-and-types.md`, `extend/troubleshooting.md` | closed type list, union order, `.catch()` refused | DRIVEN (CLI 0.0.13 harness) |
+| FR-3440 thread | `extend/http-requests.md` | downloads need `.toBuffer()`; old "arrives as a Buffer" was wrong | DRIVEN (CLI 0.0.13 harness) |
+
+Also corrected while there: "On hold" -> "Paused" in both Call Flow error tables (FR-3431 leftover); the
+non-blocking page's example error still showed the pre-FR-3408 id-only refusal; `workspace-nav.png` showed the
+customer workspace MyProjects and was recaptured in Documentation Flows; notification times now vary with age.
+
+### No docs change
+
+- Already documented in earlier sweeps: FR-3383, FR-3384, FR-3387, FR-3425, FR-3427, FR-3471, FR-3473, FR-3480, FR-3538, FR-3543, FR-3597 ("Renews on").
+- Internal / no reader-visible claim touched: FR-3415 (account events in-app - source only, noted on notifications.md), FR-3472, FR-3482 and FR-3577 (MCP builder, no customer page), FR-3498, FR-3548, FR-3552, FR-3560, FR-3605, FR-3609.
+- FR-3575 dictionary `category`: optional, empty by default, only matters for legacy parity - no visible effect for a custom extension, so not added.
+- FR-3567: labelled both DOCUPDATE and DOCUPDATE-NO - decision for Mark (below).
+- The 58 unlabelled / DOCUPDATE-NO tickets were read (summaries, and threads for the user-visible ones: FR-3218, FR-3355, FR-3231, FR-3557, FR-3633, FR-3466, FR-3556, FR-3590, FR-3562, FR-2129, FR-2993, FR-1548, FR-1868, FR-2130, FR-3374, FR-3373, FR-1925, FR-3170); only FR-3218 and FR-3590 touched a page.
+
+### Product findings
+
+- **FR-3659 filed (High, security):** Activity Log "Show event details" prints secrets in clear text - the full Anthropic key on "Created a new API key", and a `.secret()` extension config value on "Updated configs". The docs do not mention Show event details until it is fixed.
+- **FR-3392 comment:** a freshly typed number in Manage Block Result defaults to the green A (saved as text), the opposite of the developer's answer; the dialog always reopens empty.
+- Verification comments (QA had left these unverified on prod): FR-3598, FR-3568, FR-3461.
+
+### Decisions for Mark
+
+1. FR-3659 - should the Activity Log section warn readers before the fix ships?
+2. FR-3567 - publish Custom Cloud Code's per-plan memory ceilings (developer's table), only the rule that memory is per workspace and shared by concurrent executions, or nothing (the DOCUPDATE-NO label)?
+3. `team-transfer-ownership.png` still shows "Transfer app ownership to" - recapturing needs a second member in Documentation Flows.
+
+### Fixtures left in Documentation Flows (prod)
+
+"Ticket Summary" (AI Agent + API KEY placeholder `summaryAiKey`, source of the API-key shot) and "Order Sync"
+(stopped; source of the notification / Flows Activity Log shots). "Status Feed", "Status Feed Copy" and
+"Format Probe" were deleted. Cart Summary, Ticket Triage and Order Poller were returned to their prior states
+(Cart Summary and Order Poller LIVE, Ticket Triage Ready).
+
+## I. Releases "Without version/devtasks2" (44 tickets) and "without3" (33 tickets), sweep 2026-10-06
+
+Jira fix versions `Without version/devtasks2` and `without3` (`project = FR AND fixVersion in (...)`, 77 tickets). "without3"
+is mostly old Q&A / discussion tickets being closed out. Three DOCUPDATE tickets point at follow-on tickets filed under
+**v.1.1.3** (unreleased in Jira): FR-3610 -> FR-3611, FR-3662 -> FR-3666, FR-3674 -> FR-3675. Their UI strings ("Change Log",
+"OpenSearch Configuration", "Full date/time", the new session-dialog wording) were found in the **app.flowrunner.ai JS bundle**
+(fetched anonymously), so the code is deployed there and the changes were documented. A bundle string is NOT a prod drive: the
+three follow-ons are still fixVersion v.1.1.3 (unreleased) in Jira, and every page comment lists a PROD DRIVE OWED. Weaviate
+(FR-3691) is in the dev bundle only - NOT documented. Product drives on dev.flowrunner.ai (prod browser session signed out);
+no dev shot shows dev-only UI. Gate run once on the 4 narrative pages: all major-rework, verdicts in docs-review/verdicts/
+(2026-10-06 sections); the release-delta items were fixed, older debt is listed there.
+
+### Docs changed
+
+| Ticket(s) | Page(s) | Change | Basis |
+| --- | --- | --- | --- |
+| FR-3674 -> FR-3675 | `platform/compliance-and-security.md`, `platform/workspace.md` | Activity Log -> Change Log (heading, prose, alts); account-menu log keeps "Activity Log"; Flows Activity Log: All versions disabled until a flow is picked; "Open flow instance" icon on run entries; compliance-nav.png + workspace-nav.png recaptured | DRIVEN (dev) + prod bundle |
+| FR-3662 -> FR-3666 | `block-knowledge/knowledge-bases-concept.yaml` -> `reference/knowledge-bases-concept.md` | OpenSearch store (Node URL, Username, Password, Verify SSL certificate, Test, Index, Search entire index); PostgreSQL form (host only, SSL mode Disable/Require/Verify full, Test, Table picker); store choice permanent; test-failure messages | DRIVEN (form, failure paths) + SOURCE (Sergey Androsov answers) |
+| FR-3610 -> FR-3611 | `learn/concepts/expressions.md` | Current date: {{Current date->}} is the full date and time; a part (Year ... Second) is picked from the auto-suggest after the arrow; Week Day Monday = 1; new shot ee-current-date-parts.png. Written for the customer text editor (the pill/pencil "New D&D Editor" is staff-only) | DRIVEN as a customer (UI) + SOURCE (value table) |
+| FR-914 | `build/flow-editor.md` | New section "When the version is open for editing somewhere else": one editing session per VERSION, Session dialog, START EDIT / STAY IN VIEW MODE, the displaced tab's notice, Edit brings the dialog back; new floweditor-session.png | DRIVEN (two tabs, clone) + SOURCE (teammate variant) |
+| FR-643, FR-646 | `block-knowledge/transform-data.yaml` -> `reference/transform-data.md` | Start Case lowers the rest of each word and splits only at spaces; Omit takes one name or a list | DRIVEN (test_run_block on dev) |
+
+### No docs change
+
+- FR-63, FR-641, FR-708 - already covered by reference/transform-data.md (driven earlier). FR-641's 2024 answer uses moment-style
+  patterns (MM/DD/YYYY); the product uses Java patterns, which the page documents - the page follows the product.
+- FR-3615, FR-3616, FR-3617, FR-3624 - consolidated into FR-3627, handled 2026-09-22. FR-3618 - doc-triage outcome posted 09-30.
+- FR-3634, FR-3636 - my own retracted tickets. FR-3667 - "nothing to fix" (debug and run shapes match). FR-3657 -> FR-3680 (Open,
+  not shipped). FR-3583 (server no longer casts custom-extension params; no answers; also DOCUPDATE-NO) - the pages make no
+  server-casting claim. FR-3591 - no answers, no user-facing change found. FR-3664 - no answers; the "No valid session ID" error
+  is gone with FR-3687 and the pages never mention an MCP registration.
+- FR-2116 (no "->" needed for a root reference) - no page claims the arrow is required. FR-1877 (analytics no longer lost on
+  edit), FR-636 (activateAll resumes waiting runs only), FR-2803, FR-3192, FR-3278, FR-3553 - pages already consistent.
+- Everything else: internal (CI, migrations, logging, infra, billing state) or DOCUPDATE-NO.
+
+### Not driven / open
+
+- FR-3675 "System initiator disables the performer filter for a non-system user" - this account is a system user; not claimed.
+- flows-activity-log.png (prod, Order Sync) predates the Open flow instance icon - recapture on prod when signed in.
+- Knowledge Base column/field pickers for an existing table or index with data, and the OpenSearch < 2.12 dimension limit -
+  need a real database; not documented.

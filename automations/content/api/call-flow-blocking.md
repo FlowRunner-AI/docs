@@ -31,7 +31,10 @@
      Dialog: the LIVE toolbar's last icon is "Run Instance" (tooltip; row = Pause | Stop | Schedule | Clone |
      Export | Run Instance); the dialog writes the blocking URL by NAME with waitResponseTimeoutSeconds=300
      for a Return Result flow; its cURL form = POST with a JSON body; the per-value "A" icon (tooltip "Use
-     data as string if selected (green)") is on by default -> body "1042", off -> 1042; the per-value code
+     data as string if selected (green)") - SUPERSEDED 2026-09-25 (v.1.1.2, LIVE Order Lookup, toolbar Run
+     Instance): typed 1042 -> A dark, cURL body {"orderId": 1042}; click A -> green, body "1042"; typed
+     {"a":1} -> dark, body object; typed true -> dark, body true; nothing launched. The older note read "on by
+     default -> body "1042""; the per-value code
      icon (tooltip "JSON Editor") opens an editor for that one value (APPLY CHANGES); the form-level JSON
      Editor toggle shows {"initialData":{...},...} and leaves the cURL body unchanged; LAUNCH starts a run
      (instance appeared at once); Previous Instance lists runs as "<time> (ExecutionID: ...)" and refills the
@@ -253,10 +256,10 @@ curl "https://api.flowrunner.ai/{workspace-id}/{api-key}/automation/flow/Order%2
 You do not have to set any headers on a `GET`. Every query parameter except `waitResponseTimeoutSeconds` becomes one value in the
 run's Initial Data, under its own name. Encode your values as in any query string - send a space as `%20` - and the flow receives the decoded
 value. Query values arrive as text: `orderId=1042` reaches the flow as `"1042"`. When the flow needs real numbers,
-booleans, or structured values (objects, lists), call with `POST` instead. Any fetch of this URL starts
-a real run - a `HEAD` request included, which is how link previews, prefetchers and uptime monitors
-usually touch a URL - so if it ever has to appear in a
-document or a chat, paste it as plain text, never as a clickable link.
+booleans, or structured values (objects, lists), call with `POST` instead. Any `GET` of this URL starts
+a real run, including one from a link preview, a browser prefetch or an uptime monitor, so if it ever has to
+appear in a document or a chat, paste it as plain text, never as a clickable link. A `HEAD` request is
+refused with HTTP 405 and starts nothing.
 
 ## Calling with POST
 
@@ -332,20 +335,17 @@ Result decides how the value is sent.
 
 - JSON - the composed object, as `application/json`. Switch ((Compose Result)) off and the rows collapse to
   one field, with the toggle now sitting beside the label ((Result)) - that is where you switch it back on.
-  The body is then that one value as a JSON string, including when what you put there is itself an object,
-  which comes back escaped rather than as an object.
+  The body is then that one value: an object comes back as a JSON object, and text that is not JSON comes
+  back as a JSON string (`"shipped"`).
 - XML - the block has only the ((Result)) field; the body is that value, as `application/xml`.
 - Plain Text - the same, as `text/plain`.
 
-Under XML and Plain Text the value does not arrive raw: the body is a JSON string holding it, quotes
-included - `"<error>orderId is required</error>"`. Parse that string as JSON to recover the markup or the
-text. Trimming the quotes is not enough, because any quote inside the value is escaped too: an XML result
-`<order id="1042">shipped</order>` arrives as `"<order id=\"1042\">shipped</order>"`. This is a known
-issue rather than the intended contract, so treat the decode as something you may be able to drop later.
+Under XML and Plain Text the body is the value exactly as the block holds it, so an XML parser can read it
+directly: `<order id="1042" note="rush">shipped</order>` arrives byte for byte, quotes and all.
 
 Switching Missing Order ID to XML replaces the ((Compose Result)) toggle and its rows with a single
 ((Result)) field. The screenshot below shows it holding `<error>orderId is required</error>` - what a caller
-on the No branch then receives, quotes and all.
+on the No branch then receives.
 
 ![The Order Lookup flow with Missing Order ID selected; its panel shows Content Type XML and a single Result field holding <error>orderId is required</error>, with the Release Caller toggle below.](../images/api/callflow-content-type-xml.png)
 
@@ -521,11 +521,26 @@ after its answer. If even the answer takes longer than 300 seconds, or the run p
 [External Callback](../reference/external-callback.md){.fr-block}, start the run with the
 [non-blocking call](call-flow-nonblocking.md) and let the flow deliver its answer itself.
 
+<!-- RELEASE v.1.1.2 (FR-3428, FR-3429, FR-3430), DRIVEN 2026-09-25 on api.flowrunner.ai, Documentation Flows, from
+     the signed-in console page (key read in-page, never written out):
+     - HEAD .../Order%20Lookup/activate-blocking?orderId=1042 -> 405; HEAD .../activate?orderId=7 -> 405; Order
+       Lookup's Instances then showed only the one run from the control GET (A851DA03) - HEAD started nothing.
+       (The Allow header is not exposed to a browser; QA saw "allow: GET, POST" on dev.)
+     - POST {"orderId": 1042,} -> 400 application/json {"code":400,"message":"Request body is not valid JSON."}
+       on both activate-blocking and activate (was HTTP 500 + stack trace).
+     - Throwaway flows "Status Feed" / "Format Probe" (Start -> Return Result, deleted after): XML Result
+       <order id="1042" note="rush">shipped</order> -> 200 application/xml, body byte for byte; Plain Text
+       'Order 1042 "rush" shipped' -> text/plain;charset=UTF-8, raw; JSON with Compose Result OFF and
+       {"id": 1042, "status": "shipped"} -> application/json {"id":1042,"status":"shipped"} (an object); 'shipped'
+       -> "shipped" (a JSON string). The known-issue paragraph and its decode advice are removed.
+     - "On hold" -> "Paused" in the 28053 row (label changed in 1.1.1.0, FR-3431; missed then). -->
+
 ## Errors
 <!-- doclint: no-shot: an error reference, not a screen; each row names the condition and the fix -->
 
 Most errors come back as HTTP 400 with a JSON `code`, a `message`, and a `details` object that is empty on
-every refusal in the table below - read the `code`; a wrong media type or
+the refusals in the table below (a body that is not valid JSON carries no `details` at all) - read the
+`code`; a wrong media type or
 method is refused at the HTTP level (415 / 405) with no code. This is what an identifier with no LIVE
 version behind it returns - here Order Lookup while its version was paused; the message echoes what you
 sent:
@@ -542,15 +557,15 @@ The id and the name are interchangeable here, and a wrong one of either kind ret
 
 | Code | What it means | What to do |
 | --- | --- | --- |
-| `28053` | No LIVE flow with that id or name | Check the identifier is spelled and cased exactly as FlowRunner shows it - a name also has to be URL-encoded (`Order%20Lookup`), and a `+` is not read as a space - and that a version is LIVE. A paused version (On hold) answers this too, so put it back with **Resume flow** in the flow's toolbar (see [Running Flows](../run/running-flows.md#stopping-and-replacing-a-live-flow)). Renaming the flow breaks a name URL - the old name answers `28053` - but leaves an id URL working |
+| `28053` | No LIVE flow with that id or name | Check the identifier is spelled and cased exactly as FlowRunner shows it - a name also has to be URL-encoded (`Order%20Lookup`), and a `+` is not read as a space - and that a version is LIVE. A paused version (Paused) answers this too, so put it back with **Resume flow** in the flow's toolbar (see [Running Flows](../run/running-flows.md#stopping-and-replacing-a-live-flow)). Renaming the flow breaks a name URL - the old name answers `28053` - but leaves an id URL working |
 | `2027` | The API key is not this workspace's key | Re-copy the API Key from **Workspace Settings ▸ General ▸ Credentials**. Regenerating the key invalidates every URL built on the old one |
 | `9000` | No workspace with that id | Re-copy the Workspace ID from **Workspace Settings ▸ General ▸ Credentials** |
 | `28064` | Query parameters could not be merged into the body (the same key was sent both ways, or the body is valid JSON but not an object), or `waitResponseTimeoutSeconds` is above 300 | Read the `message` - it names the duplicated key, says the body is not an object, or names the rejected timeout. Send each value once, make the body an object whenever you also send query parameters, and keep the timeout at 300 or below |
 | `28118` | The run did not finish within `waitResponseTimeoutSeconds` | The run is still going - do not re-send the call (see [How long the call waits](#how-long-the-call-waits)). For the next call, raise the timeout (up to 300), or use the [non-blocking call](call-flow-nonblocking.md) and let the flow deliver its answer |
 | `28045` | The flow can be called only by its schedule | Turn off **Allow only scheduled flow instances** in the **Flow Execution Policy** checkboxes of the **Configure Flow Schedule** popup - see [Flow Scheduling](../reference/flow-scheduling-concept.md#the-flow-execution-policy), which pictures it |
 | HTTP 415 | A `POST` body sent without `Content-Type: application/json` | Send that header |
-| HTTP 500 | The `POST` body was not valid JSON | Check that the body parses - a trailing comma or an unquoted key is the usual cause - and send it again |
-| HTTP 405 | `PUT` and `DELETE` are refused | Use `GET` or `POST`. `HEAD` is not refused - it is answered like `GET` and starts a run |
+| `400` | The `POST` body is not valid JSON; the message reads `Request body is not valid JSON.` and there is no `details` | Check that the body parses - a trailing comma or an unquoted key is the usual cause - and send it again |
+| HTTP 405 | `PUT`, `DELETE` and `HEAD` are refused | Use `GET` or `POST`. A refused request starts no run |
 
 **Rate and plan limits.** The platform also enforces call-rate and plan limits, answering with one of these
 codes:
@@ -596,22 +611,20 @@ therefore complete and live: fetching it, accidental fetches included, starts a 
 endpoint, the `Content-Type: application/json` header, and the form's values as the JSON body. These
 controls decide what lands in it:
 
-- The green ((A)) icon on each value row (tooltip: Use data as string if selected (green)) is on by default,
-  so the body below carries `"1042"` in quotes; switch it off and the body carries the number `1042` (see
-  [Calling with POST](#calling-with-post) for why that matters). Leave it on and the dialog's cURL sends the
-  same string values a `GET` would, so Order Lookup answers `{"id": "1042"}`; switch it off for any value
-  your flow needs as a number, boolean, or object.
+- The ((A)) icon on each value row (tooltip: Use data as string if selected (green)) decides the value's
+  type. A value you type goes out as the type it looks like, with the A dark: `1042` as the number `1042`,
+  `true` as a boolean, `{"a":1}` as an object. Click the A so it turns green to send the value as text: the
+  body then carries `"1042"` in quotes, the same string a `GET` sends, and Order Lookup answers
+  `{"id": "1042"}` (see [Calling with POST](#calling-with-post) for why that matters).
 - The code icon beside it (tooltip: JSON Editor) opens an editor for that one value - useful when the value
-  is itself an object or a list - switch the green ((A)) icon off for that row first, or the object is sent
-  as an escaped string. ((APPLY CHANGES)) writes what you typed back into the Value cell, the GET URL and
-  the cURL body.
+  is itself an object or a list. ((APPLY CHANGES)) writes what you typed back into the Value cell, the GET
+  URL and the cURL body.
 - The ((JSON Editor)) toggle above the form changes nothing in the body: it shows the same values as raw
   JSON under `initialData`, and the cURL body is unchanged - the `initialData` wrapper is the dialog's own
   display format, not the request body. Send the flat object; a body wrapped in `initialData` arrives as a
   single property of that name.
 
-Here is the cURL tab itself, with the green ((A)) icon on - its default - so the body carries `"1042"` in
-quotes:
+Here is the cURL tab with the ((A)) clicked green, so the body carries `"1042"` in quotes:
 
 ![The same dialog on its cURL tab: the box labelled "cURL - Blocking request" holds a curl --request POST command with the activate-blocking URL, the Content-Type: application/json header, and a --data body of {"orderId": "1042"}.](../images/api/callflow-launch-curl.png)
 

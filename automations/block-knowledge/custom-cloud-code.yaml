@@ -29,8 +29,7 @@ docs:
     becomes the block's result, which later blocks read in the Expression Editor under the
     block's result alias - by default, {{Custom Cloud Code Result}}.
 
-    The code runs in its own isolated environment, created fresh on every run - nothing you set
-    persists from one run to the next.
+    Each run starts clean - nothing your code sets persists from one run to the next.
   when_to_use: >
     Reach for it when a few lines of code would be cleaner than wiring up several blocks to do the
     same thing. Reshaping an API response,
@@ -177,7 +176,7 @@ docs:
     - "The server runs in UTC with the en-US locale. Date and number formatting for other locales still works - Intl carries the full locale data."
     - "The result is serialized as JSON. Map, Set, and RegExp become empty objects; NaN and Infinity become null; and undefined, functions, and Symbols are dropped."
     - "Code runs in non-strict (sloppy) mode - assigning to an undeclared variable does not throw, so a typo in a variable name can fail silently."
-    - "Time is not the tight limit - runs that compute or wait for over a minute complete fine. Memory is: around 100MB of your own allocations is safe, but a couple of hundred megabytes crashes the execution environment, and the block fails with \"Cloud Code execution was interrupted\"."
+    - "Time is not the tight limit - runs that compute or wait for over a minute complete fine. Memory is. Every Custom Cloud Code block, Custom Cloud Code tool on an AI Agent and custom extension action in a workspace runs in the same environment, so everything running at the same moment shares one memory ceiling, and that ceiling depends on the workspace billing plan. Code that goes over it is stopped, and the block fails with \"Cloud Code execution was interrupted: the execution environment stopped responding while running your code. This usually means the code crashed the process or exceeded the environment's memory limit. Please review your code and run it again.\" A crash for any other reason gives the same message, so check both how much data the code holds at once and what else was running at the same time."
     - "A value that cannot be JSON-serialized - a BigInt, or an object with a circular reference - fails the block with \"Return value is not JSON-serializable\", naming what could not be converted."
     - "An un-awaited promise rejection crashes the execution environment and fails the block the same way. Await every promise, or attach a .catch()."
   cross_refs: [ai-agent, http-request, handle-error]
@@ -240,9 +239,9 @@ assertions:
     note: "The former 10s cap is gone; 65s async waits also complete."
   - id: memory-cap
     when: run-block
-    code: "const c=[]; for (let i=0;i<200;i++) c.push(new Uint8Array(1024*1024).fill(1)); return { mb: c.length }"
+    code: "const c=[]; for (let i=0;i<600;i++) c.push(new Uint8Array(1024*1024).fill(1)); return { mb: c.length }"
     expect: { status: Error, message_contains: "Cloud Code execution was interrupted" }
-    note: "100 x 1MB succeeds; 200 x 1MB crashes the pod (K8S_POD_EXECUTION_ERROR)."
+    note: "Since v.1.1.2 (FR-3567) the ceiling depends on the plan. 2026-09-29 on prod Documentation Flows (Growth, 384 MiB per the ticket): 250 x 1MB succeeds, 600 x 1MB fails with the full message quoted in limitations. The 2026-08-14 result (200 x 1MB crashed) predates the per-plan ceilings."
   - id: bigint-errors
     when: run-block
     code: "return { big: 123n }"

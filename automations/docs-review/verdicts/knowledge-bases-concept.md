@@ -1,5 +1,38 @@
 # Gate verdict — reference/knowledge-bases-concept.md
 
+## 2026-10-06 - release sweep "Without version/devtasks2" + "without3"
+
+- Verdict: **major-rework** (concept-page-review wf_a2ba6161-f45, one run; not re-run). Mark decides ship.
+- Scope: FR-3662 -> FR-3666 (fixVersion **v.1.1.3, unreleased**): OpenSearch store, reworked PostgreSQL form, store choice
+  permanent, test-failure messages. Weaviate (FR-3691) is in the dev bundle only - not documented.
+- Mark's 2026-08-15 ruling still stands for the rest of the page: "KBs are verified by our QA" - the older-debt items below are
+  listed for the record, not queued.
+
+### Release delta - resolved after the gate
+- Item 1 (blocker): the gate caught that refgen had overwritten the hand edit. Edits moved into
+  block-knowledge/knowledge-bases-concept.yaml and regenerated: OpenSearch in the store list and its own bullet (Node URL with
+  protocol and port, Username, Password, Verify SSL certificate on by default, Test, Index, 2.4+ with k-NN); "The choice is
+  permanent"; the shared "picker stays locked until a test succeeds" paragraph with both failure messages verbatim.
+  Generated page now has 10 "OpenSearch" hits.
+- Item 2 (partial): PostgreSQL bullet rewritten to the driven form - host only, Port 5432, SSL mode Disable / Require /
+  Verify full (default Require), Test, ((Table)) picker (was "Table Name"), `knowledge_base_vectors`, pgvector or a user
+  allowed to install it. Column pickers for an existing table with data NOT documented (need a real database).
+- Item 3 (partial): OpenSearch's ((Search entire index)) added; the unproven "embeddings produced outside FlowRunner" clause cut.
+- Item 6: the banned "A flow that runs when..." sentence rewritten as a trigger block that waits for new content.
+- Item 17: Add Document / List Documents pilled.
+- Evidence: forms and both failure paths DRIVEN on dev 2026-10-06; the rest SOURCE (Sergey Androsov's FR-3666 answers),
+  recorded in the YAML's RELEASE comment. PROD DRIVE OWED (same batched session as compliance).
+
+### Older debt carried (covered by Mark's 08-15 QA ruling)
+- Items 3-5, 7-16, 18-34: Search entire collection states per store, Data-tab upload path, section order, agent-managed
+  documents section, attach-shot alt vs pixels, ledger contradictions, permanence/rotation wording, Failed/Stale statuses,
+  embedding providers, MongoDB Index Name, headings, glossary tooltip, scope, detach state, example question, lede, formatting,
+  Setup-tab typos (item 34: bundle only - not filed; needs a fresh look first).
+
+---
+
+# Gate verdict — reference/knowledge-bases-concept.md
+
 > **RESOLVED by Mark, 2026-08-15:** "KBs are verified by our QA, no need to redo the work."
 > The two remaining recapture items below (kb-attach-to-agent.png and the Setup/Data-tab shots)
 > are deliberately NOT being produced — the QA team owns Knowledge Base verification. With that,

@@ -15,9 +15,8 @@
      real execution id under the wrong flow id. A run stays readable after its flow leaves LIVE
      (Error Catch Demo stopped back to Ready, run still answered 200). NOT DRIVEN, so NOT CLAIMED:
      handledErrorsTruncated:true and the spec's "most recent 20" cap (needs 21+ handled errors in one
-     run); the retention horizon. KNOWN, REPORTED TO MARK, NOT DOCUMENTED: the API key segment is not
-     enforced here either - a garbage key returns the full status payload, so this URL DISCLOSES run
-     data, not just spend. PRODUCT STATE: Error Catch Demo and Payment Hand-off Test were each started
+     run); the retention horizon. [SUPERSEDED 2026-09-30: the key IS enforced since FR-3427 - a garbage key
+     now gets HTTP 401 {"code":2027,"message":"API key is invalid"}, driven on dev-api; row added to Errors.] PRODUCT STATE: Error Catch Demo and Payment Hand-off Test were each started
      LIVE for the drive and stopped back to Ready (both verified refusing 28053 afterwards); no flow
      was edited. -->
 # Checking a Run's Status
@@ -231,6 +230,7 @@ is refused at the HTTP level with no code.
 | --- | --- | --- | --- |
 | `28068` | 404 | No such run under that flow | Check both ids. This is also the answer when the execution id is real but belongs to a different flow, and when the run has aged out of run history |
 | `9000` | 400 | No workspace with that id | Re-copy the Workspace ID from **Workspace Settings ▸ General ▸ Credentials** |
+| `2027` | 401 | The API key is not this workspace's key | Re-copy the API Key from **Workspace Settings ▸ General ▸ Credentials**. Regenerating the key invalidates every URL built on the old one |
 | - | 405 | `POST`, `PUT`, and `DELETE` are refused | Use `GET`. The body is a problem report with `title` and `detail`, not a FlowRunner `code` |
 
 ## Related

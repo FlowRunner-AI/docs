@@ -20,9 +20,8 @@
      Test "Record Sale Result" -> 28161 while PENDING, 28159 after). 28162 driven with occurrence 0
      and 5 against occurrenceCount 1. NOT DRIVEN, so NOT CLAIMED: the spec's ambiguousBlock 409 +
      candidate list (no flow in the workspace has two blocks sharing an alias; manufacturing one means
-     editing a flow) - restore the row when driven. KNOWN, REPORTED TO MARK, NOT DOCUMENTED: the API
-     key segment is not enforced here either - a garbage key returns block results, so this URL
-     DISCLOSES stored run data. PRODUCT STATE: Error Catch Demo and Payment Hand-off Test were each
+     editing a flow) - restore the row when driven. [SUPERSEDED 2026-09-30: the key IS enforced since
+     FR-3427 - a garbage key now gets HTTP 401 {"code":2027}, driven on dev-api; row added to Errors.] PRODUCT STATE: Error Catch Demo and Payment Hand-off Test were each
      started LIVE for the drive and stopped back to Ready; no flow was edited. -->
 # Retrieving Block Results
 
@@ -218,7 +217,7 @@ and once the run is over that block never executed at all.
 ## Errors
 <!-- doclint: no-shot: an error reference, not a screen; each row names the condition and the fix -->
 
-A refusal comes back as HTTP 404 or 409 with a JSON `code`, `message`, and `details`. A missing
+A refusal comes back with a JSON `code`, `message`, and `details`. A missing
 `alias` or a wrong method is refused at the HTTP level with a problem report instead.
 
 | Code | What it means | What to do |
@@ -228,6 +227,7 @@ A refusal comes back as HTTP 404 or 409 with a JSON `code`, `message`, and `deta
 | `28161` | The block has not executed yet. `details.status` carries the run's current status | Poll again if the run is still open. Read the warning above before treating it as a bad alias |
 | `28162` | The `occurrence` you asked for is out of range. `details.occurrenceCount` carries the real count | Ask for a pass between 1 and `occurrenceCount` |
 | `9000` | No workspace with that id | Re-copy the Workspace ID from **Workspace Settings ▸ General ▸ Credentials** |
+| `2027` | The API key is not this workspace's key (HTTP 401) | Re-copy the API Key from **Workspace Settings ▸ General ▸ Credentials**. Regenerating the key invalidates every URL built on the old one |
 | HTTP 400 | `alias` was left off | It is required. The body is a problem report with `title` and `detail`, not a FlowRunner `code` |
 | HTTP 405 | `POST`, `PUT`, and `DELETE` are refused | Use `GET` |
 

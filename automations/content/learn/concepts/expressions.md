@@ -68,6 +68,30 @@ So a subject line can read `New order from ` followed by a name the run started 
 
 ![A value built from several pieces in the Editor - references and fixed text assembled into one expression - with the Live Preview showing what it resolves to.](../../images/learn/ee-composed.png)
 
+**Current date** gives the full date and time, or one part of it. Double-click it on the ((Variables)) tab
+and it lands as a **Current date** pill. Click the pencil on the pill and it unfolds into **Current date**,
+an arrow, and a box reading **Full date/time**, which is what the pill gives as it is. Open the box to take
+one part as a number instead: **Year**, **Month**, **Date** (the day of the month), **Week Number**,
+**Week Day**, **Hour**, **Minute** or **Second**. The pill then reads **Current date → Week Day**.
+
+![The Expression Editor on the Weekend? block's Value to Check: the Variables tab with Current date first in the COMMON VALUES group, and in the expression the Current date pill unfolded into an arrow and a box reading Full date/time, open on Year, Month, Date, Week Number, Week Day, Hour, Minute and Second.](../../images/learn/ee-current-date-parts.png)
+
+Week Day runs from `1` (Monday) to `7` (Sunday), so a [Condition](../../reference/condition.md){.fr-block}
+named **Weekend?** can compare {{Current date->Week Day}} with `6` using **GREATER OR EQUAL**. Run on a
+Tuesday, the block reads `2` and its result is `false`.
+
+<!-- RELEASE devtasks2 / v.1.1.3 (FR-3610 -> FR-3611). DRIVEN 2026-10-06 on PROD (app.flowrunner.ai, Documentation
+     Flows, staff view = the pill-and-pencil "New D&D Editor"; Mark 2026-10-06: document features as available,
+     explicitly including this editor). Flow "Params Demo", Condition renamed "Weekend?": Value to Check > Expression
+     Editor > Variables > COMMON VALUES (Current date listed FIRST there) > double-click -> pill "Current date" with a
+     pencil; pencil -> "Current date ->" + a box with placeholder "Full date/time"; box -> exactly Year / Month / Date /
+     Week Number / Week Day / Hour / Minute / Second; Week Day -> pill "Current date -> Week Day". APPLY; Value Data
+     Type INT, Operation GREATER OR EQUAL, Value 6; run block (Tuesday 2026-10-06) -> Input "Value to Check: 2",
+     "Value: 6", Output Success {"conditionResult": false}. Shot ee-current-date-parts.png = this editor, read back.
+     SOURCE (Viktor Liablin, FR-3611 2026-09-22): no part = ISO 8601 text; Week Day 1-7 with Sunday = 7 (Monday = 1
+     and the number type are DRIVEN above); Week Number = ISO week. The customer text editor (no D&D) inserts
+     {{Current date->}} and offers the same eight parts after the arrow - recorded, not documented. -->
+
 ## Writing the value as JSON
 
 Some fields expect a JSON object or array rather than plain text. Turn on ((As JSON)) and the editor treats what you build as JSON, so the field receives a structure instead of a string.

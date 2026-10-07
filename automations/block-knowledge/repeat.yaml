@@ -29,7 +29,7 @@ docs:
     The loop also exposes its pass count, which you read through the Expression Editor as
     {{Current Iteration Number}} - a Flow Context value you can use in the Repeat condition or in any
     block inside the loop. It counts up from 0 on the first pass. (Do not confuse it with the block's
-    ((Current Iteration)) field, which only sets the number that count starts from, normally 0.)
+    ((Current Iteration)) field, which only matters while you test blocks one by one in the editor.)
   when_to_use: >
     Reach for it when you need to repeat work an unknown number of times until something becomes
     true - polling a status until it is finished, retrying a call until it succeeds, or building a
@@ -92,9 +92,9 @@ docs:
       type: number
       default: 0
       description: >
-        The number the pass count starts from, normally 0. This is a starting value you set, not the
-        running count you read back - the running count is the Flow Context value
-        {{Current Iteration Number}}, which the loop updates each pass.
+        The pass number the loop reports while you test blocks one by one in the editor, normally 0.
+        Expressions that read {{Current Iteration Number}} get this value during such a test, so you can
+        try a block as if it were on a later pass.
   produces_result: true
   data_in: The condition (+ whatever the body reads/writes).
   data_out: Aggregated loop result.
@@ -109,7 +109,7 @@ docs:
 
 help_tooltips:   # verbatim from product UI (i.fa-circle-question on hover)
   Maximum Iteration Count: "Set the maximum iteration limit to interrupt the Repeat While loop. Useful for preventing endless loops if the logic does not exit as expected."
-  Current Iteration: "TODO: Create a help text here"   # UNWRITTEN placeholder in product (flag to product team)
+  Current Iteration: "Sets the iteration number this block reports while you test blocks one by one. Expressions that use \"Current Iteration Number\" read this value. Counting starts at 0."   # FR-3433, verified on prod 2026-09-25 (was the TODO placeholder)
 
 assertions:
   - id: loops-until-false

@@ -39,6 +39,8 @@ Fix, every concept page, before drafting:
 0c. **Every section TITLE is a meaningful anchor** — a reader must be able to say what the section
    taught from its title alone. "The data a step can reach" fails; "Using another block's result" works.
 0d. **Recurring corrections (distilled from Mark's reviews — check every page against these):**
+   - **Verify in the environment Mark names** (2026-10-06). "Everything is in prod" means every drive and shot
+     is on app.flowrunner.ai. Signed out → ask first; dev is not a substitute.
    - **A FlowRunner flow can start with ANYTHING**, not just a trigger — this is a product differentiator.
      NEVER frame the start as "a trigger", and never imply a flow begins with one (checked the shared
      `Initial Data` glossary snippet too). **Initial Data** = the data sent when a run is started, e.g. an
@@ -340,6 +342,12 @@ can't see the screen, it's wrong.
 - **Verify-then-write**: confirm every behavioral claim in-product before writing. The product
   owner's word counts as verification (e.g. "remove = set empty"). Don't assert a mechanism you
   haven't seen.
+- **Document features as available (Mark, 2026-10-06).** "We write docs as if the feature is available. By the
+  time docs are published the feature will be seen." Features behind a staff-only toggle are documented and
+  captured as staff see them, including the pill-and-pencil Expression Editor. Driving with
+  `system_dev_mode:false` (in the `Flowrunner` localStorage object) only tells you WHAT is gated; it is never a
+  reason to drop or reword a feature. A string in the prod JS bundle shows the code is deployed; it is not a
+  prod drive.
 - One term per idea (no "named container" twice); break dense sentences; ™ once near the top;
   spaced hyphens, never em-dashes.
 

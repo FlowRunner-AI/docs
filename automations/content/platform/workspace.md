@@ -11,10 +11,12 @@ A workspace is organized into a few areas, each a doorway to the things your aut
 - **Automate** - the work itself: the flows you design and run, and the [Forms](forms.md) people fill in to start or feed them.
 - **Agent tools & Knowledge** - what your AI agents reach for: [Knowledge Bases](../reference/knowledge-bases-concept.md) they search to ground their answers, and [MCP Servers](mcp-servers.md) whose tools they can use.
 - **Connections** - the credentials a flow acts through: [OAuth Connections](oauth-connections.md), the accounts you have signed in to, and [API Keys](api-keys.md), the keys a block supplies directly.
-- **Compliance & security** - the guardrails over access and activity: SLA calendars, an audit log, HIPAA compliance, and a panic switch, all covered in [Compliance & Security](compliance-and-security.md).
+- **Compliance & security** - the guardrails over access and activity: the activity logs, SLA calendars, HIPAA compliance, and a panic switch, all covered in [Compliance & Security](compliance-and-security.md).
 - **Workspace settings** - administering the workspace itself: its name and credentials, your team, your billing, and your files.
 
-![The workspace left navigation: a workspace switcher at the top reading MyProjects, an executions counter below it, and the navigation groups - Automate (Flows, Forms), Agent tools & Knowledge (Knowledge Bases, MCP Servers), Connections (OAuth Connections, API Keys), Compliance & security (SLA Calendars, Audit Log, Compliance, Panic Mode), and Workspace settings.](../images/platform/workspace-nav.png)
+![The workspace left navigation: a workspace switcher at the top reading Documentation Flows, an executions counter below it, and the navigation groups - Automate (Flows, Forms), Agent tools & Knowledge (Knowledge Bases, MCP Servers, Custom Extensions), Connections (OAuth Connections, API Keys), Compliance & security (Change Log, Flows Activity Log, SLA Calendars, Compliance, Panic Mode), and Workspace settings (General, Folders & Files, Team, Billing).](../images/platform/workspace-nav.png)
+
+<!-- RELEASE v.1.1.2, 2026-09-25: workspace-nav.png recaptured on PROD in Documentation Flows (the old shot showed the customer workspace MyProjects and the retired Audit Log item). Cropped above the Administration group, which only system developers see. The Activity Log row is highlighted because the capture was taken on that page. -->
 
 ## What you can do with a workspace
 
@@ -38,5 +40,5 @@ Just below it, an executions counter reads something like **0 / 12000 Executions
 - [Forms](forms.md) - the screens that start and feed your flows
 - [Knowledge Bases](../reference/knowledge-bases-concept.md) and [MCP Servers](mcp-servers.md) - what your agents draw on
 - [OAuth Connections](oauth-connections.md) and [API Keys](api-keys.md) - the workspace's two credential stores
-- [Compliance & Security](compliance-and-security.md) - the audit log, panic mode, and the rest of the guardrails
+- [Compliance & Security](compliance-and-security.md) - the activity logs, panic mode, and the rest of the guardrails
 - [Workspace Settings](../manage/workspace-settings.md), [Team](../manage/team.md), and [Billing](../manage/billing.md) - setting up, staffing, and paying for a workspace

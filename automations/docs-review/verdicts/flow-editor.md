@@ -1,3 +1,38 @@
+# Verdict: content/build/flow-editor.md (Flow Editor)
+
+## 2026-10-06 - release sweep "Without version/devtasks2" + "without3"
+
+- Verdict: **major-rework** (concept-page-review wf_9be5a87f-593, one run; not re-run). Mark decides ship.
+- Scope: FR-914 (one editing session; Session dialog with START EDIT / STAY IN VIEW MODE). Driven on dev 2026-10-06 with two
+  tabs of the same staff account; prod re-drive owed.
+
+### Release delta - resolved after the gate (all driven on dev 2026-10-06)
+- Item 4: "That is the single most common thing to get stuck on." deleted.
+- Item 5: the bullet promoted to its own h2, "When the version is open for editing somewhere else", after "Change a flow
+  that is already live"; lead-in before the shot; the shot is named as the own-tab variant; teammate variant in its own sentence.
+- Item 6: chips in on-screen caps, ((START EDIT)) / ((STAY IN VIEW MODE)).
+- Item 7 (partial): floweditor-session.png recaptured as a clean element shot (no focus ring, no backdrop). Teammate variant
+  is still SOURCE (FR-914 engineer comment + bundle string) - the page says only that it names the teammate and email.
+- Item 8: displaced side driven - red "Error" toast "It looks like you have started a new flow editing session. You are in
+  view mode now." Way back driven - clicking ((Edit)) in the tab row brings the dialog back. Both on the page.
+- Item 9: lock scope driven - it is PER VERSION (a clone, Version 2, was editable while Version 1 was held). Page now says
+  "Each version has its own session, so a clone and its original can be edited at the same time."
+- Item 10: "nothing lost" scoped to "every change is kept the moment it is made"; unapplied Expression Editor work NOT driven.
+
+### Owed on prod (batched session)
+- Re-drive the two-tab case and recapture floweditor-session.png from prod (item 7).
+- Items 2 + 13: palette and areas shots still show the AI ASSISTANTS group (gone on prod; confirmed absent on dev today as a
+  customer) and Mark's email; LIVE shot predates FR-3467.
+
+### Older debt carried
+- Alias shot shows the default alias (1); ledger stale (3); block container round trip (11) and its two absolute claims (12);
+  zero-downtime claim (14); first-block heading (15); unwired-block gotcha vs red badge (16); cross-link repetition (17);
+  lightning icon behaviour vs testing.md (18); notready shot (19); icon row / SLA icon / Start flow (20, 21); pick-before-run (22);
+  panel-top order (23); delete vs references (24); removeconnection shot (25); Ready order (26); running example set-up (27);
+  alias token / layout line (28); ™ + Related (29); router exits / fan-out / INT decimals / action-first starts (30-32); nit (33).
+
+---
+
 # Verdict — build/flow-editor.md ("The Flow Editor")
 
 **Date:** 2026-07-24

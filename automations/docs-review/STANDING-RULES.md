@@ -31,6 +31,13 @@ Mark (a row appears in AWAITING-REVIEW only with a recorded `ship` verdict) → 
 update the ledger) → `/docs-review` re-confirms.
 
 ## Hard rules
+- **Mark reads ONE file: `docs-review/FOR-MARK.md`.** (Mark, 2026-10-06: verdicts/ is "unworkable".) Verdicts,
+  ledgers and triage tables are my working notes; never send him to them, never show him gate labels. FOR-MARK.md
+  holds numbered self-contained decisions, what is waiting on him, what I'll do by default, and one plain line per
+  page that misleads readers today. Keep it current; delete answered items.
+- **Verify in the environment Mark names.** (Mark, 2026-10-06: "I told you everything is available in prod".) If
+  that environment is signed out, ask for the sign-in FIRST, in one line - never quietly drive another
+  environment and hand back a list of "owed" checks.
 - **Teach VALUE; never narrate the screen.** (Mark's 2/10 Monitoring review, 2026-07-14.) A reader can see the
   UI already - documentation earns its place only by teaching what a thing is FOR: the question it answers, when
   you'd reach for it, what you learn from it, what action it drives. Before a sentence ships, ask "what does the

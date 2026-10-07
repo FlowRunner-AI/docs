@@ -52,7 +52,14 @@ ext.addPollingTrigger({
   },
   watermark: { by: 'release_date', sortedDesc: true },
 })
+
+function today() {
+  return new Date().toISOString().slice(0, 10)
+}
 ```
+
+`helpers.discover` is the helper from [Service Structure](service-structure.md#sharing-logic-with-helpers);
+`releasedBefore` becomes TMDB's `primary_release_date.lte` filter.
 
 | Property | Type | Required | What it does |
 |---|---|---|---|
@@ -66,7 +73,7 @@ ext.addPollingTrigger({
 
 | Mechanism | You declare | What the runtime does |
 |---|---|---|
-| `dedupe` | a function, a field path, or `{ by, stateKey, max }` | Keeps a bounded set of the ids it has seen and emits items whose id is new. Right when items have a stable id but no reliable ordering. `stateKey` defaults to `seen` and `max` to 500 ids, oldest discarded first. |
+| `dedupe` | a function, a field path, or `{ by, stateKey, max }` | Keeps a bounded set of the ids it has seen and emits items whose id is new. Right when items have a stable id but no reliable ordering. `stateKey` defaults to `seen` and `max` to 500 ids, oldest discarded first. Integer ids are currently discarded smallest first instead, so once more than `max` ids have been seen, an id that does not grow with time can fire again (FR-3711). |
 | `watermark` | `{ by, sortedDesc, stateKey }` where `by` is a field path or `(item, { params }) => value` | Stores the highest value it has seen and emits everything past it. Right when items carry a timestamp or an increasing key. `stateKey` defaults to `watermark`. |
 | `poll` | a function returning `{ events, state }` | Full control, and you own the shape of `state` and the learning-mode behaviour. For overlap windows, held cursors and consuming feeds. |
 
@@ -134,14 +141,19 @@ poll: async ({ params, state, isLearningMode, apiRequest }) => {
     return { events: events.slice(0, 1), state: null }   // preview one, store nothing
   }
 
+  if (!state) {
+    return { events: [], state: { cursor: response.next_cursor } }   // first poll: seed, emit nothing
+  }
+
   return { events, state: { cursor: response.next_cursor } }
 },
 ```
 
-### Trigger params are lenient
+### A half-configured trigger
 
-The runtime polls with whatever the instance was saved with, so a half-configured trigger must not throw -
-rejecting a poll would stop a live automation with nothing to show for it. Guard instead:
+Each poll validates the saved trigger against `params`. A required field it lacks, or a value that breaks a
+rule, fails that poll with `invalid triggerData`, and it fails again on every poll until someone fixes the
+block. Declare filters `.optional()` and guard instead:
 
 ```js
 fetch: async ({ params, helpers }) => {
@@ -155,9 +167,10 @@ fetch: async ({ params, helpers }) => {
 ### What the flow builder sees
 
 The trigger's `params` appear under **Payload**, and the block carries two controls of its own:
-((EDIT POLLING FREQUENCY)), which starts at 600 seconds and cannot go below 30, and ((ADD A CONDITION)) for
-narrowing what it passes on. The runtime appends the chosen interval to your `description`, so the text on
-the block is not exactly what you wrote.
+((EDIT POLLING FREQUENCY)), which starts at 600 seconds, and ((ADD A CONDITION)) for narrowing what it passes
+on. The frequency can also be daily, weekly, monthly or once; an interval below 30 seconds is refused with
+*Billing limits require frequency of 30 seconds or more.* Your `description` is shown in the block palette as
+you wrote it.
 
 ![The On Movie Released trigger's configuration panel, showing the extension it comes from, Edit Polling Frequency set to 600 sec, Add A Condition, and the declared Genre field under Payload](../images/extend/trigger-config-panel.png)
 
@@ -298,11 +311,6 @@ Write `verifyRequest` instead, using `Flowrunner.crypto`, which offers `hmac(alg
 `timingSafeEqual(a, b)` and `ageSeconds(timestamp)`. Headers reach `verifyRequest` in whatever casing the
 provider sent, so look them up case-insensitively.
 
-!!! note "Scopes on a realtime trigger are not collected"
-    `oauth2Scopes` declared on a realtime trigger are currently not added to the authorize URL - only those
-    on actions, polling triggers and dictionaries are. Put a realtime trigger's scopes in the
-    extension-level `scopes` instead.
-
 ## What you cannot change after shipping
 
 These are persisted or read by live flows, so changing one breaks running automations:
@@ -320,3 +328,13 @@ Shaped events, matched ids and handshake responses are transient, and free to ch
 - [Parameters & Types](parameters-and-types.md) - the fields on a trigger block
 - [Dictionaries](dictionaries.md) - backing a trigger's filter with a picker
 - [Testing](testing.md) - driving a trigger through the SYSTEM method the platform calls
+
+<!-- 2026-10-06 FULL RECHECK of this page against @flowrunner/cli 0.1.4 (latest), every claim run in a scratch project
+     (sandbox runServiceMethod / jest / the CLI's own build and pack code; nothing deployed - a prod deploy was refused by
+     the session's permission system). Console claims driven on app.flowrunner.ai, Documentation Flows, AS A CUSTOMER
+     (staff mode off). Corrections made today are the WRONG items of that pass; NEEDS-PRODUCT items left as they were.
+     The Custom Extensions NAV ITEM is hidden for customers (newCustomFlowExtensions = 0); its page opens by URL -
+     wording that sends readers "to the workspace navigation" awaits Mark's decision (FOR-MARK item 1).
+     Jira from this pass: FR-3710 (closed by Mark 2026-10-06: not an issue), FR-3711 (dedupe evicts integer ids
+     wrongly), FR-3631 comments (template Request[method], lenient/scopes claims in ai-docs, cursor type, no jsconfig),
+     FR-3310 comment (stale Not Ready on versions saved 09-22). -->

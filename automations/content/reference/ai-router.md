@@ -50,7 +50,7 @@ The routing is the point here - you act on the decision by building different st
 | Field | Description |
 | --- | --- |
 | AI Model | Required. The model that makes the decision, chosen from one list grouped by provider (Claude, GPT, Gemini, and others); the provider is implied by the model you pick. |
-| AI API Key | Required. The key that authorizes the model call. Pick one you have already saved, or type a new one right here - the same control, and the same store, as the [AI Agent](ai-agent.md){.fr-block} block. |
+| AI API Key | Required. The key that authorizes the model call. Pick one you have already saved, or type a new one right here - the same control, and the same store, as the [AI Agent](ai-agent.md){.fr-block} block. The switch beside the label turns the field into an expression, so it can read the key from an API KEY placeholder instead. |
 | AI Decision Request | Required. The instruction telling the AI what to decide, labeled AI Decision Request (prompt) in the panel. Starting it with "Determine" works well, for example "Determine the sentiment of the message". |
 | Decision Data | The values the AI judges. Each one has a name and an expression pointing at the data to evaluate, usually a previous block's result or a trigger's payload. |
 | Expected Decisions | Required. The labels the AI is allowed to choose from. Each label becomes a named output connector on the block. One of them, Everything Else, is the fallback the AI takes when none of the others fit. |

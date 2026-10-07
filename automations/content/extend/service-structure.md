@@ -13,14 +13,15 @@ services/tmdb/
   src/
     index.js           the module - all logic lives here
   public/
-    icon.svg           the logo, and anything else served publicly
+    icon.svg           the logo, the one file served publicly
   tests/
     tmdb.test.js       the unit suite
   README.md
 ```
 
-Only `public/` is served, at `…/{serviceId}/file/{path}`. A logo placed anywhere else resolves to a 404 and
-the extension renders with no icon, which shows up only after you deploy. `logo` is the path within
+Only the logo is served, from `public/`, at `…/{serviceId}/file/{path}`. Other files you put in `public/`
+are not served. A logo path that does not exist in `public/` makes the deploy print
+`Warning: icon file not found: services/<id>/public/<path>`, and the extension then renders with no icon. `logo` is the path within
 `public/`, so `'/icon.svg'` and `'icon.svg'` both mean `public/icon.svg`. An absolute `https://` URL is not
 supported.
 
@@ -30,7 +31,7 @@ supported.
 |---|---|---|---|
 | `id` | string | yes | Persisted with every flow that uses one of its blocks. Frozen once deployed. |
 | `name` | string | yes | Display name. |
-| `description` | string | yes | Shown in the console. |
+| `description` | string | yes | A one-line summary of the extension. The console and the block palette do not display it today. |
 | `logo` | string | yes | Icon path inside `public/`. |
 | `appearanceColors` | `[string, string]` | no | `[primary, secondary]` for the block in the editor. |
 | `configItems` | `z.object` | no | What the workspace fills in. Leave it out for a service with no settings; a bare object of fields is rejected. |
@@ -58,7 +59,7 @@ Two naming conventions the rest of this section follows: a dictionary id starts 
 
 `configItems` is a zod object, and each field becomes a row on the extension's ((Configuration)) tab, drawn
 from its type the same way a block's params are: a `z.number()` is a numeric field, a `z.boolean()` a
-toggle, a `z.enum()` a dropdown. The label sits above the row and the description behind its help icon.
+toggle, a `z.enum()` a dropdown. The label sits above the row and the description behind its help icon; a field with no `.describe()` shows a generic hint there instead, such as *Expects a number*.
 
 ```js
 configItems: z.object({
@@ -77,7 +78,8 @@ and nothing travels in a flow's data.
 
 **Values arrive as the declared type.** A number typed into the form reaches `config` as a number, a blank
 field resolves the way a blank param does, and a `.default()` is filled in. There is nothing to convert in
-`initContext`.
+`initContext`. The one exception is `z.date()`: it is checked as a date but arrives as the string that was
+saved. Declare `z.coerce.date()` when the handler needs a `Date`.
 
 **Your rules are checked on the form.** Whatever you declare on a field - `.min()`, a format, enum
 membership - is enforced when the workspace administrator saves. The offending field is marked, the message
@@ -151,6 +153,20 @@ apiRequest: async ({ url, method = 'get', body, query, context, logger, logTag }
 },
 ```
 
+`describeFailure` is a plain function at the end of the file. It turns the error into one readable line:
+
+```js
+function describeFailure(error) {
+  const body = error?.body
+
+  if (body && typeof body === 'object') {
+    return body.status_message ?? JSON.stringify(body)
+  }
+
+  return typeof error?.message === 'string' ? error.message : 'request failed'
+}
+```
+
 Two details that matter:
 
 - **Take the verb as a value.** `new Flowrunner.Request(url, method, body)` is correct when `method` arrives
@@ -179,10 +195,15 @@ the end, resolving an id through two calls:
 
 ```js
 helpers: ({ apiRequest }) => ({
-  discover: async ({ genreId, year, sortBy }) => {
+  discover: async ({ genreId, year, sortBy, releasedBefore }) => {
     return apiRequest({
       url  : '/discover/movie',
-      query: { with_genres: genreId, primary_release_year: year, sort_by: sortBy },
+      query: {
+        with_genres               : genreId,
+        primary_release_year      : year,
+        sort_by                   : sortBy,
+        'primary_release_date.lte': releasedBefore,
+      },
     })
   },
 }),
@@ -226,11 +247,24 @@ instead of a wall of utilities.
 | `configItems` | `config` | `z.infer` of the schema |
 | `initContext` | `context` | its return type |
 | `helpers` | `helpers` | its return type |
-| `apiRequest` | `apiRequest` | your signature, minus the `context` and `logger` the runtime injects |
+| `apiRequest` | `apiRequest` | your signature, minus the `context` and `logger` the runtime injects. In plain JavaScript this needs a JSDoc `@param` type on the function's argument; without one the argument is untyped. |
 
-Services are plain JavaScript, so these arrive as hover text and autocompletion rather than as errors,
-unless the project opts into checking JS. A service written in TypeScript gets the same types as real
-compile errors.
+Services are plain JavaScript, so these arrive as hover text and autocompletion rather than as errors. `init`
+does not tell your editor where the types are, so add a `jsconfig.json` at the project root:
+
+```json
+{
+  "compilerOptions": {
+    "module": "node16",
+    "moduleResolution": "node16",
+    "types": ["@flowrunner/cli/runtime"]
+  },
+  "include": ["services/*/src/**/*.js"]
+}
+```
+
+Without it, `Flowrunner`, `config` and `params` are all untyped. A service written in TypeScript gets the
+same types as real compile errors.
 
 ## Related
 
@@ -238,3 +272,13 @@ compile errors.
 - [Actions](actions.md) - `addAction`, the handler context bag, and returning results
 - [HTTP Requests](http-requests.md) - the `Flowrunner.Request` client in full
 - [Quick Start: Your First Extension (code)](getting-started.md) - the whole loop, from install to a block in a flow
+
+<!-- 2026-10-06 FULL RECHECK of this page against @flowrunner/cli 0.1.4 (latest), every claim run in a scratch project
+     (sandbox runServiceMethod / jest / the CLI's own build and pack code; nothing deployed - a prod deploy was refused by
+     the session's permission system). Console claims driven on app.flowrunner.ai, Documentation Flows, AS A CUSTOMER
+     (staff mode off). Corrections made today are the WRONG items of that pass; NEEDS-PRODUCT items left as they were.
+     The Custom Extensions NAV ITEM is hidden for customers (newCustomFlowExtensions = 0); its page opens by URL -
+     wording that sends readers "to the workspace navigation" awaits Mark's decision (FOR-MARK item 1).
+     Jira from this pass: FR-3710 (closed by Mark 2026-10-06: not an issue), FR-3711 (dedupe evicts integer ids
+     wrongly), FR-3631 comments (template Request[method], lenient/scopes claims in ai-docs, cursor type, no jsconfig),
+     FR-3310 comment (stale Not Ready on versions saved 09-22). -->
